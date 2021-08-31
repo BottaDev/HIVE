@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -298,4 +298,88 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1093285797
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1093285799}
+  - component: {fileID: 1093285798}
+  m_Layer: 0
+  m_Name: Procedural Level Generation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1093285798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1093285797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b621155a54506c4bb992330e5859f55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spaceMod: 50
+  minRoomQty: 15
+  mapBorders: 5
+  LayoutRoomDB:
+  - {fileID: -4039082027429564982, guid: 5e7aac9b62a05b341b6c2cd85ecc6b68, type: 3}
+  - {fileID: -4039082027429564982, guid: 66dae08f09097a543ab242fd0124f3a9, type: 3}
+  - {fileID: -4039082027429564982, guid: 005f89eb80ddd9d48b91e6ff14f636ff, type: 3}
+  - {fileID: -4039082027429564982, guid: 514c911b3603f2142b8abfe28070555d, type: 3}
+  - {fileID: -4039082027429564982, guid: 62574d0a3659c684e80866c3b512518f, type: 3}
+  - {fileID: -4039082027429564982, guid: e7bf3bb60d44cba4e9d7e4fa83462c33, type: 3}
+  - {fileID: 7811461271672078309, guid: 14aaef8e843c8ad4aa4a64cf514ecb20, type: 3}
+  - {fileID: -4039082027429564982, guid: d741aaed584e9e044a0315d38382b10a, type: 3}
+  - {fileID: -4039082027429564982, guid: 33480b715243d6946b99ac6b6c931c8e, type: 3}
+  - {fileID: -4039082027429564982, guid: 477168a20fa8d6b48b0a10f4de6db7fd, type: 3}
+  - {fileID: -1760994935071590043, guid: 6f49bed3538cf6542b8e32653d4d9c0f, type: 3}
+  - {fileID: -4039082027429564982, guid: 788347648f361bb48bbd096930e8603a, type: 3}
+  - {fileID: 172102967373511190, guid: 501675a90a7fab04bba8638d0987ba65, type: 3}
+  - {fileID: 599318468046788406, guid: 70414940c5635b24ebc4ab6ac3641b90, type: 3}
+  - {fileID: -4039082027429564982, guid: 5876dcb6b15ea6546abafa73a8952037, type: 3}
+  RectRoomDB:
+  - {fileID: 1128412376828149239, guid: aac62e962f6dbac418d8de082de39c6b, type: 3}
+  - {fileID: 1128412376828149239, guid: e06776fe9b5f7984daa6506138376ef9, type: 3}
+  - {fileID: 1128412376828149239, guid: 85ad4634b517dd945bbcf1568cb0084c, type: 3}
+  LRoomDB:
+  - {fileID: 6437057980229034211, guid: f182dd9f8cf92014f956e9f01d234a23, type: 3}
+  - {fileID: 6437057980229034211, guid: 467f20cdf307dde4f8b9c589d4f61159, type: 3}
+  - {fileID: 6437057980229034211, guid: 055af6c83af802f4cbe907b27c3d4caa, type: 3}
+  TRoomDB:
+  - {fileID: 5058287594556133620, guid: 74f2e71ca06a4b144af475edc9d05712, type: 3}
+  - {fileID: 5058287594556133620, guid: 2c7b7d6ace3ed454ea7dcd022ccff3fe, type: 3}
+  - {fileID: 5058287594556133620, guid: e4c527e129e893744a0779b3bb701586, type: 3}
+  CrossRoomDB:
+  - {fileID: 7712240284393743079, guid: 244108de7db7bdf46a1aab5f552e115a, type: 3}
+  - {fileID: 7712240284393743079, guid: 635a114bcf27ee74b8a52a4ea22b4580, type: 3}
+  - {fileID: 7712240284393743079, guid: 8023c8309be4bbc4f9a196260f43fc65, type: 3}
+  ArenaRoomDB:
+  - {fileID: 7895948497514669248, guid: 1db7cb551a7cc7d42a21e27c3779defb, type: 3}
+  - {fileID: 7895948497514669248, guid: 01221caeab437fe469e362d38fc3ed5a, type: 3}
+  - {fileID: 7895948497514669248, guid: 3b48ca721d28d664689c8068d226b810, type: 3}
+  startingRoom: {fileID: 6183968064397798610, guid: 5f3b1e8ad408080439ff3b6991b42949, type: 3}
+  mapContainer: {fileID: 1093285797}
+--- !u!4 &1093285799
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1093285797}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
