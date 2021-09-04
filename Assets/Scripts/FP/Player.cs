@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Random = System.Random;
 
 public class Player : MonoBehaviour
 {
@@ -136,7 +135,6 @@ public class Player : MonoBehaviour
             else
                 return false;
         }
-
         return false;
     }
     
