@@ -13,6 +13,9 @@ public class ShootTP : MonoBehaviour
 
     private float _nextShoot = 0;
 
+    public ParticleSystem shootEffect;
+    public GameObject impactEffect;
+
     private void Update()
     {
         if (Input.GetButton("Fire1") && Time.time >= _nextShoot)
@@ -24,12 +27,17 @@ public class ShootTP : MonoBehaviour
 
     private void Shooter()
     {
+        shootEffect.Play();
+
         RaycastHit hit;
         if (Physics.Raycast(playerTP.transform.position, playerTP.transform.forward, out hit, range))
         {
             TargetTP target = hit.transform.GetComponent<TargetTP>();
             if(target != null)
                 target.TakeDamage(damage);
+
+            GameObject particle= (GameObject)Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
+            Destroy(particle, 2);
         }
     }
 }
