@@ -54,6 +54,9 @@ public class PlayerTP : MonoBehaviour
     
     private void Start()
     {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
         _rb = GetComponent<Rigidbody>();
         _rb.freezeRotation = true;
         
@@ -89,7 +92,7 @@ public class PlayerTP : MonoBehaviour
     private void FixedUpdate()
     {
         MovePlayer();
-        this.transform.forward = new Vector3(cam.transform.forward.x, 0, cam.transform.forward.z);
+        this.transform.forward = cam.transform.forward;
     }
 
     private void MyInput()
