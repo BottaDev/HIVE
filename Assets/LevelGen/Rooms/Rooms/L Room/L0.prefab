@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7471613734231058479}
   - component: {fileID: 1400074179502758236}
-  m_Layer: 6
+  - component: {fileID: 8909478509377822915}
+  m_Layer: 8
   m_Name: L0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,6 +46,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   connections: 01010000
+--- !u!114 &8909478509377822915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4624633003534443217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 684bbece5205f76479de74aaced1a55f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_BuildHeightMesh: 0
+  m_NavMeshData: {fileID: 0}
 --- !u!1 &8074735743738314499
 GameObject:
   m_ObjectHideFlags: 0
@@ -57,7 +87,7 @@ GameObject:
   - component: {fileID: 252431816745100207}
   - component: {fileID: 2201916065959315701}
   - component: {fileID: 726541333874337250}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Ele
   m_TagString: Untagged
   m_Icon: {fileID: 0}
