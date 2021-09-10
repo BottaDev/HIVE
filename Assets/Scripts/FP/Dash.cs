@@ -17,20 +17,21 @@ public class Dash : MonoBehaviour
         _player = GetComponent<Player>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            StartCoroutine(Cast());
-        }
+            ApplyDash();
     }
 
-    IEnumerator Cast()
+    private void ApplyDash()
     {
         _rb.AddForce(_player.moveDirection * _dashForce, ForceMode.VelocityChange);
-
-        yield return new WaitForSeconds(_dashDuration);
-        
+        StartCoroutine(WaitSeconds());
         _rb.velocity = Vector3.zero;
+    }
+    
+    private IEnumerator WaitSeconds()
+    {
+        yield return new WaitForSeconds(_dashDuration);
     }
 }
