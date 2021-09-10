@@ -19,7 +19,7 @@ public class Shooter : AI
     private void MoveEnemy()
     {
         float distance = Vector3.Distance(transform.position, _player.transform.position);
-        if (distance <= detectionRange && distance > attackDistance)
+        if (distance > attackDistance)
         {
             ChasePlayer();    
         }
