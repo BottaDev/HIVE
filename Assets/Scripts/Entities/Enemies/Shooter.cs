@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,16 @@ public class Shooter : AI
     [Header("Shooter Parameters")]
     public float attackDistance = 20f;
     public float evadeDistance = 12f;
+    public float evadeTime = 1.5f;
+
+    private float _currentEvadeTime;
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        _currentEvadeTime = evadeTime;
+    }
 
     protected override void Update()
     {
@@ -40,12 +51,17 @@ public class Shooter : AI
         }
         else if (distance <= evadeDistance)
         {
-            EvadePlayer();
+            if ( _currentEvadeTime > 0)
+                EvadePlayer();
+            else
+                Attack();
         }
     }
 
     private void EvadePlayer()
     {
+        _currentEvadeTime -= Time.deltaTime;
+        
         Vector3 direction = transform.position - _player.transform.position;
         Vector3 newPos = transform.position + direction;
      
@@ -55,12 +71,14 @@ public class Shooter : AI
     
     private void ChasePlayer()
     {
+        _currentEvadeTime = evadeTime;
         _agent.isStopped = false;
         MoveToPosition(_player.transform.position);
     }
 
     protected override void Attack()
     {
+        _currentEvadeTime = evadeTime;
         _agent.isStopped = true;
         RotateTowards(_player.transform.position);
     }

@@ -23,9 +23,9 @@ public abstract class AI : Entity
     protected bool _playerDetected;
     protected Rigidbody _rb;
 
-    protected override void Start()
+    protected override void Awake()
     {
-        base.Start();
+        base.Awake();
 
         _agent = GetComponent<NavMeshAgent>();
         _player = FindObjectOfType<Player>();
