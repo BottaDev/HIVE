@@ -14,9 +14,9 @@ public class Rusher : AI
     public Animator _animator;
     private static readonly int IsAttacking = Animator.StringToHash("isAttacking");
 
-    protected override void Start()
+    protected override void Awake()
     {
-        base.Start();
+        base.Awake();
         _animator = GetComponent<Animator>();
     }
 

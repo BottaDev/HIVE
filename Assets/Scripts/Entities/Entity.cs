@@ -13,7 +13,7 @@ public abstract class Entity : MonoBehaviour, IDamagable
     public float CurrentHealth { get; protected set; }
     public float CurrentSpeed { get ; private set; }
 
-    protected virtual void Start()
+    protected virtual void Awake()
     {
         CurrentHealth = maxHealth;
         CurrentSpeed = baseSpeed;

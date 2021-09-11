@@ -22,12 +22,12 @@ public class levelGen : MonoBehaviour
     private Room[,] Map = new Room[5, 5];
     private int changes;
     private int totalRooms = 0;
-
-    private void Start()
+    
+    public void StartGeneration()
     {
         Map = new Room[mapBorders, mapBorders];
         if (!mapContainer) mapContainer = this.gameObject;
-        GenerateFullLevel();
+        GenerateFullLevel();   
     }
 
     void GenerateFullLevel()

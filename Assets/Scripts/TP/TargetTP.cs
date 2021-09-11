@@ -6,7 +6,6 @@ public class TargetTP : MonoBehaviour
 {
     public float health = 3;
     public PlayerTP player;
-    private float xpPoints = 1;
 
     public void TakeDamage(float amount)
     {

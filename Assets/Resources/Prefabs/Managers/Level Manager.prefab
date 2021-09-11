@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1542546137562301839
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1542546137562301833}
+  - component: {fileID: 1542546137562301832}
+  - component: {fileID: 1542546137562301834}
+  m_Layer: 0
+  m_Name: Level Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1542546137562301833
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1542546137562301839}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1158, y: 0.8541584, z: 571}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1542546137562301832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1542546137562301839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b621155a54506c4bb992330e5859f55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spaceMod: 70
+  minRoomQty: 15
+  mapBorders: 5
+  LayoutRoomDB:
+  - {fileID: -4039082027429564982, guid: 5e7aac9b62a05b341b6c2cd85ecc6b68, type: 3}
+  - {fileID: -4039082027429564982, guid: 66dae08f09097a543ab242fd0124f3a9, type: 3}
+  - {fileID: -4039082027429564982, guid: 005f89eb80ddd9d48b91e6ff14f636ff, type: 3}
+  - {fileID: -4039082027429564982, guid: 514c911b3603f2142b8abfe28070555d, type: 3}
+  - {fileID: -4039082027429564982, guid: 62574d0a3659c684e80866c3b512518f, type: 3}
+  - {fileID: -4039082027429564982, guid: e7bf3bb60d44cba4e9d7e4fa83462c33, type: 3}
+  - {fileID: 7811461271672078309, guid: 14aaef8e843c8ad4aa4a64cf514ecb20, type: 3}
+  - {fileID: -4039082027429564982, guid: d741aaed584e9e044a0315d38382b10a, type: 3}
+  - {fileID: -4039082027429564982, guid: 33480b715243d6946b99ac6b6c931c8e, type: 3}
+  - {fileID: -4039082027429564982, guid: 477168a20fa8d6b48b0a10f4de6db7fd, type: 3}
+  - {fileID: -1760994935071590043, guid: 6f49bed3538cf6542b8e32653d4d9c0f, type: 3}
+  - {fileID: -4039082027429564982, guid: 788347648f361bb48bbd096930e8603a, type: 3}
+  - {fileID: 172102967373511190, guid: 501675a90a7fab04bba8638d0987ba65, type: 3}
+  - {fileID: 599318468046788406, guid: 70414940c5635b24ebc4ab6ac3641b90, type: 3}
+  - {fileID: -4039082027429564982, guid: 5876dcb6b15ea6546abafa73a8952037, type: 3}
+  RectRoomDB:
+  - {fileID: 431828341158780543, guid: b593b7397f3e6b841aec65fe3a62e60a, type: 3}
+  - {fileID: 5104818782222229982, guid: 1671db30ffadd9644ba820de8a1794ef, type: 3}
+  LRoomDB:
+  - {fileID: 1400074179502758236, guid: 82804991f9afd484aa21a6b5a3149f8e, type: 3}
+  - {fileID: 1370283559283543302, guid: e56bfc87b50b14445a57bd8b1fb8bd56, type: 3}
+  - {fileID: 1370283559283543302, guid: fbd89132ac6aff341bc0e15abd05403c, type: 3}
+  TRoomDB:
+  - {fileID: 6119987845118450691, guid: 80712b136d705964ca475200d4a37e5f, type: 3}
+  - {fileID: 6810185820472870338, guid: 7afd36eda4b97384ebb09a818d1aa5ee, type: 3}
+  - {fileID: 6119987845118450691, guid: 80712b136d705964ca475200d4a37e5f, type: 3}
+  CrossRoomDB:
+  - {fileID: 8559689066873977311, guid: 98d688ecb9a6f914aa32cb25414519cc, type: 3}
+  - {fileID: 1852259817069949096, guid: a728529520e68db4996f311e2fb01066, type: 3}
+  - {fileID: 1852259817069949096, guid: 085f42c65c244a54fb8dfc118ae9c974, type: 3}
+  ArenaRoomDB:
+  - {fileID: 7895948497514669248, guid: 1db7cb551a7cc7d42a21e27c3779defb, type: 3}
+  startingRoom: {fileID: 7895948497514669248, guid: 1db7cb551a7cc7d42a21e27c3779defb, type: 3}
+  mapContainer: {fileID: 1542546137562301839}
+--- !u!114 &1542546137562301834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1542546137562301839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98a1ca22b13a2a2479abb5a025f3b09d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

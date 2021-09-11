@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 350537588}
   - component: {fileID: 350537587}
   - component: {fileID: 350537586}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Capsule (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,7 +107,7 @@ GameObject:
   - component: {fileID: 621352196}
   - component: {fileID: 621352199}
   - component: {fileID: 621352198}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Object014 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -190,7 +190,7 @@ GameObject:
   - component: {fileID: 6663298120128313485}
   - component: {fileID: 3194788405700078389}
   - component: {fileID: 5546853438448974354}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -286,7 +286,7 @@ GameObject:
   - component: {fileID: 2188011534534479284}
   - component: {fileID: 771096548274442508}
   - component: {fileID: 1046379286}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: cristalsolo (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -380,7 +380,7 @@ GameObject:
   m_Component:
   - component: {fileID: 338788046262495801}
   - component: {fileID: 7175902246411166534}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -475,7 +475,7 @@ GameObject:
   - component: {fileID: 2866935822964665228}
   - component: {fileID: 12826598037675846}
   - component: {fileID: 1687601417}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: cristalsolo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -570,7 +570,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8982159310325980966}
   - component: {fileID: 7292685567525830935}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -616,7 +616,7 @@ GameObject:
   - component: {fileID: 9150539401572967443}
   - component: {fileID: 8707295918942589684}
   - component: {fileID: 737564427787113824}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Recto
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -711,7 +711,7 @@ GameObject:
   - component: {fileID: 1766663031942933987}
   - component: {fileID: 4501394305962164509}
   - component: {fileID: 8665606526368384052}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Object014
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -794,7 +794,7 @@ GameObject:
   - component: {fileID: 3583087424073792352}
   - component: {fileID: 2217603286609969159}
   - component: {fileID: 7718330232365956875}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Capsule (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -890,7 +890,7 @@ GameObject:
   - component: {fileID: 4804421843042690941}
   - component: {fileID: 2548925119237292951}
   - component: {fileID: 315189075775413554}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Capsule (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -984,7 +984,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3075824606838856725}
   - component: {fileID: 7118257837314240885}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1028,7 +1028,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3372424831453293157}
   - component: {fileID: 431828341158780543}
-  m_Layer: 6
+  - component: {fileID: 1084943944342240565}
+  m_Layer: 8
   m_Name: Z-Rect 0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1071,3 +1072,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   connections: 01000100
+--- !u!114 &1084943944342240565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7992503400348929550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 684bbece5205f76479de74aaced1a55f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_BuildHeightMesh: 0
+  m_NavMeshData: {fileID: 0}

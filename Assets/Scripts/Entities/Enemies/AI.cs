@@ -18,17 +18,17 @@ public abstract class AI : Entity
     public LayerMask obstacleMask;
 
     protected float _currentAttackRate;           
-    protected P _player;
+    protected Player _player;
     protected NavMeshAgent _agent;
     protected bool _playerDetected;
     protected Rigidbody _rb;
 
-    protected override void Start()
+    protected override void Awake()
     {
-        base.Start();
+        base.Awake();
 
         _agent = GetComponent<NavMeshAgent>();
-        _player = FindObjectOfType<P>();
+        _player = FindObjectOfType<Player>();
         _rb = GetComponent<Rigidbody>();
 
         _currentAttackRate = 0;
