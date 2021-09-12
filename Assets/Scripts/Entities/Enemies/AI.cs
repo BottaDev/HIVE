@@ -21,7 +21,6 @@ public abstract class AI : Entity
     protected Player _player;
     protected NavMeshAgent _agent;
     protected bool _playerDetected;
-    protected Rigidbody _rb;
 
     protected override void Awake()
     {
@@ -29,7 +28,6 @@ public abstract class AI : Entity
 
         _agent = GetComponent<NavMeshAgent>();
         _player = FindObjectOfType<Player>();
-        _rb = GetComponent<Rigidbody>();
 
         _currentAttackRate = 0;
     }
