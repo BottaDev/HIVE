@@ -11,6 +11,8 @@ public class StaticEnemy : Entity
     public float detectionRange = 25f;
     public float rotationSpeed = 5f;
     public float attackDistance = 7f;
+    public Transform spawnPos;
+    public GameObject bullet;
     
     private float _currentAttackRate;           
     private Player _player;
@@ -37,8 +39,13 @@ public class StaticEnemy : Entity
             RotateTowards(_player.transform.position);
             
             float distance = Vector3.Distance(transform.position, _player.transform.position);
-            if(distance <= attackDistance)
-                Attack();
+            if (distance <= attackDistance)
+            {
+                if (_currentAttackRate <= 0)
+                    Attack();
+                else
+                    _currentAttackRate -= Time.deltaTime;
+            }
         }
     }
     
@@ -61,6 +68,11 @@ public class StaticEnemy : Entity
 
     private void Attack()
     {
+        GameObject bullet = Instantiate(this.bullet, spawnPos.position, Quaternion.identity);
+        bullet.transform.LookAt(_player.transform.position);
+
+        _currentAttackRate = attackRate;
+        
         Debug.Log("Shoot");
     }
     

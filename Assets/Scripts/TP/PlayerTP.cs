@@ -92,7 +92,7 @@ public class PlayerTP : MonoBehaviour
     private void FixedUpdate()
     {
         MovePlayer();
-        this.transform.forward = cam.transform.forward;
+        this.transform.forward = new Vector3(cam.transform.forward.x, 0, cam.transform.forward.z);
     }
 
     private void MyInput()
