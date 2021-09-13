@@ -1,16 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : Entity
 {
-    private float _playerHeight = 2;
-
     [SerializeField] private Transform orientation;
     
-    [Header("Movement")] 
-    public float moveSpeed = 6;
+    [Header("Movement")]
     public float movementMultiplier = 10;
     [SerializeField] private float airMultiplier = 0.4f;
     
@@ -53,17 +51,31 @@ public class Player : MonoBehaviour
     public GameObject crosshair;
 
     public Camera cam;
+    
+    private float _playerHeight = 2;
+    private HealthBar _healthBar;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        
+        _rb = GetComponent<Rigidbody>();
+        _rb.freezeRotation = true;
+    }
 
     private void Start()
     {
-        _rb = GetComponent<Rigidbody>();
-        _rb.freezeRotation = true;
-        
         upgrade.SetActive(false);
         firsPassive.SetActive(false);
         secondPassive.SetActive(false);
         thirdPassive.SetActive(false);
         crosshair.SetActive(true);
+
+        _healthBar = FindObjectOfType<HealthBar>();
+        if (_healthBar == null)
+            Debug.LogError("Health Bar could not been found!");
+        else
+            _healthBar.SetMaxHealt(maxHealth);
     }
 
     private void Update()
@@ -122,11 +134,11 @@ public class Player : MonoBehaviour
     public void MovePlayer()
     {
         if(_isGrounded && !OnSlope())
-            _rb.AddForce(moveDirection.normalized * moveSpeed * movementMultiplier, ForceMode.Acceleration);
+            _rb.AddForce(moveDirection.normalized * (CurrentSpeed * movementMultiplier), ForceMode.Acceleration);
         else if(_isGrounded && OnSlope())
-            _rb.AddForce(_slopeMoveDirection.normalized * moveSpeed * movementMultiplier, ForceMode.Acceleration);
+            _rb.AddForce(_slopeMoveDirection.normalized * (CurrentSpeed * movementMultiplier), ForceMode.Acceleration);
         else if(!_isGrounded)
-            _rb.AddForce(moveDirection.normalized * moveSpeed * movementMultiplier * airMultiplier, ForceMode.Acceleration);
+            _rb.AddForce(moveDirection.normalized * (CurrentSpeed * movementMultiplier * airMultiplier), ForceMode.Acceleration);
     }
 
     private bool OnSlope()

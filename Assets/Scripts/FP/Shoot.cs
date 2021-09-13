@@ -6,13 +6,15 @@ public class Shoot : MonoBehaviour
     public float damage = 1;
     public float range = 100;
     public float fireRate = 15;
+    public float cooldownRate = 0.5f;
 
     public Camera cam;
 
-    private float _nextShoot = 0;
-
     public ParticleSystem shootEffect;
     public GameObject impactEffect;
+    
+    private float _nextShoot = 0;
+    private bool _inCooldown;
 
     private void Update()
     {
@@ -20,6 +22,10 @@ public class Shoot : MonoBehaviour
         {
             _nextShoot = Time.time + 1 / fireRate;
             Shooter();
+        }
+        else
+        {
+            _inCooldown = true;
         }
     }
 
