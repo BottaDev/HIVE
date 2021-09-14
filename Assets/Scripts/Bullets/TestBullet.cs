@@ -15,7 +15,10 @@ public class TestBullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        EventManager.Instance.Trigger("OnPlayerDamaged", damage);
+        if (other.gameObject.layer == 8)
+        {
+            EventManager.Instance.Trigger("OnPlayerDamaged", damage);
+        }
         Destroy(gameObject);
     }
 }

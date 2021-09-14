@@ -17,12 +17,17 @@ public class StaticEnemy : Entity
     private float _currentAttackRate;           
     private Player _player;
     private bool _playerDetected;
+
+    private Color _defaultColor;
+    private MeshRenderer _meshRenderer;
     
     protected override void Awake()
     {
         base.Awake();
                 
         _currentAttackRate = 0;
+        _meshRenderer = transform.GetChild(2).GetComponent<MeshRenderer>();
+        _defaultColor = _meshRenderer.material.color;
     }
 
     private void Start()
@@ -89,7 +94,18 @@ public class StaticEnemy : Entity
     {
         CurrentHealth -= damage;
 
+        StartCoroutine(DamageColor());
+
         if (CurrentHealth <= 0)
             Destroy(gameObject);
+    }
+
+    public IEnumerator DamageColor()
+    {
+        _meshRenderer.material.color = Color.red;
+        yield return new WaitForSeconds(0.2f);
+        _meshRenderer.material.color = _defaultColor;
+
+        yield return null;
     }
 }
