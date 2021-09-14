@@ -14,6 +14,6 @@ public class WinLoseScreen : MonoBehaviour
 
     public void Restart()
     {
-        SceneManager.LoadScene(scene_1);
+        SceneManager.LoadScene(0);
     }
 }

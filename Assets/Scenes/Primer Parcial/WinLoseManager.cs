@@ -12,6 +12,8 @@ public class WinLoseManager : MonoBehaviour
     {
         if (other.gameObject.layer == 8)
         {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.Confined;
             SceneManager.LoadScene(winScreen);
         }
     }
@@ -25,6 +27,8 @@ public class WinLoseManager : MonoBehaviour
     {
         if ((float) parameters[0] <= 0)
         {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.Confined;
             SceneManager.LoadScene(loseScreen);
         }
     }
