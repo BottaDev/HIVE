@@ -17,9 +17,11 @@ public class levelGen : MonoBehaviour
     public List<Room> CrossRoomDB;
     public List<Room> ArenaRoomDB;
     public Room startingRoom;
+    public Room finalRoom;
     public GameObject mapContainer;
 
     private Room[,] Map = new Room[5, 5];
+    private List<Room> arenaList = new List<Room>();
     private int changes;
     private int totalRooms = 0;
     
@@ -39,7 +41,7 @@ public class levelGen : MonoBehaviour
 
         if (totalRooms < minRoomQty) // || GetDeadEnds().Count < 4)
         {
-            print("bad map didn't laugh");
+            //print("bad map didn't laugh");
             DeleteMap();
 
             totalRooms = 0;
@@ -64,6 +66,7 @@ public class levelGen : MonoBehaviour
 
         CleanMap();
         FillMap();
+        ReplacecFarthestRoom(arenaList);
     }
 
     void GenerateAdjacentRooms()
@@ -196,24 +199,28 @@ public class levelGen : MonoBehaviour
                     switch (Map[i, j].ConnectionsCount())
                     {
                         case 1:
+                            if (i != 2 && j != 0) //Let the starting room intact
+                            {
+                                arenaList.Add(current);
 
-                            //Get a random Room from the Arena-Rooms Database
+                                if (Map[i, j].connections[1])
+                                {
+                                    current.transform.eulerAngles += new Vector3(0, 90, 0);
+                                    //Rotate it 90 degrees
+                                }
+                                if (Map[i, j].connections[2])
+                                {
+                                    current.transform.eulerAngles += new Vector3(0, 180, 0);
+                                    //Rotate it 180 degrees
+                                }
+                                if (Map[i, j].connections[3])
+                                {
+                                    current.transform.eulerAngles += new Vector3(0, -90, 0);
+                                    //Rotate it -90 degrees
+                                }
 
-                            if (Map[i, j].connections[1])
-                            {
-                                current.transform.eulerAngles += new Vector3(0, 90, 0);
-                                //Rotate it 90 degrees
                             }
-                            if (Map[i, j].connections[2])
-                            {
-                                current.transform.eulerAngles += new Vector3(0, 180, 0);
-                                //Rotate it 180 degrees
-                            }
-                            if (Map[i, j].connections[3])
-                            {
-                                current.transform.eulerAngles += new Vector3(0, -90, 0);
-                                //Rotate it -90 degrees
-                            }
+
                             break;
 
                         case 2:
@@ -288,6 +295,20 @@ public class levelGen : MonoBehaviour
         }
     }
     
+    void ReplacecFarthestRoom(List<Room> arenaRooms)
+    {
+        Room farthest = arenaRooms[0];
+        foreach (Room r in arenaRooms)
+        {
+            if (Vector3.Distance(Map[2, 0].transform.position, r.transform.position) > Vector3.Distance(Map[2, 0].transform.position, farthest.transform.position))
+                farthest = r;
+        }
+
+        Room go = Instantiate(finalRoom, farthest.transform.position, farthest.transform.rotation);
+        go.transform.parent = mapContainer.transform;
+        Destroy(farthest.gameObject);
+    }
+
     Room GetRandomRoomPrefab(Room layoutRoom)
     {
         int randomInt;

@@ -617,7 +617,10 @@ MonoBehaviour:
   - {fileID: 7724210563795786024, guid: 2ee2c051b114cb54a81dfd90ffff5b93, type: 3}
   ArenaRoomDB:
   - {fileID: 7895948497514669248, guid: f582f722015fd1f40b246fb2fb981419, type: 3}
+  - {fileID: 7895948497514669248, guid: fbc15cb3e7b89274d80420d2a29e62fa, type: 3}
+  - {fileID: 7895948497514669248, guid: bdbb823e8b6bd0a49a6115e8a938b4cc, type: 3}
   startingRoom: {fileID: 7895948497514669248, guid: 01221caeab437fe469e362d38fc3ed5a, type: 3}
+  finalRoom: {fileID: 7895948497514669248, guid: 01221caeab437fe469e362d38fc3ed5a, type: 3}
   mapContainer: {fileID: 377234431}
 --- !u!4 &377234433
 Transform:
@@ -960,6 +963,7 @@ GameObject:
   - component: {fileID: 451655541}
   - component: {fileID: 451655540}
   - component: {fileID: 451655544}
+  - component: {fileID: 451655545}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1072,6 +1076,18 @@ MonoBehaviour:
   FP: {fileID: 1885204864}
   TP: {fileID: 1766869821}
   levelGeneration: {fileID: 377234432}
+--- !u!114 &451655545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 451655539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99f0cf01a80a0fa4a8b9fe148c6fec0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &461219510
 GameObject:
   m_ObjectHideFlags: 0
