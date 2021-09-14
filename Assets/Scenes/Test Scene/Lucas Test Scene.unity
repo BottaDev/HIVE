@@ -609,8 +609,8 @@ MonoBehaviour:
   TRoomDB:
   - {fileID: 6119987845118450691, guid: 80712b136d705964ca475200d4a37e5f, type: 3}
   - {fileID: 6810185820472870338, guid: 7afd36eda4b97384ebb09a818d1aa5ee, type: 3}
-  - {fileID: 4487952367947669977, guid: f2a760f7e9a6c7e46bd184b9c5fc65f3, type: 3}
-  - {fileID: -9088621963166526790, guid: a6a68c03bd9218f438a62875049c754f, type: 3}
+  - {fileID: 8111705604553450693, guid: f2a760f7e9a6c7e46bd184b9c5fc65f3, type: 3}
+  - {fileID: 7336416451504069843, guid: a6a68c03bd9218f438a62875049c754f, type: 3}
   CrossRoomDB:
   - {fileID: 8559689066873977311, guid: 98d688ecb9a6f914aa32cb25414519cc, type: 3}
   - {fileID: 1852259817069949096, guid: a728529520e68db4996f311e2fb01066, type: 3}
@@ -1536,8 +1536,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9f0862d19c1d3344bec328a1b6b6a66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 10
+  baseSpeed: 5
   orientation: {fileID: 1981922062}
-  moveSpeed: 15
   movementMultiplier: 10
   airMultiplier: 0.12
   jumpForce: 20
@@ -1547,12 +1548,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   moveDirection: {x: 0, y: 0, z: 0}
-  experience: 0
-  totalExperience: 3
-  firsPassive: {fileID: 1286657409}
-  secondPassive: {fileID: 430866717}
-  thirdPassive: {fileID: 45730158}
-  upgrade: {fileID: 548494183}
   crosshair: {fileID: 2053484108}
   cam: {fileID: 1706743215}
 --- !u!54 &540523017
@@ -1586,6 +1581,7 @@ MonoBehaviour:
   damage: 1
   range: 100
   fireRate: 15
+  cooldownRate: 0.5
   cam: {fileID: 1706743215}
   shootEffect: {fileID: 1540934237}
   impactEffect: {fileID: 8479355793438946228, guid: e5cba12285aafe24d811ab96b21f30ab, type: 3}
@@ -1603,6 +1599,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _dashForce: 50
   _dashDuration: 0.2
+  _dashDC: 0
 --- !u!1 &548494183
 GameObject:
   m_ObjectHideFlags: 0
@@ -2751,6 +2748,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _dashForce: 50
   _dashDuration: 0.2
+  _dashCD: 0
 --- !u!114 &1204840847
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2763,6 +2761,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6595a6f95c6656d43a27dcf98d49ad0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 10
+  baseSpeed: 5
   orientation: {fileID: 1978289228}
   moveSpeed: 15
   movementMultiplier: 10
@@ -2775,12 +2775,6 @@ MonoBehaviour:
     m_Bits: 64
   moveDirection: {x: 0, y: 0, z: 0}
   cam: {fileID: 679946325}
-  experience: 0
-  totalExperience: 3
-  firsPassive: {fileID: 1286657409}
-  secondPassive: {fileID: 430866717}
-  thirdPassive: {fileID: 45730158}
-  upgrade: {fileID: 548494183}
   crosshair: {fileID: 2053484108}
 --- !u!54 &1204840848
 Rigidbody:
