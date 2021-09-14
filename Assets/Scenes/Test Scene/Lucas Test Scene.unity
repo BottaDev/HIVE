@@ -1556,8 +1556,8 @@ MonoBehaviour:
   baseSpeed: 5
   orientation: {fileID: 1981922062}
   movementMultiplier: 20
-  airMultiplier: 0.12
-  jumpForce: 27
+  airMultiplier: 0.15
+  jumpForce: 33.3
   jumpKey: 32
   groundCheck: {fileID: 523071299}
   groundMask:
@@ -1613,9 +1613,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 424bb3f7d6fb8274a851dd5966cd8659, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dashForce: 50
+  _dashForce: 25
   _dashDuration: 0.2
-  _dashDC: 0
+  _dashDC: 1
 --- !u!1 &548494183
 GameObject:
   m_ObjectHideFlags: 0
@@ -2762,9 +2762,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 164a507c6f3794f4cae47bf4593eefc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dashForce: 50
+  _dashForce: 15
   _dashDuration: 0.2
-  _dashCD: 0
+  _dashCD: 1
 --- !u!114 &1204840847
 MonoBehaviour:
   m_ObjectHideFlags: 0

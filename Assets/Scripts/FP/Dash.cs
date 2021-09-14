@@ -21,12 +21,14 @@ public class Dash : MonoBehaviour
     private void Update()
     {
         _dashDC -= Time.deltaTime;
+
+        if (Input.GetKeyDown(KeyCode.LeftShift) && _dashDC <= 0)
+            ApplyDash();
     }
 
     private void FixedUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift) && _dashDC <= 0)
-            ApplyDash();
+
     }
 
     private void ApplyDash()
