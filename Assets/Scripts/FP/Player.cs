@@ -52,6 +52,8 @@ public class Player : MonoBehaviour
 
     public GameObject crosshair;
 
+    public Camera cam;
+
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
@@ -89,6 +91,7 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         MovePlayer();
+        transform.rotation = cam.transform.rotation;
     }
 
     private void MyInput()

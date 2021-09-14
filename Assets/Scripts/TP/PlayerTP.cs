@@ -54,6 +54,9 @@ public class PlayerTP : MonoBehaviour
     
     private void Start()
     {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
         _rb = GetComponent<Rigidbody>();
         _rb.freezeRotation = true;
         
