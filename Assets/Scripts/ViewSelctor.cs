@@ -7,6 +7,7 @@ public class ViewSelctor : MonoBehaviour
     public GameObject[] buttons;
     public GameObject FP;
     public GameObject TP;
+    public levelGen levelGeneration;
 
     public void ChooseFirst()
     {
@@ -20,9 +21,9 @@ public class ViewSelctor : MonoBehaviour
         TurnOffUI();
     }
 
-
     void TurnOffUI()
     {
+        levelGeneration.StartGeneration();
         buttons[0].SetActive(false);
         buttons[1].SetActive(false);
     }
