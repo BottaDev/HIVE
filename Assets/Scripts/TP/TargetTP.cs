@@ -16,7 +16,7 @@ public class TargetTP : MonoBehaviour
 
     IEnumerator Die()
     {
-        player.experience++;
+        //player.experience++;
 
         yield return new WaitForSeconds(0.2f);
 
