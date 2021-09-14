@@ -6,6 +6,7 @@ using UnityEngine;
 public class TestBullet : MonoBehaviour
 {
     public float speed = 10f;
+    private float damage = 1f;
     
     private void Update()
     {
@@ -14,6 +15,7 @@ public class TestBullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        EventManager.Instance.Trigger("OnPlayerDamaged", damage);
         Destroy(gameObject);
     }
 }

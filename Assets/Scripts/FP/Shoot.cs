@@ -36,8 +36,8 @@ public class Shoot : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, range))
         {
-            Target target = hit.transform.GetComponent<Target>();
-            if(target != null)
+            StaticEnemy target = hit.transform.GetComponent<StaticEnemy>();
+            if (target != null)
                 target.TakeDamage(damage);
 
             GameObject particle = Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));

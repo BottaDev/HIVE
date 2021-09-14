@@ -7,7 +7,6 @@ using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
-    public Gradient gradient;
     public Image fill;
     
     private Slider _slider;
@@ -15,20 +14,23 @@ public class HealthBar : MonoBehaviour
     private void Awake()
     {
         _slider = GetComponent<Slider>();
+
+        EventManager.Instance.Subscribe("OnLifeUpdated", OnLifeUpdated);
     }
 
     public void SetMaxHealt(float health)
     {
         _slider.maxValue = health;
         _slider.value = health;
-
-        fill.color = gradient.Evaluate(1f);
     }
 
     public void SetHealth(float haelth)
     {
         _slider.value = haelth;
+    }
 
-        fill.color = gradient.Evaluate(_slider.normalizedValue);
+    private void OnLifeUpdated(params object[] parameters)
+    {
+        SetHealth((float)parameters[0]);
     }
 }

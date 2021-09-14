@@ -16,6 +16,8 @@ public class Shooter : AI
     {
         base.Awake();
 
+        EventManager.Instance.Subscribe("OnEnemyDamaged", OnEnemyDamaged);
+        
         _currentEvadeTime = evadeTime;
     }
 
@@ -92,5 +94,15 @@ public class Shooter : AI
         
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, evadeDistance);
+    }
+
+    private void OnEnemyDamaged(params object[] parameters)
+    {
+        TakeDamage((int)parameters[0]);
+    }
+    
+    public override void TakeDamage(float damage)
+    {
+        CurrentHealth -= damage;
     }
 }
