@@ -620,7 +620,7 @@ MonoBehaviour:
   - {fileID: 7895948497514669248, guid: fbc15cb3e7b89274d80420d2a29e62fa, type: 3}
   - {fileID: 7895948497514669248, guid: bdbb823e8b6bd0a49a6115e8a938b4cc, type: 3}
   startingRoom: {fileID: 7895948497514669248, guid: 01221caeab437fe469e362d38fc3ed5a, type: 3}
-  finalRoom: {fileID: 7895948497514669248, guid: 01221caeab437fe469e362d38fc3ed5a, type: 3}
+  finalRoom: {fileID: 7895948497514669248, guid: b37185a8b52cea645b01baef75224a8b, type: 3}
   mapContainer: {fileID: 377234431}
 --- !u!4 &377234433
 Transform:
@@ -1555,9 +1555,9 @@ MonoBehaviour:
   maxHealth: 10
   baseSpeed: 5
   orientation: {fileID: 1981922062}
-  movementMultiplier: 10
+  movementMultiplier: 20
   airMultiplier: 0.12
-  jumpForce: 20
+  jumpForce: 27
   jumpKey: 32
   groundCheck: {fileID: 523071299}
   groundMask:
@@ -3922,7 +3922,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1885204864}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 140, y: 1, z: 40}
+  m_LocalPosition: {x: 140, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 540523014}

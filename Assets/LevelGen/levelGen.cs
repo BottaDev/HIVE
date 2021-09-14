@@ -193,16 +193,17 @@ public class levelGen : MonoBehaviour
                 {
                     Room current;
 
-                    current = Instantiate(GetRandomRoomPrefab(Map[i, j]), new Vector3(i, 0, j) * spaceMod + Vector3.down, Quaternion.identity);
+                    if(i == 2 && j == 0)
+                        current = Instantiate(startingRoom, new Vector3(i, 0, j) * spaceMod + Vector3.down, Quaternion.identity);
+                    else
+                        current = Instantiate(GetRandomRoomPrefab(Map[i, j]), new Vector3(i, 0, j) * spaceMod + Vector3.down, Quaternion.identity);
+
                     current.transform.parent = mapContainer.transform;
+
 
                     switch (Map[i, j].ConnectionsCount())
                     {
                         case 1:
-                            if (i != 2 && j != 0) //Let the starting room intact
-                            {
-                                arenaList.Add(current);
-
                                 if (Map[i, j].connections[1])
                                 {
                                     current.transform.eulerAngles += new Vector3(0, 90, 0);
@@ -218,8 +219,7 @@ public class levelGen : MonoBehaviour
                                     current.transform.eulerAngles += new Vector3(0, -90, 0);
                                     //Rotate it -90 degrees
                                 }
-
-                            }
+                                arenaList.Add(current);
 
                             break;
 
@@ -304,7 +304,7 @@ public class levelGen : MonoBehaviour
                 farthest = r;
         }
 
-        Room go = Instantiate(finalRoom, farthest.transform.position, farthest.transform.rotation);
+        Room go = Instantiate(finalRoom, farthest.transform.position, farthest.transform.localRotation);
         go.transform.parent = mapContainer.transform;
         Destroy(farthest.gameObject);
     }
