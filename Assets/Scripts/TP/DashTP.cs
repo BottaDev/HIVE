@@ -6,6 +6,7 @@ public class DashTP : MonoBehaviour
 {
     [SerializeField] private float _dashForce;
     [SerializeField] private float _dashDuration;
+    [SerializeField] private float _dashCD;
 
     private Rigidbody _rb;
 
@@ -19,15 +20,19 @@ public class DashTP : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (Input.GetKeyDown(KeyCode.LeftShift) && _dashCD <= 0)
         {
             StartCoroutine(Cast());
         }
+
+        _dashCD -= Time.deltaTime;
     }
 
     IEnumerator Cast()
     {
         _rb.AddForce(_player.moveDirection * _dashForce, ForceMode.VelocityChange);
+
+        _dashCD = 1.5f;
 
         yield return new WaitForSeconds(_dashDuration);
         

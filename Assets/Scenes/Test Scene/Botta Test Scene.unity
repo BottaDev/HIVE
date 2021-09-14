@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4366756, g: 0.48427194, b: 0.5645252, a: 1}
+  m_IndirectSpecularColor: {r: 0.43667555, g: 0.48427182, b: 0.56452405, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6387,35 +6387,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93cfa62347338094fbff8eded76e216a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gradient:
-    serializedVersion: 2
-    key0: {r: 1, g: 0, b: 0, a: 1}
-    key1: {r: 1, g: 0, b: 0, a: 1}
-    key2: {r: 0, g: 0, b: 0, a: 0}
-    key3: {r: 0, g: 0, b: 0, a: 0}
-    key4: {r: 0, g: 0, b: 0, a: 0}
-    key5: {r: 0, g: 0, b: 0, a: 0}
-    key6: {r: 0, g: 0, b: 0, a: 0}
-    key7: {r: 0, g: 0, b: 0, a: 0}
-    ctime0: 0
-    ctime1: 65535
-    ctime2: 0
-    ctime3: 0
-    ctime4: 0
-    ctime5: 0
-    ctime6: 0
-    ctime7: 0
-    atime0: 0
-    atime1: 65535
-    atime2: 0
-    atime3: 0
-    atime4: 0
-    atime5: 0
-    atime6: 0
-    atime7: 0
-    m_Mode: 0
-    m_NumColorKeys: 2
-    m_NumAlphaKeys: 2
   fill: {fileID: 767167440}
 --- !u!114 &1179788177
 MonoBehaviour:
@@ -11764,6 +11735,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _dashForce: 50
   _dashDuration: 0.2
+  _dashDC: 0
 --- !u!114 &1630628068
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11823,12 +11795,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   moveDirection: {x: 0, y: 0, z: 0}
-  experience: 0
-  totalExperience: 3
-  firsPassive: {fileID: 0}
-  secondPassive: {fileID: 0}
-  thirdPassive: {fileID: 0}
-  upgrade: {fileID: 0}
   crosshair: {fileID: 0}
   cam: {fileID: 336029566}
 --- !u!54 &1630628071
@@ -18169,7 +18135,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2099844899
 RectTransform:
   m_ObjectHideFlags: 0
@@ -18998,7 +18964,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1504185523452655780, guid: 82fb5f7c651146f40a88378211c38e8c, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 82fb5f7c651146f40a88378211c38e8c, type: 3}
@@ -19055,7 +19021,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1542546137562301834, guid: f1f6f47dcc00a414f8bdff68b17c66f4, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1542546137562301839, guid: f1f6f47dcc00a414f8bdff68b17c66f4, type: 3}
       propertyPath: m_Name
