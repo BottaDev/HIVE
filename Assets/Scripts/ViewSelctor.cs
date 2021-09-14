@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ViewSelctor : MonoBehaviour
 {
@@ -17,8 +18,7 @@ public class ViewSelctor : MonoBehaviour
 
     public void ChooseThird()
     {
-        TP.SetActive(true);
-        TurnOffUI();
+        SceneManager.LoadScene("3");
     }
 
     void TurnOffUI()
