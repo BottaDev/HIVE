@@ -1863,9 +1863,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 424bb3f7d6fb8274a851dd5966cd8659, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dashForce: 25
-  _dashDuration: 0.2
-  _dashDC: 1
+  _dashForce: 20
+  _dashDuration: 0.15
+  _dashDC: 0.8
 --- !u!114 &871374613
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1917,7 +1917,7 @@ MonoBehaviour:
   baseSpeed: 5
   orientation: {fileID: 60060308}
   movementMultiplier: 20
-  airMultiplier: 0.12
+  airMultiplier: 0.15
   jumpForce: 33.3
   jumpKey: 32
   groundCheck: {fileID: 244445357}
@@ -1925,7 +1925,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   moveDirection: {x: 0, y: 0, z: 0}
-  crosshair: {fileID: 0}
+  crosshair: {fileID: 1216215648}
   cam: {fileID: 1221672244}
 --- !u!54 &871374616
 Rigidbody:
