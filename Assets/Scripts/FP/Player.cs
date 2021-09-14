@@ -1,16 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : Entity
 {
-    private float _playerHeight = 2;
-
     [SerializeField] private Transform orientation;
     
-    [Header("Movement")] 
-    public float moveSpeed = 6;
+    [Header("Movement")]
     public float movementMultiplier = 10;
     [SerializeField] private float airMultiplier = 0.4f;
     
@@ -41,29 +39,45 @@ public class Player : MonoBehaviour
 
     private RaycastHit _slopeHit;
 
-    [Header("Levels")]
-    public float experience = 0;
-    public float totalExperience = 3;
-    public GameObject firsPassive;
-    public GameObject secondPassive;
-    public GameObject thirdPassive;
-    public GameObject upgrade;
-    private bool _canUpgrade;
+    //[Header("Levels")]
+    //public float experience = 0;
+    //public float totalExperience = 3;
+    //public GameObject firsPassive;
+    //public GameObject secondPassive;
+    //public GameObject thirdPassive;
+    //public GameObject upgrade;
+    //private bool _canUpgrade;
 
     public GameObject crosshair;
 
     public Camera cam;
+    
+    private float _playerHeight = 2;
+    private HealthBar _healthBar;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        
+        _rb = GetComponent<Rigidbody>();
+        _rb.freezeRotation = true;
+
+        EventManager.Instance.Subscribe("OnPlayerDamaged", OnPlayerDamaged);
+    }
 
     private void Start()
     {
-        _rb = GetComponent<Rigidbody>();
-        _rb.freezeRotation = true;
-        
-        upgrade.SetActive(false);
-        firsPassive.SetActive(false);
-        secondPassive.SetActive(false);
-        thirdPassive.SetActive(false);
-        crosshair.SetActive(true);
+        //upgrade.SetActive(false);
+        //firsPassive.SetActive(false);
+        //secondPassive.SetActive(false);
+        //thirdPassive.SetActive(false);
+        //crosshair.SetActive(true);
+
+        _healthBar = FindObjectOfType<HealthBar>();
+        if (_healthBar == null)
+            Debug.LogError("Health Bar could not been found!");
+        else
+            _healthBar.SetMaxHealt(maxHealth);
     }
 
     private void Update()
@@ -76,16 +90,16 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(jumpKey) && _isGrounded)
             Jump();
 
-        if (Input.GetKeyDown(KeyCode.H) && _canUpgrade)
-        {
-            _canUpgrade = false;
-            experience = 0;
-            OpenUpgrades();
-        }
+        //if (Input.GetKeyDown(KeyCode.H) && _canUpgrade)
+        //{
+        //    _canUpgrade = false;
+        //    experience = 0;
+        //    OpenUpgrades();
+        //}
             
         _slopeMoveDirection = Vector3.ProjectOnPlane(moveDirection, _slopeHit.normal);
 
-        ExperienceCount();
+        //ExperienceCount();
     }
 
     private void FixedUpdate()
@@ -122,11 +136,11 @@ public class Player : MonoBehaviour
     public void MovePlayer()
     {
         if(_isGrounded && !OnSlope())
-            _rb.AddForce(moveDirection.normalized * moveSpeed * movementMultiplier, ForceMode.Acceleration);
+            _rb.AddForce(moveDirection.normalized * (CurrentSpeed * movementMultiplier), ForceMode.Acceleration);
         else if(_isGrounded && OnSlope())
-            _rb.AddForce(_slopeMoveDirection.normalized * moveSpeed * movementMultiplier, ForceMode.Acceleration);
+            _rb.AddForce(_slopeMoveDirection.normalized * (CurrentSpeed * movementMultiplier), ForceMode.Acceleration);
         else if(!_isGrounded)
-            _rb.AddForce(moveDirection.normalized * moveSpeed * movementMultiplier * airMultiplier, ForceMode.Acceleration);
+            _rb.AddForce(moveDirection.normalized * (CurrentSpeed * movementMultiplier * airMultiplier), ForceMode.Acceleration);
     }
 
     private bool OnSlope()
@@ -140,37 +154,51 @@ public class Player : MonoBehaviour
         }
         return false;
     }
-    
-    private void ExperienceCount()
+
+    //private void ExperienceCount()
+    //{
+    //    if (experience >= totalExperience)
+    //    {
+    //        _canUpgrade = true;
+    //        upgrade.SetActive(true);
+    //    }
+    //}
+
+    //private void OpenUpgrades()
+    //{
+    //    Cursor.visible = true;
+    //    Cursor.lockState = CursorLockMode.Confined;
+
+    //    crosshair.SetActive(false);
+    //    upgrade.SetActive(false);
+    //    firsPassive.SetActive(true);
+    //    secondPassive.SetActive(true);
+    //    thirdPassive.SetActive(true);
+    //}
+
+    //public void Button()
+    //{
+    //    Cursor.visible = false;
+    //    Cursor.lockState = CursorLockMode.Locked;
+
+    //    crosshair.SetActive(true);
+    //    upgrade.SetActive(false);
+    //    firsPassive.SetActive(false);
+    //    secondPassive.SetActive(false);
+    //    thirdPassive.SetActive(false);
+    //}
+
+    public void OnPlayerDamaged(params object[] parameters)
     {
-        if (experience >= totalExperience)
-        {
-            _canUpgrade = true;
-            upgrade.SetActive(true);
-        }
+        TakeDamage((float)parameters[0]);
     }
 
-    private void OpenUpgrades()
+    public override void TakeDamage(float damage)
     {
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.Confined;
+        CurrentHealth -= damage;
+        EventManager.Instance.Trigger("OnLifeUpdated", CurrentHealth);
 
-        crosshair.SetActive(false);
-        upgrade.SetActive(false);
-        firsPassive.SetActive(true);
-        secondPassive.SetActive(true);
-        thirdPassive.SetActive(true);
-    }
-
-    public void Button()
-    {
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-
-        crosshair.SetActive(true);
-        upgrade.SetActive(false);
-        firsPassive.SetActive(false);
-        secondPassive.SetActive(false);
-        thirdPassive.SetActive(false);
+        if (CurrentHealth <= 0)
+            this.gameObject.SetActive(false);
     }
 }

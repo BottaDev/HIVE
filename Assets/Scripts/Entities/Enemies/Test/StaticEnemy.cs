@@ -21,7 +21,7 @@ public class StaticEnemy : Entity
     protected override void Awake()
     {
         base.Awake();
-
+                
         _currentAttackRate = 0;
     }
 
@@ -83,5 +83,13 @@ public class StaticEnemy : Entity
         
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackDistance);
+    }
+    
+    public override void TakeDamage(float damage)
+    {
+        CurrentHealth -= damage;
+
+        if (CurrentHealth <= 0)
+            Destroy(gameObject);
     }
 }
