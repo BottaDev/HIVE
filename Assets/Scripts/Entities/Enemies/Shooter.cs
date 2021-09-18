@@ -39,20 +39,29 @@ public class Shooter : AI
         }
         else
         {
-            // In Attack distance
             if (distance <= evadeDistance)
             {
                 _currentEvadeTime -= Time.deltaTime;
-                
-                if ( _currentEvadeTime > 0)
-                    EvadePlayer();
+                if (CheckMiddleObstacle(_player.transform.position))
+                {
+                    if ( _currentEvadeTime > 0)
+                        EvadePlayer();
+                    else
+                        Attack();    
+                }
                 else
-                    Attack();
+                {
+                    ChasePlayer();
+                }
             }
             else
             {
                 _currentEvadeTime = evadeTime;
-                Attack();
+                // In Attack distance...
+                if (ApplyFOV(_player.transform.position))
+                    Attack();
+                else
+                    ChasePlayer();
             }
         }
     }
@@ -75,7 +84,16 @@ public class Shooter : AI
 
     protected override void Attack()
     {
-        Debug.Log("Shooter is attacking...");
+        if (_currentAttackRate <= 0)
+        {
+            Debug.Log("Shooter is attacking...");
+            _currentAttackRate = attackRate;
+        }
+        else
+        {
+            _currentAttackRate -= Time.deltaTime;
+        }
+        
         _agent.isStopped = true;
         RotateTowards(_player.transform.position);
     }
