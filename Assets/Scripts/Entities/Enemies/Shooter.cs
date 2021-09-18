@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.ProBuilder.MeshOperations;
 
 public class Shooter : AI
 {
@@ -34,36 +35,30 @@ public class Shooter : AI
         float distance = Vector3.Distance(transform.position, _player.transform.position);
         if (distance > attackDistance)
         {
-            ChasePlayer();    
+            ChasePlayer();
         }
-        else if (distance <= attackDistance && distance > evadeDistance)
+        else
         {
-            if (ApplyFOV(_player.transform.position))
+            // In Attack distance
+            if (distance <= evadeDistance)
             {
-                // Player is in range, and is being seen
-                if (_currentAttackRate <= 0)
-                    Attack();
+                _currentEvadeTime -= Time.deltaTime;
+                
+                if ( _currentEvadeTime > 0)
+                    EvadePlayer();
                 else
-                    _currentAttackRate -= Time.deltaTime;
+                    Attack();
             }
             else
             {
-                ChasePlayer();
-            }
-        }
-        else if (distance <= evadeDistance)
-        {
-            if ( _currentEvadeTime > 0)
-                EvadePlayer();
-            else
+                _currentEvadeTime = evadeTime;
                 Attack();
+            }
         }
     }
 
     private void EvadePlayer()
     {
-        _currentEvadeTime -= Time.deltaTime;
-        
         Vector3 direction = transform.position - _player.transform.position;
         Vector3 newPos = transform.position + direction;
      
@@ -80,7 +75,7 @@ public class Shooter : AI
 
     protected override void Attack()
     {
-        _currentEvadeTime = evadeTime;
+        Debug.Log("Shooter is attacking...");
         _agent.isStopped = true;
         RotateTowards(_player.transform.position);
     }

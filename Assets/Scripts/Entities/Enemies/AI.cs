@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(NavMeshAgent), typeof(Rigidbody))]
+[RequireComponent(typeof(NavMeshAgent))]
 public abstract class AI : Entity
 {
     [Header("AI Parameters")]
