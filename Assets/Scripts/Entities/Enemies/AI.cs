@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(NavMeshAgent), typeof(Rigidbody))]
+[RequireComponent(typeof(NavMeshAgent))]
 public abstract class AI : Entity
 {
     [Header("AI Parameters")]
@@ -79,6 +79,25 @@ public abstract class AI : Entity
                     obstacleMask))
                     return true;
             }
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Checks if there is an obstacle between the enemy and the target
+    /// </summary>
+    /// <param name="targetPos"></param>
+    /// <returns></returns>
+    protected bool CheckMiddleObstacle(Vector3 targetPos)
+    {
+        Vector3 dirToTarget = targetPos - transform.position;
+        
+        if (dirToTarget.magnitude <= detectionRange)
+        {
+            if (!Physics.Raycast(transform.position, dirToTarget, dirToTarget.magnitude,
+                obstacleMask))
+                return true;
         }
 
         return false;

@@ -125,7 +125,6 @@ GameObject:
   - component: {fileID: 6576070079687112170}
   - component: {fileID: 6576070079687112171}
   - component: {fileID: 441090482870392484}
-  - component: {fileID: 8062144346830414909}
   - component: {fileID: 3099701264801050416}
   m_Layer: 0
   m_Name: 'Shooter '
@@ -234,22 +233,6 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!54 &8062144346830414909
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6576070079687112172}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!114 &3099701264801050416
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -273,3 +256,4 @@ MonoBehaviour:
     m_Bits: 64
   attackDistance: 20
   evadeDistance: 8
+  evadeTime: 3
