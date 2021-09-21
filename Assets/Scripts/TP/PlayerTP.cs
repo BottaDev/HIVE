@@ -8,7 +8,6 @@ public class PlayerTP : Entity
 
     [Header("Movement")] 
     public float moveSpeed = 6;
-    [SerializeField] private float moveMultiplier = 10;
     [SerializeField] private float airMultiplier = 0.4f;
     
     [Header("Jumping")] 
@@ -135,11 +134,11 @@ public class PlayerTP : Entity
     public void MovePlayer()
     {
         if (_isGrounded && !OnSlope())
-            _rb.velocity = new Vector3(moveDirection.normalized.x * moveSpeed, _rb.velocity.y, moveDirection.normalized.z * moveSpeed * moveMultiplier);
+            _rb.velocity = new Vector3(moveDirection.normalized.x * moveSpeed, _rb.velocity.y, moveDirection.normalized.z * moveSpeed);
         else if (_isGrounded && OnSlope())
-            _rb.velocity = new Vector3(_slopeMoveDirection.normalized.x * moveSpeed, _rb.velocity.y, moveDirection.normalized.z * moveSpeed * moveMultiplier);
+            _rb.velocity = new Vector3(_slopeMoveDirection.normalized.x * moveSpeed, _rb.velocity.y, moveDirection.normalized.z * moveSpeed);
         else if (!_isGrounded)
-            _rb.velocity = new Vector3(moveDirection.normalized.x * moveSpeed * airMultiplier, _rb.velocity.y, moveDirection.normalized.z * moveSpeed * moveMultiplier * airMultiplier);
+            _rb.velocity = new Vector3(moveDirection.normalized.x * moveSpeed * airMultiplier, _rb.velocity.y, moveDirection.normalized.z * moveSpeed * airMultiplier);
     }
 
     private bool OnSlope()
