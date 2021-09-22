@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DashTP : MonoBehaviour
 {
-    [SerializeField] private float _dashForce;
+    [SerializeField] private float _multiplyVelocity;
     [SerializeField] private float _dashDuration;
     [SerializeField] private float _dashCD;
 
@@ -27,12 +27,12 @@ public class DashTP : MonoBehaviour
 
     IEnumerator Cast()
     {
-        _player.moveSpeed *= 4;
+        _player.moveSpeed *= _multiplyVelocity;
 
         _dashCD = 1.5f;
 
         yield return new WaitForSeconds(_dashDuration);
         
-        _player.moveSpeed /= 4;
+        _player.moveSpeed /= _multiplyVelocity;
     }
 }
