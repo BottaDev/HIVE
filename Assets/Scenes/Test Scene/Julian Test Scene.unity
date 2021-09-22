@@ -594,7 +594,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2a736f17505f9c14f88ef1d7523196a8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.15
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2a736f17505f9c14f88ef1d7523196a8, type: 3}
       propertyPath: m_LocalPosition.y
@@ -963,8 +963,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 164a507c6f3794f4cae47bf4593eefc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dashForce: 50
-  _dashDuration: 0.2
+  _dashForce: 6
+  _dashDuration: 5
   _dashCD: 0
 --- !u!114 &460746364
 MonoBehaviour:
@@ -980,8 +980,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 10
   baseSpeed: 5
-  moveSpeed: 6
-  moveMultiplier: 10
+  moveSpeed: 18
   airMultiplier: 0.4
   jumpForce: 30
   jumpKey: 32
@@ -1278,7 +1277,6 @@ MonoBehaviour:
   maxHealth: 10
   baseSpeed: 5
   moveSpeed: 6
-  moveMultiplier: 0.4
   airMultiplier: 0.4
   jumpForce: 15
   jumpKey: 32
