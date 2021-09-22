@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -521,7 +521,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.10453775, y: 0.13800001}
   m_AnchorMax: {x: 0.294717, y: 0.20700002}
-  m_AnchoredPosition: {x: -0.39996338, y: 0.3000183}
+  m_AnchoredPosition: {x: -0.39990234, y: 0.3000183}
   m_SizeDelta: {x: -2, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &118089940
@@ -1657,8 +1657,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 164a507c6f3794f4cae47bf4593eefc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dashForce: 50
-  _dashDuration: 0.2
+  _dashForce: 150
+  _dashDuration: 0.15
   _dashCD: 0
 --- !u!114 &730516389
 MonoBehaviour:
@@ -1863,7 +1863,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 424bb3f7d6fb8274a851dd5966cd8659, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dashForce: 20
+  _dashForce: 30
   _dashDuration: 0.15
   _dashDC: 0.8
 --- !u!114 &871374613
@@ -1918,7 +1918,7 @@ MonoBehaviour:
   orientation: {fileID: 60060308}
   movementMultiplier: 20
   airMultiplier: 0.15
-  jumpForce: 33.3
+  jumpForce: 35
   jumpKey: 32
   groundCheck: {fileID: 244445357}
   groundMask:
@@ -4347,6 +4347,22 @@ PrefabInstance:
       propertyPath: mapContainer
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 6714424096258085921, guid: f1f6f47dcc00a414f8bdff68b17c66f4, type: 3}
+      propertyPath: TRoomDB.Array.data[0]
+      value: 
+      objectReference: {fileID: 6810185820472870338, guid: 7afd36eda4b97384ebb09a818d1aa5ee, type: 3}
+    - target: {fileID: 6714424096258085921, guid: f1f6f47dcc00a414f8bdff68b17c66f4, type: 3}
+      propertyPath: CrossRoomDB.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6714424096258085921, guid: f1f6f47dcc00a414f8bdff68b17c66f4, type: 3}
+      propertyPath: CrossRoomDB.Array.data[1]
+      value: 
+      objectReference: {fileID: 8559689066873977311, guid: 98d688ecb9a6f914aa32cb25414519cc, type: 3}
+    - target: {fileID: 6714424096258085921, guid: f1f6f47dcc00a414f8bdff68b17c66f4, type: 3}
+      propertyPath: CrossRoomDB.Array.data[3]
+      value: 
+      objectReference: {fileID: 7724210563795786024, guid: 2ee2c051b114cb54a81dfd90ffff5b93, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f1f6f47dcc00a414f8bdff68b17c66f4, type: 3}
 --- !u!1 &1911777140
