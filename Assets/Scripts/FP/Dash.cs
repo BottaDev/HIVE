@@ -26,11 +26,6 @@ public class Dash : MonoBehaviour
             ApplyDash();
     }
 
-    private void FixedUpdate()
-    {
-
-    }
-
     private void ApplyDash()
     {
         _dashDC = 1.5f;

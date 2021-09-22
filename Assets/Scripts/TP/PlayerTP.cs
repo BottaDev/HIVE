@@ -6,11 +6,8 @@ public class PlayerTP : Entity
 {
     private float _playerHeight = 2;
 
-    [SerializeField] private Transform orientation;
-    
     [Header("Movement")] 
     public float moveSpeed = 6;
-    public float movementMultiplier = 10;
     [SerializeField] private float airMultiplier = 0.4f;
     
     [Header("Jumping")] 
@@ -68,11 +65,11 @@ public class PlayerTP : Entity
         _rb = GetComponent<Rigidbody>();
         _rb.freezeRotation = true;
 
-        _healthBar = FindObjectOfType<HealthBar>();
-        if (_healthBar == null)
-            Debug.LogError("Health Bar could not been found!");
-        else
-            _healthBar.SetMaxHealt(maxHealth);
+        //_healthBar = FindObjectOfType<HealthBar>();
+        //if (_healthBar == null)
+        //    Debug.LogError("Health Bar could not been found!");
+        //else
+        //    _healthBar.SetMaxHealt(maxHealth);
 
         //upgrade.SetActive(false);
         //firsPassive.SetActive(false);
@@ -106,7 +103,7 @@ public class PlayerTP : Entity
     private void FixedUpdate()
     {
         MovePlayer();
-        this.transform.forward = new Vector3(cam.transform.forward.x, 0, cam.transform.forward.z);
+        transform.forward = new Vector3(cam.transform.forward.x, 0, cam.transform.forward.z);
     }
 
     private void MyInput()
@@ -114,7 +111,7 @@ public class PlayerTP : Entity
         _horizontalMovement = Input.GetAxisRaw("Horizontal");
         _verticalMovement = Input.GetAxisRaw("Vertical");
 
-        moveDirection = orientation.forward * _verticalMovement + orientation.right * _horizontalMovement;
+        moveDirection = transform.forward * _verticalMovement + transform.right * _horizontalMovement;
     }
 
     private void ControlDrag()
@@ -136,12 +133,12 @@ public class PlayerTP : Entity
 
     public void MovePlayer()
     {
-        if(_isGrounded && !OnSlope())
-            _rb.AddForce(moveDirection.normalized * moveSpeed * movementMultiplier, ForceMode.Acceleration);
-        else if(_isGrounded && OnSlope())
-            _rb.AddForce(_slopeMoveDirection.normalized * moveSpeed * movementMultiplier, ForceMode.Acceleration);
-        else if(!_isGrounded)
-            _rb.AddForce(moveDirection.normalized * moveSpeed * movementMultiplier * airMultiplier, ForceMode.Acceleration);
+        if (_isGrounded && !OnSlope())
+            _rb.velocity = new Vector3(moveDirection.normalized.x * moveSpeed, _rb.velocity.y, moveDirection.normalized.z * moveSpeed);
+        else if (_isGrounded && OnSlope())
+            _rb.velocity = new Vector3(_slopeMoveDirection.normalized.x * moveSpeed, _rb.velocity.y, moveDirection.normalized.z * moveSpeed);
+        else if (!_isGrounded)
+            _rb.velocity = new Vector3(moveDirection.normalized.x * moveSpeed * airMultiplier, _rb.velocity.y, moveDirection.normalized.z * moveSpeed * airMultiplier);
     }
 
     private bool OnSlope()
@@ -150,8 +147,6 @@ public class PlayerTP : Entity
         {
             if (_slopeHit.normal != Vector3.up)
                 return true;
-            else
-                return false;
         }
         return false;
     }
