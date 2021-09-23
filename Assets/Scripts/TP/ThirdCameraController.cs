@@ -8,16 +8,13 @@ public class ThirdCameraController : MonoBehaviour
     public Transform lookAt;
     public Transform camTransform;
     public LayerMask mask;
-    public float smooth;
 
-    public float minDist;
-    public float maxDist;
+    private float _minDist;
+    private float _maxDist;
 
     private float _distance = 5f;
     private float _currentX;
     private float _currentY;
-    private float _senX = 4f;
-    private float _senY = 1f;
 
     private void Start()
     {
@@ -42,9 +39,9 @@ public class ThirdCameraController : MonoBehaviour
 
         RaycastHit hit;
         Vector3 localPosCam = Vector3.zero;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, maxDist, mask))
+        if (Physics.Raycast(transform.position, transform.forward, out hit, _maxDist, mask))
         {
-            float distHit = Mathf.Clamp(hit.distance, minDist, maxDist);
+            float distHit = Mathf.Clamp(hit.distance, _minDist, _maxDist);
             localPosCam = Vector3.forward * distHit;
         }
 

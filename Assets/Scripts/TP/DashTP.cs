@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class DashTP : MonoBehaviour
 {
-    [SerializeField] private float _multiplyVelocity;
-    [SerializeField] private float _dashDuration;
-    [SerializeField] private float _dashCD;
+    [SerializeField] [Range(2, 5)] private float _multiplyVelocity;
+    [SerializeField] [Range(0.1f, 1)] private float _dashDuration;
+    private float _dashCD;
 
     private PlayerTP _player;
 

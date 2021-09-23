@@ -19,7 +19,6 @@ public class PlayerTP : Entity
     [Header("Drag")]
     private float _groundDrag = 6;
     private float _airDrag = 1;
-    
 
     private float _horizontalMovement;
     private float _verticalMovement;

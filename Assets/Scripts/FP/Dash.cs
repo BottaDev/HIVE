@@ -4,38 +4,33 @@ using UnityEngine;
 
 public class Dash : MonoBehaviour
 {
-    [SerializeField] private float _dashForce;
-    [SerializeField] private float _dashDuration;
-    [SerializeField] private float _dashDC;
-
-    private Rigidbody _rb;
+    [SerializeField] [Range(2, 5)] private float _multiplyVelocity;
+    [SerializeField] [Range(0.1f, 1)] private float _dashDuration;
+    private float _dashCD;
 
     private Player _player;
 
     private void Awake()
     {
-        _rb = GetComponent<Rigidbody>();
         _player = GetComponent<Player>();
     }
 
     private void Update()
     {
-        _dashDC -= Time.deltaTime;
+        _dashCD -= Time.deltaTime;
 
-        if (Input.GetKeyDown(KeyCode.LeftShift) && _dashDC <= 0)
-            ApplyDash();
-    }
-
-    private void ApplyDash()
-    {
-        _dashDC = 1.5f;
-        _rb.AddForce(_player.moveDirection * _dashForce, ForceMode.VelocityChange);
-        StartCoroutine(WaitSeconds());
-        _rb.velocity = Vector3.zero;
+        if (Input.GetKeyDown(KeyCode.LeftShift) && _dashCD <= 0)
+            StartCoroutine(WaitSeconds());
     }
     
     private IEnumerator WaitSeconds()
     {
+        _player.baseSpeed *= _multiplyVelocity;
+
+        _dashCD = 1.5f;
+
         yield return new WaitForSeconds(_dashDuration);
+        
+        _player.baseSpeed /= _multiplyVelocity;
     }
 }

@@ -5,16 +5,11 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    [SerializeField] private float sensX = 100;
-    [SerializeField] private float sensY = 100;
-
-    [SerializeField ]private Transform cam;
-    [SerializeField ]private Transform orientation;
+    [SerializeField] private Transform _cam;
+    [SerializeField] private Transform _player;
 
     private float _mouseX;
     private float _mouseY;
-
-    private float _multiplier = 0.01f;
 
     private float _xRotation;
     private float _yRotation;
@@ -30,12 +25,12 @@ public class CameraController : MonoBehaviour
         _mouseX = Input.GetAxisRaw("Mouse X");
         _mouseY = Input.GetAxisRaw("Mouse Y");
         
-        _yRotation += _mouseX * sensX * _multiplier;
-        _xRotation -= _mouseY * sensY * _multiplier;
+        _yRotation += _mouseX;
+        _xRotation -= _mouseY;
         
         _xRotation = Mathf.Clamp(_xRotation, -90, 90);
 
-        cam.transform.rotation = Quaternion.Euler(_xRotation,_yRotation,0);
-        orientation.transform.rotation = Quaternion.Euler(0,_yRotation,0);
+        _cam.transform.rotation = Quaternion.Euler(_xRotation,_yRotation,0);
+        _player.transform.rotation = Quaternion.Euler(0,_yRotation,0);
     }
 }
