@@ -22,7 +22,7 @@ public class Player : Entity
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundMask;
     private bool _isGrounded;
-    private float _groundDistance = 0.4f;
+    private float _groundDistance = 0.1f;
 
     public Vector3 moveDirection;
     private Vector3 _slopeMoveDirection;
