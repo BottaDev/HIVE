@@ -1,28 +1,20 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq.Expressions;
 using UnityEngine;
 
 public class Player : Entity
 {
-    [SerializeField] private Transform orientation;
-    
     [Header("Movement")]
-    public float movementMultiplier = 10;
-    [SerializeField] private float airMultiplier = 0.4f;
+    [SerializeField] [Range(0.1f,1)] private float airMultiplier = 0.4f;
     
     [Header("Jumping")] 
-    public float jumpForce = 15;
+    [Range(1,40)]public float jumpForce;
     
     [Header("Keybinds")] 
     [SerializeField] private KeyCode jumpKey = KeyCode.Space;
     
     [Header("Drag")]
-    private float _groundDrag = 6;
-    private float _airDrag = 1;
+    [Range(1,10)] private float _groundDrag = 6;
+    [Range(0.1f, 2)] private float _airDrag = 1;
     
-
     private float _horizontalMovement;
     private float _verticalMovement;
 
@@ -30,7 +22,7 @@ public class Player : Entity
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundMask;
     private bool _isGrounded;
-    private float _groundDistance = 0.4f;
+    private float _groundDistance = 0.1f;
 
     public Vector3 moveDirection;
     private Vector3 _slopeMoveDirection;
@@ -62,7 +54,7 @@ public class Player : Entity
         _rb = GetComponent<Rigidbody>();
         _rb.freezeRotation = true;
 
-        EventManager.Instance.Subscribe("OnPlayerDamaged", OnPlayerDamaged);
+//        EventManager.Instance.Subscribe("OnPlayerDamaged", OnPlayerDamaged);
     }
 
     private void Start()
@@ -113,7 +105,7 @@ public class Player : Entity
         _horizontalMovement = Input.GetAxisRaw("Horizontal");
         _verticalMovement = Input.GetAxisRaw("Vertical");
 
-        moveDirection = orientation.forward * _verticalMovement + orientation.right * _horizontalMovement;
+        moveDirection = transform.forward * _verticalMovement + transform.right * _horizontalMovement;
     }
 
     private void ControlDrag()
@@ -135,12 +127,12 @@ public class Player : Entity
 
     public void MovePlayer()
     {
-        if(_isGrounded && !OnSlope())
-            _rb.AddForce(moveDirection.normalized * (CurrentSpeed * movementMultiplier), ForceMode.Acceleration);
-        else if(_isGrounded && OnSlope())
-            _rb.AddForce(_slopeMoveDirection.normalized * (CurrentSpeed * movementMultiplier), ForceMode.Acceleration);
-        else if(!_isGrounded)
-            _rb.AddForce(moveDirection.normalized * (CurrentSpeed * movementMultiplier * airMultiplier), ForceMode.Acceleration);
+        if (_isGrounded && !OnSlope())
+            _rb.velocity = new Vector3(moveDirection.normalized.x * baseSpeed, _rb.velocity.y, moveDirection.normalized.z * baseSpeed);
+        else if (_isGrounded && OnSlope())
+            _rb.velocity = new Vector3(_slopeMoveDirection.normalized.x * baseSpeed, _rb.velocity.y, moveDirection.normalized.z * baseSpeed);
+        else if (!_isGrounded)
+            _rb.velocity = new Vector3(moveDirection.normalized.x * baseSpeed * airMultiplier, _rb.velocity.y, moveDirection.normalized.z * baseSpeed * airMultiplier);
     }
 
     private bool OnSlope()
@@ -149,8 +141,6 @@ public class Player : Entity
         {
             if (_slopeHit.normal != Vector3.up)
                 return true;
-            else
-                return false;
         }
         return false;
     }
