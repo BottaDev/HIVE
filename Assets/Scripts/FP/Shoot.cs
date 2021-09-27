@@ -18,7 +18,7 @@ public class Shoot : MonoBehaviour
     public ParticleSystem shootEffect;
     public GameObject impactEffect;
 
-    public int _currentAmmo;
+    private int _currentAmmo;
     private float _nextShoot = 0;
     private AmmoBar _ammoBar;
     private bool _reloading;
