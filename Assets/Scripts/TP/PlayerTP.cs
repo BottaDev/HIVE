@@ -53,14 +53,11 @@ public class PlayerTP : Entity
     {
         base.Awake();
 
-        EventManager.Instance.Subscribe("OnPlayerDamaged", OnPlayerDamaged);
+        //EventManager.Instance.Subscribe("OnPlayerDamaged", OnPlayerDamaged);
     }
 
     private void Start()
     {
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-
         _rb = GetComponent<Rigidbody>();
         _rb.freezeRotation = true;
 
