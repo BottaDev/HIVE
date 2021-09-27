@@ -505,6 +505,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player FP
       objectReference: {fileID: 0}
+    - target: {fileID: 7495514637021552518, guid: bb645f9eac99a61438a01277de09aa5e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7495514637021552521, guid: bb645f9eac99a61438a01277de09aa5e, type: 3}
       propertyPath: cam
       value: 
@@ -987,6 +991,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6765549114066924017, guid: 7afd36eda4b97384ebb09a818d1aa5ee, type: 3}
       propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6887365933429153822, guid: 7afd36eda4b97384ebb09a818d1aa5ee, type: 3}
+      propertyPath: m_Convex
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7035913674052483705, guid: 7afd36eda4b97384ebb09a818d1aa5ee, type: 3}
@@ -2314,6 +2322,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Camera Holder
       objectReference: {fileID: 0}
+    - target: {fileID: 5969403962934157394, guid: e1c94cc7fb168564890015f1cbbcc3fc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e1c94cc7fb168564890015f1cbbcc3fc, type: 3}
 --- !u!1 &1563498167
@@ -2977,7 +2989,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3284753385306513309, guid: 6e9addb6c64076342877f54e91e74591, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6e9addb6c64076342877f54e91e74591, type: 3}
@@ -3002,7 +3014,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6745993619036678812, guid: 434d544f41631964cb256d688bc37b9f, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6745993619036678813, guid: 434d544f41631964cb256d688bc37b9f, type: 3}
       propertyPath: m_RootOrder
@@ -3052,5 +3064,9 @@ PrefabInstance:
       propertyPath: cam
       value: 
       objectReference: {fileID: 1170321403}
+    - target: {fileID: 6745993619036678814, guid: 434d544f41631964cb256d688bc37b9f, type: 3}
+      propertyPath: crosshair
+      value: 
+      objectReference: {fileID: 2053484109}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 434d544f41631964cb256d688bc37b9f, type: 3}

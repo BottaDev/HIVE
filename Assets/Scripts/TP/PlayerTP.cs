@@ -53,7 +53,7 @@ public class PlayerTP : Entity
     {
         base.Awake();
 
-        EventManager.Instance.Subscribe("OnPlayerDamaged", OnPlayerDamaged);
+        //EventManager.Instance.Subscribe("OnPlayerDamaged", OnPlayerDamaged);
     }
 
     private void Start()
