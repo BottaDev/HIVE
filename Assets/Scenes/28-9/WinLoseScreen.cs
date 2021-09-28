@@ -5,8 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class WinLoseScreen : MonoBehaviour
 {
-    public string scene_1;
-
     private void Awake()
     {
         Cursor.lockState = CursorLockMode.None;
