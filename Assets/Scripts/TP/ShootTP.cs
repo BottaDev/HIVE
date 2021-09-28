@@ -6,34 +6,32 @@ public class ShootTP : MonoBehaviour
 {
     [Header("Gun")]
     public float damage = 1;
-    public float range = 100;
     public float fireRate = 15;
     public float gunCd = 1f;
-    [Header("Ammunition")] 
+    private float _nextShoot;
+    private bool _reloading;
+    
+    [Header("Ammunition")]
     public int maxAmmo = 100;
     public int reloadAmmount = 1;
-    [Header("Objects")]
-    public Camera cam;
-    public PlayerTP playerTP;
-
-    private float _nextShoot = 0;
-
-    public ParticleSystem shootEffect;
-    public GameObject impactEffect;
-
-    public GameObject bullet;
-    public Transform firePoint;
-    public Transform crosshair;
-    public LayerMask mask;
-    Vector3 mouseWorldPosition;
-    
     private int _currentAmmo;
+    
+    [Header("Objects")]
+    public LayerMask mask;
+    public GameObject impactEffect;
+    public GameObject bullet;
+    
+    private Transform _firePoint;
+    private Vector3 _mouseWorldPosition;
+    
+    private Camera _cam;
     private AmmoBar _ammoBar;
-    private bool _reloading;
 
     private void Start()
     {
         _ammoBar = FindObjectOfType<AmmoBar>();
+        _firePoint = GameObject.Find("FirePoint").GetComponent<Transform>();
+        _cam = Camera.main;
         
         _ammoBar.SetMaxAmmo(maxAmmo, _currentAmmo);
     }
@@ -46,14 +44,14 @@ public class ShootTP : MonoBehaviour
             return;
         }
         
-        mouseWorldPosition = Vector3.zero;
+        _mouseWorldPosition = Vector3.zero;
         Vector2 screenCenterPoint = new Vector2(Screen.width / 2, Screen.height / 2);
-        Ray ray = cam.ScreenPointToRay(screenCenterPoint);
+        Ray ray = _cam.ScreenPointToRay(screenCenterPoint);
         Transform hitTransform = null;
 
         if(Physics.Raycast(ray, out RaycastHit raycastHit, 999f, mask))
         {
-            mouseWorldPosition = raycastHit.point;
+            _mouseWorldPosition = raycastHit.point;
             hitTransform = raycastHit.transform;
         }
 
@@ -64,7 +62,6 @@ public class ShootTP : MonoBehaviour
             _nextShoot = Time.time + 1 / fireRate;
             ShootGO();   
         }
-        
         else if (!Input.GetButton("Fire1"))
         {
             if (_reloading)
@@ -97,7 +94,7 @@ public class ShootTP : MonoBehaviour
     
     private void Shoot()
     {
-        Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        Ray ray = _cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit))
         {
@@ -112,8 +109,8 @@ public class ShootTP : MonoBehaviour
 
     private void ShootGO()
     {
-        Vector3 aimDir = (mouseWorldPosition - firePoint.position).normalized;        
-        Instantiate(bullet, firePoint.position, Quaternion.LookRotation(aimDir, Vector3.up));
+        Vector3 aimDir = (_mouseWorldPosition - _firePoint.position).normalized;        
+        Instantiate(bullet, _firePoint.position, Quaternion.LookRotation(aimDir, Vector3.up));
         
         _currentAmmo--;
     }

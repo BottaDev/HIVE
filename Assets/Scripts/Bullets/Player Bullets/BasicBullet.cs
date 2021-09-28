@@ -30,8 +30,6 @@ public class BasicBullet : MonoBehaviour
             GameObject p = Instantiate(impactParticles, transform.position, Quaternion.identity);
             p.transform.eulerAngles = transform.eulerAngles * -1;
 
-            print("h");
-
             Destroy(gameObject);
         }
 
