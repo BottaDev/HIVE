@@ -40,7 +40,7 @@ public class PlayerTP : Entity
     {
         base.Awake();
 
-        //EventManager.Instance.Subscribe("OnPlayerDamaged", OnPlayerDamaged);
+        EventManager.Instance.Subscribe("OnPlayerDamaged", OnPlayerDamaged);
     }
 
     private void Start()
@@ -133,6 +133,9 @@ public class PlayerTP : Entity
         EventManager.Instance.Trigger("OnLifeUpdated", CurrentHealth);
 
         if (CurrentHealth <= 0)
+        {
+            EventManager.Instance.Trigger("OnPlayerDead");
             gameObject.SetActive(false);
+        }
     }
 }

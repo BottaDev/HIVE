@@ -5,31 +5,25 @@ using UnityEngine.SceneManagement;
 
 public class WinLoseManager : MonoBehaviour
 {
-    public string winScreen;
-    public string loseScreen;
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == 8)
         {
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.Confined;
-            SceneManager.LoadScene(winScreen);
+            SceneManager.LoadScene(1);
         }
     }
 
     private void OnEnable()
     {
-        EventManager.Instance.Subscribe("OnLifeUpdated", Lose);
+        EventManager.Instance.Subscribe("OnPlayerDead", OnPlayerDead);
     }
 
-    void Lose(params object[] parameters)
+    void OnPlayerDead(params object[] parameters)
     {
-        if ((float) parameters[0] <= 0)
-        {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.Confined;
-            SceneManager.LoadScene(loseScreen);
-        }
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
+        SceneManager.LoadScene(2);
     }
 }
