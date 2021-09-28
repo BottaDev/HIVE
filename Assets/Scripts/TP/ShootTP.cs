@@ -14,6 +14,7 @@ public class ShootTP : MonoBehaviour
     [Header("Ammunition")]
     public int maxAmmo = 100;
     public int reloadAmmount = 1;
+    public int ammoCost = 1;
     private int _currentAmmo;
     
     [Header("Objects")]
@@ -112,6 +113,6 @@ public class ShootTP : MonoBehaviour
         Vector3 aimDir = (_mouseWorldPosition - _firePoint.position).normalized;        
         Instantiate(bullet, _firePoint.position, Quaternion.LookRotation(aimDir, Vector3.up));
         
-        _currentAmmo--;
+        _currentAmmo -= ammoCost;
     }
 }

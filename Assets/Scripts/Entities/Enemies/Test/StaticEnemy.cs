@@ -15,7 +15,7 @@ public class StaticEnemy : Entity
     public GameObject bullet;
     
     private float _currentAttackRate;           
-    private Player _player;
+    private PlayerTP _player;
     private bool _playerDetected;
 
     private Color _defaultColor;
@@ -32,7 +32,7 @@ public class StaticEnemy : Entity
 
     private void Start()
     {
-        _player = FindObjectOfType<Player>();
+        _player = FindObjectOfType<PlayerTP>();
     }
 
     private void Update()

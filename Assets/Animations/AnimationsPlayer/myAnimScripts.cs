@@ -15,7 +15,7 @@ public class myAnimScripts : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKey(KeyCode.A))
+        if(Input.GetKey(KeyCode.Space))
         {
             anim.SetBool("isJumping",true);
             Debug.Log("pasa a jump");
@@ -26,7 +26,7 @@ public class myAnimScripts : MonoBehaviour
         }
 
 
-        if(Input.GetKeyDown(KeyCode.D))
+        if(Input.GetKeyDown(KeyCode.LeftShift))
         {
             anim.SetBool("isDashing", true);
             Debug.Log("pasa a dash");
@@ -38,7 +38,7 @@ public class myAnimScripts : MonoBehaviour
 
 
 
-        if(Input.GetKey(KeyCode.Space))
+        if(Input.GetKey(KeyCode.Mouse0))
         {
             anim.SetBool("isShooting", true);
             Debug.Log("deberia disparar");
@@ -48,7 +48,7 @@ public class myAnimScripts : MonoBehaviour
             anim.SetBool("isShooting", false);
         }
 
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.W))
         {
             anim.SetBool("isRunning", true);
         }
