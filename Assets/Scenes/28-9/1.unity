@@ -528,6 +528,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6745993619036678814, guid: 434d544f41631964cb256d688bc37b9f, type: 3}
+      propertyPath: gunCd
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6745993619036678814, guid: 434d544f41631964cb256d688bc37b9f, type: 3}
+      propertyPath: maxAmmo
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6745993619036678814, guid: 434d544f41631964cb256d688bc37b9f, type: 3}
+      propertyPath: ammoCost
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6745993619036678814, guid: 434d544f41631964cb256d688bc37b9f, type: 3}
+      propertyPath: fireRate
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 434d544f41631964cb256d688bc37b9f, type: 3}
 --- !u!1 &165814591
@@ -1073,7 +1089,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6714424096258085921, guid: f1f6f47dcc00a414f8bdff68b17c66f4, type: 3}
       propertyPath: spaceMod
-      value: 62
+      value: 65
       objectReference: {fileID: 0}
     - target: {fileID: 6714424096258085921, guid: f1f6f47dcc00a414f8bdff68b17c66f4, type: 3}
       propertyPath: LRoomDB.Array.size
@@ -2473,42 +2489,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1778341378}
   m_CullTransparentMesh: 1
---- !u!1 &1781547510 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5863683027749408018, guid: 434d544f41631964cb256d688bc37b9f, type: 3}
-  m_PrefabInstance: {fileID: 162564584}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &1781547512
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1781547510}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 8aaf92e11cd14a141bfa9f8273b5c985, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &1781547513
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1781547510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6acec8984caa5345b91856142e2b6f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1821374867
 GameObject:
   m_ObjectHideFlags: 0
