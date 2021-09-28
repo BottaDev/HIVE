@@ -17,10 +17,12 @@ public class BasicBullet : MonoBehaviour
     {
         if (other.gameObject.layer == 7)
         {
-            Entity enemy = other.gameObject.GetComponentInParent<Entity>();
+            AI enemy = other.gameObject.GetComponentInParent<AI>();
             print(enemy);
             enemy.TakeDamage(damage);
 
+            print(enemy);
+            
             GameObject p = Instantiate(impactParticles, transform.position, Quaternion.identity);
             p.transform.eulerAngles = transform.eulerAngles * -1;
 

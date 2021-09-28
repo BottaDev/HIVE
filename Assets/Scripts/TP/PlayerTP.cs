@@ -133,6 +133,6 @@ public class PlayerTP : Entity
         EventManager.Instance.Trigger("OnLifeUpdated", CurrentHealth);
 
         if (CurrentHealth <= 0)
-            this.gameObject.SetActive(false);
+            gameObject.SetActive(false);
     }
 }

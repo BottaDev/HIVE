@@ -217,12 +217,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 10
   baseSpeed: 5
+  damage: 1
   moveSpeed: 18
   airMultiplier: 0.4
   jumpForce: 30
   groundMask:
     serializedVersion: 2
-    m_Bits: 320
+    m_Bits: 64
 --- !u!114 &6745993619036678815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -250,11 +251,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1
-  fireRate: 15
+  fireRate: 4
   gunCd: 1
   maxAmmo: 100
   reloadAmmount: 1
-  ammoCost: 1
+  ammoCost: 25
   mask:
     serializedVersion: 2
     m_Bits: 192
