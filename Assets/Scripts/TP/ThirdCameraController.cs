@@ -2,24 +2,26 @@
 
 public class ThirdCameraController : MonoBehaviour
 {
-    private const float _minY = -70f;
-    private const float _maxY = 70;
-    
-    public Transform lookAt;
-    public Transform camTransform;
     public LayerMask mask;
 
-    private float _minDist;
-    private float _maxDist;
-
     private float _distance = 5f;
+    
+    [Header("Clamp")]   
+    private const float _minY = -70f;
+    private const float _maxY = 70;
     private float _currentX;
     private float _currentY;
+    
+    private Transform _lookAt;
+    private Transform _camTransform;
 
     private void Start()
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+
+        _lookAt = GameObject.Find("CameraFocus").GetComponent<Transform>();
+        _camTransform = GameObject.Find("Main Camera").GetComponent<Transform>();
     }
 
     private void Update()
@@ -34,17 +36,17 @@ public class ThirdCameraController : MonoBehaviour
     {
         Vector3 dir = new Vector3(0, 0, -_distance);
         Quaternion rotation = Quaternion.Euler(_currentY, _currentX, 0);
-        transform.position = lookAt.position + rotation * dir;
-        transform.LookAt(lookAt.position);
+        transform.position = _lookAt.position + rotation * dir;
+        transform.LookAt(_lookAt.position);
 
         RaycastHit hit;
         Vector3 localPosCam = Vector3.zero;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, _maxDist, mask))
+        if (Physics.Linecast(_lookAt.position, transform.position, out hit, mask))
         {
-            float distHit = Mathf.Clamp(hit.distance, _minDist, _maxDist);
+            float distHit = Vector3.Distance(hit.point, transform.position);
             localPosCam = Vector3.forward * distHit;
         }
 
-        camTransform.localPosition = localPosCam;
+        _camTransform.localPosition = localPosCam;
     }
 }

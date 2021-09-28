@@ -7,39 +7,37 @@ using UnityEngine.UI;
 
 public class AmmoBar : MonoBehaviour
 {
-    public Image leftBar;
-    public Image rightBar;
-
-    private float _cooldownRate;
-    private bool _inCooldown;
+    public int minimum = 0;
+    public int maximum;
+    public int current;
     
+    public List<Image> ammoBars;
+
     private void Update()
     {
-        if (!_inCooldown)
+        UpdateFillAmount();
+    }
+
+    private void UpdateFillAmount()
+    {
+        float currentOffSet = current - minimum;
+        float maximumOffset = maximum - minimum;
+        float fillAmount = currentOffSet / maximumOffset;
+        
+        foreach (Image bar in ammoBars)
         {
-            leftBar.fillAmount += 1 / _cooldownRate * Time.deltaTime;
-            rightBar.fillAmount += 1 / _cooldownRate * Time.deltaTime;
-            
-            if (leftBar.fillAmount >= 1)
-                leftBar.fillAmount = 1;
-            
-            if (rightBar.fillAmount >= 1)
-                rightBar.fillAmount = 1;
+            bar.fillAmount = fillAmount;    
         }
     }
-    
-    public IEnumerator StartCoolDown(float waitTime, float cooldownRate)
-    {
-        leftBar.fillAmount = 0f;
-        rightBar.fillAmount = 0f;
 
-        _cooldownRate = cooldownRate;
-        
-        _inCooldown = true;
-        
-        yield return new WaitForSeconds(waitTime);
-        
-        _inCooldown = false;
+    public void SetAmmo(int ammount)
+    {
+        current = ammount;
     }
     
+    public void SetMaxAmmo(int maxAmmount, int currentAmmo)
+    {
+        maximum = maxAmmount;
+        current = currentAmmo;
+    }
 }

@@ -60,7 +60,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 2f32a46ac5c0c4c42b87f8231eca11c4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -201,7 +201,7 @@ MonoBehaviour:
   groundCheck: {fileID: 7495514636334385856}
   groundMask:
     serializedVersion: 2
-    m_Bits: 320
+    m_Bits: 64
   moveDirection: {x: 0, y: 0, z: 0}
   crosshair: {fileID: 0}
   cam: {fileID: 0}
@@ -234,7 +234,7 @@ MonoBehaviour:
   damage: 1
   range: 100
   fireRate: 15
-  cooldownRate: 0.5
+  maxAmmo: 100
   cam: {fileID: 0}
   shootEffect: {fileID: 3328262488719447238}
   impactEffect: {fileID: 8479355793438946228, guid: e5cba12285aafe24d811ab96b21f30ab, type: 3}
