@@ -16,7 +16,7 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
-        //_levelGen.StartGeneration();
+        _levelGen.StartGeneration();
         
         // Bake map navmesh
         FindObjectOfType<NavMeshSurface>().BuildNavMesh();
