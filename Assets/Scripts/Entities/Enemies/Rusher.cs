@@ -12,6 +12,7 @@ public class Rusher : AI
     [Tooltip("The Rusher collider")] public Collider collider;
     
     public Animator _animator;
+    private bool _isJumpping;
     private static readonly int IsAttacking = Animator.StringToHash("isAttacking");
 
     protected override void Awake()
@@ -36,7 +37,10 @@ public class Rusher : AI
             if (ApplyFOV(_player.transform.position))   // Player is in range, and is being seen
             {
                 if (_currentAttackRate <= 0)
+                {
+                    _isJumpping = false;
                     Attack();
+                }
             }
             else
             {
@@ -59,6 +63,7 @@ public class Rusher : AI
         _animator.SetBool(IsAttacking, true);
         collider.enabled = false;
         _agent.isStopped = true;
+        _isJumpping = true;
 
         StartCoroutine(LerpPosition(GetEndPosition(), attackTime));
         StartCoroutine(WaitTime(animDuration));
@@ -113,5 +118,22 @@ public class Rusher : AI
         
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackDistance);
+    }
+
+    public override void TakeDamage(float damage)
+    {
+        if(CurrentHealth <= 0)
+            Destroy(gameObject);
+
+        CurrentHealth -= damage;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == 8 && _isJumpping)
+        {
+            EventManager.Instance.Trigger("OnPlayerDamaged", damage);
+            _isJumpping = false;
+        }
     }
 }

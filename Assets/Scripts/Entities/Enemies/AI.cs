@@ -18,7 +18,7 @@ public abstract class AI : Entity
     public LayerMask obstacleMask;
 
     protected float _currentAttackRate;           
-    protected Player _player;
+    protected PlayerTP _player;
     protected NavMeshAgent _agent;
     protected bool _playerDetected;
 
@@ -27,7 +27,7 @@ public abstract class AI : Entity
         base.Awake();
 
         _agent = GetComponent<NavMeshAgent>();
-        _player = FindObjectOfType<Player>();
+        _player = FindObjectOfType<PlayerTP>();
 
         _currentAttackRate = 0;
     }
