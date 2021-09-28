@@ -5,10 +5,7 @@ using UnityEngine;
 public class myAnimScripts : MonoBehaviour
 {
     Animator anim;
-    bool isShooting;
-    bool isRunning;
-    bool isJumping;
-    bool IsDashing;
+   
 
     void Start()
     {
@@ -50,5 +47,12 @@ public class myAnimScripts : MonoBehaviour
         {
             anim.SetBool("isShooting", false);
         }
+
+        if (Input.GetKey(KeyCode.W))
+        {
+            anim.SetBool("isRunning", true);
+        }
+        else
+            anim.SetBool("isRunning", false);
     }
 }
