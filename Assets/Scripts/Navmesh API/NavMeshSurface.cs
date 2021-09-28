@@ -179,6 +179,8 @@ namespace UnityEngine.AI
                 if (isActiveAndEnabled)
                     AddData();
             }
+
+            EventManager.Instance.Trigger("OnNavMeshBake");
         }
 
         public AsyncOperation UpdateNavMesh(NavMeshData data)

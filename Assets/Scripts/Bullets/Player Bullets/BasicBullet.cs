@@ -17,7 +17,8 @@ public class BasicBullet : MonoBehaviour
     {
         if (other.gameObject.layer == 7)
         {
-            Entity enemy = other.gameObject.GetComponent<Entity>();
+            Entity enemy = other.gameObject.GetComponentInParent<Entity>();
+            print(enemy);
             enemy.TakeDamage(damage);
 
             GameObject p = Instantiate(impactParticles, transform.position, Quaternion.identity);
