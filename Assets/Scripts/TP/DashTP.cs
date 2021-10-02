@@ -5,6 +5,7 @@ using UnityEngine;
 public class DashTP : MonoBehaviour
 {
     [SerializeField] [Range(2, 5)] private float _multiplyVelocity;
+    [SerializeField] private float _airMultiplyVelocity;
     [SerializeField] [Range(0.1f, 1)] private float _dashDuration;
     [SerializeField] private TrailRenderer[] trails;
     private float _dashCD;
@@ -20,8 +21,6 @@ public class DashTP : MonoBehaviour
 
     private void Update()
     {
-
-
         if (Input.GetKeyDown(KeyCode.LeftShift) && _dashCD <= 0)
         {
             StartCoroutine(Cast());
@@ -29,17 +28,17 @@ public class DashTP : MonoBehaviour
         }
 
         _dashCD -= Time.deltaTime;
-
-
     }
 
     IEnumerator Cast()
     {
         foreach (TrailRenderer item in trails)
             item.emitting = true;
-        
 
-        _player.moveSpeed *= _multiplyVelocity;
+        if (_player.isGrounded)
+            _player.moveSpeed *= _multiplyVelocity;
+        else
+            _player.moveSpeed *= _airMultiplyVelocity;
 
         _dashCD = 1.5f;
 
@@ -48,7 +47,10 @@ public class DashTP : MonoBehaviour
         foreach (TrailRenderer item in trails)
             item.emitting = false;
 
-        _player.moveSpeed /= _multiplyVelocity;
+        if (_player.isGrounded)
+            _player.moveSpeed /= _multiplyVelocity;
+        else
+            _player.moveSpeed /= _airMultiplyVelocity;
     }
 
     IEnumerator CameraEffect()

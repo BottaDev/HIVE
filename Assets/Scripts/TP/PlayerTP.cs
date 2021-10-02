@@ -16,7 +16,7 @@ public class PlayerTP : Entity
     
     [Header("Ground Detection")]
     public LayerMask groundMask;
-    private bool _isGrounded;
+    public bool isGrounded;
     private float _groundDistance = 0.1f;
     private Transform _groundCheck;
 
@@ -60,12 +60,12 @@ public class PlayerTP : Entity
 
     private void Update()
     {
-        _isGrounded = Physics.CheckSphere(_groundCheck.position, _groundDistance, groundMask);
+        isGrounded = Physics.CheckSphere(_groundCheck.position, _groundDistance, groundMask);
         
         MyInput();
         ControlDrag();
 
-        if (Input.GetKeyDown(jumpKey) && _isGrounded)
+        if (Input.GetKeyDown(jumpKey) && isGrounded)
             Jump();
 
         _slopeMoveDirection = Vector3.ProjectOnPlane(_moveDirection, _slopeHit.normal);
@@ -87,7 +87,7 @@ public class PlayerTP : Entity
 
     private void ControlDrag()
     {
-        if (_isGrounded)
+        if (isGrounded)
             _rb.drag = _groundDrag;
         else
             _rb.drag = _airDrag;
@@ -95,7 +95,7 @@ public class PlayerTP : Entity
 
     private void Jump()
     {
-        if (_isGrounded)
+        if (isGrounded)
         {
             _rb.velocity = new Vector3(_rb.velocity.x, 0, _rb.velocity.z);
             _rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
@@ -104,11 +104,11 @@ public class PlayerTP : Entity
 
     public void MovePlayer()
     {
-        if (_isGrounded && !OnSlope())
+        if (isGrounded && !OnSlope())
             _rb.velocity = new Vector3(_moveDirection.normalized.x * moveSpeed, _rb.velocity.y, _moveDirection.normalized.z * moveSpeed);
-        else if (_isGrounded && OnSlope())
+        else if (isGrounded && OnSlope())
             _rb.velocity = new Vector3(_slopeMoveDirection.normalized.x * moveSpeed, _rb.velocity.y, _moveDirection.normalized.z * moveSpeed);
-        else if (!_isGrounded)
+        else if (!isGrounded)
             _rb.velocity = new Vector3(_moveDirection.normalized.x * moveSpeed * airMultiplier, _rb.velocity.y, _moveDirection.normalized.z * moveSpeed * airMultiplier);
     }
 
