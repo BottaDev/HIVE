@@ -18,11 +18,6 @@ public abstract class Entity : MonoBehaviour, IDamagable
         CurrentHealth = maxHealth;
         CurrentSpeed = baseSpeed;
     }
-
-    protected IEnumerator WaitTime(float time)
-    {
-        yield return new WaitForSeconds(time);
-    }
     
     public virtual void TakeDamage(float damage) { }
 }

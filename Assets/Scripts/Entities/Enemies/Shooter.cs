@@ -42,7 +42,7 @@ public class Shooter : AI
             if (distance <= evadeDistance)
             {
                 _currentEvadeTime -= Time.deltaTime;
-                if (CheckMiddleObstacle(_player.transform.position))
+                if (_fov.CheckMiddleObstacle(_player.transform.position))
                 {
                     if ( _currentEvadeTime > 0)
                         EvadePlayer();
@@ -58,7 +58,7 @@ public class Shooter : AI
             {
                 _currentEvadeTime = evadeTime;
                 // In Attack distance...
-                if (ApplyFOV(_player.transform.position))
+                if (_fov.ApplyFOV(_player.transform.position))
                     Attack();
                 else
                     ChasePlayer();

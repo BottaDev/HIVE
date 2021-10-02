@@ -26,6 +26,7 @@ GameObject:
   - component: {fileID: 441090482870392484}
   - component: {fileID: 5880965783394602147}
   - component: {fileID: 4412390479073506050}
+  - component: {fileID: 3265247517186823848}
   m_Layer: 7
   m_Name: Rusher
   m_TagString: Untagged
@@ -106,14 +107,11 @@ MonoBehaviour:
   damage: 1
   attackRate: 2
   detectionRange: 25
-  rotationSpeed: 120
-  angleRadius: 100
-  obstacleMask:
-    serializedVersion: 2
-    m_Bits: 64
+  rotationSpeed: 20
   attackJumpLength: 10
-  attackTime: 0.3
+  attackDuration: 0.3
   attackDistance: 7
+  waitTime: 0.3
   collider: {fileID: 6813062088043000083}
   _animator: {fileID: 8155750409749195726}
 --- !u!65 &4412390479073506050
@@ -129,6 +127,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 0.99936414, z: 0.49773824}
   m_Center: {x: 0, y: 0.5482383, z: 0.7507189}
+--- !u!114 &3265247517186823848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6576070079687112172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96088dddfb78fda438e3156e7b2d50e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  angleRadius: 100
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1001 &5757964889338581997
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(NavMeshAgent))]
+[RequireComponent(typeof(NavMeshAgent), typeof(FOV))]
 public abstract class AI : Entity
 {
     [Header("AI Parameters")]
@@ -13,19 +13,17 @@ public abstract class AI : Entity
     public float detectionRange = 25f;
     public float rotationSpeed = 5f;
 
-    [Header("FOV")]
-    public float angleRadius = 100f;
-    public LayerMask obstacleMask;
-
     protected float _currentAttackRate;           
     protected PlayerTP _player;
     protected NavMeshAgent _agent;
+    protected FOV _fov;
     protected bool _playerDetected;
 
     protected override void Awake()
     {
         base.Awake();
 
+        _fov = GetComponent<FOV>();
         _agent = GetComponent<NavMeshAgent>();
         _player = FindObjectOfType<PlayerTP>();
 
@@ -60,47 +58,6 @@ public abstract class AI : Entity
         Vector3 direction = (target - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
-    }
-    
-    /// <summary>
-    /// Checks if the entity is seeing the target
-    /// </summary>
-    /// <param name="targetPos"></param>
-    /// <returns></returns>
-    protected bool ApplyFOV(Vector3 targetPos)
-    {
-        Vector3 dirToTarget = targetPos - transform.position;
-        
-        if (dirToTarget.magnitude <= detectionRange)
-        {
-            if (Vector3.Angle(transform.forward, dirToTarget) < angleRadius / 2)
-            {
-                if (!Physics.Raycast(transform.position, dirToTarget, dirToTarget.magnitude,
-                    obstacleMask))
-                    return true;
-            }
-        }
-
-        return false;
-    }
-
-    /// <summary>
-    /// Checks if there is an obstacle between the enemy and the target
-    /// </summary>
-    /// <param name="targetPos"></param>
-    /// <returns></returns>
-    protected bool CheckMiddleObstacle(Vector3 targetPos)
-    {
-        Vector3 dirToTarget = targetPos - transform.position;
-        
-        if (dirToTarget.magnitude <= detectionRange)
-        {
-            if (!Physics.Raycast(transform.position, dirToTarget, dirToTarget.magnitude,
-                obstacleMask))
-                return true;
-        }
-
-        return false;
     }
 
     protected virtual void Attack() { }
