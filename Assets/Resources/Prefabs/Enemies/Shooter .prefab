@@ -126,6 +126,7 @@ GameObject:
   - component: {fileID: 6576070079687112171}
   - component: {fileID: 441090482870392484}
   - component: {fileID: 3099701264801050416}
+  - component: {fileID: 6988060714340996797}
   m_Layer: 0
   m_Name: 'Shooter '
   m_TagString: Untagged
@@ -247,13 +248,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 10
   baseSpeed: 5
+  damage: 1
   attackRate: 2.5
   detectionRange: 25
   rotationSpeed: 120
+  attackDistance: 20
+  evadeDistance: 8
+  evadeTime: 3
+--- !u!114 &6988060714340996797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6576070079687112172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96088dddfb78fda438e3156e7b2d50e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   angleRadius: 100
   obstacleMask:
     serializedVersion: 2
     m_Bits: 64
-  attackDistance: 20
-  evadeDistance: 8
-  evadeTime: 3

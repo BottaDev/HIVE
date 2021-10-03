@@ -11,17 +11,12 @@ public abstract class Entity : MonoBehaviour, IDamagable
     public float damage = 1f;
     
     public float CurrentHealth { get; protected set; }
-    public float CurrentSpeed { get ; private set; }
+    public float CurrentSpeed { get ; protected set; }
 
     protected virtual void Awake()
     {
         CurrentHealth = maxHealth;
         CurrentSpeed = baseSpeed;
-    }
-
-    protected IEnumerator WaitTime(float time)
-    {
-        yield return new WaitForSeconds(time);
     }
     
     public virtual void TakeDamage(float damage) { }
