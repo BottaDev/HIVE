@@ -11,7 +11,7 @@ public abstract class Entity : MonoBehaviour, IDamagable
     public float damage = 1f;
     
     public float CurrentHealth { get; protected set; }
-    public float CurrentSpeed { get ; private set; }
+    public float CurrentSpeed { get ; protected set; }
 
     protected virtual void Awake()
     {
