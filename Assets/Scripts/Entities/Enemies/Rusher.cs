@@ -16,6 +16,7 @@ public class Rusher : AI
     private bool _isJumpping;
     private bool _isAttacking;
     private static readonly int IsAttacking = Animator.StringToHash("isAttacking");
+    private float damage = 1;
 
     protected override void Awake()
     {

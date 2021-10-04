@@ -14,7 +14,7 @@ public abstract class AI : Entity
     public float rotationSpeed = 5f;
 
     protected float _currentAttackRate;           
-    protected PlayerTP _player;
+    protected Player _player;
     protected NavMeshAgent _agent;
     protected FOV _fov;
     protected bool _playerDetected;
@@ -25,7 +25,7 @@ public abstract class AI : Entity
 
         _fov = GetComponent<FOV>();
         _agent = GetComponent<NavMeshAgent>();
-        _player = FindObjectOfType<PlayerTP>();
+        _player = FindObjectOfType<Player>();
 
         _currentAttackRate = 0;
     }
