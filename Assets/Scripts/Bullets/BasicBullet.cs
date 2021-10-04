@@ -1,0 +1,38 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class BasicBullet : MonoBehaviour
+{
+    [Header("Properties")]
+    public float speed = 10f;
+    public float damage = 1f;
+    public float timeToDie = 3f;
+    
+    [Header("Effects")]
+    public GameObject impactParticles;
+
+    private void Start()
+    {
+        Destroy(gameObject, timeToDie);
+    }
+
+    protected virtual void Update()
+    {
+        transform.Translate(Vector3.forward * Time.deltaTime * speed);    
+    }
+
+    protected virtual void MakeDamage(Collider other)
+    {
+        GameObject p = Instantiate(impactParticles, transform.position, Quaternion.identity);
+        p.transform.eulerAngles = transform.eulerAngles * -1;
+        
+        Destroy(gameObject);
+    }
+
+    protected virtual void OnTriggerEnter(Collider other)
+    {
+        MakeDamage(other);
+    }
+}

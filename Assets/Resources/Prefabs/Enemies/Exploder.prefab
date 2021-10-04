@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4177326400041159121}
   - component: {fileID: 533495866111587249}
   - component: {fileID: 660157392959879377}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 441090482870392484}
   - component: {fileID: 6097831478673150880}
   - component: {fileID: 226318656586172159}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Exploder
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
@@ -167,16 +167,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 10
   baseSpeed: 10
-  damage: 1
   attackRate: 1
   detectionRange: 25
   rotationSpeed: 5
   explosionDamage: 5
   engageSpeed: 12
   engageDistance: 15
-  waitDuration: 1
-  explodeWarningTime: 0.8
   explodeDistance: 5
+  explodeWarningTime: 0.8
+  waitDuration: 1
   explosion: {fileID: 1303687636790913738, guid: 46203a4db7cd58c4d9a76612cd5c95c1, type: 3}
 --- !u!114 &226318656586172159
 MonoBehaviour:
@@ -205,7 +204,7 @@ GameObject:
   - component: {fileID: 3299146604266939260}
   - component: {fileID: 4840538934134706189}
   - component: {fileID: 4669277557069270997}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}

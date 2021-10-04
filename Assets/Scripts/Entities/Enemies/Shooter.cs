@@ -10,7 +10,11 @@ public class Shooter : AI
     public float attackDistance = 20f;
     public float evadeDistance = 12f;
     public float evadeTime = 1.5f;
-
+    
+    [Header("Objects")]
+    public GameObject bulletPrefab;
+    public Transform spawnPos;
+    
     private float _currentEvadeTime;
 
     protected override void Awake()
@@ -86,7 +90,9 @@ public class Shooter : AI
     {
         if (_currentAttackRate <= 0)
         {
-            Debug.Log("Shooter is attacking...");
+            GameObject bullet = Instantiate(bulletPrefab, spawnPos.position, Quaternion.identity);
+            bullet.transform.LookAt(_player.transform.position);
+            
             _currentAttackRate = attackRate;
         }
         else

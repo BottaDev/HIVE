@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8855666439249537428}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 686470615208857983}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.6}
+  m_LocalPosition: {x: 0, y: 0, z: 1.79}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7722240992021646659}
@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 7722240992021646659}
   - component: {fileID: 1540287678160226160}
   - component: {fileID: 4069704206740516656}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -127,7 +127,7 @@ GameObject:
   - component: {fileID: 441090482870392484}
   - component: {fileID: 3099701264801050416}
   - component: {fileID: 6988060714340996797}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: 'Shooter '
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
@@ -248,13 +248,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 10
   baseSpeed: 5
-  damage: 1
   attackRate: 2.5
   detectionRange: 25
   rotationSpeed: 120
   attackDistance: 20
   evadeDistance: 8
   evadeTime: 3
+  bulletPrefab: {fileID: 8040213256160230170, guid: 577be4e723b980b4abc86d25c5f2ed44, type: 3}
+  spawnPos: {fileID: 8855666439249537428}
 --- !u!114 &6988060714340996797
 MonoBehaviour:
   m_ObjectHideFlags: 0
