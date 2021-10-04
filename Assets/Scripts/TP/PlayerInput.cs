@@ -14,13 +14,13 @@ public class PlayerInput : MonoBehaviour
 
     private void Update()
     {
-        MyInput();
+        ProcessInput();
         
         if (Input.GetKeyDown(_jumpKey) && _player.isGrounded)
             _player.Jump();
     }
 
-    private void MyInput()
+    private void ProcessInput()
     {
         _player.horizontalMovement = Input.GetAxisRaw("Horizontal");
         _player.verticalMovement = Input.GetAxisRaw("Vertical");
