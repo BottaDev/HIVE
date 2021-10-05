@@ -119,11 +119,4 @@ public class Shooter : AI
     {
         TakeDamage((int)parameters[0]);
     }
-    
-    public override void TakeDamage(float damage)
-    {
-        CurrentHealth -= damage;
-        if (CurrentHealth <= 0)
-            Destroy(gameObject);
-    }
 }

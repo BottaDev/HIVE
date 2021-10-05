@@ -62,6 +62,17 @@ public abstract class AI : Entity
 
     protected virtual void Attack() { }
     
+    public override void TakeDamage(float damage)
+    {
+        if (!_playerDetected)
+            _playerDetected = true;
+        
+        CurrentHealth -= damage;
+        
+        if(CurrentHealth <= 0)
+            Destroy(gameObject);
+    }
+    
     protected virtual void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
