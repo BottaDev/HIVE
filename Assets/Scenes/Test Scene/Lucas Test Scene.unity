@@ -398,6 +398,14 @@ PrefabInstance:
       value: 65
       objectReference: {fileID: 0}
     - target: {fileID: 6714424096258085921, guid: f1f6f47dcc00a414f8bdff68b17c66f4, type: 3}
+      propertyPath: finalRoom
+      value: 
+      objectReference: {fileID: 7156286091041311277, guid: 816dbcb097329fb41bbbf3b261941d9b, type: 3}
+    - target: {fileID: 6714424096258085921, guid: f1f6f47dcc00a414f8bdff68b17c66f4, type: 3}
+      propertyPath: startingRoom
+      value: 
+      objectReference: {fileID: 7156286091041311277, guid: 816dbcb097329fb41bbbf3b261941d9b, type: 3}
+    - target: {fileID: 6714424096258085921, guid: f1f6f47dcc00a414f8bdff68b17c66f4, type: 3}
       propertyPath: LRoomDB.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -408,7 +416,7 @@ PrefabInstance:
     - target: {fileID: 6714424096258085921, guid: f1f6f47dcc00a414f8bdff68b17c66f4, type: 3}
       propertyPath: LRoomDB.Array.data[0]
       value: 
-      objectReference: {fileID: 5727749765831970335, guid: 3c10e92586140144fad81a2861335720, type: 3}
+      objectReference: {fileID: 8894151579893505896, guid: 14a896d85ad2e5f43b90026cf377ed60, type: 3}
     - target: {fileID: 6714424096258085921, guid: f1f6f47dcc00a414f8bdff68b17c66f4, type: 3}
       propertyPath: RectRoomDB.Array.size
       value: 1
@@ -416,7 +424,7 @@ PrefabInstance:
     - target: {fileID: 6714424096258085921, guid: f1f6f47dcc00a414f8bdff68b17c66f4, type: 3}
       propertyPath: TRoomDB.Array.data[0]
       value: 
-      objectReference: {fileID: 2697251165757495602, guid: 0dbfbf99bacdd174c99acc36a3e336b4, type: 3}
+      objectReference: {fileID: 4214323088315351171, guid: 94c99717cad893f47a2d1810611761f3, type: 3}
     - target: {fileID: 6714424096258085921, guid: f1f6f47dcc00a414f8bdff68b17c66f4, type: 3}
       propertyPath: ArenaRoomDB.Array.size
       value: 1
@@ -428,11 +436,11 @@ PrefabInstance:
     - target: {fileID: 6714424096258085921, guid: f1f6f47dcc00a414f8bdff68b17c66f4, type: 3}
       propertyPath: RectRoomDB.Array.data[0]
       value: 
-      objectReference: {fileID: 4435103309394180799, guid: 79171d7350b1e1043b71c663ca5a8b29, type: 3}
+      objectReference: {fileID: 5236911463711007893, guid: d6bfb67ef981ee24bb2e3de6f2c599c9, type: 3}
     - target: {fileID: 6714424096258085921, guid: f1f6f47dcc00a414f8bdff68b17c66f4, type: 3}
       propertyPath: ArenaRoomDB.Array.data[0]
       value: 
-      objectReference: {fileID: 7895948497514669248, guid: bdbb823e8b6bd0a49a6115e8a938b4cc, type: 3}
+      objectReference: {fileID: 7156286091041311277, guid: 816dbcb097329fb41bbbf3b261941d9b, type: 3}
     - target: {fileID: 6714424096258085921, guid: f1f6f47dcc00a414f8bdff68b17c66f4, type: 3}
       propertyPath: ArenaRoomDB.Array.data[1]
       value: 
@@ -444,7 +452,7 @@ PrefabInstance:
     - target: {fileID: 6714424096258085921, guid: f1f6f47dcc00a414f8bdff68b17c66f4, type: 3}
       propertyPath: CrossRoomDB.Array.data[0]
       value: 
-      objectReference: {fileID: 3931325542525650443, guid: dab715756cecce3419790ae034eebf06, type: 3}
+      objectReference: {fileID: 8187038912739235921, guid: 0d8a17cd806cbb745bd75738b07334d3, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f1f6f47dcc00a414f8bdff68b17c66f4, type: 3}
 --- !u!1 &430866717
@@ -1674,11 +1682,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1118639879}
   m_CullTransparentMesh: 1
---- !u!20 &1170321403 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 3284753385111480556, guid: 6e9addb6c64076342877f54e91e74591, type: 3}
-  m_PrefabInstance: {fileID: 3284753383991625495}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1223884872
 GameObject:
   m_ObjectHideFlags: 0
@@ -2276,6 +2279,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 572831109989040897, guid: 6e9addb6c64076342877f54e91e74591, type: 3}
+      propertyPath: m_RenderPostProcessing
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3284753385306513307, guid: 6e9addb6c64076342877f54e91e74591, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -2341,21 +2348,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6745993619036678808, guid: 434d544f41631964cb256d688bc37b9f, type: 3}
-      propertyPath: cam
-      value: 
-      objectReference: {fileID: 1170321403}
-    - target: {fileID: 6745993619036678808, guid: 434d544f41631964cb256d688bc37b9f, type: 3}
-      propertyPath: crosshair
-      value: 
-      objectReference: {fileID: 2053484108}
     - target: {fileID: 6745993619036678812, guid: 434d544f41631964cb256d688bc37b9f, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 6745993619036678812, guid: 434d544f41631964cb256d688bc37b9f, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6745993619036678813, guid: 434d544f41631964cb256d688bc37b9f, type: 3}
       propertyPath: m_RootOrder
@@ -2401,17 +2396,5 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6745993619036678814, guid: 434d544f41631964cb256d688bc37b9f, type: 3}
-      propertyPath: cam
-      value: 
-      objectReference: {fileID: 1170321403}
-    - target: {fileID: 6745993619036678814, guid: 434d544f41631964cb256d688bc37b9f, type: 3}
-      propertyPath: fireRate
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6745993619036678814, guid: 434d544f41631964cb256d688bc37b9f, type: 3}
-      propertyPath: crosshair
-      value: 
-      objectReference: {fileID: 2053484109}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 434d544f41631964cb256d688bc37b9f, type: 3}
