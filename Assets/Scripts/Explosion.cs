@@ -11,7 +11,7 @@ public class Explosion : MonoBehaviour
 
     private void Start()
     {
-        Destroy(gameObject, duration);
+        Destroy(GetComponent<Collider>(), duration);
     }
 
     public void SetDamage(float dmg)
