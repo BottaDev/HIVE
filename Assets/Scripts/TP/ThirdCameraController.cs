@@ -43,7 +43,7 @@ public class ThirdCameraController : MonoBehaviour
         Vector3 localPosCam = Vector3.zero;
         if (Physics.Linecast(_lookAt.position, transform.position, out hit, mask))
         {
-            float distHit = Vector3.Distance(hit.point, transform.position);
+            float distHit = Vector3.Distance(hit.point, transform.position)+2;
             localPosCam = Vector3.forward * distHit;
         }
 
