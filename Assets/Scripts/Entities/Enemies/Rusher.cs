@@ -12,8 +12,8 @@ public class Rusher : AI
     [Tooltip("The time it takes to do the attack")] public float waitTime = 0.3f;
     [Tooltip("The Rusher collider")] public Collider collider;
     
-    public Animator _animator;
-    private bool _isJumpping;
+    private Animator _animator;
+    private bool _isJumping;
     private bool _isAttacking;
     private static readonly int IsAttacking = Animator.StringToHash("isAttacking");
     private float damage = 1;
@@ -42,7 +42,7 @@ public class Rusher : AI
             {
                 if (_currentAttackRate <= 0 && !_isAttacking)
                 {
-                    _isJumpping = false;
+                    _isJumping = false;
                     Attack();
                 }
             }
@@ -68,7 +68,7 @@ public class Rusher : AI
     {
         //float animDuration = _animator.GetCurrentAnimatorStateInfo(0).length;
         _agent.isStopped = true;
-        _isJumpping = true;
+        _isJumping = true;
         _isAttacking = true;
         yield return new WaitForSeconds(waitTime);
         
@@ -97,11 +97,13 @@ public class Rusher : AI
         {
             // Raycast hit an obstacle...
             endPosition = hit.point;
+            Debug.DrawRay(transform.position, hit.point, Color.red);
         }
         else
         {
             // Raycast didn't hit an obstacle...
             endPosition = transform.position + dirToTarget.normalized * attackJumpLength;
+            Debug.DrawRay(transform.position, endPosition, Color.red);
         }
 
         return endPosition;
@@ -131,20 +133,12 @@ public class Rusher : AI
         Gizmos.DrawWireSphere(transform.position, attackDistance);
     }
 
-    public override void TakeDamage(float damage)
-    {
-        if(CurrentHealth <= 0)
-            Destroy(gameObject);
-
-        CurrentHealth -= damage;
-    }
-
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 8 && _isJumpping)
+        if (other.gameObject.layer == 8 && _isJumping)
         {
             EventManager.Instance.Trigger("OnPlayerDamaged", damage);
-            _isJumpping = false;
+            _isJumping = false;
         }
     }
 }
