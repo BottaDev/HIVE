@@ -1,11 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ShootTP : MonoBehaviour
 {
     [Header("Gun")]
-    public float damage = 1;
     public float fireRate = 15;
     public float gunCd = 1f;
     private float _nextShoot;
@@ -19,7 +16,6 @@ public class ShootTP : MonoBehaviour
     
     [Header("Objects")]
     public LayerMask mask;
-    public GameObject impactEffect;
     public GameObject bullet;
     
     private Transform _firePoint;
@@ -61,7 +57,7 @@ public class ShootTP : MonoBehaviour
         {
             _reloading = false;
             _nextShoot = Time.time + 1 / fireRate;
-            ShootGO();   
+            Shoot();   
         }
         else if (!Input.GetButton("Fire1"))
         {
@@ -72,6 +68,14 @@ public class ShootTP : MonoBehaviour
         }
         
         UpdateAmmoBar();
+    }
+    
+    private void Shoot()
+    {
+        Vector3 aimDir = (_mouseWorldPosition - _firePoint.position).normalized;        
+        Instantiate(bullet, _firePoint.position, Quaternion.LookRotation(aimDir, Vector3.up));
+        
+        _currentAmmo -= ammoCost;
     }
 
     private void ReloadGun()
@@ -91,28 +95,5 @@ public class ShootTP : MonoBehaviour
     private void UpdateAmmoBar()
     {
         _ammoBar.SetAmmo(_currentAmmo);
-    }
-    
-    private void Shoot()
-    {
-        Ray ray = _cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit))
-        {
-            TargetTP target = hit.transform.GetComponent<TargetTP>();
-            if (target != null)
-                target.TakeDamage(damage);
-
-            GameObject particle = Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
-            Destroy(particle, 2);
-        }
-    }
-
-    private void ShootGO()
-    {
-        Vector3 aimDir = (_mouseWorldPosition - _firePoint.position).normalized;        
-        Instantiate(bullet, _firePoint.position, Quaternion.LookRotation(aimDir, Vector3.up));
-        
-        _currentAmmo -= ammoCost;
     }
 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Player : Entity
+public class PlayerFP : Entity
 {
     [Header("Movement")]
     [SerializeField] [Range(0.1f,1)] private float airMultiplier = 0.4f;

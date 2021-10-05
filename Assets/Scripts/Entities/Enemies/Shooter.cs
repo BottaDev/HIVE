@@ -10,7 +10,11 @@ public class Shooter : AI
     public float attackDistance = 20f;
     public float evadeDistance = 12f;
     public float evadeTime = 1.5f;
-
+    
+    [Header("Objects")]
+    public GameObject bulletPrefab;
+    public Transform spawnPos;
+    
     private float _currentEvadeTime;
 
     protected override void Awake()
@@ -42,7 +46,7 @@ public class Shooter : AI
             if (distance <= evadeDistance)
             {
                 _currentEvadeTime -= Time.deltaTime;
-                if (CheckMiddleObstacle(_player.transform.position))
+                if (_fov.CheckMiddleObstacle(_player.transform.position))
                 {
                     if ( _currentEvadeTime > 0)
                         EvadePlayer();
@@ -58,7 +62,7 @@ public class Shooter : AI
             {
                 _currentEvadeTime = evadeTime;
                 // In Attack distance...
-                if (ApplyFOV(_player.transform.position))
+                if (_fov.ApplyFOV(_player.transform.position))
                     Attack();
                 else
                     ChasePlayer();
@@ -86,7 +90,9 @@ public class Shooter : AI
     {
         if (_currentAttackRate <= 0)
         {
-            Debug.Log("Shooter is attacking...");
+            GameObject bullet = Instantiate(bulletPrefab, spawnPos.position, Quaternion.identity);
+            bullet.transform.LookAt(_player.transform.position);
+            
             _currentAttackRate = attackRate;
         }
         else

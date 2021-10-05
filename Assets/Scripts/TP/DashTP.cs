@@ -1,54 +1,56 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DashTP : MonoBehaviour
 {
     [SerializeField] [Range(2, 5)] private float _multiplyVelocity;
+    [SerializeField] [Range(5, 10)] private float _airMultiplyVelocity;
     [SerializeField] [Range(0.1f, 1)] private float _dashDuration;
     [SerializeField] private TrailRenderer[] trails;
-    private float _dashCD;
-    private Camera _cam;
+    [SerializeField] private float _dashCD;
+    private float _currentDashCD;
 
-    private PlayerTP _player;
+    private Camera _cam;
+    private Player _player;
 
     private void Awake()
     {
         _cam = Camera.main;
-        _player = GetComponent<PlayerTP>();
+        _player = GetComponent<Player>();
     }
 
     private void Update()
     {
-
-
-        if (Input.GetKeyDown(KeyCode.LeftShift) && _dashCD <= 0)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && _currentDashCD <= 0)
         {
             StartCoroutine(Cast());
             StartCoroutine(CameraEffect());
         }
 
-        _dashCD -= Time.deltaTime;
-
-
+        _currentDashCD -= Time.deltaTime;
     }
 
     IEnumerator Cast()
     {
         foreach (TrailRenderer item in trails)
             item.emitting = true;
-        
 
-        _player.moveSpeed *= _multiplyVelocity;
+        if (_player.isGrounded)
+            _player.moveSpeed *= _multiplyVelocity;
+        else
+            _player.moveSpeed *= _airMultiplyVelocity;
 
-        _dashCD = 1.5f;
+        _currentDashCD = _dashCD;
 
         yield return new WaitForSeconds(_dashDuration);
 
         foreach (TrailRenderer item in trails)
             item.emitting = false;
 
-        _player.moveSpeed /= _multiplyVelocity;
+        if (_player.isGrounded)
+            _player.moveSpeed /= _multiplyVelocity;
+        else
+            _player.moveSpeed /= _airMultiplyVelocity;
     }
 
     IEnumerator CameraEffect()
