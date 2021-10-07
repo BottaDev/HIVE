@@ -92,7 +92,6 @@ GameObject:
   - component: {fileID: 8040213256160230167}
   - component: {fileID: 2392638783385267483}
   - component: {fileID: 640414617348797176}
-  - component: {fileID: 2555579769563037428}
   - component: {fileID: 8265819503367186138}
   m_Layer: 9
   m_Name: Player Bullet
@@ -239,20 +238,6 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 1
---- !u!136 &2555579769563037428
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8040213256160230170}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 0.1
-  m_Height: 0
-  m_Direction: 2
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8265819503367186138
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,4 +253,8 @@ MonoBehaviour:
   speed: 90
   damage: 3
   timeToDie: 3
+  distance: 1
+  mask:
+    serializedVersion: 2
+    m_Bits: 192
   impactParticles: {fileID: 8479355793438946228, guid: e5cba12285aafe24d811ab96b21f30ab, type: 3}

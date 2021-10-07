@@ -4,12 +4,19 @@ using UnityEngine;
 
 public class EnemyBullet : BasicBullet
 {
-    protected override void MakeDamage(Collider other)
+    protected override void Update()
     {
-        // Player
-        if (other.gameObject.layer == 8)
-            EventManager.Instance.Trigger("OnPlayerDamaged", damage);
-        
-        base.MakeDamage(other);
+        base.Update();
+
+        if (Physics.Raycast(transform.position, transform.forward, out hit, distance, mask))
+        {
+            if (hit.transform.gameObject.layer == 8)
+            {
+                Player enemy = hit.transform.gameObject.GetComponentInParent<Player>();
+                enemy.TakeDamage(damage);
+            }
+            
+            MakeDamage();
+        }
     }
 }
