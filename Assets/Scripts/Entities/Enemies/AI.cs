@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
@@ -44,7 +45,22 @@ public abstract class AI : Entity
         {
             float distance = Vector3.Distance(transform.position, _player.transform.position);
             if (distance <= detectionRange)
-                _playerDetected = true;   
+                DetectPlayer();   
+        }
+    }
+
+    private void DetectPlayer()
+    {
+        _playerDetected = true;
+
+        // Warn other enemies
+        List<AI> nearbyEnemies = FindObjectsOfType<AI>()
+            .Where(x => (transform.position - x.transform.position).magnitude <= detectionRange)
+            .ToList();
+        
+        foreach (AI ai in nearbyEnemies)
+        {
+            ai._playerDetected = true;
         }
     }
 
@@ -65,14 +81,14 @@ public abstract class AI : Entity
     public override void TakeDamage(float damage)
     {
         if (!_playerDetected)
-            _playerDetected = true;
+            DetectPlayer();
         
         CurrentHealth -= damage;
         
         if(CurrentHealth <= 0)
             Destroy(gameObject);
     }
-    
+
     protected virtual void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
