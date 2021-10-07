@@ -5,15 +5,19 @@ using UnityEngine;
 
 public class PlayerBullet : BasicBullet
 {
-    protected override void MakeDamage(Collider other)
+    protected override void Update()
     {
-        // Enemy
-        if (other.gameObject.layer == 7)
+        base.Update();
+
+        if (Physics.Raycast(transform.position, transform.forward, out hit, distance, mask))
         {
-            AI enemy = other.gameObject.GetComponentInParent<AI>();
-            enemy.TakeDamage(damage);    
+            if (hit.transform.gameObject.layer == 7)
+            {
+                AI enemy = hit.transform.gameObject.GetComponentInParent<AI>();
+                enemy.TakeDamage(damage);
+            }
+            
+            MakeDamage();
         }
-        
-        base.MakeDamage(other);
     }
 }

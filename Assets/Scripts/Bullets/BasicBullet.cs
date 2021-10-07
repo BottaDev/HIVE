@@ -9,6 +9,9 @@ public class BasicBullet : MonoBehaviour
     public float speed = 10f;
     public float damage = 1f;
     public float timeToDie = 3f;
+    public float distance = 0.7f;
+    public LayerMask mask;
+    public RaycastHit hit;
     
     [Header("Effects")]
     public GameObject impactParticles;
@@ -20,19 +23,17 @@ public class BasicBullet : MonoBehaviour
 
     protected virtual void Update()
     {
-        transform.Translate(Vector3.forward * Time.deltaTime * speed);    
+        transform.Translate(Vector3.forward * Time.deltaTime * speed);
+        
+        if(Physics.Raycast(transform.position, transform.forward, out hit, distance, mask))
+            MakeDamage();
     }
 
-    protected virtual void MakeDamage(Collider other)
+    protected virtual void MakeDamage()
     {
         GameObject p = Instantiate(impactParticles, transform.position, Quaternion.identity);
         p.transform.eulerAngles = transform.eulerAngles * -1;
         
         Destroy(gameObject);
-    }
-
-    protected virtual void OnTriggerEnter(Collider other)
-    {
-        MakeDamage(other);
     }
 }
