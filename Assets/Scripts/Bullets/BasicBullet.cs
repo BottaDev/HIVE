@@ -9,7 +9,7 @@ public class BasicBullet : MonoBehaviour
     public float speed = 10f;
     public float damage = 1f;
     public float timeToDie = 3f;
-    public float distance = 1f;
+    public float distance = 0.7f;
     public LayerMask mask;
     public RaycastHit hit;
     
