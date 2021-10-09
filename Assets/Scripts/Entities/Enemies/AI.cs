@@ -86,7 +86,14 @@ public abstract class AI : Entity
         CurrentHealth -= damage;
         
         if(CurrentHealth <= 0)
-            Destroy(gameObject);
+            KillAI();
+    }
+
+    private void KillAI()
+    {
+        EventManager.Instance.Trigger("OnEnemyDeath");
+
+        Destroy(gameObject);
     }
 
     protected virtual void OnDrawGizmosSelected()
