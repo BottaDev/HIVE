@@ -45,27 +45,43 @@ public class Shooter : AI
         {
             if (distance <= evadeDistance)
             {
-                _currentEvadeTime -= Time.deltaTime;
-                if (_fov.CheckMiddleObstacle(_player.transform.position))
+                // If is jumping, follow player
+                if (_agent.isOnOffMeshLink)
                 {
-                    if ( _currentEvadeTime > 0)
-                        EvadePlayer();
-                    else
-                        Attack();    
+                    ChasePlayer();
                 }
                 else
                 {
-                    ChasePlayer();
+                    _currentEvadeTime -= Time.deltaTime;
+                    if (_fov.CheckMiddleObstacle(_player.transform.position))
+                    {
+                        if ( _currentEvadeTime > 0)
+                            EvadePlayer();
+                        else
+                            Attack();    
+                    }
+                    else
+                    {
+                        ChasePlayer();
+                    }   
                 }
             }
             else
             {
-                _currentEvadeTime = evadeTime;
-                // In Attack distance...
-                if (_fov.ApplyFOV(_player.transform.position))
-                    Attack();
-                else
+                // If is jumping, follow player
+                if (_agent.isOnOffMeshLink)
+                {
                     ChasePlayer();
+                }
+                else
+                {
+                    _currentEvadeTime = evadeTime;
+                    // In Attack distance...
+                    if (_fov.ApplyFOV(_player.transform.position))
+                        Attack();
+                    else
+                        ChasePlayer();   
+                }
             }
         }
     }

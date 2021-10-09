@@ -37,18 +37,25 @@ public class Rusher : AI
         float distance = Vector3.Distance(transform.position, _player.transform.position);
         if (distance <= attackDistance)
         {
-            // Player is in range, and is being seen
-            if (_fov.ApplyFOV(_player.transform.position))   
+            if (_agent.isOnOffMeshLink)
             {
-                if (_currentAttackRate <= 0 && !_isAttacking)
-                {
-                    _isJumping = false;
-                    Attack();
-                }
+                MoveToPosition(_player.transform.position);   
             }
             else
             {
-                RotateTowards(_player.transform.position);
+                // Player is in range, and is being seen
+                if (_fov.ApplyFOV(_player.transform.position))   
+                {
+                    if (_currentAttackRate <= 0 && !_isAttacking)
+                    {
+                        _isJumping = false;
+                        Attack();
+                    }
+                }
+                else
+                {
+                    RotateTowards(_player.transform.position);
+                }   
             }
         }
         else
