@@ -31,7 +31,7 @@ public class Exploder : AI
     private void ChasePlayer()
     {
         float distance = Vector3.Distance(transform.position, _player.transform.position);
-        if (distance <= engageDistance && !_engaged)
+        if (distance <= engageDistance && !_engaged && !_agent.isOnOffMeshLink)
         {
             StartCoroutine(EngagePlayer());
             return;
