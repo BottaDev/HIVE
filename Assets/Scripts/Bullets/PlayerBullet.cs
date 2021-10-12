@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class PlayerBullet : BasicBullet
 {
-    protected override void Update()
+    protected override void FixedUpdate()
     {
-        base.Update();
+        base.FixedUpdate();
 
         if (Physics.Raycast(transform.position, transform.forward, out hit, distance, mask))
         {

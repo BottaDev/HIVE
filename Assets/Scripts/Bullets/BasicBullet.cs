@@ -21,7 +21,7 @@ public class BasicBullet : MonoBehaviour
         Destroy(gameObject, timeToDie);
     }
 
-    protected virtual void Update()
+    protected virtual void FixedUpdate()
     {
         transform.Translate(Vector3.forward * Time.deltaTime * speed);
         

@@ -8,6 +8,7 @@ public class WinLoseScreen : MonoBehaviour
     private void Awake()
     {
         Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     public void Restart()

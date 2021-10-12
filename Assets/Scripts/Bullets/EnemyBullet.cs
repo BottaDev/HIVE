@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class EnemyBullet : BasicBullet
 {
-    protected override void Update()
+    protected override void FixedUpdate()
     {
-        base.Update();
+        base.FixedUpdate();
 
         if (Physics.Raycast(transform.position, transform.forward, out hit, distance, mask))
         {
