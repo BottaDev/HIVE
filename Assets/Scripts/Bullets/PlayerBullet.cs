@@ -17,7 +17,18 @@ public class PlayerBullet : BasicBullet
                 enemy.TakeDamage(damage);
             }
             
-            MakeDamage();
+            Impact();
         }
+    }
+
+    protected override void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == 7)
+        {
+            AI enemy = other.gameObject.GetComponentInParent<AI>();
+            enemy.TakeDamage(damage);
+        }
+        
+        base.OnTriggerEnter(other);
     }
 }
