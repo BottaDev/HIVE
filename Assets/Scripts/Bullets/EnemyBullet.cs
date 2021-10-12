@@ -12,11 +12,22 @@ public class EnemyBullet : BasicBullet
         {
             if (hit.transform.gameObject.layer == 8)
             {
-                Player enemy = hit.transform.gameObject.GetComponentInParent<Player>();
+                Player enemy = hit.transform.gameObject.GetComponent<Player>();
                 enemy.TakeDamage(damage);
             }
             
-            MakeDamage();
+            Impact();
         }
+    }
+
+    protected override void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == 8)
+        {
+            Player player = other.gameObject.GetComponent<Player>();
+            player.TakeDamage(damage);
+        }
+        
+        base.OnTriggerEnter(other);
     }
 }

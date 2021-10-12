@@ -26,14 +26,19 @@ public class BasicBullet : MonoBehaviour
         transform.Translate(Vector3.forward * Time.deltaTime * speed);
         
         if(Physics.Raycast(transform.position, transform.forward, out hit, distance, mask))
-            MakeDamage();
+            Impact();
     }
 
-    protected virtual void MakeDamage()
+    protected virtual void Impact()
     {
         GameObject p = Instantiate(impactParticles, transform.position, Quaternion.identity);
         p.transform.eulerAngles = transform.eulerAngles * -1;
         
         Destroy(gameObject);
+    }
+
+    protected virtual void OnTriggerEnter(Collider other)
+    {
+        Impact();
     }
 }

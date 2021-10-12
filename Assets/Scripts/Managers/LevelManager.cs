@@ -29,11 +29,14 @@ public class LevelManager : MonoBehaviour
         
         // Bake map navmesh
         FindObjectOfType<NavMeshSurface>().BuildNavMesh();
+        
+        EventManager.Instance.Trigger("OnTotalEnemy", minEnemies);
     }
     
     private void OnEnemyDeath(params object[] parameters)
     {
         _enemiesKilled++;
+        EventManager.Instance.Trigger("OnEnemyCounted",_enemiesKilled);
 
         // Open the exit door
         if (_enemiesKilled >= minEnemies && _exitDoor.activeSelf)
