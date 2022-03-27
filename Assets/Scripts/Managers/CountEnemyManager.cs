@@ -11,7 +11,7 @@ public class CountEnemyManager : MonoBehaviour
     private int _totalEnemies;
     public TextMeshProUGUI currentEnemies;
     public TextMeshProUGUI totalEnemies;
-    
+
     private void Awake()
     {
         EventManager.Instance.Subscribe("OnEnemyCounted", OnEnemyCounted);
