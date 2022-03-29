@@ -27,6 +27,7 @@ public class PlayerBullet : BasicBullet
         {
             AI enemy = other.gameObject.GetComponentInParent<AI>();
             enemy.TakeDamage(damage);
+            Crosshair.instance.Hit();
         }
         
         base.OnTriggerEnter(other);

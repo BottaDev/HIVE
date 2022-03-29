@@ -31,8 +31,7 @@ public class Shoot : MonoBehaviour
     private void Start()
     {
         _ammoBar = FindObjectOfType<AmmoBar>();
-        
-        _ammoBar.SetMaxAmmo(maxAmmo, _currentAmmo);
+
     }
 
     private void Update()
@@ -76,7 +75,7 @@ public class Shoot : MonoBehaviour
     
     private void UpdateAmmoBar()
     {
-        _ammoBar.SetAmmo(_currentAmmo);
+
     }
     
     private void Shooter()

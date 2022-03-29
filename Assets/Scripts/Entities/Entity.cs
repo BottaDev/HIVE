@@ -8,8 +8,10 @@ public abstract class Entity : MonoBehaviour, IDamagable
     [Header("Entity Parameters")]
     public float maxHealth = 10f;
     public float baseSpeed = 5f;
-    
-    public float CurrentHealth { get; protected set; }
+
+    [SerializeField] private float _currentHealth;
+
+    public float CurrentHealth { get { return _currentHealth; } protected set { _currentHealth = value; } }
     public float CurrentSpeed { get ; protected set; }
 
     protected virtual void Awake()

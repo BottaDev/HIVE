@@ -13,14 +13,9 @@ public class AmmoBar : MonoBehaviour
     
     public List<Image> ammoBars;
 
-    private void Update()
+    public void UpdateFillAmount(int currentAmmo)
     {
-        UpdateFillAmount();
-    }
-
-    private void UpdateFillAmount()
-    {
-        float currentOffSet = current - minimum;
+        float currentOffSet = currentAmmo - minimum;
         float maximumOffset = maximum - minimum;
         float fillAmount = currentOffSet / maximumOffset;
         
@@ -29,15 +24,9 @@ public class AmmoBar : MonoBehaviour
             bar.fillAmount = fillAmount;    
         }
     }
-
-    public void SetAmmo(int ammount)
-    {
-        current = ammount;
-    }
     
-    public void SetMaxAmmo(int maxAmmount, int currentAmmo)
+    public void SetMaxAmmo(int maxAmmount)
     {
         maximum = maxAmmount;
-        current = currentAmmo;
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class ShootTP : MonoBehaviour
@@ -5,42 +6,37 @@ public class ShootTP : MonoBehaviour
     [Header("Gun")]
     public float fireRate = 15;
     public float gunCd = 1f;
+    private float currentCD;
     private float _nextShoot;
-    private bool _reloading;
+    [SerializeField] private bool _reloading;
     
     [Header("Ammunition")]
     public int maxAmmo = 100;
-    public int reloadAmmount = 1;
+    public float totalReloadTime = 1f;
     public int ammoCost = 1;
-    private int _currentAmmo;
+    [SerializeField] private int _currentAmmo;
+    private int currentAmmo { get { return _currentAmmo; } set { _currentAmmo = value; _ammoBar.UpdateFillAmount(_currentAmmo); } }
     
     [Header("Objects")]
     public LayerMask mask;
     public GameObject bullet;
     
-    private Transform _firePoint;
+    public Transform _firePoint;
     private Vector3 _mouseWorldPosition;
     
     private Camera _cam;
-    private AmmoBar _ammoBar;
+    public AmmoBar _ammoBar;
 
     private void Start()
     {
-        _ammoBar = FindObjectOfType<AmmoBar>();
-        _firePoint = GameObject.Find("FirePoint").GetComponent<Transform>();
         _cam = Camera.main;
-        
-        _ammoBar.SetMaxAmmo(maxAmmo, _currentAmmo);
+
+        _currentAmmo = maxAmmo;
+        _ammoBar.SetMaxAmmo(maxAmmo);
     }
-    
+
     private void Update()
     {
-        if (_currentAmmo <= 0)
-        {
-            Invoke(nameof(ReloadGun), gunCd);
-            return;
-        }
-        
         _mouseWorldPosition = Vector3.zero;
         Vector2 screenCenterPoint = new Vector2(Screen.width / 2, Screen.height / 2);
         Ray ray = _cam.ScreenPointToRay(screenCenterPoint);
@@ -53,47 +49,53 @@ public class ShootTP : MonoBehaviour
         }
 
 
-        if (Input.GetButton("Fire1") && Time.time >= _nextShoot)
+        if (Input.GetButton("Fire1"))
         {
-            _reloading = false;
-            _nextShoot = Time.time + 1 / fireRate;
-            Shoot();   
+            if (Time.time >= _nextShoot)
+            {
+                _nextShoot = Time.time + 1 / fireRate;
+                Shoot();
+            }
         }
-        else if (!Input.GetButton("Fire1"))
+
+        if (currentCD > gunCd)
         {
-            if (_reloading)
-                Invoke(nameof(ReloadGun), gunCd);
-            else
-                ReloadGun();   
+            ReloadGun();
         }
-        
-        UpdateAmmoBar();
+        else
+        {
+            currentCD += Time.deltaTime;
+        }
     }
     
     private void Shoot()
     {
-        Vector3 aimDir = (_mouseWorldPosition - _firePoint.position).normalized;        
-        Instantiate(bullet, _firePoint.position, Quaternion.LookRotation(aimDir, Vector3.up));
-        
-        _currentAmmo -= ammoCost;
+        if (currentAmmo > 0)
+        {
+            _reloading = false;
+            currentCD = 0;
+
+            Vector3 aimDir = (_mouseWorldPosition - _firePoint.position).normalized;
+            Instantiate(bullet, _firePoint.position, Quaternion.LookRotation(aimDir, Vector3.up));
+
+            currentAmmo -= ammoCost;
+
+            if (currentAmmo <= 0)
+            {
+                currentAmmo = 0;
+            } 
+        }
     }
 
     private void ReloadGun()
     {
-        if (_currentAmmo >= maxAmmo)
-        {
-            _currentAmmo = maxAmmo;
-            _reloading = false;
-            return;
-        }
-
         _reloading = true;
+        currentAmmo += Mathf.CeilToInt((maxAmmo / totalReloadTime) * Time.deltaTime);
 
-        _currentAmmo += reloadAmmount;
-    }
-    
-    private void UpdateAmmoBar()
-    {
-        _ammoBar.SetAmmo(_currentAmmo);
+        if (currentAmmo >= maxAmmo)
+        {
+            currentAmmo = maxAmmo;
+            _reloading = false;
+        }
     }
 }

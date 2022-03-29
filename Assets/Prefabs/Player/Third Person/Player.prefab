@@ -444,18 +444,6 @@ Transform:
   m_Father: {fileID: 6745993619036678813}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5263778680828277458
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1620984441204270896}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6acec8984caa5345b91856142e2b6f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6745993618258170338
 GameObject:
   m_ObjectHideFlags: 0
@@ -633,9 +621,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 164a507c6f3794f4cae47bf4593eefc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _multiplyVelocity: 4
+  _multiplyVelocity: 4.5
   _airMultiplyVelocity: 7
-  _dashDuration: 0.2
+  _dashDuration: 0.15
   trails:
   - {fileID: 425538655}
   - {fileID: 259923518}
@@ -655,13 +643,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireRate: 5
   gunCd: 1
+  _reloading: 0
   maxAmmo: 100
-  reloadAmmount: 1
-  ammoCost: 15
+  totalReloadTime: 1
+  ammoCost: 10
+  _currentAmmo: 0
   mask:
     serializedVersion: 2
     m_Bits: 704
   bullet: {fileID: 8040213256160230170, guid: 2a203843cb7e36b4fae67710d61d7b6f, type: 3}
+  _firePoint: {fileID: 431320165981401312}
+  _ammoBar: {fileID: 0}
 --- !u!114 &-3836250662076298163
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -688,6 +680,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 10
   baseSpeed: 5
+  _currentHealth: 0
   moveSpeed: 18
   airMultiplier: 0.4
   horizontalMovement: 0
@@ -1233,6 +1226,18 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f91f1e3e711b5a54eb85df825946ffac, type: 3}
   m_PrefabInstance: {fileID: 1927414278959618657}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5263778680828277458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1620984441204270896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6acec8984caa5345b91856142e2b6f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6745993617718512662
 PrefabInstance:
   m_ObjectHideFlags: 0
