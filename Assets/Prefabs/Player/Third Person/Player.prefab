@@ -612,6 +612,7 @@ GameObject:
   - component: {fileID: -3836250662076298163}
   - component: {fileID: 4972465832075877384}
   - component: {fileID: -698164066735363742}
+  - component: {fileID: 1128139236}
   m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
@@ -742,6 +743,7 @@ MonoBehaviour:
   x: 0
   y: 0
   jumping: 0
+  jumpdebug: 0
   stoppedJumping: 0
   dashing: 0
   shooting: 0
@@ -770,6 +772,7 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 64
+  airMovementMultiplier: 0.75
   movementDirection: 0
   ableToMove: 0
   counterMovement: 0.175
@@ -778,14 +781,11 @@ MonoBehaviour:
   stepUpper: {fileID: 736513525046107197}
   stepHeight: 0.5
   stepSmooth: 0.2
-  jumpForce: 1000
-  airMovementMultiplier: 0.75
-  fallingGravityMultiplier: 2.5
-  lowJumpGravityMultiplier: 2
-  coyoteTime: 0.5
-  jumpBufferingTime: 0.5
   currentSpeed: {x: 0, y: 0, z: 0}
   currentSpeedMagnitude: 0
+  jumpBufferCondition: 0
+  coyoteTimeCondition: 0
+  readyToJumpCondition: 0
 --- !u!114 &-698164066735363742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -803,6 +803,28 @@ MonoBehaviour:
   _currentHealth: 0
   input: {fileID: -3836250662076298163}
   _healthBar: {fileID: 0}
+--- !u!114 &1128139236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6745993619036678812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da84f05e0ad31eb459f0c06f3e1362fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  input: {fileID: -3836250662076298163}
+  movement: {fileID: 4972465832075877384}
+  jumpForce: 1000
+  fallingGravityMultiplier: 2.5
+  lowJumpGravityMultiplier: 2
+  coyoteTime: 0.5
+  jumpBufferingTime: 0.5
+  jumpBufferCondition: 0
+  coyoteTimeCondition: 0
+  readyToJumpCondition: 0
 --- !u!1 &7465998563197125076
 GameObject:
   m_ObjectHideFlags: 0

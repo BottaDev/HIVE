@@ -20,9 +20,9 @@ public class PlayerMovement : MonoBehaviour {
     
     public bool grounded;
     public LayerMask groundMask;
+    public float airMovementMultiplier = 0.5f;
     [HideInInspector] public bool movementDirection;
-    [HideInInspector] public bool ableToMove;
-    
+    public bool ableToMove;
     public float counterMovement = 0.175f; //Multiplier of velocity for counter movement
     private float threshold = 0.01f; //Threshhold for speed magnitude before counter movement
     public float maxSlopeAngle = 35f;
@@ -33,25 +33,12 @@ public class PlayerMovement : MonoBehaviour {
     [SerializeField] private float stepHeight = 0.25f;
     [SerializeField] private float stepSmooth = 0.1f;
 
-
-    [Header("Jumping")]
-    public float jumpForce = 550f;
-    public float airMovementMultiplier = 0.5f;
-    public float fallingGravityMultiplier = 2.5f;
-    public float lowJumpGravityMultiplier = 2f;
-    [Tooltip("Time you're still allowed to jump after falling")]
-    public float coyoteTime = 0.5f;
-    private float coyoteTimeCounter;
-    [Tooltip("Time you're still allowed to input a jump before touching the ground")]
-    public float jumpBufferingTime = 0.5f;
-    private float jumpBufferingCounter;
-    private bool readyToJump = true;
-    private float jumpCooldown = 0.25f;
-    private Vector3 normalVector = Vector3.up;
-
     [Header("Debug")]
     public Vector3 currentSpeed;
     public float currentSpeedMagnitude;
+    public bool jumpBufferCondition;
+    public bool coyoteTimeCondition;
+    public bool readyToJumpCondition;
 
     public void Start()
     {
@@ -65,7 +52,6 @@ public class PlayerMovement : MonoBehaviour {
         if (ableToMove)
         {
             Movement();
-            JumpCheck();
             //StepClimb();
         }
     }
@@ -83,10 +69,9 @@ public class PlayerMovement : MonoBehaviour {
         float x = input.x;
         float y = input.y;
 
-        /*
         //Some extra gravity for ground check to work properly
         Vector3 gravityForce = (Vector3.down * 10) * Time.deltaTime;
-        rb.AddForce(gravityForce);*/
+        rb.AddForce(gravityForce);
 
         //Find actual velocity relative to where player is looking
         Vector2 mag = FindVelRelativeToLook();
@@ -122,63 +107,6 @@ public class PlayerMovement : MonoBehaviour {
         rb.AddForce(yForce * totalMultiplier);
     }
 
-    private void JumpCheck() 
-    {
-        //CoyoteTime
-        if (grounded)
-        {
-            coyoteTimeCounter = coyoteTime;
-        }
-        else
-        {
-            coyoteTimeCounter -= Time.deltaTime;
-        }
-
-        //Jump buffering
-        if (input.jumping)
-        {
-            jumpBufferingCounter = jumpBufferingTime;
-        }
-        else
-        {
-            jumpBufferingCounter -= Time.deltaTime;
-        }
-
-
-        if (jumpBufferingCounter > 0f && coyoteTimeCounter > 0f && readyToJump)
-        {
-            Jump(normalVector * jumpForce);
-            jumpBufferingCounter = 0;
-        }
-
-        if(rb.velocity.y < 0)
-        {
-            rb.velocity += Vector3.up * Physics.gravity.y * fallingGravityMultiplier * Time.deltaTime;
-        }
-        else if (input.stoppedJumping && rb.velocity.y > 0)
-        {
-            rb.velocity += Vector3.up * Physics.gravity.y * lowJumpGravityMultiplier * Time.deltaTime;
-            coyoteTimeCounter = 0;
-        }
-    }
-
-    public void Jump(Vector3 force)
-    {
-        readyToJump = false;
-
-        //Reset Y velocity
-        rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
-
-        //Add jump forces
-        rb.AddForce(normalVector * jumpForce);
-
-        Invoke(nameof(ResetJump), jumpCooldown);
-    }
-    
-    private void ResetJump() 
-    {
-        readyToJump = true;
-    }
     
     public void StepClimb()
     {
@@ -291,7 +219,6 @@ public class PlayerMovement : MonoBehaviour {
             if (IsFloor(normal)) {
                 grounded = true;
                 cancellingGrounded = false;
-                normalVector = normal;
                 CancelInvoke(nameof(StopGrounded));
             }
         }

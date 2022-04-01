@@ -20,8 +20,9 @@ public class PlayerInput : MonoBehaviour
     //Input variables (Used by other scripts to run their actions)
     [HideInInspector] public float  x;
     [HideInInspector] public float  y;
-    [HideInInspector] public bool   jumping;
-    [HideInInspector] public bool   stoppedJumping;
+    public bool   jumping;
+    public bool jumpdebug;
+    public bool   stoppedJumping;
     [HideInInspector] public bool   dashing;
     [HideInInspector] public bool   shooting;
     [HideInInspector] public bool   restart;
@@ -37,6 +38,7 @@ public class PlayerInput : MonoBehaviour
         x = Input.GetAxisRaw("Horizontal");
         y = Input.GetAxisRaw("Vertical");
         jumping = Input.GetKeyDown(_jumpKey);
+        jumpdebug = Input.GetKey(_jumpKey);
         stoppedJumping = !Input.GetKey(_jumpKey);
         dashing = Input.GetKeyDown(_dashKey);
         shooting = Input.GetMouseButton((int)_shootKey);
