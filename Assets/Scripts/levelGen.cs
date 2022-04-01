@@ -41,29 +41,12 @@ public class levelGen : MonoBehaviour
 
         if (totalRooms < minRoomQty) // || GetDeadEnds().Count < 4)
         {
-            //print("bad map didn't laugh");
             DeleteMap();
 
             totalRooms = 0;
             GenerateFullLevel();
             return;
         }
-
-        /*
-        //Agrega bloques sólidos en los espacios vacíos del mapa. Esto es más bien inútil, pero es un poco cómodo para debuggear
-        for (int i = 0; i < Map.GetLength(0); i++) //i es horizontal
-        {
-            for (int j = 0; j < Map.GetLength(1); j++) //j es vertical
-            {
-                if (!Map[i, j])
-                {
-                    Room e = Instantiate(roomNegativeOne, new Vector3(i, 0, j) * spaceMod + Vector3.down, Quaternion.identity);
-                    e.transform.parent = mapContainer.transform;
-                }
-            }
-        }
-        */
-
         CleanMap();
         FillMap();
         ReplacecFarthestRoom(arenaList);
@@ -83,11 +66,11 @@ public class levelGen : MonoBehaviour
             //e.transform.parent = mapContainer.transform;
         }
 
-        for (int i = 0; i < Map.GetLength(0); i++) //i es horizontal
+        for (int horizontal = 0; horizontal < Map.GetLength(0); horizontal++) //i es horizontal
         {
-            for (int j = 0; j < Map.GetLength(1); j++) //j es vertical
+            for (int vertical = 0; vertical < Map.GetLength(1); vertical++) //j es vertical
             {
-                if (Map[i, j])
+                if (Map[horizontal, vertical])
                 {
 
                     //Por cada habitación del mapa checkea por cada dirección cardinal:
@@ -96,9 +79,9 @@ public class levelGen : MonoBehaviour
                     //C. Que la habitación en cuestión tenga una puerta en aquella dirección
                     //Si se cumplen las 3, genera una habitación en ese lugar.
 
-                    if (j < 4 && Map[i, j + 1] == null && Map[i, j].connections[0])
+                    if (vertical < 4 && Map[horizontal, vertical + 1] == null && Map[horizontal, vertical].connections[0])
                     {
-                        Map[i, j + 1] = SelectRandomRoom(2);
+                        Map[horizontal, vertical + 1] = SelectRandomRoom(2);
 
                         //Room e = Instantiate(SelectRandomRoom(2), new Vector3(i, 0, j + 1) * spaceMod + Vector3.down, Quaternion.identity);
                         //Map[i, j + 1] = e;
@@ -106,9 +89,9 @@ public class levelGen : MonoBehaviour
                         changes++;
                     }
 
-                    if (i < 4 && Map[i + 1, j] == null && Map[i, j].connections[1])
+                    if (horizontal < 4 && Map[horizontal + 1, vertical] == null && Map[horizontal, vertical].connections[1])
                     {
-                        Map[i + 1, j] = SelectRandomRoom(3);
+                        Map[horizontal + 1, vertical] = SelectRandomRoom(3);
 
                         //Room e = Instantiate(SelectRandomRoom(3), new Vector3(i + 1, 0, j) * spaceMod + Vector3.down, Quaternion.identity);
                         //Map[i + 1, j] = e;
@@ -116,9 +99,9 @@ public class levelGen : MonoBehaviour
                         changes++;
                     }
 
-                    if (j > 0 && Map[i, j - 1] == null && Map[i, j].connections[2])
+                    if (vertical > 0 && Map[horizontal, vertical - 1] == null && Map[horizontal, vertical].connections[2])
                     {
-                        Map[i, j - 1] = SelectRandomRoom(0);
+                        Map[horizontal, vertical - 1] = SelectRandomRoom(0);
 
                         //Room e = Instantiate(SelectRandomRoom(0), new Vector3(i, 0, j - 1) * spaceMod + Vector3.down, Quaternion.identity);
                         //Map[i, j - 1] = e;
@@ -126,9 +109,9 @@ public class levelGen : MonoBehaviour
                         changes++;
                     }
 
-                    if (i > 0 && Map[i - 1, j] == null && Map[i, j].connections[3])
+                    if (horizontal > 0 && Map[horizontal - 1, vertical] == null && Map[horizontal, vertical].connections[3])
                     {
-                        Map[i - 1, j] = SelectRandomRoom(1);
+                        Map[horizontal - 1, vertical] = SelectRandomRoom(1);
 
                         //Room e = Instantiate(SelectRandomRoom(1), new Vector3(i - 1, 0, j) * spaceMod + Vector3.down, Quaternion.identity);
                         //Map[i - 1, j] = e;
@@ -471,9 +454,9 @@ public class levelGen : MonoBehaviour
 
     void DeleteMap()
     {
-        foreach(Room r in mapContainer.GetComponentsInChildren<Room>())
+        foreach(Room room in mapContainer.GetComponentsInChildren<Room>())
         {
-            Destroy(r.gameObject);
+            Destroy(room.gameObject);
         }
 
         for (int i = 0; i < Map.GetLength(0); i++)
