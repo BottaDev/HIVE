@@ -106,6 +106,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 0
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
@@ -160,8 +161,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a81652e9a7ca48f41aa08d4991bfe386, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lookAt: {fileID: 0}
-  camTransform: {fileID: 3284753385111480555}
   mask:
     serializedVersion: 2
     m_Bits: 64
+  _lookAt: {fileID: 0}
+  _camTransform: {fileID: 3284753385111480555}
+  input: {fileID: 0}
+  mouseSensitivity: 1

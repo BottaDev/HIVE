@@ -17,7 +17,6 @@ public class Crosshair : MonoBehaviour
 
     public void Hit()
     {
-        Debug.Log("Activated crosshair");
         StartCoroutine(HitAnim());
     }
 

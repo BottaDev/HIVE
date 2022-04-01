@@ -1,30 +1,46 @@
 using UnityEngine;
-
+public enum MouseCode
+{
+    Left = 0,
+    Right = 1,
+    Middle = 2
+}
 public class PlayerInput : MonoBehaviour
 {    
-    [Header("Jump")]
-    private KeyCode _jumpKey = KeyCode.Space;
+    [Header("Assignables")]
+    [SerializeField] private Player _player;
 
-    private Player _player;
+    [Header("Keybinds")]
+    [SerializeField] private MouseCode  _shootKey   = MouseCode.Left;
+    [SerializeField] private KeyCode    _jumpKey    = KeyCode.Space;
+    [SerializeField] private KeyCode    _dashKey    = KeyCode.LeftShift;
+    [SerializeField] private KeyCode    _restartKey = KeyCode.R;
+    [SerializeField] private KeyCode    _freeCamKey = KeyCode.LeftControl;
 
-    protected void Awake()
-    {
-        _player = GetComponent<Player>();
-    }
+    //Input variables (Used by other scripts to run their actions)
+    [HideInInspector] public float  x;
+    [HideInInspector] public float  y;
+    [HideInInspector] public bool   jumping;
+    [HideInInspector] public bool   stoppedJumping;
+    [HideInInspector] public bool   dashing;
+    [HideInInspector] public bool   shooting;
+    [HideInInspector] public bool   restart;
+    [HideInInspector] public bool   freecam;
 
     private void Update()
     {
-        ProcessInput();
-        
-        if (Input.GetKeyDown(_jumpKey) && _player.isGrounded)
-            _player.Jump();
+        MyInput();
     }
 
-    private void ProcessInput()
+    private void MyInput()
     {
-        _player.horizontalMovement = Input.GetAxisRaw("Horizontal");
-        _player.verticalMovement = Input.GetAxisRaw("Vertical");
-
-        _player.moveDirection = transform.forward * _player.verticalMovement + transform.right * _player.horizontalMovement;
+        x = Input.GetAxisRaw("Horizontal");
+        y = Input.GetAxisRaw("Vertical");
+        jumping = Input.GetKeyDown(_jumpKey);
+        stoppedJumping = !Input.GetKey(_jumpKey);
+        dashing = Input.GetKeyDown(_dashKey);
+        shooting = Input.GetMouseButton((int)_shootKey);
+        restart = Input.GetKeyDown(_restartKey);
+        freecam = Input.GetKey(_freeCamKey);
     }
 }

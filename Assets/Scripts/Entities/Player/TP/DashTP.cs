@@ -3,25 +3,36 @@ using UnityEngine;
 
 public class DashTP : MonoBehaviour
 {
-    [SerializeField] [Range(2, 5)] private float _multiplyVelocity;
-    [SerializeField] [Range(5, 10)] private float _airMultiplyVelocity;
-    [SerializeField] [Range(0.1f, 1)] private float _dashDuration;
-    [SerializeField] private TrailRenderer[] trails;
-    [SerializeField] private float _dashCD;
-    private float _currentDashCD;
-
+    [Header("Assignables")]
+    [SerializeField] private PlayerInput        input;
+    [SerializeField] private PlayerMovement     movement;
+    [SerializeField] private Player             player;
+    [SerializeField] private TrailRenderer[]    trails;
     private Camera _cam;
-    private Player _player;
+
+    //Get whatever information you need for this script
+    private bool dashing { get { return input.dashing; } }
+
+
+    [Header("Parameters")]
+    [Tooltip("Speed during dash")][SerializeField] 
+    private float _dashVelocity;
+    [Tooltip("Time you stay in dash Velocity.")][SerializeField] 
+    private float _dashDuration;
+    [Tooltip("Time it takes for you to be able to dash again after cast.")][SerializeField] 
+    private float _dashCD;
+
+
+    private float _currentDashCD;
 
     private void Awake()
     {
         _cam = Camera.main;
-        _player = GetComponent<Player>();
     }
 
     private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.LeftShift) && _currentDashCD <= 0)
+    { 
+        if (dashing && _currentDashCD <= 0)
         {
             StartCoroutine(Cast());
             StartCoroutine(CameraEffect());
@@ -35,22 +46,30 @@ public class DashTP : MonoBehaviour
         foreach (TrailRenderer item in trails)
             item.emitting = true;
 
-        if (_player.isGrounded)
-            _player.moveSpeed *= _multiplyVelocity;
-        else
-            _player.moveSpeed *= _airMultiplyVelocity;
-
+        movement.ableToMove = false;
         _currentDashCD = _dashCD;
+        movement.ApplyGravity(false);
+
+        Vector3 originalVelocity = movement.rb.velocity;
+        Vector3 orientation = new Vector3(originalVelocity.x, 0, originalVelocity.z);
+        if(input.x == 0 && input.y == 0)
+        {
+            orientation = movement.playerModel.forward;
+        }
+
+        Vector3 dashdirection = orientation.normalized;
+        movement.rb.velocity = dashdirection * _dashVelocity;
 
         yield return new WaitForSeconds(_dashDuration);
 
         foreach (TrailRenderer item in trails)
             item.emitting = false;
 
-        if (_player.isGrounded)
-            _player.moveSpeed /= _multiplyVelocity;
-        else
-            _player.moveSpeed /= _airMultiplyVelocity;
+        dashdirection = movement.rb.velocity.normalized;
+        
+        movement.rb.velocity = dashdirection * originalVelocity.magnitude;
+        movement.ableToMove = true;
+        movement.ApplyGravity(true);
     }
 
     IEnumerator CameraEffect()

@@ -3,12 +3,18 @@ using UnityEngine;
 
 public class ShootTP : MonoBehaviour
 {
+    [Header("Assignables")]
+    [SerializeField] private PlayerInput input;
+
+    //Get whatever information you need for this script
+    private bool shooting { get { return input.shooting; } }
+
     [Header("Gun")]
     public float fireRate = 15;
     public float gunCd = 1f;
     private float currentCD;
     private float _nextShoot;
-    [SerializeField] private bool _reloading;
+    public bool _reloading;
     
     [Header("Ammunition")]
     public int maxAmmo = 100;
@@ -49,7 +55,7 @@ public class ShootTP : MonoBehaviour
         }
 
 
-        if (Input.GetButton("Fire1"))
+        if (shooting)
         {
             if (Time.time >= _nextShoot)
             {
@@ -67,7 +73,11 @@ public class ShootTP : MonoBehaviour
             currentCD += Time.deltaTime;
         }
     }
-    
+    private void OnDrawGizmos()
+    {
+        Vector3 aimDir = _mouseWorldPosition - _firePoint.position;
+        Debug.DrawLine(_firePoint.position, aimDir, Color.red);
+    }
     private void Shoot()
     {
         if (currentAmmo > 0)
