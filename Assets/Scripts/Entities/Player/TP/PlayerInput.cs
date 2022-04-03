@@ -18,10 +18,9 @@ public class PlayerInput : MonoBehaviour
     [SerializeField] private KeyCode    _freeCamKey = KeyCode.LeftControl;
 
     //Input variables (Used by other scripts to run their actions)
-    [HideInInspector] public float  x;
-    [HideInInspector] public float  y;
+    public float  x;
+    public float  y;
     public bool   jumping;
-    public bool jumpdebug;
     public bool   stoppedJumping;
     [HideInInspector] public bool   dashing;
     [HideInInspector] public bool   shooting;
@@ -38,8 +37,7 @@ public class PlayerInput : MonoBehaviour
         x = Input.GetAxisRaw("Horizontal");
         y = Input.GetAxisRaw("Vertical");
         jumping = Input.GetKeyDown(_jumpKey);
-        jumpdebug = Input.GetKey(_jumpKey);
-        stoppedJumping = !Input.GetKey(_jumpKey);
+        stoppedJumping = Input.GetKeyUp(_jumpKey);
         dashing = Input.GetKeyDown(_dashKey);
         shooting = Input.GetMouseButton((int)_shootKey);
         restart = Input.GetKeyDown(_restartKey);

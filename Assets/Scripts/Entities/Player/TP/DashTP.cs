@@ -52,7 +52,7 @@ public class DashTP : MonoBehaviour
 
         Vector3 originalVelocity = movement.rb.velocity;
         Vector3 orientation = new Vector3(originalVelocity.x, 0, originalVelocity.z);
-        if(input.x == 0 && input.y == 0)
+        if(orientation.magnitude == 0)
         {
             orientation = movement.playerModel.forward;
         }

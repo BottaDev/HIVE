@@ -1,28 +1,38 @@
 using System;
+using System.Collections;
 using UnityEngine;
-
 public class PlayerMovement : MonoBehaviour {
 
     [Header("Assignables")]
     [SerializeField] private PlayerInput    input;
     [SerializeField] private Transform      playerCam;
                      public  Transform      playerModel;
+                     public  PlayerJump     jump;
                      public  Rigidbody      rb;
+
+    //Get info from scripts
+    public float x { get { return input.x; } set { input.x = value; } }
+    public float y { get { return input.y; } set { input.y = value; } }
 
     [Header("Rotation and look")]
     private float xRotation;
     [SerializeField] private float sensitivity = 50f;
     private float sensMultiplier = 1f;
 
+    [Header("Ground Check")]
+    public bool grounded;
+    public float groundOffDelay = 3f;
+    public LayerMask groundMask;
+
+
     [Header("Movement")]
+    public bool ableToMove;
     [SerializeField] private float moveSpeed = 4500;
     public float maxSpeed = 20;
     
-    public bool grounded;
-    public LayerMask groundMask;
+    
     public float airMovementMultiplier = 0.5f;
     [HideInInspector] public bool movementDirection;
-    public bool ableToMove;
     public float counterMovement = 0.175f; //Multiplier of velocity for counter movement
     private float threshold = 0.01f; //Threshhold for speed magnitude before counter movement
     public float maxSlopeAngle = 35f;
@@ -36,10 +46,11 @@ public class PlayerMovement : MonoBehaviour {
     [Header("Debug")]
     public Vector3 currentSpeed;
     public float currentSpeedMagnitude;
-    public bool jumpBufferCondition;
-    public bool coyoteTimeCondition;
-    public bool readyToJumpCondition;
-
+    public bool useCounterMovement;
+    public bool useExtraGravity;
+    public bool addForceX;
+    public bool addForceY;
+    public bool useLook;
     public void Start()
     {
         ableToMove = true;
@@ -58,29 +69,32 @@ public class PlayerMovement : MonoBehaviour {
 
     private void Update() 
     {
+        if(useLook)
         Look();
         currentSpeed = rb.velocity;
         currentSpeedMagnitude = rb.velocity.magnitude;
     }
-    
     private void Movement() 
     {
-        //Movement input parameters (just so i don't have to repeat input.x input.y)
-        float x = input.x;
-        float y = input.y;
-
         //Some extra gravity for ground check to work properly
-        Vector3 gravityForce = (Vector3.down * 10) * Time.deltaTime;
-        rb.AddForce(gravityForce);
+        if (useExtraGravity)
+        {
+            Vector3 originalSpeed = rb.velocity; 
+            Vector3 extraGravity = (Vector3.down * 10) * Time.deltaTime;
+            rb.AddForce(extraGravity);
+
+            rb.velocity = new Vector3(originalSpeed.x, rb.velocity.y, originalSpeed.z);
+        }
 
         //Find actual velocity relative to where player is looking
         Vector2 mag = FindVelRelativeToLook();
         float xMag = mag.x;
         float yMag = mag.y;
 
+     
         //Counteract movement so if you're moving not towards where you're looking, you'll gradually stop
-        CounterMovement(x, y, mag);
-
+        if (useCounterMovement)
+            CounterMovement(x, y, mag);
         
         
         //Limits speed to max speed
@@ -101,13 +115,16 @@ public class PlayerMovement : MonoBehaviour {
         float totalMultiplier = moveSpeed * Time.deltaTime * multiplier;
 
         //Set forces in each direction
-        Vector3 xForce = playerModel.transform.right * x ;
+        Vector3 xForce = playerModel.transform.right * x;
         Vector3 yForce = playerModel.transform.forward * y;
-        rb.AddForce(xForce * totalMultiplier);
-        rb.AddForce(yForce * totalMultiplier);
-    }
 
-    
+        
+
+        if(addForceX)
+            rb.AddForce(xForce * totalMultiplier);
+        if(addForceY)
+            rb.AddForce(yForce * totalMultiplier);
+    }
     public void StepClimb()
     {
         Vector3[] checkArray = { Vector3.forward, new Vector3(1.5f,0f,1f), new Vector3(-1.5f, 0f, 1f) };
@@ -156,7 +173,7 @@ public class PlayerMovement : MonoBehaviour {
 
     private void CounterMovement(float x, float y, Vector2 mag) 
     {
-        if (!grounded || input.jumping) return;
+        if (!grounded || jump.currentlyJumping) return;
 
         //Counter movement
         if (Math.Abs(mag.x) > threshold && Math.Abs(x) < 0.05f || (mag.x < -threshold && x > 0) || (mag.x > threshold && x < 0)) 
@@ -164,7 +181,8 @@ public class PlayerMovement : MonoBehaviour {
             rb.AddForce(moveSpeed * playerModel.transform.right * Time.deltaTime * -mag.x * counterMovement);
         }
 
-        if (Math.Abs(mag.y) > threshold && Math.Abs(y) < 0.05f || (mag.y < -threshold && y > 0) || (mag.y > threshold && y < 0)) {
+        if (Math.Abs(mag.y) > threshold && Math.Abs(y) < 0.05f || (mag.y < -threshold && y > 0) || (mag.y > threshold && y < 0)) 
+        {
             rb.AddForce(moveSpeed * playerModel.transform.forward * Time.deltaTime * -mag.y * counterMovement);
         }
         
@@ -224,13 +242,11 @@ public class PlayerMovement : MonoBehaviour {
         }
 
         //Invoke ground/wall cancel, since we can't check normals with CollisionExit
-        float delay = 3f;
         if (!cancellingGrounded) {
             cancellingGrounded = true;
-            Invoke(nameof(StopGrounded), Time.deltaTime * delay);
+            Invoke(nameof(StopGrounded), Time.deltaTime * groundOffDelay);
         }
     }
-
     private void StopGrounded() {
         grounded = false;
     }
