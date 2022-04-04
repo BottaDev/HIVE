@@ -38,10 +38,14 @@ public class PlayerMovement : MonoBehaviour {
     public float maxSlopeAngle = 35f;
 
     [Header("Steps")]
+    public LayerMask stairsMask;
     public Transform stepLower;
     public Transform stepUpper;
+    public Transform stepMiddle;
     [SerializeField] private float stepHeight = 0.25f;
     [SerializeField] private float stepSmooth = 0.1f;
+    [SerializeField] private int stepSmoothing = 5;
+    [SerializeField] private float stepCheckDistance = 0.2f;
 
     [Header("Debug")]
     public Vector3 currentSpeed;
@@ -51,11 +55,12 @@ public class PlayerMovement : MonoBehaviour {
     public bool addForceX;
     public bool addForceY;
     public bool useLook;
+    public bool stepCheck;
+
     public void Start()
     {
         ableToMove = true;
-        stepUpper.localPosition = new Vector3(0, -1 + stepHeight, 0);
-        stepLower.localPosition = new Vector3(0, -1, 0);
+        stepUpper.localPosition = stepLower.localPosition + new Vector3(0, stepHeight, 0);
     }
 
     private void FixedUpdate() 
@@ -63,7 +68,11 @@ public class PlayerMovement : MonoBehaviour {
         if (ableToMove)
         {
             Movement();
-            //StepClimb();
+
+            if (stepCheck)
+            {
+                StepClimb();
+            }
         }
     }
 
@@ -127,19 +136,37 @@ public class PlayerMovement : MonoBehaviour {
     }
     public void StepClimb()
     {
-        Vector3[] checkArray = { Vector3.forward, new Vector3(1.5f,0f,1f), new Vector3(-1.5f, 0f, 1f) };
-
-        foreach (Vector3 check in checkArray)
+        if (rb.velocity.x != 0 || rb.velocity.z != 0)
         {
-            RaycastHit lower;
-            if (Physics.Raycast(stepLower.position, transform.TransformDirection(check), out lower, 0.1f, groundMask))
+            Vector3[] checkArray = { Vector3.forward, new Vector3(1.5f, 0f, 1f), new Vector3(-1.5f, 0f, 1f) };
+
+            foreach (Vector3 check in checkArray)
             {
-                Debug.Log("Lower collision");
-                RaycastHit upper;
-                if (!Physics.Raycast(stepUpper.position, transform.TransformDirection(check), out upper, 0.2f, groundMask))
+                Vector3 lowerStart = stepLower.position;
+                Vector3 lowerEnd = stepLower.TransformDirection(check);
+
+                RaycastHit lower;
+                if (Physics.Raycast(lowerStart, lowerEnd.normalized, out lower, stepCheckDistance, stairsMask))
                 {
-                    Debug.Log("Step up");
-                    rb.position += new Vector3(0f, stepSmooth, 0f);
+                    Vector3 upperStart = stepUpper.position;
+                    Vector3 upperEnd = stepUpper.TransformDirection(check);
+
+                    RaycastHit upper;
+                    if (!Physics.Raycast(upperStart, upperEnd.normalized, out upper, stepCheckDistance, stairsMask))
+                    {
+                        for (int i = 0; i <= stepSmoothing; i++)
+                        {
+                            float currentHeight = i * (stepHeight / stepSmoothing);
+                            stepMiddle.position = lowerStart + new Vector3(0, currentHeight, 0);
+                            Vector3 newPosDirection = stepMiddle.TransformDirection(check);
+
+                            if (!Physics.Raycast(stepMiddle.position, newPosDirection.normalized, out upper, stepCheckDistance, stairsMask))
+                            {
+                                rb.position += new Vector3(0, currentHeight, 0);
+                                break;
+                            }
+                        }
+                    }
                 }
             }
         }
