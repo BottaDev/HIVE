@@ -4,37 +4,34 @@ using UnityEngine;
 
 public class PlayerAnimator : MonoBehaviour
 {
-    private Animator _anim;
-    private static readonly int IsJumping = Animator.StringToHash("isJumping");
-    private static readonly int IsDashing = Animator.StringToHash("isDashing");
-    private static readonly int IsShooting = Animator.StringToHash("isShooting");
-    private static readonly int IsRunning = Animator.StringToHash("isRunning");
+    [SerializeField] private Animator _top;
+    [SerializeField] private Animator _bottom;
     
-    private void Start()
+    public enum AnimationTriggers
     {
-        _anim = GetComponent<Animator>();
+        IsJumping, IsDashing, IsShooting, IsRunning
     }
 
-    private void Update()
+    public void AnimationBooleans(AnimationTriggers trigger, bool state)
     {
-        if(Input.GetKey(KeyCode.Space))
-            _anim.SetBool(IsJumping,true);
-        else
-            _anim.SetBool(IsJumping, false);
+        switch (trigger)
+        {
+            case AnimationTriggers.IsJumping:
+                _top.SetBool("isJumping", state);
+                _bottom.SetBool("isJumping", state);
+                break;
+            case AnimationTriggers.IsDashing:
+                _top.SetBool("isDashing", state);
+                _bottom.SetBool("isDashing", state);
+                break;
+            case AnimationTriggers.IsShooting:
+                _top.SetBool("isShooting", state);
+                break;
+            case AnimationTriggers.IsRunning:
+                _top.SetBool("isRunning", state);
+                _bottom.SetBool("isRunning", state);
+                break;
+        }
         
-        if(Input.GetKeyDown(KeyCode.LeftShift))
-            _anim.SetBool(IsDashing, true);
-        else
-            _anim.SetBool(IsDashing, false);
-        
-        if(Input.GetKey(KeyCode.Mouse0))
-            _anim.SetBool(IsShooting, true);
-        else
-            _anim.SetBool(IsShooting, false);
-
-        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.W))
-            _anim.SetBool(IsRunning, true);
-        else
-            _anim.SetBool(IsRunning, false);
     }
 }

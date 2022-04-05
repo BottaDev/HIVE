@@ -5,14 +5,13 @@ using UnityEngine;
 public class PlayerJump : MonoBehaviour
 {
     [Header("Assignables")]
-    [SerializeField] private PlayerInput input;
-    [SerializeField] private PlayerMovement movement;
+    [SerializeField] private Player player;
 
     //Variables taken out of the scripts
-    public bool grounded { get { return movement.grounded; } }
-    public Rigidbody rb { get { return movement.rb; } }
-    public bool jumping { get { return input.jumping; } }
-    public bool stoppedJumping { get { return input.stoppedJumping; } }
+    public bool grounded { get { return player.movement.grounded; } }
+    public Rigidbody rb { get { return player.movement.rb; } }
+    public bool jumping { get { return player.input.jumping; } }
+    public bool stoppedJumping { get { return player.input.stoppedJumping; } }
 
     [Header("Jumping")]
     public float jumpForce = 550f;
@@ -102,6 +101,7 @@ public class PlayerJump : MonoBehaviour
         //Falling = higher gravity
         if (rb.velocity.y < 0 && !grounded)
         {
+            player.animator.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsJumping, false);
             lowJumpCondition = false;
             currentlyJumping = false;
             fallingGravity = true;
@@ -119,6 +119,8 @@ public class PlayerJump : MonoBehaviour
 
         //Add jump forces
         rb.AddForce(force);
+
+        player.animator.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsJumping, true);
 
         Invoke(nameof(ResetJump), jumpCooldown);
     }

@@ -4,10 +4,10 @@ using UnityEngine;
 public class ShootTP : MonoBehaviour
 {
     [Header("Assignables")]
-    [SerializeField] private PlayerInput input;
+    [SerializeField] private Player player;
 
     //Get whatever information you need for this script
-    private bool shooting { get { return input.shooting; } }
+    private bool shooting { get { return player.input.shooting; } }
 
     [Header("Gun")]
     public float fireRate = 15;
@@ -57,11 +57,16 @@ public class ShootTP : MonoBehaviour
 
         if (shooting)
         {
+            player.animator.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsShooting, true);
             if (Time.time >= _nextShoot)
             {
                 _nextShoot = Time.time + 1 / fireRate;
                 Shoot();
             }
+        }
+        else
+        {
+            player.animator.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsShooting, false);
         }
 
         if (currentCD > gunCd)

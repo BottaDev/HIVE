@@ -4,14 +4,12 @@ using UnityEngine;
 public class DashTP : MonoBehaviour
 {
     [Header("Assignables")]
-    [SerializeField] private PlayerInput        input;
-    [SerializeField] private PlayerMovement     movement;
     [SerializeField] private Player             player;
     [SerializeField] private TrailRenderer[]    trails;
     private Camera _cam;
 
     //Get whatever information you need for this script
-    private bool dashing { get { return input.dashing; } }
+    private bool dashing { get { return player.input.dashing; } }
 
 
     [Header("Parameters")]
@@ -46,30 +44,34 @@ public class DashTP : MonoBehaviour
         foreach (TrailRenderer item in trails)
             item.emitting = true;
 
-        movement.ableToMove = false;
+        player.movement.ableToMove = false;
         _currentDashCD = _dashCD;
-        movement.ApplyGravity(false);
+        player.movement.ApplyGravity(false);
 
-        Vector3 originalVelocity = movement.rb.velocity;
+        Vector3 originalVelocity = player.movement.rb.velocity;
         Vector3 orientation = new Vector3(originalVelocity.x, 0, originalVelocity.z);
         if(orientation.magnitude == 0)
         {
-            orientation = movement.playerModel.forward;
+            orientation = player.movement.playerModel.forward;
         }
 
         Vector3 dashdirection = orientation.normalized;
-        movement.rb.velocity = dashdirection * _dashVelocity;
+        player.movement.rb.velocity = dashdirection * _dashVelocity;
+
+        player.animator.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsDashing, true);
 
         yield return new WaitForSeconds(_dashDuration);
+
+        player.animator.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsDashing, false);
 
         foreach (TrailRenderer item in trails)
             item.emitting = false;
 
-        dashdirection = movement.rb.velocity.normalized;
-        
-        movement.rb.velocity = dashdirection * originalVelocity.magnitude;
-        movement.ableToMove = true;
-        movement.ApplyGravity(true);
+        dashdirection = player.movement.rb.velocity.normalized;
+
+        player.movement.rb.velocity = dashdirection * originalVelocity.magnitude;
+        player.movement.ableToMove = true;
+        player.movement.ApplyGravity(true);
     }
 
     IEnumerator CameraEffect()

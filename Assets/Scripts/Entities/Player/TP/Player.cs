@@ -4,7 +4,11 @@ using UnityEngine.SceneManagement;
 public class Player : Entity
 {
     [Header("Assignables")]
-    [SerializeField] private PlayerInput input;
+    public PlayerInput input;
+    public PlayerAnimator animator;
+    public PlayerJump jump;
+    public PlayerMovement movement;
+
     public bool restart { get { return input.restart; } }
 
     [SerializeField] private HealthBar _healthBar;

@@ -4,17 +4,17 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour {
 
     [Header("Assignables")]
-    [SerializeField] private PlayerInput    input;
+    [SerializeField] private Player         player;
     [SerializeField] private Transform      playerCam;
                      public  Transform      playerModel;
-                     public  PlayerJump     jump;
                      public  Rigidbody      rb;
 
     //Get info from scripts
-    public float x { get { return input.x; } set { input.x = value; } }
-    public float y { get { return input.y; } set { input.y = value; } }
+    public float x { get { return player.input.x; } set { player.input.x = value; } }
+    public float y { get { return player.input.y; } set { player.input.y = value; } }
 
     [Header("Rotation and look")]
+    [SerializeField] private Transform legModel;
     private float xRotation;
     [SerializeField] private float sensitivity = 50f;
     private float sensMultiplier = 1f;
@@ -28,8 +28,7 @@ public class PlayerMovement : MonoBehaviour {
     [Header("Movement")]
     public bool ableToMove;
     [SerializeField] private float moveSpeed = 4500;
-    public float maxSpeed = 20;
-    
+    public float maxSpeed  = 20;
     
     public float airMovementMultiplier = 0.5f;
     [HideInInspector] public bool movementDirection;
@@ -56,7 +55,8 @@ public class PlayerMovement : MonoBehaviour {
     public bool addForceY;
     public bool useLook;
     public bool stepCheck;
-
+    public bool rotateLowerHalf;
+    
     public void Start()
     {
         ableToMove = true;
@@ -85,6 +85,25 @@ public class PlayerMovement : MonoBehaviour {
     }
     private void Movement() 
     {
+        //Check if you're moving  to set animation (use original input)
+        if (this.x != 0 || this.y != 0)
+        {
+            player.animator.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsRunning, true);
+        }
+        else
+        {
+            player.animator.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsRunning, false);
+        }
+
+        float x = this.x;
+        float y = this.y;
+        if (rotateLowerHalf)
+        {
+            //Rotate towards input movement
+            float rotation = Mathf.Atan2(x, y) * Mathf.Rad2Deg;
+            legModel.eulerAngles = transform.eulerAngles + new Vector3(0, rotation, 0);
+        }
+
         //Some extra gravity for ground check to work properly
         if (useExtraGravity)
         {
@@ -200,7 +219,7 @@ public class PlayerMovement : MonoBehaviour {
 
     private void CounterMovement(float x, float y, Vector2 mag) 
     {
-        if (!grounded || jump.currentlyJumping) return;
+        if (!grounded || player.jump.currentlyJumping) return;
 
         //Counter movement
         if (Math.Abs(mag.x) > threshold && Math.Abs(x) < 0.05f || (mag.x < -threshold && x > 0) || (mag.x > threshold && x < 0)) 
