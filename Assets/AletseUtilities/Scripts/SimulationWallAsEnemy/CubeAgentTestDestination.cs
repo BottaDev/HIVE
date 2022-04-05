@@ -3,12 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Serialization;
 
-public class CubeAgentTestDestination : MonoBehaviour
+public class CubeAgentTestDestination : Entity
 {
-    [SerializeField] private Transform _destination;
+    public Transform player;
 
     private NavMeshAgent _navMeshAgent;
+    
+    
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -24,11 +28,15 @@ public class CubeAgentTestDestination : MonoBehaviour
 
     private void Update()
     {
-        Vector3 targetVector = _destination.transform.position;
-        _navMeshAgent.SetDestination(targetVector);
+        _navMeshAgent.SetDestination(player.position);
+        _navMeshAgent.speed = baseSpeed;
     }
 
-   
 
-    
+    public override void TakeDamage(float damage)
+    {
+        CurrentHealth -= damage;
+        if(CurrentHealth <= 0)
+            Destroy(gameObject);
+    }
 }

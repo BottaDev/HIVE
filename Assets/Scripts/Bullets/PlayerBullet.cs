@@ -29,6 +29,13 @@ public class PlayerBullet : BasicBullet
             enemy.TakeDamage(damage);
             Crosshair.instance.Hit();
         }
+
+        if (other.gameObject.layer == 12)
+        {
+            var entity = other.gameObject.GetComponent<Entity>();
+            entity.TakeDamage(damage);
+            Crosshair.instance.Hit();
+        }
         
         base.OnTriggerEnter(other);
     }
