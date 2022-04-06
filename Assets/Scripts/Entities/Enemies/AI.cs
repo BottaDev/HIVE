@@ -13,21 +13,26 @@ public abstract class AI : Entity
     [Range(0f, 3f)] public float attackRate = 1f;
     public float detectionRange = 25f;
     public float rotationSpeed = 5f;
+    public bool isAEnemySpawner = false;
 
+    
     protected float _currentAttackRate;           
     protected Player _player;
-    protected NavMeshAgent _agent;
+    public NavMeshAgent _agent;
     protected FOV _fov;
-    protected bool _playerDetected;
+    public bool _playerDetected;
 
+    private Coroutine _followCoroutine;
+    [SerializeField] private float updateRate = 0.1f;
+    
+    
     protected override void Awake()
     {
         base.Awake();
-
         _fov = GetComponent<FOV>();
         _agent = GetComponent<NavMeshAgent>();
         _player = FindObjectOfType<Player>();
-
+        
         _currentAttackRate = 0;
     }
 
@@ -46,6 +51,29 @@ public abstract class AI : Entity
             float distance = Vector3.Distance(transform.position, _player.transform.position);
             if (distance <= detectionRange)
                 DetectPlayer();   
+        }
+    }
+
+    public void StartChasing()
+    {
+        if (_followCoroutine == null)
+        {
+            _followCoroutine = StartCoroutine(FollowTarget());
+        }
+        else
+        {
+            Debug.LogWarning("Called StartChasing on Enemy that is already chasing! This is likely a bug in some calling");
+        }
+    }
+
+    private IEnumerator FollowTarget()
+    {
+        WaitForSeconds wait = new WaitForSeconds(updateRate);
+
+        while (enabled)
+        {
+            _agent.SetDestination(_player.transform.position);
+            yield return wait;
         }
     }
 
@@ -95,6 +123,13 @@ public abstract class AI : Entity
 
         Destroy(gameObject);
     }
+
+    //public override void OnDisable()
+    //{
+    //    base.OnDisable();
+    //
+    //    _agent.enabled = false;
+    //}
 
     protected virtual void OnDrawGizmosSelected()
     {

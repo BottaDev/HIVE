@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 public class CommunistWall : Entity
 {
     public Transform player;
+    public bool canKillYou = true;
     private NavMeshAgent _navMeshAgent;
     
     // Start is called before the first frame update
@@ -23,6 +24,14 @@ public class CommunistWall : Entity
     {
         _navMeshAgent.SetDestination(player.position);
         _navMeshAgent.speed = baseSpeed;
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            if (!canKillYou)
+                canKillYou = true;
+            else
+                canKillYou = false;
+        }
     }
 
 
@@ -37,7 +46,7 @@ public class CommunistWall : Entity
     {
         var playerCol = other.GetComponent<Player>();
 
-        if (playerCol != null)
+        if (playerCol != null && canKillYou)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
