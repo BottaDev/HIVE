@@ -39,6 +39,7 @@ public class BasicBullet : MonoBehaviour
 
     protected virtual void OnTriggerEnter(Collider other)
     {
+        
         Impact();
     }
 }

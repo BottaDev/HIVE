@@ -9,8 +9,7 @@ public class CountEnemyManager : MonoBehaviour
 {
     private int _currentEnemies;
     private int _totalEnemies;
-    public TextMeshProUGUI currentEnemies;
-    public TextMeshProUGUI totalEnemies;
+    public TextMeshProUGUI UIEnemyCounter;
 
     private void Awake()
     {
@@ -18,10 +17,9 @@ public class CountEnemyManager : MonoBehaviour
         EventManager.Instance.Subscribe("OnTotalEnemy", OnTotalEnemy);
     }
 
-    private void Update()
+    private void UpdateText()
     {
-        currentEnemies.text = _currentEnemies.ToString();
-        totalEnemies.text = _totalEnemies.ToString();
+        UIEnemyCounter.text = _currentEnemies.ToString() + " / " + _totalEnemies.ToString();
     }
 
     private void OnEnemyCounted(params object[] parameters)
@@ -29,6 +27,8 @@ public class CountEnemyManager : MonoBehaviour
         var enemyCount = (int) parameters[0];
 
         _currentEnemies = enemyCount;
+
+        UpdateText();
     }
 
     private void OnTotalEnemy(params object[] parameters)
@@ -36,7 +36,9 @@ public class CountEnemyManager : MonoBehaviour
         var totalEnemies = (int) parameters[0];
 
         _totalEnemies = totalEnemies;
-        
+
+        UpdateText();
+
         EventManager.Instance.Unsubscribe("OnTotalEnemy", OnTotalEnemy);
     }
 }
