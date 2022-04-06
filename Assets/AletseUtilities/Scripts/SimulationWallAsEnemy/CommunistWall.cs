@@ -1,17 +1,11 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Serialization;
+using UnityEngine.SceneManagement;
 
-public class CubeAgentTestDestination : Entity
+public class CommunistWall : Entity
 {
     public Transform player;
-
     private NavMeshAgent _navMeshAgent;
-    
-    
     
     // Start is called before the first frame update
     void Start()
@@ -21,7 +15,6 @@ public class CubeAgentTestDestination : Entity
         if (_navMeshAgent == null)
         {
             Debug.LogError("The nav mesh agent component is not attached to" + gameObject.name);
-            return;
         }
     
     }
@@ -38,5 +31,15 @@ public class CubeAgentTestDestination : Entity
         CurrentHealth -= damage;
         if(CurrentHealth <= 0)
             Destroy(gameObject);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        var playerCol = other.GetComponent<Player>();
+
+        if (playerCol != null)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
     }
 }
