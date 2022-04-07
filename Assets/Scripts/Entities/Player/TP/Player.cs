@@ -34,7 +34,7 @@ public class Player : Entity
         defenseLevelSystem = new LevellingSystem(levelFormula).SetOnLevelup(delegate (int level) { maxHealth += 2; });
         mobilityLevelSystem = new LevellingSystem(levelFormula).SetOnLevelup(delegate (int level) { movement.maxSpeed += 1; });
 
-        EventManager.Instance?.Subscribe("OnPlayerDamaged", OnPlayerDamaged);
+        EventManager.Instance?.Subscribe(EventManager.Events.OnPlayerDamaged, OnPlayerDamaged);
     }
 
     private void Start()
@@ -76,12 +76,12 @@ public class Player : Entity
     public override void TakeDamage(float damage)
     {
         CurrentHealth -= damage;
-        EventManager.Instance.Trigger("OnLifeUpdated", CurrentHealth);
+        EventManager.Instance.Trigger(EventManager.Events.OnLifeUpdated, CurrentHealth);
 
         if (CurrentHealth <= 0)
         {
-            EventManager.Instance.Trigger("OnPlayerDead");
-            EventManager.Instance.Unsubscribe("OnPlayerDamaged", OnPlayerDamaged);
+            EventManager.Instance.Trigger(EventManager.Events.OnPlayerDead);
+            EventManager.Instance.Unsubscribe(EventManager.Events.OnPlayerDamaged, OnPlayerDamaged);
             gameObject.SetActive(false);
         }
     }

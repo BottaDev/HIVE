@@ -17,7 +17,7 @@ public class WinLoseManager : MonoBehaviour
 
     private void OnEnable()
     {
-        EventManager.Instance.Subscribe("OnPlayerDead", OnPlayerDead);
+        EventManager.Instance.Subscribe(EventManager.Events.OnPlayerDead, OnPlayerDead);
     }
 
     void OnPlayerDead(params object[] parameters)

@@ -18,7 +18,7 @@ public class LevelManager : MonoBehaviour
     {
         _levelGen = GetComponent<levelGen>();
         
-        EventManager.Instance.Subscribe("OnEnemyDeath", OnEnemyDeath);
+        EventManager.Instance.Subscribe(EventManager.Events.OnEnemyDeath, OnEnemyDeath);
     }
 
     private void Start()
@@ -30,13 +30,13 @@ public class LevelManager : MonoBehaviour
         // Bake map navmesh
         FindObjectOfType<NavMeshSurface>().BuildNavMesh();
         
-        EventManager.Instance.Trigger("OnTotalEnemy", minEnemies);
+        EventManager.Instance.Trigger(EventManager.Events.OnTotalEnemy, minEnemies);
     }
     
     private void OnEnemyDeath(params object[] parameters)
     {
         _enemiesKilled++;
-        EventManager.Instance.Trigger("OnEnemyCounted",_enemiesKilled);
+        EventManager.Instance.Trigger(EventManager.Events.OnEnemyCounted, _enemiesKilled);
 
         // Open the exit door
         if (_enemiesKilled >= minEnemies && _exitDoor.activeSelf)

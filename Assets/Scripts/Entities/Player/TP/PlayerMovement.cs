@@ -86,7 +86,7 @@ public class PlayerMovement : MonoBehaviour {
     private void Movement() 
     {
         //Check if you're moving  to set animation (use original input)
-        if (this.x != 0 || this.y != 0)
+        if (player.input.isMoving)
         {
             player.animator.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsRunning, true);
         }

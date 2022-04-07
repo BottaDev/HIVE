@@ -15,7 +15,7 @@ public class HealthBar : MonoBehaviour
     {
         _slider = GetComponent<Slider>();
 
-        EventManager.Instance?.Subscribe("OnLifeUpdated", OnLifeUpdated);
+        EventManager.Instance?.Subscribe(EventManager.Events.OnLifeUpdated, OnLifeUpdated);
     }
 
     public void SetMaxHealt(float health)

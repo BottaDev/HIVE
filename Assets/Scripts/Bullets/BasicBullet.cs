@@ -14,7 +14,7 @@ public class BasicBullet : MonoBehaviour
     public RaycastHit hit;
     
     [Header("Effects")]
-    public GameObject impactParticles;
+    public ParticleSystem impactParticles;
 
     private void Start()
     {
@@ -31,8 +31,9 @@ public class BasicBullet : MonoBehaviour
 
     protected virtual void Impact()
     {
-        GameObject p = Instantiate(impactParticles, transform.position, Quaternion.identity);
-        p.transform.eulerAngles = transform.eulerAngles * -1;
+        impactParticles.transform.parent = null;
+        impactParticles.transform.eulerAngles = transform.eulerAngles * -1;
+        impactParticles.Play();
         
         Destroy(gameObject);
     }

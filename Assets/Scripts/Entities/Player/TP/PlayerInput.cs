@@ -26,6 +26,7 @@ public class PlayerInput : MonoBehaviour
     [HideInInspector] public bool   shooting;
     [HideInInspector] public bool   restart;
     [HideInInspector] public bool   freecam;
+    [HideInInspector] public bool   isMoving;
 
     private void Update()
     {
@@ -36,6 +37,7 @@ public class PlayerInput : MonoBehaviour
     {
         x = Input.GetAxisRaw("Horizontal");
         y = Input.GetAxisRaw("Vertical");
+        isMoving = x != 0 || y != 0;
         jumping = Input.GetKeyDown(_jumpKey);
         stoppedJumping = Input.GetKeyUp(_jumpKey);
         dashing = Input.GetKeyDown(_dashKey);

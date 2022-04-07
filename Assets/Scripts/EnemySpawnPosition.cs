@@ -8,7 +8,7 @@ public class EnemySpawnPosition : MonoBehaviour
 
     private void OnEnable()
     {
-        EventManager.Instance.Subscribe("OnNavMeshBake", OnNavMeshBake);
+        EventManager.Instance.Subscribe(EventManager.Events.OnNavMeshBake, OnNavMeshBake);
     }
 
     void OnNavMeshBake(params object[] parameters)

@@ -154,7 +154,7 @@ public abstract class AI : Entity
 
     private void KillAI()
     {
-        EventManager.Instance.Trigger("OnEnemyDeath");
+        EventManager.Instance.Trigger(EventManager.Events.OnEnemyDeath);
 
         Destroy(gameObject);
     }

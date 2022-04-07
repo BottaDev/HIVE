@@ -21,7 +21,7 @@ public class Shooter : AI
     {
         base.Awake();
 
-        EventManager.Instance.Subscribe("OnEnemyDamaged", OnEnemyDamaged);
+        EventManager.Instance.Subscribe(EventManager.Events.OnEnemyDamaged, OnEnemyDamaged);
         
         _currentEvadeTime = evadeTime;
     }

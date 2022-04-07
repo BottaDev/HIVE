@@ -5,9 +5,21 @@ using System;
 
 public class EventManager : MonoBehaviour
 {
+    public enum Events
+    {
+        OnNavMeshBake,
+        OnEnemyDamaged,
+        OnPlayerDamaged,
+        OnEnemyCounted,
+        OnTotalEnemy,
+        OnEnemyDeath,
+        OnPlayerDead,
+        OnLifeUpdated
+    }
+
     public static EventManager Instance { get; private set; }
 
-    Dictionary<string, Action<object[]>> _subscribers = new Dictionary<string, Action<object[]>>();
+    Dictionary<Events, Action<object[]>> _subscribers = new Dictionary<Events, Action<object[]>>();
 
     private void Awake()
     {
@@ -20,7 +32,7 @@ public class EventManager : MonoBehaviour
         }
     }
 
-    public void Subscribe(string eventId, Action<object[]> callback)
+    public void Subscribe(Events eventId, Action<object[]> callback)
     {
         if (!_subscribers.ContainsKey(eventId))
             _subscribers.Add(eventId, callback);
@@ -28,14 +40,14 @@ public class EventManager : MonoBehaviour
             _subscribers[eventId] += callback;
     }
 
-    public void Unsubscribe(string eventId, Action<object[]> callback)
+    public void Unsubscribe(Events eventId, Action<object[]> callback)
     {
         if (!_subscribers.ContainsKey(eventId)) return;
 
         _subscribers[eventId] -= callback;
     }
 
-    public void Trigger(string eventId, params object[] parameters)
+    public void Trigger(Events eventId, params object[] parameters)
     {
         if (!_subscribers.ContainsKey(eventId))
             return;
