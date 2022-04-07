@@ -16,6 +16,7 @@ public class LevellingSystem
     List<LevelStructure> levels;
     int maxLevel = 200;
     Func<int, int> LevelFormula = delegate(int level) { return level * 10; };
+    Action<int> onLevelup = delegate(int level) { };
     public void BuildBaseLevelSystem()
     {
         levels = new List<LevelStructure>();
@@ -96,6 +97,11 @@ public class LevellingSystem
         EXP = GetLevelStructure(level).expRequirement;
         return this;
     }
+    public LevellingSystem SetOnLevelup(Action<int> onLevelup)
+    {
+        this.onLevelup = onLevelup;
+        return this;
+    }
 
     int _level;
     [SerializeField] int _exp;
@@ -111,6 +117,16 @@ public class LevellingSystem
         {
             Debug.Log("Could not find level of exp amount " + _exp);
             return;
+        }
+
+        if(_level < updatedLevel)
+        {
+            int difference = updatedLevel - _level;
+            for (int i = 0; i < difference; i++)
+            {
+                onLevelup(_level + i + 1);
+            }
+            
         }
 
         Level = updatedLevel;
