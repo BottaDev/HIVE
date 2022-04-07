@@ -250,9 +250,23 @@ MonoBehaviour:
   maxHealth: 10
   baseSpeed: 5
   _currentHealth: 0
+  ExpParameters:
+  - name: Attack
+    type: 0
+    expAmount: 5
+  - name: Defense
+    type: 1
+    expAmount: 5
+  - name: Mobility
+    type: 2
+    expAmount: 5
   attackRate: 1.5
   detectionRange: 25
   rotationSpeed: 120
+  isAEnemySpawner: 0
+  _agent: {fileID: 0}
+  _playerDetected: 0
+  updateRate: 0.1
   attackDistance: 20
   evadeDistance: 8
   evadeTime: 3

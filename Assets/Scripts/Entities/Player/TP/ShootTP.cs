@@ -10,6 +10,7 @@ public class ShootTP : MonoBehaviour
     private bool shooting { get { return player.input.shooting; } }
 
     [Header("Gun")]
+    public float damage = 5;
     public float fireRate = 15;
     public float gunCd = 1f;
     private float currentCD;
@@ -91,7 +92,8 @@ public class ShootTP : MonoBehaviour
             currentCD = 0;
 
             Vector3 aimDir = (_mouseWorldPosition - _firePoint.position).normalized;
-            Instantiate(bullet, _firePoint.position, Quaternion.LookRotation(aimDir, Vector3.up));
+            PlayerBullet bul = Instantiate(bullet, _firePoint.position, Quaternion.LookRotation(aimDir, Vector3.up)).GetComponent<PlayerBullet>();
+            bul.damage = damage;
 
             currentAmmo -= ammoCost;
 

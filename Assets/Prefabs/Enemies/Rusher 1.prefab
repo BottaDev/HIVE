@@ -273,7 +273,7 @@ GameObject:
   - component: {fileID: 441090482870392484}
   - component: {fileID: 5880965783394602147}
   m_Layer: 7
-  m_Name: Rusher
+  m_Name: Rusher 1
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -349,15 +349,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 10
   baseSpeed: 8
+  _currentHealth: 0
+  ExpParameters:
+  - name: Attack
+    type: 0
+    expAmount: 5
+  - name: Defense
+    type: 1
+    expAmount: 5
+  - name: Mobility
+    type: 2
+    expAmount: 5
   attackRate: 2
   detectionRange: 25
   rotationSpeed: 120
-  angleRadius: 100
-  obstacleMask:
-    serializedVersion: 2
-    m_Bits: 64
+  isAEnemySpawner: 0
+  _agent: {fileID: 0}
+  _playerDetected: 0
+  updateRate: 0.1
   attackJumpLength: 10
-  attackTime: 0.3
+  attackDuration: 0.3
   attackDistance: 7
+  waitTime: 0.3
   collider: {fileID: 8196900972441882769}
-  _animator: {fileID: 0}
