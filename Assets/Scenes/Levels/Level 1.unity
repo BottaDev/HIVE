@@ -1209,17 +1209,6 @@ MonoBehaviour:
   _currentHealth: 0
   player: {fileID: 76275802}
   canKillYou: 0
---- !u!114 &861768623 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2010002419299452760, guid: ec303b27c67c819459c9c8a3a604e863, type: 3}
-  m_PrefabInstance: {fileID: 5527850385053274757}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 196f29743ccf31943a14d72d078d3c10, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &885201181
 GameObject:
   m_ObjectHideFlags: 0
@@ -1934,6 +1923,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1611359679027022787, guid: 94245de088a2c374ebbb84cb6c6096ef, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2.038945
+      objectReference: {fileID: 0}
+    - target: {fileID: 1611359679027022787, guid: 94245de088a2c374ebbb84cb6c6096ef, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2.038945
+      objectReference: {fileID: 0}
+    - target: {fileID: 1611359679027022787, guid: 94245de088a2c374ebbb84cb6c6096ef, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2.038945
+      objectReference: {fileID: 0}
+    - target: {fileID: 1611359679027022787, guid: 94245de088a2c374ebbb84cb6c6096ef, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.0024711937
+      objectReference: {fileID: 0}
+    - target: {fileID: 3302296353499177609, guid: 94245de088a2c374ebbb84cb6c6096ef, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4168305846267914286, guid: 94245de088a2c374ebbb84cb6c6096ef, type: 3}
       propertyPath: m_Name
       value: Gameplay Canvas (1)
@@ -2030,10 +2039,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5951578253588512110, guid: 94245de088a2c374ebbb84cb6c6096ef, type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 861768623}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 94245de088a2c374ebbb84cb6c6096ef, type: 3}
 --- !u!114 &1346965447 stripped

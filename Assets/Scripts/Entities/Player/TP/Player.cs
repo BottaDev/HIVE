@@ -9,8 +9,6 @@ public class Player : Entity
     public PlayerAnimator animator;
     public PlayerJump jump;
     public PlayerMovement movement;
-    public ShootTP shoot;
-    public DashTP dash;
 
     public LevellingSystem attackLevelSystem;
     public LevellingSystem defenseLevelSystem;
@@ -30,9 +28,9 @@ public class Player : Entity
         base.Awake();
 
         Func<int, int> levelFormula = delegate (int level) { return (level-1) * 20; };
-        attackLevelSystem = new LevellingSystem(levelFormula).SetOnLevelup(delegate(int level) { shoot.damage += 1;});
-        defenseLevelSystem = new LevellingSystem(levelFormula).SetOnLevelup(delegate (int level) { maxHealth += 2; });
-        mobilityLevelSystem = new LevellingSystem(levelFormula).SetOnLevelup(delegate (int level) { movement.maxSpeed += 1; });
+        attackLevelSystem = new LevellingSystem(levelFormula);
+        defenseLevelSystem = new LevellingSystem(levelFormula);
+        mobilityLevelSystem = new LevellingSystem(levelFormula);
 
         EventManager.Instance?.Subscribe("OnPlayerDamaged", OnPlayerDamaged);
     }
@@ -47,6 +45,21 @@ public class Player : Entity
         if (restart)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            AddEXP(EXPType.Attack, 1);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            AddEXP(EXPType.Mobility, 1);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            AddEXP(EXPType.Defense, 1);
         }
     }
 

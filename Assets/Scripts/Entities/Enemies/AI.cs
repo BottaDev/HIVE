@@ -9,21 +9,6 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent), typeof(FOV))]
 public abstract class AI : Entity
 {
-    [System.Serializable]
-    struct EXPAmounts
-    {
-        [Tooltip("This is the name that appears in editor for the entry.")]
-        public string name;
-        [Tooltip("This is the type of EXP to give in case of being of this type")]
-        public Player.EXPType type;
-        [Tooltip("This is the actual amount of EXP to give in case of being of this type.")]
-        public int expAmount;
-    }
-
-    [Header("EXP Parameters")]
-    [SerializeField] List<EXPAmounts> ExpParameters;
-    Player.EXPType type;
-
     [Header("AI Parameters")]
     [Range(0f, 3f)] public float attackRate = 1f;
     public float detectionRange = 25f;
@@ -49,22 +34,6 @@ public abstract class AI : Entity
         _player = FindObjectOfType<Player>();
         
         _currentAttackRate = 0;
-    }
-    private void Start()
-    {
-        //Just get a random type for yourself
-        switch (UnityEngine.Random.Range(0,3))
-        {
-            case 0:
-                type = Player.EXPType.Attack;
-                break;
-            case 1:
-                type = Player.EXPType.Defense;
-                break;
-            case 2:
-                type = Player.EXPType.Mobility;
-                break;
-        }
     }
 
     protected virtual void Update()
@@ -145,11 +114,7 @@ public abstract class AI : Entity
         CurrentHealth -= damage;
         
         if(CurrentHealth <= 0)
-        {
-            _player.AddEXP(type, ExpParameters.Where(x => x.type == type).First().expAmount);
             KillAI();
-        }
-            
     }
 
     private void KillAI()
