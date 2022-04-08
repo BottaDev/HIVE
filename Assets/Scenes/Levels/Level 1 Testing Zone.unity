@@ -1042,7 +1042,7 @@ PrefabInstance:
     - target: {fileID: 6714424096258085921, guid: f1f6f47dcc00a414f8bdff68b17c66f4, type: 3}
       propertyPath: LRoomDB.Array.data[0]
       value: 
-      objectReference: {fileID: 8894151579893505896, guid: 14a896d85ad2e5f43b90026cf377ed60, type: 3}
+      objectReference: {fileID: 4522202363231337682, guid: eb06cc6e9c981454eb9d3bd832cc5066, type: 3}
     - target: {fileID: 6714424096258085921, guid: f1f6f47dcc00a414f8bdff68b17c66f4, type: 3}
       propertyPath: RectRoomDB.Array.size
       value: 1
@@ -1050,7 +1050,7 @@ PrefabInstance:
     - target: {fileID: 6714424096258085921, guid: f1f6f47dcc00a414f8bdff68b17c66f4, type: 3}
       propertyPath: TRoomDB.Array.data[0]
       value: 
-      objectReference: {fileID: 4214323088315351171, guid: 94c99717cad893f47a2d1810611761f3, type: 3}
+      objectReference: {fileID: 5037817142437018814, guid: e85923dd304594044b85b3e14025c0ae, type: 3}
     - target: {fileID: 6714424096258085921, guid: f1f6f47dcc00a414f8bdff68b17c66f4, type: 3}
       propertyPath: ArenaRoomDB.Array.size
       value: 1
@@ -1062,7 +1062,7 @@ PrefabInstance:
     - target: {fileID: 6714424096258085921, guid: f1f6f47dcc00a414f8bdff68b17c66f4, type: 3}
       propertyPath: RectRoomDB.Array.data[0]
       value: 
-      objectReference: {fileID: 5236911463711007893, guid: d6bfb67ef981ee24bb2e3de6f2c599c9, type: 3}
+      objectReference: {fileID: 5997754010812824849, guid: f416de545af6dbb4f80da65faa01fbbd, type: 3}
     - target: {fileID: 6714424096258085921, guid: f1f6f47dcc00a414f8bdff68b17c66f4, type: 3}
       propertyPath: ArenaRoomDB.Array.data[0]
       value: 
@@ -1070,7 +1070,7 @@ PrefabInstance:
     - target: {fileID: 6714424096258085921, guid: f1f6f47dcc00a414f8bdff68b17c66f4, type: 3}
       propertyPath: CrossRoomDB.Array.data[0]
       value: 
-      objectReference: {fileID: 8187038912739235921, guid: 0d8a17cd806cbb745bd75738b07334d3, type: 3}
+      objectReference: {fileID: 7699433421712621316, guid: c5826fa42f7b68d4ca931298d2c09ceb, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f1f6f47dcc00a414f8bdff68b17c66f4, type: 3}
 --- !u!1 &840547975
@@ -1103,8 +1103,8 @@ NavMeshAgent:
   m_GameObject: {fileID: 840547975}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.09
-  m_Speed: 3.5
+  m_Radius: 0.1
+  m_Speed: 3.65
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -1112,9 +1112,9 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 1
-  m_BaseOffset: 0.50000006
-  m_WalkableMask: 4294967295
+  m_Height: 0.23
+  m_BaseOffset: 0.42
+  m_WalkableMask: 3
   m_ObstacleAvoidanceType: 4
 --- !u!65 &840547977
 BoxCollider:
@@ -1148,7 +1148,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3e5d0f8bf56949949a8678f50a474387, type: 2}
+  - {fileID: 2100000, guid: bfa7ff6ebbde90041be3cd826128b6b8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1186,7 +1186,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 840547975}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 130.68, y: 2.42, z: -8.01}
+  m_LocalPosition: {x: 130.68, y: 3, z: 36.2}
   m_LocalScale: {x: 25.999037, y: 20.571213, z: 0.5196688}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1208,7 +1208,7 @@ MonoBehaviour:
   baseSpeed: 6.5
   _currentHealth: 0
   player: {fileID: 76275802}
-  canKillYou: 1
+  canKillYou: 0
 --- !u!1 &885201181
 GameObject:
   m_ObjectHideFlags: 0
