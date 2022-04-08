@@ -181,7 +181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 196f29743ccf31943a14d72d078d3c10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 10
+  maxHealth: 20
   baseSpeed: 5
   _currentHealth: 0
   input: {fileID: 2839959021259793015}
@@ -319,7 +319,7 @@ MonoBehaviour:
   - {fileID: 7902526483232057360}
   _dashVelocity: 50
   _dashDuration: 0.25
-  _dashCD: 0.5
+  _dashCD: 1
 --- !u!114 &3473960329723331748
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -334,7 +334,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 2010002419299452760}
   damage: 5
-  fireRate: 5
+  fireRate: 7
   gunCd: 1
   _reloading: 0
   maxAmmo: 100
