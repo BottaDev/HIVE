@@ -5,6 +5,9 @@ using System;
 
 public class Rails : MonoBehaviour
 {
+    [Header("Assignables")]
+    public Player p;
+
     [Header("Path")] 
     public List<Transform> waypoints;
     private int current = 0;
@@ -16,17 +19,20 @@ public class Rails : MonoBehaviour
     public float speed;
     public float detectionRange;
 
+    private bool waitingForInput;
     private Transform player;
     private Transform unattachedParent;
-    private bool active;
+    [HideInInspector] public bool active;
+
     [Header("Debug")]
-    public Player p;
+    
     public bool loop;
 
     public void Attach(Transform player)
     {
         if (!active)
         {
+            EventManager.Instance.Trigger(EventManager.Events.OnPlayerRailAttached);
             active = true;
             unattachedParent = player.parent;
             this.player = player;
@@ -39,15 +45,22 @@ public class Rails : MonoBehaviour
     {
         if (active)
         {
+            EventManager.Instance.Trigger(EventManager.Events.OnPlayerRailDeAttached);
             active = false;
             player.parent = unattachedParent;
             player = null;
+            p.movement.rb.velocity = Vector3.zero;
         }
     }
 
     private void Update()
     {
-        if (p.input.isMoving || p.input.dashing)
+        if(waitingForInput && p.input.attaching)
+        {
+            Attach(p.transform);
+        }
+
+        if (p.input.isMoving || p.input.dashing || p.input.jumping)
         {
             UnAttach();
         }
@@ -91,5 +104,10 @@ public class Rails : MonoBehaviour
             hook.position += newPos;
         }
         
+    }
+
+    public void WaitForInput(bool state)
+    {
+        waitingForInput = state;
     }
 }

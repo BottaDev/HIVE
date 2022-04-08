@@ -14,7 +14,10 @@ public class EventManager : MonoBehaviour
         OnTotalEnemy,
         OnEnemyDeath,
         OnPlayerDead,
-        OnLifeUpdated
+        OnLifeUpdated,
+        OnPlayerRailAttached,
+        OnPlayerRailDeAttached,
+        OnPlayerRailActive
     }
 
     public static EventManager Instance { get; private set; }

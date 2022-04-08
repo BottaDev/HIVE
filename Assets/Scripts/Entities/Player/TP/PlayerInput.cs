@@ -16,6 +16,7 @@ public class PlayerInput : MonoBehaviour
     [SerializeField] private KeyCode    _dashKey    = KeyCode.LeftShift;
     [SerializeField] private KeyCode    _restartKey = KeyCode.R;
     [SerializeField] private KeyCode    _freeCamKey = KeyCode.LeftControl;
+    [SerializeField] private MouseCode  _railAttachKey = MouseCode.Left;
 
     //Input variables (Used by other scripts to run their actions)
     public float  x;
@@ -27,6 +28,7 @@ public class PlayerInput : MonoBehaviour
     [HideInInspector] public bool   restart;
     [HideInInspector] public bool   freecam;
     [HideInInspector] public bool   isMoving;
+    [HideInInspector] public bool   attaching;
 
     private void Update()
     {
@@ -44,5 +46,6 @@ public class PlayerInput : MonoBehaviour
         shooting = Input.GetMouseButton((int)_shootKey);
         restart = Input.GetKeyDown(_restartKey);
         freecam = Input.GetKey(_freeCamKey);
+        attaching = Input.GetMouseButtonDown((int)_railAttachKey);
     }
 }

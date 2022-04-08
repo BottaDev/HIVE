@@ -42,7 +42,6 @@ public class PlayerMovement : MonoBehaviour {
     public Transform stepUpper;
     public Transform stepMiddle;
     [SerializeField] private float stepHeight = 0.25f;
-    [SerializeField] private float stepSmooth = 0.1f;
     [SerializeField] private int stepSmoothing = 5;
     [SerializeField] private float stepCheckDistance = 0.2f;
 
