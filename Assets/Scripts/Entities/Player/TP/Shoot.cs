@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class ShootTP : MonoBehaviour
+public class Shoot : MonoBehaviour
 {
     [Header("Assignables")]
     [SerializeField] private Player player;
@@ -62,7 +62,7 @@ public class ShootTP : MonoBehaviour
             if (Time.time >= _nextShoot)
             {
                 _nextShoot = Time.time + 1 / fireRate;
-                Shoot();
+                ShootAction();
             }
         }
         else
@@ -84,16 +84,19 @@ public class ShootTP : MonoBehaviour
         Vector3 aimDir = _mouseWorldPosition - _firePoint.position;
         Debug.DrawLine(_firePoint.position, aimDir, Color.red);
     }
-    private void Shoot()
+    private void ShootAction()
     {
         if (currentAmmo > 0)
         {
             _reloading = false;
             currentCD = 0;
 
-            Vector3 aimDir = (_mouseWorldPosition - _firePoint.position).normalized;
-            PlayerBullet bul = Instantiate(bullet, _firePoint.position, Quaternion.LookRotation(aimDir, Vector3.up)).GetComponent<PlayerBullet>();
+            Bullet bul = Instantiate(bullet).GetComponent<Bullet>();
+            bul.wasShotByPlayer = true;
             bul.damage = damage;
+
+            bul.transform.position = _firePoint.position;
+            bul.transform.LookAt(_mouseWorldPosition);
 
             currentAmmo -= ammoCost;
 

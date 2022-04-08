@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class DashTP : MonoBehaviour
+public class Dash : MonoBehaviour
 {
     [Header("Assignables")]
     [SerializeField] private Player             player;

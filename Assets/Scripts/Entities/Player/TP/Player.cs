@@ -9,8 +9,8 @@ public class Player : Entity
     public PlayerAnimator animator;
     public PlayerJump jump;
     public PlayerMovement movement;
-    public ShootTP shoot;
-    public DashTP dash;
+    public Shoot shoot;
+    public Dash dash;
 
     public LevellingSystem attackLevelSystem;
     public LevellingSystem defenseLevelSystem;
@@ -30,11 +30,12 @@ public class Player : Entity
         base.Awake();
 
         Func<int, int> levelFormula = delegate (int level) { return (level-1) * 20; };
-        attackLevelSystem = new LevellingSystem(levelFormula).SetOnLevelup(delegate(int level) { shoot.damage += 1;});
-        defenseLevelSystem = new LevellingSystem(levelFormula).SetOnLevelup(delegate (int level) { maxHealth += 2; });
-        mobilityLevelSystem = new LevellingSystem(levelFormula).SetOnLevelup(delegate (int level) { movement.maxSpeed += 1; });
+        attackLevelSystem = new LevellingSystem(levelFormula).SetOnLevelup(delegate(int level) { shoot.damage += 2;});
+        defenseLevelSystem = new LevellingSystem(levelFormula).SetOnLevelup(delegate (int level) { maxHealth += 4; });
+        mobilityLevelSystem = new LevellingSystem(levelFormula).SetOnLevelup(delegate (int level) { movement.maxSpeed += 2; });
 
         EventManager.Instance?.Subscribe(EventManager.Events.OnPlayerDamaged, OnPlayerDamaged);
+        EventManager.Instance?.Subscribe(EventManager.Events.OnEnemyDamaged, Debug_EnemyDamaged);
     }
 
     private void Start()
@@ -50,7 +51,11 @@ public class Player : Entity
         }
     }
 
-
+    public void Debug_EnemyDamaged(params object[] obj)
+    {
+        Debug.Log("Enemy damaged");
+        Crosshair.instance.Hit();
+    }
     public void AddEXP(EXPType type, int amount)
     {
         switch (type)

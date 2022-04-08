@@ -224,6 +224,7 @@ MonoBehaviour:
   shooting: 0
   restart: 0
   freecam: 0
+  isMoving: 0
 --- !u!114 &2930390506446303794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -331,6 +332,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 2010002419299452760}
+  damage: 5
   fireRate: 5
   gunCd: 1
   _reloading: 0
@@ -2197,8 +2199,7 @@ Transform:
   m_LocalRotation: {x: 0.00000072809655, y: 3.9021304e-11, z: 0.000053593587, w: 1}
   m_LocalPosition: {x: 0.31507728, y: -0.0000013625496, z: 0.000000031380157}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 6195283512264156424}
+  m_Children: []
   m_Father: {fileID: 3565698565963127358}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3716,7 +3717,8 @@ Transform:
   m_LocalRotation: {x: 0.00000072809655, y: 3.9021304e-11, z: 0.000053593587, w: 1}
   m_LocalPosition: {x: 0.31507728, y: -0.0000013625496, z: 0.000000031380157}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 6195283512264156424}
   m_Father: {fileID: 3565698566588584044}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7161,13 +7163,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8002541273797154487}
-  m_LocalRotation: {x: -0.75522375, y: 0.34912416, z: -0.36530396, w: -0.41749543}
-  m_LocalPosition: {x: -0.08127704, y: 0.14957951, z: 0.017472178}
+  m_LocalRotation: {x: -0.7552238, y: 0.3491241, z: -0.36530387, w: -0.4174954}
+  m_LocalPosition: {x: -0.08127709, y: 0.14957948, z: 0.017472237}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4514317033319525461}
   - {fileID: 7518533697554243290}
-  m_Father: {fileID: 3565698565869588830}
+  m_Father: {fileID: 3565698566466639965}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8540442070041835651
