@@ -20,7 +20,7 @@ public class Shooter : AI
     protected override void Awake()
     {
         base.Awake();
-
+        
         EventManager.Instance.Subscribe(EventManager.Events.OnEnemyDamaged, OnEnemyDamaged);
         
         _currentEvadeTime = evadeTime;

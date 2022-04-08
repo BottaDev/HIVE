@@ -28,9 +28,7 @@ public abstract class AI : Entity
     [Range(0f, 3f)] public float attackRate = 1f;
     public float detectionRange = 25f;
     public float rotationSpeed = 5f;
-    public bool isAEnemySpawner = false;
 
-    
     protected float _currentAttackRate;           
     protected Player _player;
     public NavMeshAgent _agent;
@@ -85,29 +83,6 @@ public abstract class AI : Entity
         }
     }
 
-    public void StartChasing()
-    {
-        if (_followCoroutine == null)
-        {
-            _followCoroutine = StartCoroutine(FollowTarget());
-        }
-        else
-        {
-            Debug.LogWarning("Called StartChasing on Enemy that is already chasing! This is likely a bug in some calling");
-        }
-    }
-
-    private IEnumerator FollowTarget()
-    {
-        WaitForSeconds wait = new WaitForSeconds(updateRate);
-
-        while (enabled)
-        {
-            _agent.SetDestination(_player.transform.position);
-            yield return wait;
-        }
-    }
-
     private void DetectPlayer()
     {
         _playerDetected = true;
@@ -158,14 +133,7 @@ public abstract class AI : Entity
 
         Destroy(gameObject);
     }
-
-    //public override void OnDisable()
-    //{
-    //    base.OnDisable();
-    //
-    //    _agent.enabled = false;
-    //}
-
+    
     protected virtual void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
