@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,21 +6,21 @@ using UnityEngine;
 public class AttackRadius : MonoBehaviour
 {
     public SphereCollider collider;
-    private List<IDamagable> _damagables = new List<IDamagable>();
+    protected List<IDamagable> _damagables = new List<IDamagable>();
     public int damage = 10;
     public float attackDelay = 0.5f;
 
     public delegate void AttackEvent(IDamagable target);
 
     public AttackEvent onAttack;
-    private Coroutine attackCoroutine;
+    protected Coroutine attackCoroutine;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         collider = GetComponent<SphereCollider>();
     }
 
-    private void OnTriggerEnter(Collider other)
+    protected virtual void OnTriggerEnter(Collider other)
     {
         IDamagable damagable = other.GetComponent<IDamagable>();
 
@@ -36,7 +35,7 @@ public class AttackRadius : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    protected virtual void OnTriggerExit(Collider other)
     {
         IDamagable damageable = other.GetComponent<IDamagable>();
 
@@ -51,7 +50,7 @@ public class AttackRadius : MonoBehaviour
         }
     }
 
-    private IEnumerator Attack()
+    protected virtual IEnumerator Attack()
     {
         WaitForSeconds wait = new WaitForSeconds(attackDelay);
 
@@ -91,7 +90,7 @@ public class AttackRadius : MonoBehaviour
         attackCoroutine = null;
     }
 
-    private bool DisabledDamageables(IDamagable damagable)
+    protected bool DisabledDamageables(IDamagable damagable)
     {
         return _damagables != null && !damagable.GetTransform().gameObject.activeSelf;
     }

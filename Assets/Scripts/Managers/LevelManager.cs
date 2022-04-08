@@ -28,7 +28,7 @@ public class LevelManager : MonoBehaviour
         _exitDoor = GameObject.FindWithTag("Door");
         
         // Bake map navmesh
-        FindObjectOfType<NavMeshSurface>().BuildNavMesh();
+        //FindObjectOfType<NavMeshSurface>().BuildNavMesh();
         
         EventManager.Instance.Trigger(EventManager.Events.OnTotalEnemy, minEnemies);
     }

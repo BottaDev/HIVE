@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class Bullet : PoolableObject
 {
     [Header("Properties")]
     public float speed = 10f;
@@ -11,14 +11,17 @@ public class Bullet : MonoBehaviour
     public float timeToDie = 3f;
     public LayerMask mask;
 
+    private const string DISABLE_METHOD_NAME = "Disable";
+    
     [HideInInspector] public bool wasShotByPlayer;
 
     [Header("Effects")]
     public ParticleSystem impactParticles;
 
-    private void Start()
+    private void OnEnable()
     {
-        Destroy(gameObject, timeToDie);
+        CancelInvoke(DISABLE_METHOD_NAME);
+        Invoke(DISABLE_METHOD_NAME, timeToDie);
     }
 
     Vector3 prevPos;
@@ -44,8 +47,8 @@ public class Bullet : MonoBehaviour
             impactParticles.transform.eulerAngles = transform.eulerAngles * -1;
             impactParticles.Play();
         }
-        
-        Destroy(gameObject);
+
+        Disable();
     }
 
     public void Collision(GameObject other)
@@ -67,5 +70,11 @@ public class Bullet : MonoBehaviour
         }
 
         Impact();
+    }
+
+    private void Disable()
+    {
+        CancelInvoke(DISABLE_METHOD_NAME);
+        gameObject.SetActive(false);
     }
 }

@@ -9,12 +9,20 @@ using UnityEngine.AI;
 [CreateAssetMenu(fileName = "Enemy Configuration", menuName = "ScritableObject/Enemy Configuration")]
 public class EnemyScriptableObject : ScriptableObject
 {
+    public Enemy prefab;
+    public AttackScriptableObject attackConfiguration;
+    
     [Header("Enemy Stats")] 
     public int health = 100;
-    public float attackDelay = 1f;
-    public int damage = 5;
-    public float attackRadius = 1.5f;
 
+    [Header("Movement Stats")] 
+    public EnemyState defaultState;        
+    public float idleLocationRadius = 4f;
+    public float idleMoveSpeedMultiplier = 0.5f;
+    [Range(2, 10)] public int waypoints = 4;
+    public float lineOfSightRange = 6f;
+    public float fieldOfView = 90f;
+    
     [Header("NavMeshAgent Configuration")]
     public float aIUpdateInterval = 0.1f;
     public float acceleration = 8;
@@ -28,4 +36,31 @@ public class EnemyScriptableObject : ScriptableObject
     public float radius = 0.5f;
     public float speed = 3f;
     public float stoppingDistance = 0.5f;
+
+    public void SetupEnemy(Enemy enemy)
+    {
+        enemy.agent.acceleration = acceleration;
+        enemy.agent.angularSpeed = angularSpeed;
+        enemy.agent.areaMask = areaMask;
+        enemy.agent.avoidancePriority = avoidancePriority;
+        enemy.agent.baseOffset = baseOffset;
+        enemy.agent.height = height;
+        enemy.agent.obstacleAvoidanceType = obstacleAvoidanceType;
+        enemy.agent.radius = radius;
+        enemy.agent.speed = speed;
+        enemy.agent.stoppingDistance = stoppingDistance;
+
+        enemy.movement.updateRate = aIUpdateInterval;
+        enemy.movement.DefaultState = defaultState;
+        enemy.movement.idleMoveSpeedMultiplier = idleMoveSpeedMultiplier;
+        enemy.movement.idleLocationRadius = idleLocationRadius;
+        enemy.movement.waypoints = new Vector3[waypoints];
+        enemy.movement.lineOfSightChecker.fieldOfView = fieldOfView;
+        enemy.movement.lineOfSightChecker.collider.radius = lineOfSightRange;
+        enemy.movement.lineOfSightChecker.lineOfSightLayers = attackConfiguration.LineOfSightLayers;
+        
+        enemy.health = health;
+        
+        attackConfiguration.SetupEnemy(enemy);
+    }
 }

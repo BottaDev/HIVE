@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
@@ -54,32 +53,6 @@ public class Enemy : PoolableObject, IDamagable
         base.OnDisable();
 
         agent.enabled = false;
-    }
-
-    public virtual void OnEnable()
-    {
-        SetupAgentFromConfiguration();
-    }
-
-    public virtual void SetupAgentFromConfiguration()
-    {
-        agent.acceleration = enemyScriptableObject.acceleration;
-        agent.angularSpeed = enemyScriptableObject.angularSpeed;
-        agent.areaMask = enemyScriptableObject.areaMask;
-        agent.avoidancePriority = enemyScriptableObject.avoidancePriority;
-        agent.baseOffset = enemyScriptableObject.baseOffset;
-        agent.height = enemyScriptableObject.height;
-        agent.obstacleAvoidanceType = enemyScriptableObject.obstacleAvoidanceType;
-        agent.radius = enemyScriptableObject.radius;
-        agent.speed = enemyScriptableObject.speed;
-        agent.stoppingDistance = enemyScriptableObject.stoppingDistance;
-
-        movement.updateRate = enemyScriptableObject.aIUpdateInterval;
-        
-        health = enemyScriptableObject.health;
-        
-        attackRadius.collider.radius = enemyScriptableObject.attackRadius;
-        //attackRadius.attackDelay
     }
 
     public void TakeDamage(float damage)
