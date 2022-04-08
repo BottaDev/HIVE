@@ -79,7 +79,7 @@ public class Enemy : PoolableObject, IDamagable
         health = enemyScriptableObject.health;
         
         attackRadius.collider.radius = enemyScriptableObject.attackRadius;
-        attackRadius.attackDelay
+        //attackRadius.attackDelay
     }
 
     public void TakeDamage(float damage)
