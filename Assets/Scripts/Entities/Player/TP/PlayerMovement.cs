@@ -37,13 +37,16 @@ public class PlayerMovement : MonoBehaviour {
     public float maxSlopeAngle = 35f;
 
     [Header("Steps")]
-    public LayerMask stairsMask;
-    public Transform stepLower;
-    public Transform stepUpper;
-    public Transform stepMiddle;
-    [SerializeField] private float stepHeight = 0.25f;
-    [SerializeField] private int stepSmoothing = 5;
+    public LayerMask stepMask;
     [SerializeField] private float stepCheckDistance = 0.2f;
+    [SerializeField] private int stepSmoothing = 5;
+
+    [Header("HorizontalStep")]
+    public Transform horizontalStepLower;
+    public Transform horizontalStepUpper;
+    public Transform horizontalStepMiddle;
+    [SerializeField] private float horizontalStepHeight = 0.25f;
+
 
     [Header("Debug")]
     public Vector3 currentSpeed;
@@ -59,7 +62,7 @@ public class PlayerMovement : MonoBehaviour {
     public void Start()
     {
         ableToMove = true;
-        stepUpper.localPosition = stepLower.localPosition + new Vector3(0, stepHeight, 0);
+        horizontalStepUpper.localPosition = horizontalStepLower.localPosition + new Vector3(0, horizontalStepHeight, 0);
     }
 
     private void FixedUpdate() 
@@ -74,7 +77,7 @@ public class PlayerMovement : MonoBehaviour {
             }
         }
     }
-
+    
     private void Update() 
     {
         if(useLook)
@@ -154,31 +157,35 @@ public class PlayerMovement : MonoBehaviour {
     }
     public void StepClimb()
     {
-        if (rb.velocity.x != 0 || rb.velocity.z != 0)
+        Vector3 velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+        if (velocity.x != 0 || velocity.z != 0)
         {
+            //horizontalStepLower.LookAt(horizontalStepLower.position + velocity);
+            //horizontalStepUpper.LookAt(horizontalStepUpper.position + velocity);
+
             Vector3[] checkArray = { Vector3.forward, new Vector3(1.5f, 0f, 1f), new Vector3(-1.5f, 0f, 1f) };
 
             foreach (Vector3 check in checkArray)
             {
-                Vector3 lowerStart = stepLower.position;
-                Vector3 lowerEnd = stepLower.TransformDirection(check);
+                Vector3 lowerStart = horizontalStepLower.position;
+                Vector3 lowerEnd = horizontalStepLower.TransformDirection(check);
 
                 RaycastHit lower;
-                if (Physics.Raycast(lowerStart, lowerEnd.normalized, out lower, stepCheckDistance, stairsMask))
+                if (Physics.Raycast(lowerStart, lowerEnd.normalized, out lower, stepCheckDistance, stepMask))
                 {
-                    Vector3 upperStart = stepUpper.position;
-                    Vector3 upperEnd = stepUpper.TransformDirection(check);
+                    Vector3 upperStart = horizontalStepUpper.position;
+                    Vector3 upperEnd = horizontalStepUpper.TransformDirection(check);
 
                     RaycastHit upper;
-                    if (!Physics.Raycast(upperStart, upperEnd.normalized, out upper, stepCheckDistance, stairsMask))
+                    if (!Physics.Raycast(upperStart, upperEnd.normalized, out upper, stepCheckDistance, stepMask))
                     {
                         for (int i = 0; i <= stepSmoothing; i++)
                         {
-                            float currentHeight = i * (stepHeight / stepSmoothing);
-                            stepMiddle.position = lowerStart + new Vector3(0, currentHeight, 0);
-                            Vector3 newPosDirection = stepMiddle.TransformDirection(check);
+                            float currentHeight = i * (horizontalStepHeight / stepSmoothing);
+                            horizontalStepMiddle.position = lowerStart + new Vector3(0, currentHeight, 0);
+                            Vector3 newPosDirection = horizontalStepMiddle.TransformDirection(check);
 
-                            if (!Physics.Raycast(stepMiddle.position, newPosDirection.normalized, out upper, stepCheckDistance, stairsMask))
+                            if (!Physics.Raycast(horizontalStepMiddle.position, newPosDirection.normalized, out upper, stepCheckDistance, stepMask))
                             {
                                 rb.position += new Vector3(0, currentHeight, 0);
                                 break;
@@ -187,6 +194,11 @@ public class PlayerMovement : MonoBehaviour {
                     }
                 }
             }
+        }
+        else
+        {
+            //horizontalStepLower.LookAt(horizontalStepLower.position + legModel.forward);
+            //horizontalStepUpper.LookAt(horizontalStepUpper.position + legModel.forward);
         }
     }
     public void ApplyGravity(bool setting)

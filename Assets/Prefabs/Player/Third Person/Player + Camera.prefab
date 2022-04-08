@@ -216,6 +216,7 @@ MonoBehaviour:
   _dashKey: 304
   _restartKey: 114
   _freeCamKey: 306
+  _railAttachKey: 0
   x: 0
   y: 0
   jumping: 0
@@ -225,6 +226,7 @@ MonoBehaviour:
   restart: 0
   freecam: 0
   isMoving: 0
+  attaching: 0
 --- !u!114 &2930390506446303794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -254,17 +256,16 @@ MonoBehaviour:
   airMovementMultiplier: 0.75
   movementDirection: 0
   counterMovement: 0.175
-  maxSlopeAngle: 35
-  stairsMask:
+  maxSlopeAngle: 60
+  stepMask:
     serializedVersion: 2
     m_Bits: 2048
-  stepLower: {fileID: 8531726056114139706}
-  stepUpper: {fileID: 7463580388882526727}
-  stepMiddle: {fileID: 7902526483412955440}
-  stepHeight: 0.8
-  stepSmooth: 0.1
-  stepSmoothing: 6
   stepCheckDistance: 0.4
+  stepSmoothing: 6
+  horizontalStepLower: {fileID: 8531726056114139706}
+  horizontalStepUpper: {fileID: 7463580388882526727}
+  horizontalStepMiddle: {fileID: 7902526483412955440}
+  horizontalStepHeight: 0.8
   currentSpeed: {x: 0, y: 0, z: 0}
   currentSpeedMagnitude: 0
   useCounterMovement: 1
