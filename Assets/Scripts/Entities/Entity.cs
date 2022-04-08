@@ -21,4 +21,8 @@ public abstract class Entity : MonoBehaviour, IDamagable
     }
     
     public virtual void TakeDamage(float damage) { }
+    public Transform GetTransform()
+    {
+        throw new NotImplementedException();
+    }
 }
