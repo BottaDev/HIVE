@@ -19,16 +19,27 @@ public class PlayerInput : MonoBehaviour
     [SerializeField] private MouseCode  _railAttachKey = MouseCode.Left;
 
     //Input variables (Used by other scripts to run their actions)
-    public float  x;
-    public float  y;
-    public bool   jumping;
-    public bool   stoppedJumping;
-    [HideInInspector] public bool   dashing;
-    [HideInInspector] public bool   shooting;
-    [HideInInspector] public bool   restart;
-    [HideInInspector] public bool   freecam;
-    [HideInInspector] public bool   isMoving;
-    [HideInInspector] public bool   attaching;
+    float  _x;
+    float  _y;
+    bool   _jumping;
+    bool   _stoppedJumping;
+    bool   _dashing;
+    bool   _shooting;
+    bool   _restart;
+    bool   _freecam;
+    bool   _isMoving;
+    bool   _attaching;
+
+    public float x { get { return _x; } set { _x = value; } }
+    public float y { get { return _y; } set { _y = value; } }
+    public bool jumping { get { return _jumping; } set { _jumping = value; } }
+    public bool stoppedJumping { get { return _stoppedJumping; } set { _stoppedJumping = value; } }
+    public bool dashing { get { return _dashing; } set { _dashing = value; } }
+    public bool shooting { get { return _shooting; } set { _shooting = value; } }
+    public bool restart { get { return _restart; } set { _restart = value; } }
+    public bool freecam { get { return _freecam; } set { _freecam = value; } }
+    public bool isMoving { get { return _isMoving; } set { _isMoving = value; } }
+    public bool attaching { get { return _attaching; } set { _attaching = value; } }
 
     private void Update()
     {

@@ -14,11 +14,14 @@ public class PlayerJump : MonoBehaviour
     public bool stoppedJumping { get { return player.input.stoppedJumping; } }
 
     [Header("Jumping")]
+    public int amountOfJumps = 1;
     public float jumpForce = 550f;
     private bool readyToJump = true;
     private float jumpCooldown = 0.25f;
     private Vector3 normalVector = Vector3.up;
     [SerializeField] public bool currentlyJumping;
+    private int jumpCounter;
+    private bool firstJump;
 
     [Header("Multipliers")]
     public float fallingGravityMultiplier = 2.5f;
@@ -35,17 +38,23 @@ public class PlayerJump : MonoBehaviour
 
 
     [Header("Debug")]
-    public bool fallingGravity;
-    public bool lowJumpGravity;
-    public bool jumpBufferCondition;
-    public bool coyoteTimeCondition;
-    public bool readyToJumpCondition;
-    public bool lowJumpCondition;
+    bool fallingGravity;
+    bool lowJumpGravity;
+    bool jumpBufferCondition;
+    bool coyoteTimeCondition;
+    bool readyToJumpCondition;
+    bool lowJumpCondition;
     private void Update()
     {
         //CoyoteTime
         if (grounded)
         {
+            if (!currentlyJumping)
+            {
+                jumpCounter = amountOfJumps;
+                firstJump = true;
+            }
+
             coyoteTimeCounter = coyoteTime;
         }
         else
@@ -72,8 +81,11 @@ public class PlayerJump : MonoBehaviour
 
     private void FixedUpdate()
     {
+        
+        
         JumpCheck();
     }
+
     private void JumpCheck()
     {
         jumpBufferCondition = jumpBufferingCounter > 0f;
@@ -83,9 +95,20 @@ public class PlayerJump : MonoBehaviour
         fallingGravity = false;
 
         //Jump action
-        if (jumpBufferCondition && coyoteTimeCondition && readyToJump && !currentlyJumping)
+        if (jumpBufferCondition && readyToJump && jumpCounter > 0)
         {
+            //If you don't jump within coyote time in your first jump, it counts as 2 jumps (so you lose one jump if you do it from the air)
+            if (!coyoteTimeCondition && firstJump)
+            {
+                jumpCounter -= 2;
+            }
+            else
+            {
+                jumpCounter -= 1;
+            }
+            
             Jump(normalVector * jumpForce);
+            firstJump = false;
             lowJumpCondition = false;
             jumpBufferingCounter = 0;
         }
@@ -110,8 +133,7 @@ public class PlayerJump : MonoBehaviour
     }
 
     public void Jump(Vector3 force)
-    {
-        readyToJump = false;
+    {   
         currentlyJumping = true;
 
         //Reset Y velocity
@@ -122,6 +144,7 @@ public class PlayerJump : MonoBehaviour
 
         player.animator.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsJumping, true);
 
+        readyToJump = false;
         Invoke(nameof(ResetJump), jumpCooldown);
     }
 

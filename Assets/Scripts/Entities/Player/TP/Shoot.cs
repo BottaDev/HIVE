@@ -26,13 +26,14 @@ public class Shoot : MonoBehaviour
     
     [Header("Objects")]
     public LayerMask mask;
-    public GameObject bullet;
+    public Bullet bullet;
     
     public Transform _firePoint;
     private Vector3 _mouseWorldPosition;
     
     private Camera _cam;
     public AmmoBar _ammoBar;
+    private ObjectPool bulletPool;
 
     private void Start()
     {
@@ -40,6 +41,9 @@ public class Shoot : MonoBehaviour
 
         _currentAmmo = maxAmmo;
         _ammoBar.SetMaxAmmo(maxAmmo);
+
+        bulletPool = ObjectPool.CreateInstance(bullet, 20);
+        bullet.Parent = bulletPool;
     }
 
     private void Update()
@@ -91,13 +95,16 @@ public class Shoot : MonoBehaviour
             _reloading = false;
             currentCD = 0;
 
-            Bullet bul = Instantiate(bullet).GetComponent<Bullet>();
+            Bullet bul = bulletPool.GetObject().GetComponent<Bullet>();
+
+           
             bul.wasShotByPlayer = true;
             bul.damage = damage;
 
             bul.transform.position = _firePoint.position;
             bul.transform.LookAt(_mouseWorldPosition);
 
+            bul.trail.Clear();
             currentAmmo -= ammoCost;
 
             if (currentAmmo <= 0)

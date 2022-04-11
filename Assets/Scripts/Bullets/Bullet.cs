@@ -16,6 +16,7 @@ public class Bullet : PoolableObject
     [HideInInspector] public bool wasShotByPlayer;
 
     [Header("Effects")]
+    public TrailRenderer trail;
     public ParticleSystem impactParticles;
 
     private void OnEnable()

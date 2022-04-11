@@ -12,11 +12,18 @@ public class LevellingSystem
         public int level;
         public int expRequirement;
     }
+    public struct EveryXLevels
+    {
+        public int levelTrigger;
+        public Action<int> action;
+    }
 
     List<LevelStructure> levels;
     int maxLevel = 200;
     Func<int, int> LevelFormula = delegate(int level) { return level * 10; };
     Action<int> onLevelup = delegate(int level) { };
+    List<EveryXLevels> levelTriggers = new List<EveryXLevels>();
+
     public void BuildBaseLevelSystem()
     {
         levels = new List<LevelStructure>();
@@ -47,8 +54,8 @@ public class LevellingSystem
     }
     public int GetDifferenceBetweenLevels(int level1, int level2)
     {
-        int lowerLevel = Mathf.Max(level1, level2);
-        int higherLevel = Mathf.Min(level1, level2);
+        int lowerLevel = Mathf.Min(level1, level2);
+        int higherLevel = Mathf.Max(level1, level2);
 
         int difference = GetLevelStructure(higherLevel).expRequirement - GetLevelStructure(lowerLevel).expRequirement;
 
@@ -102,9 +109,14 @@ public class LevellingSystem
         this.onLevelup = onLevelup;
         return this;
     }
+    public LevellingSystem AddEveryXLevels(int everyXLevels, Action<int> action)
+    {
+        levelTriggers.Add(new EveryXLevels { levelTrigger = everyXLevels, action = action });
+        return this;
+    }
 
     int _level;
-    [SerializeField] int _exp;
+    int _exp;
 
     public int Level { get { UpdateLevelSystem(); return _level; } private set { _level = value; } }
     public int EXP { get { return _exp; } set { _exp = value; UpdateLevelSystem(); } }
@@ -124,9 +136,17 @@ public class LevellingSystem
             int difference = updatedLevel - _level;
             for (int i = 0; i < difference; i++)
             {
-                onLevelup(_level + i + 1);
+                int levelUp = _level + i + 1;
+                onLevelup(levelUp);
+
+                for (int j = 0; j < levelTriggers.Count; j++)
+                {
+                    if(levelUp % levelTriggers[j].levelTrigger == 0)
+                    {
+                        levelTriggers[j].action(levelUp);
+                    }
+                }
             }
-            
         }
 
         Level = updatedLevel;

@@ -48,6 +48,7 @@ public class RangedAttackRadius : AttackRadius
                 {
                     bullet = poolableObject.GetComponent<Bullet>();
 
+                    bullet.trail.Clear();
                     bullet.damage = damage;
                     var bulletTransform = bullet.transform;
                     bulletTransform.position = transform.position + bulletSpawnOffset;

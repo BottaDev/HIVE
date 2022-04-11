@@ -15,14 +15,14 @@ public abstract class AI : Entity
         [Tooltip("This is the name that appears in editor for the entry.")]
         public string name;
         [Tooltip("This is the type of EXP to give in case of being of this type")]
-        public Player.EXPType type;
+        public PlayerLevel.EXPType type;
         [Tooltip("This is the actual amount of EXP to give in case of being of this type.")]
         public int expAmount;
     }
 
     [Header("EXP Parameters")]
     [SerializeField] List<EXPAmounts> ExpParameters;
-    Player.EXPType type;
+    PlayerLevel.EXPType type;
 
     [Header("AI Parameters")]
     [Range(0f, 3f)] public float attackRate = 1f;
@@ -54,13 +54,13 @@ public abstract class AI : Entity
         switch (UnityEngine.Random.Range(0,3))
         {
             case 0:
-                type = Player.EXPType.Attack;
+                type = PlayerLevel.EXPType.Attack;
                 break;
             case 1:
-                type = Player.EXPType.Defense;
+                type = PlayerLevel.EXPType.Defense;
                 break;
             case 2:
-                type = Player.EXPType.Mobility;
+                type = PlayerLevel.EXPType.Mobility;
                 break;
         }
     }

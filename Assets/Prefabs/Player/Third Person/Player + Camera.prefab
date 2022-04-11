@@ -110,6 +110,8 @@ GameObject:
   - component: {fileID: 7902526483891021790}
   - component: {fileID: 3473960329723331749}
   - component: {fileID: 3473960329723331748}
+  - component: {fileID: 1238573687}
+  - component: {fileID: 3829715295368400988}
   m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
@@ -190,12 +192,8 @@ MonoBehaviour:
   movement: {fileID: 2930390506446303794}
   shoot: {fileID: 3473960329723331748}
   dash: {fileID: 3473960329723331749}
-  attackLevelSystem:
-    _exp: 0
-  defenseLevelSystem:
-    _exp: 0
-  mobilityLevelSystem:
-    _exp: 0
+  level: {fileID: 1238573687}
+  debug: {fileID: 0}
   _levelSystemUI: {fileID: 0}
   _healthBar: {fileID: 0}
 --- !u!114 &2839959021259793015
@@ -217,16 +215,6 @@ MonoBehaviour:
   _restartKey: 114
   _freeCamKey: 306
   _railAttachKey: 1
-  x: 0
-  y: 0
-  jumping: 0
-  stoppedJumping: 0
-  dashing: 0
-  shooting: 0
-  restart: 0
-  freecam: 0
-  isMoving: 0
-  attaching: 0
 --- !u!114 &2930390506446303794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -249,10 +237,10 @@ MonoBehaviour:
   groundOffDelay: 3
   groundMask:
     serializedVersion: 2
-    m_Bits: 2112
+    m_Bits: 51264
   ableToMove: 1
   moveSpeed: 4500
-  maxSpeed: 20
+  maxSpeed: 15
   airMovementMultiplier: 0.75
   movementDirection: 0
   counterMovement: 0.175
@@ -269,7 +257,7 @@ MonoBehaviour:
   currentSpeed: {x: 0, y: 0, z: 0}
   currentSpeedMagnitude: 0
   useCounterMovement: 1
-  useExtraGravity: 0
+  useExtraGravity: 1
   addForceX: 1
   addForceY: 1
   useLook: 1
@@ -288,18 +276,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 2010002419299452760}
+  amountOfJumps: 1
   jumpForce: 1000
   currentlyJumping: 0
   fallingGravityMultiplier: 2.5
   lowJumpGravityMultiplier: 2
   coyoteTime: 0.2
   jumpBufferingTime: 0.2
-  fallingGravity: 0
-  lowJumpGravity: 0
-  jumpBufferCondition: 0
-  coyoteTimeCondition: 0
-  readyToJumpCondition: 0
-  lowJumpCondition: 0
 --- !u!114 &3473960329723331749
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -343,10 +326,54 @@ MonoBehaviour:
   _currentAmmo: 0
   mask:
     serializedVersion: 2
-    m_Bits: 704
-  bullet: {fileID: 8040213256160230170, guid: 2a203843cb7e36b4fae67710d61d7b6f, type: 3}
+    m_Bits: 56000
+  bullet: {fileID: 6169558286150484466, guid: 2a203843cb7e36b4fae67710d61d7b6f, type: 3}
   _firePoint: {fileID: 7518533697554243290}
   _ammoBar: {fileID: 0}
+--- !u!114 &1238573687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3473960329723331750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b48a5414607bc44baaacad32f40cb4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 2010002419299452760}
+  exp:
+  - name: Attack
+    type: 0
+    levelResets:
+    - resetEvery: 5
+  - name: Defense
+    type: 1
+    levelResets:
+    - resetEvery: 5
+  - name: Mobility
+    type: 2
+    levelResets:
+    - resetEvery: 5
+  isDelayed: 0
+--- !u!114 &3829715295368400988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3473960329723331750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf7a4e58daa2c5244b90eb69d57776a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 2010002419299452760}
+  invincibilityKey: 49
+  addExpAttack: 50
+  addExpDefense: 51
+  addExpMobility: 52
 --- !u!1 &3473960329904449256
 GameObject:
   m_ObjectHideFlags: 0
@@ -6467,7 +6494,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mask:
     serializedVersion: 2
-    m_Bits: 2112
+    m_Bits: 51264
   _lookAt: {fileID: 3473960329904449257}
   _camTransform: {fileID: 4629313644306813590}
   input: {fileID: 2839959021259793015}

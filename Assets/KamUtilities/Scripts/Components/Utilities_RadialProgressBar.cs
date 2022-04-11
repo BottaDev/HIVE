@@ -26,7 +26,7 @@ public class Utilities_RadialProgressBar : MonoBehaviour
     private float lastSavedValue;
     private System.Action onFinished;
 
-    public void Update()
+    public void FixedUpdate()
     {
         if (animating)
         {
@@ -44,7 +44,7 @@ public class Utilities_RadialProgressBar : MonoBehaviour
             {
                 currentValue = targetValue;
                 animating = false;
-                CheckValue();
+                currentValue = Mathf.Clamp(currentValue, minValue, maxValue);
                 onFinished?.Invoke();
             }
         }
@@ -60,11 +60,13 @@ public class Utilities_RadialProgressBar : MonoBehaviour
 
     public void SetValue(float newValue, System.Action onFinished = null)
     {
+        newValue = Mathf.Clamp(newValue, minValue, maxValue);
+
         if (newValue != lastSavedValue)
         {
+            targetValue = newValue;
             lastSavedValue = newValue;
             animating = true;
-            targetValue = newValue;
             this.onFinished = onFinished;
             onValueChanged?.Invoke();
         }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System.Linq;
 
 public class UILevelSystem : MonoBehaviour
 {
@@ -9,13 +10,13 @@ public class UILevelSystem : MonoBehaviour
     public struct UILevel
     {
         public string name;
-        public Player.EXPType expType;
-        [HideInInspector] public LevellingSystem levelSystem;
+        public PlayerLevel.EXPType expType;
         public Utilities_RadialProgressBar progressBar;
-        public TextMeshProUGUI level;
     }
 
     public List<UILevel> levelUIs;
+    public TextMeshProUGUI level;
+
     public Player player;
 
     private void Start()
@@ -25,57 +26,84 @@ public class UILevelSystem : MonoBehaviour
 
     public void Initialize()
     {
+        PlayerLevel level = player.level;
+        LevellingSystem system = level.system;
+
         for (int i = 0; i < levelUIs.Count; i++)
         {
             UILevel current = levelUIs[i];
+            PlayerLevel.EXP exp = player.level.FindEXPOfType(current.expType);
 
-            current.levelSystem = GetLevellingSystemOfType(current.expType);
-
-            current.progressBar.SetRange(current.levelSystem.GetLevelStructure(current.levelSystem.Level).expRequirement, current.levelSystem.GetLevelStructure(current.levelSystem.Level + 1).expRequirement);
-            current.progressBar.SetValue(current.levelSystem.EXP);
-            current.level.text = "LV. " + current.levelSystem.Level;
+            current.progressBar.SetRange(0, system.GetDifferenceBetweenLevels(system.Level, system.Level+1));
+            current.progressBar.SetValue(exp.thisLevel);
         }
+
+        this.level.text = "LV. " + system.Level;
     }
 
-    public void UpdateUI()
+    public void UpdateUI(PlayerLevel.EXPType lastTypeGained)
     {
+        PlayerLevel level = player.level;
+        LevellingSystem system = level.system;
+
+        float previousValue = 0;
         for (int i = 0; i < levelUIs.Count; i++)
         {
             UILevel current = levelUIs[i];
-
-            current.levelSystem = GetLevellingSystemOfType(current.expType);
-
-            int EXP = current.levelSystem.EXP;
-            if (EXP >= current.progressBar.MaxValue)
+            PlayerLevel.EXP exp = level.FindEXPOfType(current.expType);
+            
+            if (level.thisLevel >= current.progressBar.MaxValue && exp.type == lastTypeGained)
             {
                 System.Action onFinish = delegate
                 {
-                    current.progressBar.SetRange(current.progressBar.MaxValue, current.levelSystem.GetLevelStructure(current.levelSystem.Level + 1).expRequirement);
-                    current.progressBar.SetValue(EXP);
-                    current.level.text = "LV. " + current.levelSystem.Level;
+                    int difference = level.thisLevel - (int)current.progressBar.MaxValue;
+
+                    float previousValue = 0;
+                    for (int i = 0; i < levelUIs.Count; i++)
+                    {
+                        UILevel current = levelUIs[i];
+                        PlayerLevel.EXP exp = level.FindEXPOfType(current.expType);
+
+                        if(level.delayList.Count > 0)
+                        {
+                            List<int> list = level.delayList.Where((x => x.Item1 == exp.type)).Select((x => x.Item2)).ToList();
+                            int total = 0;
+
+                            for (int j = 0; j < list.Count; j++)
+                            {
+                                total += list[j];
+                            }
+
+                            Debug.Log(exp.type.ToString() + ": "+ total);
+                            exp.thisLevel = total;
+                        }
+                        else
+                        {
+                            exp.thisLevel = 0;
+                        }
+
+                        
+                        int differenceBetweenLevels = system.GetDifferenceBetweenLevels(system.Level, system.Level + 1);
+                        current.progressBar.SetRange(0, differenceBetweenLevels);
+                        current.progressBar.SetValue(exp.thisLevel + previousValue);
+                        this.level.text = "LV. " + system.Level;
+                        level.thisLevel = difference;
+                        previousValue += exp.thisLevel;
+                    }
+
+                    level.isDelayed = false;
+                    level.delayList.Clear();
                 };
 
-                current.progressBar.SetValue(current.progressBar.MaxValue, onFinish);
+                level.isDelayed = true;
+                current.progressBar.SetValue(exp.thisLevel + previousValue, onFinish);
             }
             else
             {
-                current.progressBar.SetValue(EXP);
+                current.progressBar.SetValue(exp.thisLevel + previousValue);
             }
-        }
-    }
 
-    private LevellingSystem GetLevellingSystemOfType(Player.EXPType type)
-    {
-        switch (type)
-        {
-            case Player.EXPType.Attack:
-                return player.attackLevelSystem;
-            case Player.EXPType.Defense:
-                return player.defenseLevelSystem;
-            case Player.EXPType.Mobility:
-                return player.mobilityLevelSystem;
+            previousValue += exp.thisLevel;
         }
-
-        throw new System.Exception("Levelling System not found");
     }
 }

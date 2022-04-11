@@ -277,3 +277,21 @@ public static class ExtensionMethods_Keycode
         return result;
     }
 }
+
+public static class ExtensionMethods_bool
+{
+    public static bool Toggle(this bool state)
+    {
+        if (state)
+        {
+            state = false;
+        }
+        else
+        {
+            state = true;
+        }
+
+        return state;
+    }
+
+}

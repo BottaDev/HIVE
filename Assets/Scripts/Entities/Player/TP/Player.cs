@@ -11,28 +11,18 @@ public class Player : Entity
     public PlayerMovement movement;
     public Shoot shoot;
     public Dash dash;
-
-    public LevellingSystem attackLevelSystem;
-    public LevellingSystem defenseLevelSystem;
-    public LevellingSystem mobilityLevelSystem;
-    public enum EXPType
-    {
-        Attack, Defense, Mobility
-    }
+    public PlayerLevel level;
+    public PlayerDebugDevTools debug;
 
     public bool restart { get { return input.restart; } }
 
     [SerializeField] private UILevelSystem _levelSystemUI;
     [SerializeField] private HealthBar _healthBar;
     
+
     protected override void Awake()
     {
         base.Awake();
-
-        Func<int, int> levelFormula = delegate (int level) { return (level-1) * 20; };
-        attackLevelSystem = new LevellingSystem(levelFormula).SetOnLevelup(delegate(int level) { shoot.damage += 2;});
-        defenseLevelSystem = new LevellingSystem(levelFormula).SetOnLevelup(delegate (int level) { maxHealth += 4; });
-        mobilityLevelSystem = new LevellingSystem(levelFormula).SetOnLevelup(delegate (int level) { movement.maxSpeed += 2; });
 
         EventManager.Instance?.Subscribe(EventManager.Events.OnPlayerDamaged, OnPlayerDamaged);
         EventManager.Instance?.Subscribe(EventManager.Events.OnEnemyDamaged, Debug_EnemyDamaged);
@@ -56,22 +46,11 @@ public class Player : Entity
         Debug.Log("Enemy damaged");
         Crosshair.instance.Hit();
     }
-    public void AddEXP(EXPType type, int amount)
+    public void AddEXP(PlayerLevel.EXPType type, int amount)
     {
-        switch (type)
-        {
-            case EXPType.Attack:
-                attackLevelSystem.EXP += amount;
-                break;
-            case EXPType.Defense:
-                defenseLevelSystem.EXP += amount;
-                break;
-            case EXPType.Mobility:
-                mobilityLevelSystem.EXP += amount;
-                break;
-        }
+        level.AddEXP(type, amount);
 
-        _levelSystemUI.UpdateUI();
+        _levelSystemUI.UpdateUI(type);
     }
     private void OnPlayerDamaged(params object[] parameters)
     {
@@ -80,14 +59,17 @@ public class Player : Entity
 
     public override void TakeDamage(float damage)
     {
-        CurrentHealth -= damage;
-        EventManager.Instance.Trigger(EventManager.Events.OnLifeUpdated, CurrentHealth);
-
-        if (CurrentHealth <= 0)
+        if (!debug.invincible)
         {
-            EventManager.Instance.Trigger(EventManager.Events.OnPlayerDead);
-            EventManager.Instance.Unsubscribe(EventManager.Events.OnPlayerDamaged, OnPlayerDamaged);
-            gameObject.SetActive(false);
+            CurrentHealth -= damage;
+            EventManager.Instance.Trigger(EventManager.Events.OnLifeUpdated, CurrentHealth);
+
+            if (CurrentHealth <= 0)
+            {
+                EventManager.Instance.Trigger(EventManager.Events.OnPlayerDead);
+                EventManager.Instance.Unsubscribe(EventManager.Events.OnPlayerDamaged, OnPlayerDamaged);
+                gameObject.SetActive(false);
+            }
         }
     }
 }
