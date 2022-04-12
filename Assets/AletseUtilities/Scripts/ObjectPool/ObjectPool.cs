@@ -1,17 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class ObjectPool
 {
-    private readonly PoolableObject _prefab;
-    private readonly int _size;
+    private GameObject Parent;
+    private PoolableObject Prefab;
+    private int Size = 10;
     private List<PoolableObject> AvailableObjectsPool;
 
-    private ObjectPool(PoolableObject poolablePrefab, int Size)
+    private ObjectPool(PoolableObject Prefab, int Size)
     {
-        this._prefab = poolablePrefab;
-        this._size = Size;
+        this.Prefab = Prefab;
+        this.Size = Size;
         AvailableObjectsPool = new List<PoolableObject>(Size);
     }
 
@@ -19,24 +19,34 @@ public class ObjectPool
     {
         ObjectPool pool = new ObjectPool(Prefab, Size);
 
-        GameObject poolGameObject = new GameObject(Prefab + " Pool");
-        pool.CreateObjects(poolGameObject);
+        pool.Parent = new GameObject(Prefab + " Pool");
+        pool.CreateObjects();
 
         return pool;
     }
 
-    private void CreateObjects(GameObject parent)
+    private void CreateObjects()
     {
-        for (int i = 0; i < _size; i++)
+        for (int i = 0; i < Size; i++)
         {
-            PoolableObject poolableObject = GameObject.Instantiate(_prefab, Vector3.zero, Quaternion.identity, parent.transform);
-            poolableObject.Parent = this;
-            poolableObject.gameObject.SetActive(false);
+            CreateObject();
         }
+    }
+
+    private void CreateObject()
+    {
+        PoolableObject poolableObject = GameObject.Instantiate(Prefab, Vector3.zero, Quaternion.identity, Parent.transform);
+        poolableObject.Parent = this;
+        poolableObject.gameObject.SetActive(false); // PoolableObject handles re-adding the object to the AvailableObjects
     }
 
     public PoolableObject GetObject()
     {
+        if (AvailableObjectsPool.Count == 0) // auto expand pool size if out of objects
+        {
+            CreateObject();
+        }
+
         PoolableObject instance = AvailableObjectsPool[0];
 
         AvailableObjectsPool.RemoveAt(0);

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Entity : MonoBehaviour, IDamagable
+public abstract class Entity : MonoBehaviour, IDamageable
 {
     [Header("Entity Parameters")]
     public float maxHealth = 10f;
@@ -23,6 +23,6 @@ public abstract class Entity : MonoBehaviour, IDamagable
     public virtual void TakeDamage(float damage) { }
     public Transform GetTransform()
     {
-        throw new NotImplementedException();
+        return transform;
     }
 }

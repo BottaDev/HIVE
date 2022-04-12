@@ -21,17 +21,28 @@ public class Bullet : PoolableObject
 
     private void OnEnable()
     {
-        CancelInvoke(DISABLE_METHOD_NAME);
+        //CancelInvoke(DISABLE_METHOD_NAME);
         Invoke(DISABLE_METHOD_NAME, timeToDie);
     }
 
     Vector3 prevPos;
     protected virtual void Update()
     {
+        MoveToPosition();
+    }
+
+    public void MoveToPosition()
+    {
         prevPos = transform.position;
         transform.Translate(Vector3.forward * Time.deltaTime * speed);
 
         Vector3 dir = (transform.position - prevPos);
+        
+        RaycastHitGameobject(dir);
+    }
+    
+    private void RaycastHitGameobject(Vector3 dir)
+    {
         RaycastHit[] hits = Physics.RaycastAll(new Ray(prevPos, dir.normalized), dir.magnitude, mask);
 
         if(hits.Length > 0)
@@ -39,7 +50,7 @@ public class Bullet : PoolableObject
             Collision(hits[0].collider.gameObject);
         }
     }
-
+    
     protected virtual void Impact()
     {
         if(impactParticles != null)
@@ -48,16 +59,14 @@ public class Bullet : PoolableObject
             impactParticles.transform.eulerAngles = transform.eulerAngles * -1;
             impactParticles.Play();
         }
-
-        Disable();
     }
 
     public void Collision(GameObject other)
     {
-        IDamagable obj = other.GetComponentInParent<IDamagable>();
+        IDamageable obj = other.GetComponentInParent<IDamageable>();
         if (obj == null)
         {
-            obj = other.GetComponentInChildren<IDamagable>();
+            obj = other.GetComponentInChildren<IDamageable>();
         }
 
         if (obj != null)
@@ -71,6 +80,7 @@ public class Bullet : PoolableObject
         }
 
         Impact();
+        Disable();
     }
 
     private void Disable()
