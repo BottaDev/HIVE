@@ -1,27 +1,31 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Dash : MonoBehaviour
 {
-    [Header("Assignables")]
-    [SerializeField] private Player             player;
-    [SerializeField] private TrailRenderer[]    trails;
+    [Header("Assignable")]
+    [SerializeField] private Player player;
+    [SerializeField] private TrailRenderer[] trails;
+
+    
+    [Header("Parameters")]
+    [FormerlySerializedAs("_dashVelocity")]
+    [Tooltip("Speed during dash")] 
+    [SerializeField] private float dashVelocity;
+    [FormerlySerializedAs("_dashDuration")]
+    [Tooltip("Time you stay in dash Velocity.")] 
+    [SerializeField] private float dashDuration;
+    [FormerlySerializedAs("_dashCD")]
+    [Tooltip("Time it takes for you to be able to dash again after cast.")] 
+    [SerializeField] private float dashCd;
     private Camera _cam;
 
+
+    private float _currentDashCd;
+
     //Get whatever information you need for this script
-    private bool dashing { get { return player.input.dashing; } }
-
-
-    [Header("Parameters")]
-    [Tooltip("Speed during dash")][SerializeField] 
-    private float _dashVelocity;
-    [Tooltip("Time you stay in dash Velocity.")][SerializeField] 
-    private float _dashDuration;
-    [Tooltip("Time it takes for you to be able to dash again after cast.")][SerializeField] 
-    private float _dashCD;
-
-
-    private float _currentDashCD;
+    private bool Dashing => player.input.Dashing;
 
     private void Awake()
     {
@@ -29,43 +33,47 @@ public class Dash : MonoBehaviour
     }
 
     private void Update()
-    { 
-        if (dashing && _currentDashCD <= 0)
+    {
+        if (Dashing && _currentDashCd <= 0)
         {
             StartCoroutine(Cast());
             StartCoroutine(CameraEffect());
         }
 
-        _currentDashCD -= Time.deltaTime;
+        _currentDashCd -= Time.deltaTime;
     }
 
-    IEnumerator Cast()
+    private IEnumerator Cast()
     {
         foreach (TrailRenderer item in trails)
+        {
             item.emitting = true;
+        }
 
         player.movement.ableToMove = false;
-        _currentDashCD = _dashCD;
+        _currentDashCd = dashCd;
         player.movement.ApplyGravity(false);
 
         Vector3 originalVelocity = player.movement.rb.velocity;
         Vector3 orientation = new Vector3(originalVelocity.x, 0, originalVelocity.z);
-        if(orientation.magnitude == 0)
+        if (orientation.magnitude == 0)
         {
             orientation = player.movement.playerModel.forward;
         }
 
         Vector3 dashdirection = orientation.normalized;
-        player.movement.rb.velocity = dashdirection * _dashVelocity;
+        player.movement.rb.velocity = dashdirection * dashVelocity;
 
         player.animator.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsDashing, true);
 
-        yield return new WaitForSeconds(_dashDuration);
+        yield return new WaitForSeconds(dashDuration);
 
         player.animator.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsDashing, false);
 
         foreach (TrailRenderer item in trails)
+        {
             item.emitting = false;
+        }
 
         dashdirection = player.movement.rb.velocity.normalized;
 
@@ -74,23 +82,27 @@ public class Dash : MonoBehaviour
         player.movement.ApplyGravity(true);
     }
 
-    IEnumerator CameraEffect()
+    private IEnumerator CameraEffect()
     {
         float steps = 10;
 
-        float speedTime = _dashDuration / 2f;
-        float slowTime  = _dashDuration - speedTime;
+        float speedTime = dashDuration / 2f;
+        float slowTime = dashDuration - speedTime;
 
-        for (int i = 0; i < steps; i++)
+        for (int i = 0;
+             i < steps;
+             i++)
         {
             _cam.fieldOfView += 1;
-            yield return new WaitForSeconds(speedTime/steps);
+            yield return new WaitForSeconds(speedTime / steps);
         }
 
-        for (int i = 0; i < steps; i++)
+        for (int i = 0;
+             i < steps;
+             i++)
         {
             _cam.fieldOfView -= 1;
-            yield return new WaitForSeconds(slowTime/steps);
+            yield return new WaitForSeconds(slowTime / steps);
         }
     }
 }

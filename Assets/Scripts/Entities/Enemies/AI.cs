@@ -15,14 +15,14 @@ public abstract class AI : Entity
         [Tooltip("This is the name that appears in editor for the entry.")]
         public string name;
         [Tooltip("This is the type of EXP to give in case of being of this type")]
-        public PlayerLevel.EXPType type;
+        public PlayerLevel.ExpType type;
         [Tooltip("This is the actual amount of EXP to give in case of being of this type.")]
         public int expAmount;
     }
 
     [Header("EXP Parameters")]
     [SerializeField] List<EXPAmounts> ExpParameters;
-    PlayerLevel.EXPType type;
+    PlayerLevel.ExpType type;
 
     [Header("AI Parameters")]
     [Range(0f, 3f)] public float attackRate = 1f;
@@ -54,13 +54,13 @@ public abstract class AI : Entity
         switch (UnityEngine.Random.Range(0,3))
         {
             case 0:
-                type = PlayerLevel.EXPType.Attack;
+                type = PlayerLevel.ExpType.Attack;
                 break;
             case 1:
-                type = PlayerLevel.EXPType.Defense;
+                type = PlayerLevel.ExpType.Defense;
                 break;
             case 2:
-                type = PlayerLevel.EXPType.Mobility;
+                type = PlayerLevel.ExpType.Mobility;
                 break;
         }
     }
@@ -121,7 +121,7 @@ public abstract class AI : Entity
         
         if(CurrentHealth <= 0)
         {
-            _player.AddEXP(type, ExpParameters.Where(x => x.type == type).First().expAmount);
+            _player.AddExp(type, ExpParameters.Where(x => x.type == type).First().expAmount);
             KillAI();
         }
             

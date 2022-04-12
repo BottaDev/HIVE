@@ -1,155 +1,154 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerJump : MonoBehaviour
 {
     [Header("Assignables")]
     [SerializeField] private Player player;
 
-    //Variables taken out of the scripts
-    public bool grounded { get { return player.movement.grounded; } }
-    public Rigidbody rb { get { return player.movement.rb; } }
-    public bool jumping { get { return player.input.jumping; } }
-    public bool stoppedJumping { get { return player.input.stoppedJumping; } }
-
     [Header("Jumping")]
     public int amountOfJumps = 1;
     public float jumpForce = 550f;
-    private bool readyToJump = true;
-    private float jumpCooldown = 0.25f;
-    private Vector3 normalVector = Vector3.up;
     [SerializeField] public bool currentlyJumping;
-    private int jumpCounter;
-    private bool firstJump;
 
     [Header("Multipliers")]
     public float fallingGravityMultiplier = 2.5f;
     public float lowJumpGravityMultiplier = 2f;
-    
+
     [Header("Parameters")]
     [Tooltip("Time you're still allowed to jump after falling")]
     public float coyoteTime = 0.5f;
-    private float coyoteTimeCounter;
 
     [Tooltip("Time you're still allowed to input a jump before touching the ground")]
     public float jumpBufferingTime = 0.5f;
-    private float jumpBufferingCounter;
+    private bool _coyoteTimeCondition;
+    private float _coyoteTimeCounter;
 
 
-    [Header("Debug")]
-    bool fallingGravity;
-    bool lowJumpGravity;
-    bool jumpBufferCondition;
-    bool coyoteTimeCondition;
-    bool readyToJumpCondition;
-    bool lowJumpCondition;
+    [Header("Debug")] 
+    public bool fallingGravity;
+    public bool lowJumpGravity;
+    private bool _firstJump;
+    private bool _jumpBufferCondition;
+    private float _jumpBufferingCounter;
+    private readonly float jumpCooldown = 0.25f;
+    private int _jumpCounter;
+    private bool _lowJumpCondition;
+    
+    private readonly Vector3 _normalVector = Vector3.up;
+    private bool _readyToJump = true;
+    private bool _readyToJumpCondition;
+
+    //Variables taken out of the scripts
+    private bool Grounded => player.movement.grounded;
+    private Rigidbody Rb => player.movement.rb;
+    private bool Jumping => player.input.Jumping;
+    private bool StoppedJumping => player.input.StoppedJumping;
+
     private void Update()
     {
         //CoyoteTime
-        if (grounded)
+        if (Grounded)
         {
             if (!currentlyJumping)
             {
-                jumpCounter = amountOfJumps;
-                firstJump = true;
+                _jumpCounter = amountOfJumps;
+                _firstJump = true;
             }
 
-            coyoteTimeCounter = coyoteTime;
+            _coyoteTimeCounter = coyoteTime;
         }
         else
         {
-            coyoteTimeCounter -= Time.deltaTime;
+            _coyoteTimeCounter -= Time.deltaTime;
         }
 
         //Jump buffering
-        if (jumping)
+        if (Jumping)
         {
-            jumpBufferingCounter = jumpBufferingTime;
+            _jumpBufferingCounter = jumpBufferingTime;
         }
         else
         {
-            jumpBufferingCounter -= Time.deltaTime;
+            _jumpBufferingCounter -= Time.deltaTime;
         }
 
         //Low jump
-        if (stoppedJumping)
+        if (StoppedJumping)
         {
-            lowJumpCondition = true;
+            _lowJumpCondition = true;
         }
     }
 
     private void FixedUpdate()
     {
-        
-        
         JumpCheck();
     }
 
     private void JumpCheck()
     {
-        jumpBufferCondition = jumpBufferingCounter > 0f;
-        coyoteTimeCondition = coyoteTimeCounter > 0f;
-        readyToJumpCondition = readyToJump;
+        _jumpBufferCondition = _jumpBufferingCounter > 0f;
+        _coyoteTimeCondition = _coyoteTimeCounter > 0f;
+        _readyToJumpCondition = _readyToJump;
         lowJumpGravity = false;
         fallingGravity = false;
 
         //Jump action
-        if (jumpBufferCondition && readyToJump && jumpCounter > 0)
+        if (_jumpBufferCondition && _readyToJumpCondition && _jumpCounter > 0)
         {
             //If you don't jump within coyote time in your first jump, it counts as 2 jumps (so you lose one jump if you do it from the air)
-            if (!coyoteTimeCondition && firstJump)
+            if (!_coyoteTimeCondition && _firstJump)
             {
-                jumpCounter -= 2;
+                _jumpCounter -= 2;
             }
             else
             {
-                jumpCounter -= 1;
+                _jumpCounter -= 1;
             }
-            
-            Jump(normalVector * jumpForce);
-            firstJump = false;
-            lowJumpCondition = false;
-            jumpBufferingCounter = 0;
+
+            Jump(_normalVector * jumpForce);
+            _firstJump = false;
+            _lowJumpCondition = false;
+            _jumpBufferingCounter = 0;
         }
 
         //Low jump
-        if (lowJumpCondition && rb.velocity.y > 0)
+        if (_lowJumpCondition && Rb.velocity.y > 0)
         {
             lowJumpGravity = true;
-            rb.velocity += Vector3.up * Physics.gravity.y * lowJumpGravityMultiplier * Time.deltaTime;
-            coyoteTimeCounter = 0;
+            Rb.velocity += Vector3.up * Physics.gravity.y * lowJumpGravityMultiplier * Time.deltaTime;
+            _coyoteTimeCounter = 0;
         }
-        
+
         //Falling = higher gravity
-        if (rb.velocity.y < 0 && !grounded)
+        if (Rb.velocity.y < 0 && !Grounded)
         {
             player.animator.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsJumping, false);
-            lowJumpCondition = false;
+            _lowJumpCondition = false;
             currentlyJumping = false;
             fallingGravity = true;
-            rb.velocity += Vector3.up * Physics.gravity.y * fallingGravityMultiplier * Time.deltaTime;
+            Rb.velocity += Vector3.up * Physics.gravity.y * fallingGravityMultiplier * Time.deltaTime;
         }
     }
 
     public void Jump(Vector3 force)
-    {   
+    {
         currentlyJumping = true;
 
         //Reset Y velocity
-        rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+        Rb.velocity = new Vector3(Rb.velocity.x, 0, Rb.velocity.z);
 
         //Add jump forces
-        rb.AddForce(force);
+        Rb.AddForce(force);
 
         player.animator.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsJumping, true);
 
-        readyToJump = false;
+        _readyToJump = false;
         Invoke(nameof(ResetJump), jumpCooldown);
     }
 
     private void ResetJump()
     {
-        readyToJump = true;
+        _readyToJump = true;
     }
 }

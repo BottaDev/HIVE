@@ -1,10 +1,9 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System;
 
 public class Player : Entity
 {
-    [Header("Assignables")]
+    [Header("Assignable")] 
     public PlayerInput input;
     public PlayerAnimator animator;
     public PlayerJump jump;
@@ -14,11 +13,11 @@ public class Player : Entity
     public PlayerLevel level;
     public PlayerDebugDevTools debug;
 
-    public bool restart { get { return input.restart; } }
+    [SerializeField] private UILevelSystem levelSystemUI;
+    [SerializeField] private HealthBar healthBar;
 
-    [SerializeField] private UILevelSystem _levelSystemUI;
-    [SerializeField] private HealthBar _healthBar;
-    
+    private bool Restart => input.Restart;
+
 
     protected override void Awake()
     {
@@ -30,46 +29,43 @@ public class Player : Entity
 
     private void Start()
     {
-        _healthBar.SetMaxHealt(maxHealth);
+        healthBar.SetMaxHealt(maxHealth);
     }
 
     private void Update()
     {
-        if (restart)
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        }
+        if (Restart) SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    public void Debug_EnemyDamaged(params object[] obj)
+    private static void Debug_EnemyDamaged(params object[] obj)
     {
         Debug.Log("Enemy damaged");
-        Crosshair.instance.Hit();
+        Crosshair.instance.Hit(); 
     }
-    public void AddEXP(PlayerLevel.EXPType type, int amount)
-    {
-        level.AddEXP(type, amount);
 
-        _levelSystemUI.UpdateUI(type);
+    public void AddExp(PlayerLevel.ExpType type, int amount)
+    {
+        level.AddExp(type, amount);
+
+        levelSystemUI.UpdateUI(type);
     }
+
     private void OnPlayerDamaged(params object[] parameters)
     {
-        TakeDamage((float)parameters[0]);
+        TakeDamage((float) parameters[0]);
     }
 
     public override void TakeDamage(float damage)
     {
-        if (!debug.invincible)
-        {
-            CurrentHealth -= damage;
-            EventManager.Instance.Trigger(EventManager.Events.OnLifeUpdated, CurrentHealth);
+        if (debug.Invincible) return;
+        
+        CurrentHealth -= damage;
+        EventManager.Instance.Trigger(EventManager.Events.OnLifeUpdated, CurrentHealth);
 
-            if (CurrentHealth <= 0)
-            {
-                EventManager.Instance.Trigger(EventManager.Events.OnPlayerDead);
-                EventManager.Instance.Unsubscribe(EventManager.Events.OnPlayerDamaged, OnPlayerDamaged);
-                gameObject.SetActive(false);
-            }
-        }
+        if (!(CurrentHealth <= 0)) return;
+        
+        EventManager.Instance.Trigger(EventManager.Events.OnPlayerDead);
+        EventManager.Instance.Unsubscribe(EventManager.Events.OnPlayerDamaged, OnPlayerDamaged);
+        gameObject.SetActive(false);
     }
 }

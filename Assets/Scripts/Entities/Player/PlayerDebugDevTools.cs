@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerDebugDevTools : MonoBehaviour
 {
-    [SerializeField] Player player;
+    [SerializeField] private Player player;
 
     [Header("Keybinds")]
     [SerializeField] private KeyCode invincibilityKey = KeyCode.Alpha1;
@@ -12,10 +10,10 @@ public class PlayerDebugDevTools : MonoBehaviour
     [SerializeField] private KeyCode addExpDefense = KeyCode.Alpha3;
     [SerializeField] private KeyCode addExpMobility = KeyCode.Alpha4;
 
-    bool _invincible;
-    public bool invincible { get { return _invincible; } set { _invincible = value; } }
+    private bool _invincible;
+    public bool Invincible { get => _invincible; set => _invincible = value; }
 
-    void Update()
+    private void Update()
     {
         DebugInput();
     }
@@ -24,22 +22,22 @@ public class PlayerDebugDevTools : MonoBehaviour
     {
         if (Input.GetKeyDown(invincibilityKey))
         {
-            invincible = invincible.Toggle();
+            Invincible = Invincible.Toggle();
         }
 
         if (Input.GetKeyDown(addExpAttack))
         {
-            player.AddEXP(PlayerLevel.EXPType.Attack, 5);
+            player.AddExp(PlayerLevel.ExpType.Attack, 5);
         }
 
         if (Input.GetKeyDown(addExpDefense))
         {
-            player.AddEXP(PlayerLevel.EXPType.Defense, 5);
+            player.AddExp(PlayerLevel.ExpType.Defense, 5);
         }
 
         if (Input.GetKeyDown(addExpMobility))
         {
-            player.AddEXP(PlayerLevel.EXPType.Mobility, 5);
+            player.AddExp(PlayerLevel.ExpType.Mobility, 5);
         }
     }
 }

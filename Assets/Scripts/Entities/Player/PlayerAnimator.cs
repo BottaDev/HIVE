@@ -1,37 +1,39 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerAnimator : MonoBehaviour
 {
-    [SerializeField] private Animator _top;
-    [SerializeField] private Animator _bottom;
-    
     public enum AnimationTriggers
     {
         IsJumping, IsDashing, IsShooting, IsRunning
     }
+
+    private static readonly int IsJumping = Animator.StringToHash("isJumping");
+    private static readonly int IsDashing = Animator.StringToHash("isDashing");
+    private static readonly int IsShooting = Animator.StringToHash("isShooting");
+    private static readonly int IsRunning = Animator.StringToHash("isRunning");
+    [FormerlySerializedAs("_top")] [SerializeField] private Animator top;
+    [FormerlySerializedAs("_bottom")] [SerializeField] private Animator bottom;
 
     public void AnimationBooleans(AnimationTriggers trigger, bool state)
     {
         switch (trigger)
         {
             case AnimationTriggers.IsJumping:
-                _top.SetBool("isJumping", state);
-                _bottom.SetBool("isJumping", state);
+                top.SetBool(IsJumping, state);
+                bottom.SetBool(IsJumping, state);
                 break;
             case AnimationTriggers.IsDashing:
-                _top.SetBool("isDashing", state);
-                _bottom.SetBool("isDashing", state);
+                top.SetBool(IsDashing, state);
+                bottom.SetBool(IsDashing, state);
                 break;
             case AnimationTriggers.IsShooting:
-                _top.SetBool("isShooting", state);
+                top.SetBool(IsShooting, state);
                 break;
             case AnimationTriggers.IsRunning:
-                _top.SetBool("isRunning", state);
-                _bottom.SetBool("isRunning", state);
+                top.SetBool(IsRunning, state);
+                bottom.SetBool(IsRunning, state);
                 break;
         }
-        
     }
 }

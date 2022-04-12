@@ -10,7 +10,7 @@ public class UILevelSystem : MonoBehaviour
     public struct UILevel
     {
         public string name;
-        public PlayerLevel.EXPType expType;
+        public PlayerLevel.ExpType expType;
         public Utilities_RadialProgressBar progressBar;
     }
 
@@ -32,16 +32,16 @@ public class UILevelSystem : MonoBehaviour
         for (int i = 0; i < levelUIs.Count; i++)
         {
             UILevel current = levelUIs[i];
-            PlayerLevel.EXP exp = player.level.FindEXPOfType(current.expType);
+            PlayerLevel.Exp exp = player.level.FindExpOfType(current.expType);
 
             current.progressBar.SetRange(0, system.GetDifferenceBetweenLevels(system.Level, system.Level+1));
-            current.progressBar.SetValue(exp.thisLevel);
+            current.progressBar.SetValue(exp.ThisLevel);
         }
 
         this.level.text = "LV. " + system.Level;
     }
 
-    public void UpdateUI(PlayerLevel.EXPType lastTypeGained)
+    public void UpdateUI(PlayerLevel.ExpType lastTypeGained)
     {
         PlayerLevel level = player.level;
         LevellingSystem system = level.system;
@@ -50,23 +50,23 @@ public class UILevelSystem : MonoBehaviour
         for (int i = 0; i < levelUIs.Count; i++)
         {
             UILevel current = levelUIs[i];
-            PlayerLevel.EXP exp = level.FindEXPOfType(current.expType);
+            PlayerLevel.Exp exp = level.FindExpOfType(current.expType);
             
-            if (level.thisLevel >= current.progressBar.MaxValue && exp.type == lastTypeGained)
+            if (level.ThisLevel >= current.progressBar.MaxValue && exp.type == lastTypeGained)
             {
                 System.Action onFinish = delegate
                 {
-                    int difference = level.thisLevel - (int)current.progressBar.MaxValue;
+                    int difference = level.ThisLevel - (int)current.progressBar.MaxValue;
 
                     float previousValue = 0;
                     for (int i = 0; i < levelUIs.Count; i++)
                     {
                         UILevel current = levelUIs[i];
-                        PlayerLevel.EXP exp = level.FindEXPOfType(current.expType);
+                        PlayerLevel.Exp exp = level.FindExpOfType(current.expType);
 
-                        if(level.delayList.Count > 0)
+                        if(level.DelayList.Count > 0)
                         {
-                            List<int> list = level.delayList.Where((x => x.Item1 == exp.type)).Select((x => x.Item2)).ToList();
+                            List<int> list = level.DelayList.Where((x => x.Item1 == exp.type)).Select((x => x.Item2)).ToList();
                             int total = 0;
 
                             for (int j = 0; j < list.Count; j++)
@@ -75,35 +75,35 @@ public class UILevelSystem : MonoBehaviour
                             }
 
                             Debug.Log(exp.type.ToString() + ": "+ total);
-                            exp.thisLevel = total;
+                            exp.ThisLevel = total;
                         }
                         else
                         {
-                            exp.thisLevel = 0;
+                            exp.ThisLevel = 0;
                         }
 
                         
                         int differenceBetweenLevels = system.GetDifferenceBetweenLevels(system.Level, system.Level + 1);
                         current.progressBar.SetRange(0, differenceBetweenLevels);
-                        current.progressBar.SetValue(exp.thisLevel + previousValue);
+                        current.progressBar.SetValue(exp.ThisLevel + previousValue);
                         this.level.text = "LV. " + system.Level;
-                        level.thisLevel = difference;
-                        previousValue += exp.thisLevel;
+                        level.ThisLevel = difference;
+                        previousValue += exp.ThisLevel;
                     }
 
                     level.isDelayed = false;
-                    level.delayList.Clear();
+                    level.DelayList.Clear();
                 };
 
                 level.isDelayed = true;
-                current.progressBar.SetValue(exp.thisLevel + previousValue, onFinish);
+                current.progressBar.SetValue(exp.ThisLevel + previousValue, onFinish);
             }
             else
             {
-                current.progressBar.SetValue(exp.thisLevel + previousValue);
+                current.progressBar.SetValue(exp.ThisLevel + previousValue);
             }
 
-            previousValue += exp.thisLevel;
+            previousValue += exp.ThisLevel;
         }
     }
 }

@@ -55,12 +55,12 @@ public class Rails : MonoBehaviour
 
     private void Update()
     {
-        if(waitingForInput && p.input.attaching)
+        if(waitingForInput && p.input.Attaching)
         {
             Attach(p.transform);
         }
 
-        if (p.input.isMoving || p.input.dashing || p.input.jumping)
+        if (p.input.IsMoving || p.input.Dashing || p.input.Jumping)
         {
             UnAttach();
         }

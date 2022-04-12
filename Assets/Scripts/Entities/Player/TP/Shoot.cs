@@ -1,49 +1,58 @@
-using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Shoot : MonoBehaviour
 {
     [Header("Assignables")]
     [SerializeField] private Player player;
 
-    //Get whatever information you need for this script
-    private bool shooting { get { return player.input.shooting; } }
-
     [Header("Gun")]
     public float damage = 5;
     public float fireRate = 15;
     public float gunCd = 1f;
-    private float currentCD;
-    private float _nextShoot;
-    public bool _reloading;
-    
+    public bool reloading;
+
     [Header("Ammunition")]
     public int maxAmmo = 100;
     public float totalReloadTime = 1f;
     public int ammoCost = 1;
-    [SerializeField] private int _currentAmmo;
-    private int currentAmmo { get { return _currentAmmo; } set { _currentAmmo = value; _ammoBar.UpdateFillAmount(_currentAmmo); } }
-    
+
     [Header("Objects")]
     public LayerMask mask;
     public Bullet bullet;
-    
-    public Transform _firePoint;
-    private Vector3 _mouseWorldPosition;
-    
+
+    [FormerlySerializedAs("_firePoint")] public Transform firePoint;
+    [FormerlySerializedAs("_ammoBar")] public AmmoBar ammoBar;
+    private ObjectPool _bulletPool;
+
     private Camera _cam;
-    public AmmoBar _ammoBar;
-    private ObjectPool bulletPool;
+    private int _currentAmmo;
+    private float _currentCd;
+    private Vector3 _mouseWorldPosition;
+    private float _nextShoot;
+
+    //Get whatever information you need for this script
+    private bool Shooting => player.input.Shooting;
+
+    private int CurrentAmmo
+    {
+        get => _currentAmmo;
+        set
+        {
+            _currentAmmo = value;
+            ammoBar.UpdateFillAmount(_currentAmmo);
+        }
+    }
 
     private void Start()
     {
         _cam = Camera.main;
 
         _currentAmmo = maxAmmo;
-        _ammoBar.SetMaxAmmo(maxAmmo);
+        ammoBar.SetMaxAmmo(maxAmmo);
 
-        bulletPool = ObjectPool.CreateInstance(bullet, 20);
-        bullet.Parent = bulletPool;
+        _bulletPool = ObjectPool.CreateInstance(bullet, 20);
+        bullet.Parent = _bulletPool;
     }
 
     private void Update()
@@ -51,16 +60,14 @@ public class Shoot : MonoBehaviour
         _mouseWorldPosition = Vector3.zero;
         Vector2 screenCenterPoint = new Vector2(Screen.width / 2, Screen.height / 2);
         Ray ray = _cam.ScreenPointToRay(screenCenterPoint);
-        Transform hitTransform = null;
 
-        if(Physics.Raycast(ray, out RaycastHit raycastHit, 999f, mask))
+        if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f, mask))
         {
             _mouseWorldPosition = raycastHit.point;
-            hitTransform = raycastHit.transform;
         }
 
 
-        if (shooting)
+        if (Shooting)
         {
             player.animator.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsShooting, true);
             if (Time.time >= _nextShoot)
@@ -74,55 +81,57 @@ public class Shoot : MonoBehaviour
             player.animator.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsShooting, false);
         }
 
-        if (currentCD > gunCd)
+        if (_currentCd > gunCd)
         {
             ReloadGun();
         }
         else
         {
-            currentCD += Time.deltaTime;
+            _currentCd += Time.deltaTime;
         }
     }
+
     private void OnDrawGizmos()
     {
-        Vector3 aimDir = _mouseWorldPosition - _firePoint.position;
-        Debug.DrawLine(_firePoint.position, aimDir, Color.red);
+        Vector3 aimDir = _mouseWorldPosition - firePoint.position;
+        Debug.DrawLine(firePoint.position, aimDir, Color.red);
     }
+
     private void ShootAction()
     {
-        if (currentAmmo > 0)
+        if (CurrentAmmo > 0)
         {
-            _reloading = false;
-            currentCD = 0;
+            reloading = false;
+            _currentCd = 0;
 
-            Bullet bul = bulletPool.GetObject().GetComponent<Bullet>();
+            Bullet bul = _bulletPool.GetObject().GetComponent<Bullet>();
 
-           
+
             bul.wasShotByPlayer = true;
             bul.damage = damage;
 
-            bul.transform.position = _firePoint.position;
+            bul.transform.position = firePoint.position;
             bul.transform.LookAt(_mouseWorldPosition);
 
             bul.trail.Clear();
-            currentAmmo -= ammoCost;
+            CurrentAmmo -= ammoCost;
 
-            if (currentAmmo <= 0)
+            if (CurrentAmmo <= 0)
             {
-                currentAmmo = 0;
-            } 
+                CurrentAmmo = 0;
+            }
         }
     }
 
     private void ReloadGun()
     {
-        _reloading = true;
-        currentAmmo += Mathf.CeilToInt((maxAmmo / totalReloadTime) * Time.deltaTime);
+        reloading = true;
+        CurrentAmmo += Mathf.CeilToInt(maxAmmo / totalReloadTime * Time.deltaTime);
 
-        if (currentAmmo >= maxAmmo)
+        if (CurrentAmmo >= maxAmmo)
         {
-            currentAmmo = maxAmmo;
-            _reloading = false;
+            CurrentAmmo = maxAmmo;
+            reloading = false;
         }
     }
 }
