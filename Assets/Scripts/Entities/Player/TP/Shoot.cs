@@ -25,10 +25,9 @@ public class Shoot : MonoBehaviour
     [FormerlySerializedAs("_ammoBar")] public AmmoBar ammoBar;
     private ObjectPool _bulletPool;
 
-    private Camera _cam;
     private int _currentAmmo;
     private float _currentCd;
-    private Vector3 _mouseWorldPosition;
+
     private float _nextShoot;
 
     //Get whatever information you need for this script
@@ -46,8 +45,6 @@ public class Shoot : MonoBehaviour
 
     private void Start()
     {
-        _cam = Camera.main;
-
         _currentAmmo = maxAmmo;
         ammoBar.SetMaxAmmo(maxAmmo);
 
@@ -57,16 +54,6 @@ public class Shoot : MonoBehaviour
 
     private void Update()
     {
-        _mouseWorldPosition = Vector3.zero;
-        Vector2 screenCenterPoint = new Vector2(Screen.width / 2, Screen.height / 2);
-        Ray ray = _cam.ScreenPointToRay(screenCenterPoint);
-
-        if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f, mask))
-        {
-            _mouseWorldPosition = raycastHit.point;
-        }
-
-
         if (Shooting)
         {
             player.animator.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsShooting, true);
@@ -91,12 +78,6 @@ public class Shoot : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmos()
-    {
-        Vector3 aimDir = _mouseWorldPosition - firePoint.position;
-        Debug.DrawLine(firePoint.position, aimDir, Color.red);
-    }
-
     private void ShootAction()
     {
         if (CurrentAmmo > 0)
@@ -109,9 +90,10 @@ public class Shoot : MonoBehaviour
 
             bul.wasShotByPlayer = true;
             bul.damage = damage;
+            bul.mask = mask;
 
             bul.transform.position = firePoint.position;
-            bul.transform.LookAt(_mouseWorldPosition);
+            bul.transform.LookAt(player.aim.Point);
 
             bul.trail.Clear();
             CurrentAmmo -= ammoCost;

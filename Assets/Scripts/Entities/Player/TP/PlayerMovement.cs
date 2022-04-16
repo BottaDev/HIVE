@@ -94,6 +94,10 @@ public class PlayerMovement : MonoBehaviour
                 StepClimb();
             }
         }
+        else
+        {
+            player.animator.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsRunning, false);
+        }
     }
 
     /// <summary>
@@ -135,7 +139,7 @@ public class PlayerMovement : MonoBehaviour
     {
         //Check if you're moving  to set animation (use original input)
         player.animator.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsRunning, player.input.IsMoving);
-
+        
         float x = this.X;
         float y = this.Y;
         if (rotateLowerHalf)

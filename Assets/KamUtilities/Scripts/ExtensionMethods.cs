@@ -295,3 +295,12 @@ public static class ExtensionMethods_bool
     }
 
 }
+
+public static class ExtensionMethods_Rigidbody
+{
+    public static Vector3 PredictNextPosition(this Rigidbody self)
+    {
+        return self.position + (self.velocity * Time.deltaTime);
+    }
+
+}

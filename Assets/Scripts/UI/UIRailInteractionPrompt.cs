@@ -1,16 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class UIRailInteractionPrompt : MonoBehaviour
 {
     public GameObject prompt;
-    [SerializeField] Rails rail;
+    [SerializeField] private Rails rail;
 
     private void OnTriggerEnter(Collider other)
     {
         rail.WaitForInput(true);
-        if (!rail.active)
+        if (!rail.active && rail.p.grapple.Pulling)
         {
             prompt.SetActive(true);
         }

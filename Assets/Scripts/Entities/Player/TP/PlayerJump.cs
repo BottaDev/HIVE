@@ -94,7 +94,7 @@ public class PlayerJump : MonoBehaviour
         fallingGravity = false;
 
         //Jump action
-        if (_jumpBufferCondition && _readyToJumpCondition && _jumpCounter > 0)
+        if (_jumpBufferCondition && _readyToJumpCondition && _jumpCounter > 0 && !player.grapple.Pulling)
         {
             //If you don't jump within coyote time in your first jump, it counts as 2 jumps (so you lose one jump if you do it from the air)
             if (!_coyoteTimeCondition && _firstJump)
@@ -113,7 +113,7 @@ public class PlayerJump : MonoBehaviour
         }
 
         //Low jump
-        if (_lowJumpCondition && Rb.velocity.y > 0)
+        if (_lowJumpCondition && Rb.velocity.y > 0 && player.movement.rb.useGravity)
         {
             lowJumpGravity = true;
             Rb.velocity += Vector3.up * Physics.gravity.y * lowJumpGravityMultiplier * Time.deltaTime;
@@ -121,7 +121,7 @@ public class PlayerJump : MonoBehaviour
         }
 
         //Falling = higher gravity
-        if (Rb.velocity.y < 0 && !Grounded)
+        if (Rb.velocity.y < 0 && !Grounded && player.movement.rb.useGravity)
         {
             player.animator.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsJumping, false);
             _lowJumpCondition = false;

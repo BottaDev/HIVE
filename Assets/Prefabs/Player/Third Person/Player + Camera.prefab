@@ -112,6 +112,11 @@ GameObject:
   - component: {fileID: 3473960329723331748}
   - component: {fileID: 1238573687}
   - component: {fileID: 3829715295368400988}
+  - component: {fileID: 156484629}
+  - component: {fileID: 156484630}
+  - component: {fileID: 156484631}
+  - component: {fileID: 156484632}
+  - component: {fileID: 156484633}
   m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
@@ -193,9 +198,11 @@ MonoBehaviour:
   shoot: {fileID: 3473960329723331748}
   dash: {fileID: 3473960329723331749}
   level: {fileID: 1238573687}
-  debug: {fileID: 0}
-  _levelSystemUI: {fileID: 0}
-  _healthBar: {fileID: 0}
+  debug: {fileID: 3829715295368400988}
+  aim: {fileID: 156484631}
+  grapple: {fileID: 156484632}
+  levelSystemUI: {fileID: 0}
+  healthBar: {fileID: 0}
 --- !u!114 &2839959021259793015
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,13 +215,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6eb4f7b77dd24a46b61c1920d138e31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _player: {fileID: 2010002419299452760}
-  _shootKey: 0
-  _jumpKey: 32
-  _dashKey: 304
-  _restartKey: 114
-  _freeCamKey: 306
-  _railAttachKey: 1
+  shootKey: 0
+  jumpKey: 32
+  dashKey: 304
+  restartKey: 114
+  freeCamKey: 306
+  grappleKey: 113
+  railAttachKey: 1
 --- !u!114 &2930390506446303794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -283,6 +290,8 @@ MonoBehaviour:
   lowJumpGravityMultiplier: 2
   coyoteTime: 0.2
   jumpBufferingTime: 0.2
+  fallingGravity: 0
+  lowJumpGravity: 0
 --- !u!114 &3473960329723331749
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -300,9 +309,9 @@ MonoBehaviour:
   - {fileID: 7902526484589566565}
   - {fileID: 7902526484759244804}
   - {fileID: 7902526483232057360}
-  _dashVelocity: 50
-  _dashDuration: 0.25
-  _dashCD: 1
+  dashVelocity: 50
+  dashDuration: 0.25
+  dashCd: 1
 --- !u!114 &3473960329723331748
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -319,17 +328,16 @@ MonoBehaviour:
   damage: 5
   fireRate: 7
   gunCd: 1
-  _reloading: 0
+  reloading: 0
   maxAmmo: 100
   totalReloadTime: 1
   ammoCost: 10
-  _currentAmmo: 0
   mask:
     serializedVersion: 2
     m_Bits: 56000
   bullet: {fileID: 6169558286150484466, guid: 2a203843cb7e36b4fae67710d61d7b6f, type: 3}
-  _firePoint: {fileID: 7518533697554243290}
-  _ammoBar: {fileID: 0}
+  firePoint: {fileID: 7518533697554243290}
+  ammoBar: {fileID: 0}
 --- !u!114 &1238573687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -374,6 +382,203 @@ MonoBehaviour:
   addExpAttack: 50
   addExpDefense: 51
   addExpMobility: 52
+--- !u!120 &156484629
+LineRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3473960329723331750}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 0
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Positions:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 1}
+  m_Parameters:
+    serializedVersion: 3
+    widthMultiplier: 1
+    widthCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0.086538315
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    colorGradient:
+      serializedVersion: 2
+      key0: {r: 0, g: 1, b: 0.94130874, a: 1}
+      key1: {r: 0.9601507, g: 0, b: 1, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
+    numCornerVertices: 10
+    numCapVertices: 10
+    alignment: 0
+    textureMode: 0
+    shadowBias: 0.5
+    generateLightingData: 0
+  m_UseWorldSpace: 1
+  m_Loop: 0
+--- !u!114 &156484630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3473960329723331750}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd61e9b48fe31c8449c58930bbe71b0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grappleable:
+    serializedVersion: 2
+    m_Bits: 51264
+  maxGrappleDistance: 100
+  maxDistance: 80
+  minDistance: 25
+  springForce: 4.5
+  damper: 7
+  massScale: 4.5
+  player: {fileID: 2010002419299452760}
+  lr: {fileID: 156484629}
+  firePoint: {fileID: 7518533697554243290}
+--- !u!114 &156484631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3473960329723331750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a72aa860638340fa98b23e08116f2872, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aimingMask:
+    serializedVersion: 2
+    m_Bits: 56000
+--- !u!114 &156484632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3473960329723331750}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88e0c058b06745e3a677e94dc264588c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grappleable:
+    serializedVersion: 2
+    m_Bits: 51264
+  hookSpeed: 300
+  pullSpeed: 1
+  stopDistance: 4
+  lifetime: 8
+  player: {fileID: 2010002419299452760}
+  hookPrefab: {fileID: 277520169603632861, guid: 29e266a9fefc330478eb67696aefc859, type: 3}
+  shootTransform: {fileID: 7518533697554243290}
+  rigid: {fileID: 3473960329723331747}
+  lr: {fileID: 156484629}
+  useStopDistance: 0
+  destroyAfterLifetime: 0
+  useGravityWhileAttached: 0
+  ableToMoveWhileAttached: 0
+--- !u!114 &156484633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3473960329723331750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af18a78f3a20415ba2edacbbb3502d2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grappleable:
+    serializedVersion: 2
+    m_Bits: 59456
+  maxHookDistance: 100
+  hookSpeed: 300
+  pullSpeed: 1
+  stopDistance: 2
+  lifetime: 8
+  player: {fileID: 2010002419299452760}
+  hookPrefab: {fileID: 277520169603632861, guid: 29e266a9fefc330478eb67696aefc859, type: 3}
+  shootTransform: {fileID: 7518533697554243290}
+  rigid: {fileID: 3473960329723331747}
+  lr: {fileID: 156484629}
+  useStopDistance: 1
+  destroyAfterLifetime: 0
+  useGravityWhileAttached: 0
+  ableToMoveWhileAttached: 1
+  resetVelocityOnAttached: 0
+  sameButtonPressCancel: 1
+  useJointDistanceAsForce: 1
 --- !u!1 &3473960329904449256
 GameObject:
   m_ObjectHideFlags: 0
@@ -5265,8 +5470,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6acec8984caa5345b91856142e2b6f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _top: {fileID: 3565698565577047827}
-  _bottom: {fileID: 3565698565845030356}
+  top: {fileID: 3565698565577047827}
+  bottom: {fileID: 3565698565845030356}
 --- !u!1 &3565698566886070516
 GameObject:
   m_ObjectHideFlags: 0
@@ -6495,8 +6700,8 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 51264
-  _lookAt: {fileID: 3473960329904449257}
-  _camTransform: {fileID: 4629313644306813590}
+  lookAt: {fileID: 3473960329904449257}
+  camTransform: {fileID: 4629313644306813590}
   input: {fileID: 2839959021259793015}
   mouseSensitivity: 2
 --- !u!1 &4629313644306813586

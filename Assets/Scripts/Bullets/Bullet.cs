@@ -1,9 +1,7 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : PoolableObject
+public sealed class Bullet : PoolableObject
 {
     [Header("Properties")]
     public float speed = 10f;
@@ -11,7 +9,7 @@ public class Bullet : PoolableObject
     public float timeToDie = 3f;
     public LayerMask mask;
 
-    private const string DISABLE_METHOD_NAME = "Disable";
+    private const string DisableMethodName = "Disable";
     
     [HideInInspector] public bool wasShotByPlayer;
 
@@ -22,52 +20,56 @@ public class Bullet : PoolableObject
     private void OnEnable()
     {
         //CancelInvoke(DISABLE_METHOD_NAME);
-        Invoke(DISABLE_METHOD_NAME, timeToDie);
+        Invoke(DisableMethodName, timeToDie);
     }
 
-    Vector3 prevPos;
-    protected virtual void Update()
+    private Vector3 _prevPos;
+
+    private void Update()
     {
         MoveToPosition();
     }
 
     public void MoveToPosition()
     {
-        prevPos = transform.position;
+        _prevPos = transform.position;
         transform.Translate(Vector3.forward * Time.deltaTime * speed);
 
-        Vector3 dir = (transform.position - prevPos);
+        Vector3 dir = (transform.position - _prevPos);
         
         RaycastHitGameobject(dir);
     }
     
     private void RaycastHitGameobject(Vector3 dir)
     {
-        RaycastHit[] hits = Physics.RaycastAll(new Ray(prevPos, dir.normalized), dir.magnitude, mask);
-
-        if(hits.Length > 0)
+        if(Physics.Raycast(transform.position, dir, out RaycastHit hit, dir.magnitude, mask))
         {
-            Collision(hits[0].collider.gameObject);
+            Hit(hit);
         }
     }
+
+    private void Hit(RaycastHit hit)
+    {
+        ImpactEffect(hit.point);
+        Collision(hit.collider.gameObject);
+        Disable();
+    }
     
-    protected virtual void Impact()
+    private void ImpactEffect(Vector3 point)
     {
         if(impactParticles != null)
         {
-            impactParticles.transform.parent = null;
-            impactParticles.transform.eulerAngles = transform.eulerAngles * -1;
-            impactParticles.Play();
+            ParticleSystem effect = Instantiate(impactParticles);
+            effect.transform.position = point;
+            effect.transform.eulerAngles = transform.eulerAngles * -1;
+            effect.Play();
+            Destroy(effect.gameObject, effect.main.duration);
         }
     }
 
     public void Collision(GameObject other)
     {
-        IDamageable obj = other.GetComponentInParent<IDamageable>();
-        if (obj == null)
-        {
-            obj = other.GetComponentInChildren<IDamageable>();
-        }
+        IDamageable obj = other.GetComponentInParent<IDamageable>() ?? other.GetComponentInChildren<IDamageable>();
 
         if (obj != null)
         {
@@ -78,14 +80,18 @@ public class Bullet : PoolableObject
 
             obj.TakeDamage(damage);
         }
-
-        Impact();
-        Disable();
     }
 
     private void Disable()
     {
-        CancelInvoke(DISABLE_METHOD_NAME);
+        CancelInvoke(DisableMethodName);
         gameObject.SetActive(false);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Vector3 dir = (transform.position - _prevPos);
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(transform.position, transform.position + dir);
     }
 }

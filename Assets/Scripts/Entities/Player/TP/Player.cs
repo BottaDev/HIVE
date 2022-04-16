@@ -12,6 +12,8 @@ public class Player : Entity
     public Dash dash;
     public PlayerLevel level;
     public PlayerDebugDevTools debug;
+    public PlayerAim aim;
+    public PlayerGrappleV2 grapple;
 
     [SerializeField] private UILevelSystem levelSystemUI;
     [SerializeField] private HealthBar healthBar;

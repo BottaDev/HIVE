@@ -49,9 +49,12 @@ public class Dash : MonoBehaviour
         {
             item.emitting = true;
         }
-
-        player.movement.ableToMove = false;
+        
         _currentDashCd = dashCd;
+
+        bool ableToMoveOld = player.movement.ableToMove;
+        bool applyGravityOld = player.movement.rb.useGravity;
+        player.movement.ableToMove = false;
         player.movement.ApplyGravity(false);
 
         Vector3 originalVelocity = player.movement.rb.velocity;
@@ -78,8 +81,9 @@ public class Dash : MonoBehaviour
         dashdirection = player.movement.rb.velocity.normalized;
 
         player.movement.rb.velocity = dashdirection * originalVelocity.magnitude;
-        player.movement.ableToMove = true;
-        player.movement.ApplyGravity(true);
+
+        player.movement.ableToMove = ableToMoveOld;
+        player.movement.ApplyGravity(applyGravityOld);
     }
 
     private IEnumerator CameraEffect()
