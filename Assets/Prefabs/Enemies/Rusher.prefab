@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5880965783394602147}
   - component: {fileID: 4412390479073506050}
   - component: {fileID: 3265247517186823848}
-  - component: {fileID: -5179881777226502667}
+  - component: {fileID: 820666197597836252}
   m_Layer: 7
   m_Name: Rusher
   m_TagString: Untagged
@@ -143,7 +143,7 @@ MonoBehaviour:
   obstacleMask:
     serializedVersion: 2
     m_Bits: 64
---- !u!114 &-5179881777226502667
+--- !u!114 &820666197597836252
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -152,34 +152,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 6576070079687112172}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30dc843097507ce4c875116729783258, type: 3}
+  m_Script: {fileID: 11500000, guid: 71985c480d4ce7e4ba818df82bf529a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Method: 1
-  m_Curve:
+  DefaultMoveMethod: 1
+  Curve:
     serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
+    m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  ParabolaHeight: 8
+  NavMeshLinkTraversalTypes: []
 --- !u!1001 &5757964889338581997
 PrefabInstance:
   m_ObjectHideFlags: 0

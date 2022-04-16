@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -140,12 +141,25 @@ public class Rusher : AI
         Gizmos.DrawWireSphere(transform.position, attackDistance);
     }
 
-    private void OnTriggerEnter(Collider other)
+   //private void OnTriggerEnter(Collider other)
+   //{
+   //    var player = other.GetComponent<Player>();
+   //    
+   //    if (other.gameObject.layer == 8 || player != null)
+   //    {
+   //        player.TakeDamage(damage);
+   //        EventManager.Instance.Trigger(EventManager.Events.OnPlayerDamaged, damage);
+   //        _isJumping = false;
+   //    }
+   //}
+
+    private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.layer == 8 && _isJumping)
+        var player = other.GetComponent<Player>();
+
+        if (player != null)
         {
-            EventManager.Instance.Trigger(EventManager.Events.OnPlayerDamaged, damage);
-            _isJumping = false;
+            player.TakeDamage(damage / 100);
         }
     }
 }

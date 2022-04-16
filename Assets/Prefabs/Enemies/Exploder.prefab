@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 441090482870392484}
   - component: {fileID: 6097831478673150880}
   - component: {fileID: 226318656586172159}
-  - component: {fileID: 312240807358325458}
+  - component: {fileID: 7478874491227580060}
   m_Layer: 7
   m_Name: Exploder
   m_TagString: Untagged
@@ -182,7 +182,6 @@ MonoBehaviour:
   attackRate: 1
   detectionRange: 25
   rotationSpeed: 5
-  isAEnemySpawner: 0
   _agent: {fileID: 0}
   _playerDetected: 0
   updateRate: 0.1
@@ -209,7 +208,7 @@ MonoBehaviour:
   obstacleMask:
     serializedVersion: 2
     m_Bits: 64
---- !u!114 &312240807358325458
+--- !u!114 &7478874491227580060
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -218,16 +217,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 6576070079687112172}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30dc843097507ce4c875116729783258, type: 3}
+  m_Script: {fileID: 11500000, guid: 71985c480d4ce7e4ba818df82bf529a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Method: 2
-  m_Curve:
+  DefaultMoveMethod: 1
+  Curve:
     serializedVersion: 2
     m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  ParabolaHeight: 8
+  NavMeshLinkTraversalTypes: []
 --- !u!1 &6937883732999795751
 GameObject:
   m_ObjectHideFlags: 0
