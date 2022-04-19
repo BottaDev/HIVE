@@ -11,6 +11,10 @@ public class DistanceJoint3D : MonoBehaviour
     public float distance;
     public float spring = 0.1f;
     public float damper = 5f;
+    public float minDistance = 0.1f;
+    public float maxDistance = 1000f;
+    public bool useMinDistance = false;
+    public bool useMaxDistance = false;
     public bool ableToShrink;
     public bool ableToExpand;
     
@@ -26,10 +30,12 @@ public class DistanceJoint3D : MonoBehaviour
    {
        var newDistance = Vector3.Distance(self.position, connected.position);
 
-       bool expandingLimit = newDistance > distance && !ableToExpand;
-       bool shrinkingLimit = newDistance < distance && !ableToShrink;
-       
-       if (expandingLimit || shrinkingLimit)
+       bool expanding = newDistance > distance && !ableToExpand;
+       bool shrinking = newDistance < distance && !ableToShrink;
+       bool expandingLimit = newDistance > maxDistance && useMaxDistance;
+       bool shrinkingLimit = newDistance < minDistance && useMinDistance;
+              
+       if (expanding || shrinking || expandingLimit || shrinkingLimit)
        {
            Limit();
        }

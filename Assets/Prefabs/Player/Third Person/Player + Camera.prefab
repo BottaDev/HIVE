@@ -422,9 +422,7 @@ LineRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Positions:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 1}
+  m_Positions: []
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -562,23 +560,29 @@ MonoBehaviour:
   grappleable:
     serializedVersion: 2
     m_Bits: 59456
+  hookCD: 0
   maxHookDistance: 100
   hookSpeed: 300
-  pullSpeed: 1
-  stopDistance: 2
+  forwardSpeed: 1
+  pullSpeed: 30
   lifetime: 8
+  minDistance: 1
   player: {fileID: 2010002419299452760}
   hookPrefab: {fileID: 277520169603632861, guid: 29e266a9fefc330478eb67696aefc859, type: 3}
   shootTransform: {fileID: 7518533697554243290}
   rigid: {fileID: 3473960329723331747}
   lr: {fileID: 156484629}
   useStopDistance: 1
+  stopDistance: 2
   destroyAfterLifetime: 0
   useGravityWhileAttached: 0
-  ableToMoveWhileAttached: 1
-  resetVelocityOnAttached: 0
-  sameButtonPressCancel: 1
-  useJointDistanceAsForce: 1
+  ableToMoveWhileAttached: 0
+  resetVelocityOnAttached: 1
+  resetVelocityOnFinished: 1
+  sameButtonPressCancel: 0
+  useExtraForwardForce: 0
+  useJointDistanceAsForce: 0
+  useMinDistanceToHook: 0
 --- !u!1 &3473960329904449256
 GameObject:
   m_ObjectHideFlags: 0

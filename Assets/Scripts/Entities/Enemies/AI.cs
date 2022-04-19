@@ -24,6 +24,18 @@ public abstract class AI : Entity
     [SerializeField] List<EXPAmounts> ExpParameters;
     PlayerLevel.ExpType type;
 
+    [Header("Death Parameters")]
+    public bool useRigidBodyDeath = false;
+    public GameObject deathModel;
+    public float deathDelay = 5f;
+    protected bool dying;
+
+    [Header("Animator")]
+    public bool useMovingAnim;
+    public Animator anim;
+    public string movingBool;
+    
+    
     [Header("AI Parameters")]
     [Range(0f, 3f)] public float attackRate = 1f;
     public float detectionRange = 25f;
@@ -50,6 +62,7 @@ public abstract class AI : Entity
     }
     private void Start()
     {
+        deathModel?.SetActive(false);
         //Just get a random type for yourself
         switch (UnityEngine.Random.Range(0,3))
         {
@@ -67,10 +80,17 @@ public abstract class AI : Entity
 
     protected virtual void Update()
     {
+        if (dying) return;
+        if (useMovingAnim)
+        {
+            anim.SetBool(movingBool, _agent.remainingDistance > _agent.stoppingDistance && !_agent.isStopped);
+        }
+                
         CheckPlayerDistance();
 
         // Update the agent speed all the time...
         _agent.speed = CurrentSpeed;
+        
     }
 
     private void CheckPlayerDistance()
@@ -114,6 +134,8 @@ public abstract class AI : Entity
     
     public override void TakeDamage(float damage)
     {
+        if (dying) return;
+        
         if (!_playerDetected)
             DetectPlayer();
         
@@ -130,8 +152,26 @@ public abstract class AI : Entity
     private void KillAI()
     {
         EventManager.Instance.Trigger(EventManager.Events.OnEnemyDeath);
+        dying = true;
+        
+        if (useRigidBodyDeath)
+        {
+            _agent.enabled = false;
+            deathModel.transform.parent = null;
+            deathModel.SetActive(true);
+            Destroy(anim.gameObject);
+            Invoke(nameof(DestroyDeathModel), deathDelay);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
+    private void DestroyDeathModel()
+    {
         Destroy(gameObject);
+        Destroy(deathModel);
     }
     
     protected virtual void OnDrawGizmosSelected()

@@ -6,12 +6,14 @@ public class PlayerGrappleV3 : MonoBehaviour,ITestGrapple
 {
     [Header("Parameters")]
     [SerializeField] private LayerMask grappleable;
+    [SerializeField] private float hookCD = 0f;
     [SerializeField] private float maxHookDistance = 50f;
     [SerializeField] private float hookSpeed = 5f;
+    [SerializeField] private float forwardSpeed = 1f;
     [SerializeField] private float pullSpeed = 0.5f;
-    [SerializeField] private float stopDistance = 4f;
-    [SerializeField] private float lifetime = 8f;
     
+    [SerializeField] private float lifetime = 8f;
+    [SerializeField] private float minDistance = 1f;
     
     [Header("Assignables")]
     [SerializeField] private Player player;
@@ -20,20 +22,27 @@ public class PlayerGrappleV3 : MonoBehaviour,ITestGrapple
     [SerializeField] private Rigidbody rigid;
     [SerializeField] private LineRenderer lr;
 
-
-    [Header("Debug")]
+    [Header("Break distance")]
     [SerializeField] private bool useStopDistance;
+    [SerializeField] private float stopDistance = 4f;
+    
+    [Header("Settings")]
+    
     [SerializeField] private bool destroyAfterLifetime;
     [SerializeField] private bool useGravityWhileAttached;
     [SerializeField] private bool ableToMoveWhileAttached;
     [SerializeField] private bool resetVelocityOnAttached;
+    [SerializeField] private bool resetVelocityOnFinished;
     [SerializeField] private bool sameButtonPressCancel;
+    [SerializeField] private bool useExtraForwardForce;
     [SerializeField] private bool useJointDistanceAsForce;
+    [SerializeField] private bool useMinDistanceToHook;
     
     private HookPlayerGrappleV2 _hook;
     private bool _pulling;
     private Action _onProximity;
     private DistanceJoint3D _joint;
+    private float _hookCdCounter;
 
     public bool Pulling => _pulling;
 
@@ -46,7 +55,8 @@ public class PlayerGrappleV3 : MonoBehaviour,ITestGrapple
     // Update is called once per frame
     private void Update()
     {
-        if (_hook == null && player.input.Grapple)
+        _hookCdCounter -= Time.deltaTime;
+        if (_hook == null && player.input.Grapple && _hookCdCounter < 0f)
         {
             StartHook();
         }
@@ -79,6 +89,10 @@ public class PlayerGrappleV3 : MonoBehaviour,ITestGrapple
         {
             DestroyHook();
             _onProximity?.Invoke();
+            if (resetVelocityOnFinished)
+            {
+                rigid.velocity = Vector3.zero;
+            }
         }
         else
         {
@@ -89,7 +103,12 @@ public class PlayerGrappleV3 : MonoBehaviour,ITestGrapple
             else
             {
                 Vector3 hookDir = (_hook.transform.position - transform.position).normalized;
-                rigid.AddForce(hookDir * pullSpeed, ForceMode.VelocityChange);
+                if (useExtraForwardForce)
+                {
+                    hookDir += player.movement.playerModel.forward * forwardSpeed;
+                }
+                
+                rigid.AddForce(hookDir * pullSpeed * Time.deltaTime, ForceMode.VelocityChange);
             
                 Vector3 nextPos = rigid.PredictNextPosition();
                 float newDistance = Vector3.Distance(nextPos, _hook.transform.position);
@@ -121,7 +140,13 @@ public class PlayerGrappleV3 : MonoBehaviour,ITestGrapple
             _joint.damper = 0;
             _joint.ableToExpand = false;
             _joint.ableToShrink = true;
-            
+
+            if (useMinDistanceToHook)
+            {
+                _joint.useMinDistance = true;
+                _joint.minDistance = minDistance;
+            }
+
             if (resetVelocityOnAttached)
             {
                 rigid.velocity = Vector3.zero;
@@ -151,7 +176,8 @@ public class PlayerGrappleV3 : MonoBehaviour,ITestGrapple
         {
             return;
         }
-        
+
+        _hookCdCounter = hookCD;
         if (!ableToMoveWhileAttached)
         {
             player.movement.ableToMove = true;

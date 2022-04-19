@@ -1,8 +1,9 @@
+using System;
 using UnityEngine;
 public class PlayerAim : MonoBehaviour
 {
     public LayerMask aimingMask;
-    
+    [SerializeField] private bool drawGizmos;
     /// <summary>
     /// The in-world aiming point for the player
     /// </summary>
@@ -30,6 +31,15 @@ public class PlayerAim : MonoBehaviour
         {
             Point = raycastHit.point;
             Aim = true;
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (drawGizmos)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawLine(transform.position, Point);
         }
     }
 }

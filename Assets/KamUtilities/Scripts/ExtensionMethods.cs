@@ -1,13 +1,14 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
-public static class ExtensionMethods_string
+public static class ExtensionMethodsString
 {
-
     /// <summary>
-    /// Replaces variable names encapsulted by a tag identifier. The variable names and values are given through a dictionary.
+    ///     Replaces variable names encapsulted by a tag identifier. The variable names and values are given through a
+    ///     dictionary.
     /// </summary>
     /// <param name="s">String to be modified</param>
     /// <param name="referenceVars">Dictionary holding the variable names and values to replace</param>
@@ -21,7 +22,7 @@ public static class ExtensionMethods_string
         }
 
         string result = s;
-        foreach (var item in referenceVars)
+        foreach (KeyValuePair<string, string> item in referenceVars)
         {
             string varName = string.Format("{0}{1}{0}", tagIdentifier, item.Key);
 
@@ -30,9 +31,10 @@ public static class ExtensionMethods_string
 
         return result;
     }
+
     public static string[] SplitByTags(string target)
     {
-        return target.Split(new char[2] { '<', '>' });
+        return target.Split('<', '>');
     }
 
     public static string[] SplitParameters(this string s, bool removeAllSpaces = true)
@@ -41,10 +43,8 @@ public static class ExtensionMethods_string
         {
             return s.Replace(" ", "").Split(',');
         }
-        else
-        {
-            return s.Split(',');
-        }
+
+        return s.Split(',');
     }
 
     public static string RemoveStartAndEndSpaces(this string s)
@@ -57,7 +57,7 @@ public static class ExtensionMethods_string
 
     public static string RemoveStartSpaces(this string s)
     {
-        while(s.StartsWith(" "))
+        while (s.StartsWith(" "))
         {
             s = s.Remove(0, 1);
         }
@@ -67,7 +67,7 @@ public static class ExtensionMethods_string
 
     public static string RemoveEndSpaces(this string s)
     {
-        while(s.EndsWith(" "))
+        while (s.EndsWith(" "))
         {
             s = s.Remove(s.Length - 1);
         }
@@ -85,22 +85,21 @@ public static class ExtensionMethods_string
     {
         string result = str;
 
-        for (int i = 0; i < characters.Length; i++)
+        foreach (string t in characters)
         {
-            if (result.Contains(characters[i]))
+            if (result.Contains(t))
             {
-                result = result.Replace(characters[i], "");
+                result = result.Replace(t, "");
             }
         }
 
         return result;
     }
-
 }
 
-public static class ExtensionMethods_Dictionary
+public static class ExtensionMethodsDictionary
 {
-    public static void AddOrOverwrite<TKey,TValue>(this Dictionary<TKey, TValue> dictionary, TKey key, TValue value)
+    public static void AddOrOverwrite<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key, TValue value)
     {
         if (dictionary.ContainsKey(key))
         {
@@ -111,6 +110,7 @@ public static class ExtensionMethods_Dictionary
             dictionary.Add(key, value);
         }
     }
+
     public static string AddOrRename<TValue>(this Dictionary<string, TValue> dictionary, string key, TValue value)
     {
         if (dictionary.ContainsKey(key))
@@ -130,38 +130,47 @@ public static class ExtensionMethods_Dictionary
     }
 
     #region Serialization
+
     /// <summary>
-    /// Copies values of a dictionary and separates them into two lists given.
+    ///     Copies values of a dictionary and separates them into two lists given.
     /// </summary>
     /// <typeparam name="TKey"></typeparam>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="dict"></param>
     /// <param name="keylist"></param>
     /// <param name="valueList"></param>
-    public static void CopyValuesToLists<TKey, TValue>(this Dictionary<TKey, TValue> dict, out List<TKey> keylist, out List<TValue> valueList)
+    public static void CopyValuesToLists<TKey, TValue>(this Dictionary<TKey, TValue> dict, out List<TKey> keylist,
+        out List<TValue> valueList)
     {
         keylist = new List<TKey>();
         valueList = new List<TValue>();
-        foreach (var kvp in dict)
+        foreach (KeyValuePair<TKey, TValue> kvp in dict)
         {
             keylist.Add(kvp.Key);
             valueList.Add(kvp.Value);
         }
     }
+
     public static SerializedDictionary<Tkey, Tvalue> Serialize<Tkey, Tvalue>(this Dictionary<Tkey, Tvalue> dictionary)
     {
         List<Tkey> keys;
         List<Tvalue> values;
         dictionary.CopyValuesToLists(out keys, out values);
 
-        return new SerializedDictionary<Tkey,Tvalue>(keys, values);
+        return new SerializedDictionary<Tkey, Tvalue>(keys, values);
     }
 
-    [System.Serializable]
+    [Serializable]
     public struct SerializedDictionary<Tkey, Tvalue>
     {
         public List<Tkey> keys;
         public List<Tvalue> values;
+
+        public SerializedDictionary(List<Tkey> keys, List<Tvalue> values)
+        {
+            this.keys = keys;
+            this.values = values;
+        }
 
         public SerializedDictionary<Tkey, Tvalue> Empty()
         {
@@ -170,13 +179,9 @@ public static class ExtensionMethods_Dictionary
 
             return this;
         }
-        public SerializedDictionary(List<Tkey> keys, List<Tvalue> values)
-        {
-            this.keys = keys;
-            this.values = values;
-        }
     }
-    public static Dictionary<Tkey,Tvalue> Deserialize<Tkey, Tvalue>(this SerializedDictionary<Tkey, Tvalue> dictionary)
+
+    public static Dictionary<Tkey, Tvalue> Deserialize<Tkey, Tvalue>(this SerializedDictionary<Tkey, Tvalue> dictionary)
     {
         Dictionary<Tkey, Tvalue> deserialized = new Dictionary<Tkey, Tvalue>();
         for (int i = 0; i < dictionary.keys.Count; i++)
@@ -186,6 +191,7 @@ public static class ExtensionMethods_Dictionary
 
         return deserialized;
     }
+
     #endregion
 }
 
@@ -193,13 +199,13 @@ public static class ExtensionMethods_Texture2D
 {
     public static void SaveAsPNG(this Texture2D texture, string savePath)
     {
-        var data = texture.EncodeToPNG();
+        byte[] data = texture.EncodeToPNG();
         File.WriteAllBytes(savePath, data);
     }
 
     public static void SaveAsJPG(this Texture2D texture, string savePath)
     {
-        var data = texture.EncodeToJPG();
+        byte[] data = texture.EncodeToJPG();
         File.WriteAllBytes(savePath, data);
     }
 
@@ -217,10 +223,10 @@ public static class ExtensionMethods_Texture2D
     {
         aTop.Resize(aBottom.width, aBottom.height);
 
-        var bData = aBottom.GetPixels();
-        var tData = aTop.GetPixels();
+        Color[] bData = aBottom.GetPixels();
+        Color[] tData = aTop.GetPixels();
         int count = bData.Length;
-        var rData = new Color[count];
+        Color[] rData = new Color[count];
 
         for (int i = 0; i < count; i++)
         {
@@ -233,7 +239,8 @@ public static class ExtensionMethods_Texture2D
             R.a = alpha;
             rData[i] = R;
         }
-        var res = new Texture2D(aTop.width, aTop.height);
+
+        Texture2D res = new Texture2D(aTop.width, aTop.height);
         res.SetPixels(rData);
         res.Apply();
         return res;
@@ -293,14 +300,20 @@ public static class ExtensionMethods_bool
 
         return state;
     }
-
 }
 
-public static class ExtensionMethods_Rigidbody
+public static partial class ExtensionMethods_Rigidbody
 {
     public static Vector3 PredictNextPosition(this Rigidbody self)
     {
-        return self.position + (self.velocity * Time.deltaTime);
+        return self.position + self.velocity * Time.deltaTime;
     }
+}
 
+public static partial class ExtensionMethods_Rigidbody
+{
+    public static T ChooseRandom<T>(this List<T> self)
+    {
+        return self[Random.Range(0, self.Count)];
+    }
 }

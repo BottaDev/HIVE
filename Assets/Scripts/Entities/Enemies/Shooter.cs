@@ -29,6 +29,8 @@ public class Shooter : AI
     protected override void Update()
     {
         base.Update();
+        if (dying) return;
+
 
         if (_playerDetected)
             MoveEnemy();
