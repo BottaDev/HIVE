@@ -20,24 +20,28 @@ public class PlayerDebugDevTools : MonoBehaviour
 
     private void DebugInput()
     {
-        if (Input.GetKeyDown(invincibilityKey))
+        if (Input.GetKey(KeyCode.LeftControl))
         {
-            Invincible = Invincible.Toggle();
-        }
+            if (Input.GetKeyDown(invincibilityKey))
+            {
+                Invincible = Invincible.Toggle();
+            }
 
-        if (Input.GetKeyDown(addExpAttack))
-        {
-            player.AddExp(PlayerLevel.ExpType.Attack, 5);
-        }
+            if (Input.GetKeyDown(addExpAttack))
+            {
+                player.AddExp(PlayerLevel.ExpType.Attack, 5);
+            }
 
-        if (Input.GetKeyDown(addExpDefense))
-        {
-            player.AddExp(PlayerLevel.ExpType.Defense, 5);
-        }
+            if (Input.GetKeyDown(addExpDefense))
+            {
+                player.AddExp(PlayerLevel.ExpType.Defense, 5);
+            }
 
-        if (Input.GetKeyDown(addExpMobility))
-        {
-            player.AddExp(PlayerLevel.ExpType.Mobility, 5);
+            if (Input.GetKeyDown(addExpMobility))
+            {
+                player.AddExp(PlayerLevel.ExpType.Mobility, 5);
+            }
         }
+        
     }
 }

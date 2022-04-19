@@ -117,6 +117,7 @@ GameObject:
   - component: {fileID: 156484631}
   - component: {fileID: 156484632}
   - component: {fileID: 156484633}
+  - component: {fileID: 2018263146}
   m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
@@ -364,6 +365,7 @@ MonoBehaviour:
     type: 2
     levelResets:
     - resetEvery: 5
+  upgrades: {fileID: 2018263146}
   isDelayed: 0
 --- !u!114 &3829715295368400988
 MonoBehaviour:
@@ -517,6 +519,7 @@ MonoBehaviour:
   aimingMask:
     serializedVersion: 2
     m_Bits: 56000
+  drawGizmos: 1
 --- !u!114 &156484632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -583,6 +586,19 @@ MonoBehaviour:
   useExtraForwardForce: 0
   useJointDistanceAsForce: 0
   useMinDistanceToHook: 0
+--- !u!114 &2018263146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3473960329723331750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bc5cc526ab746b4a8ed1be5a5229894, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 2010002419299452760}
 --- !u!1 &3473960329904449256
 GameObject:
   m_ObjectHideFlags: 0
@@ -6815,7 +6831,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0

@@ -310,10 +310,22 @@ public static partial class ExtensionMethods_Rigidbody
     }
 }
 
-public static partial class ExtensionMethods_Rigidbody
+public static partial class ExtensionMethods_List
 {
     public static T ChooseRandom<T>(this List<T> self)
     {
         return self[Random.Range(0, self.Count)];
+    }
+
+    public static T SafeGet<T>(this List<T> self, int index)
+    {
+        if(self.Count > index)
+        {
+            return self[index];
+        }
+        else
+        {
+            return default(T);
+        }
     }
 }

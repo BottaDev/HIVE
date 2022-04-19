@@ -14,13 +14,11 @@ public class PlayerLevel : MonoBehaviour
 
     public LevellingSystem system;
     public List<Exp> exp;
+    public PlayerUpgrades upgrades;
     public bool isDelayed;
 
     public readonly List<Tuple<ExpType, int>> DelayList = new List<Tuple<ExpType, int>>();
     private int _thisLevel;
-
-    //List of upgrades that will happen in order (First entry will happen at 5, second at 10, etc)
-    private Queue<Action> _upgradesEvery5Levels;
 
     public int Level => system.Level;
     public int ThisLevel { get => _thisLevel; set => _thisLevel = value; }
@@ -33,12 +31,6 @@ public class PlayerLevel : MonoBehaviour
 
     private void InitializeUpgrades()
     {
-        _upgradesEvery5Levels = new Queue<Action>();
-
-        //Level 5 = double jump
-        _upgradesEvery5Levels.Enqueue(delegate { player.jump.amountOfJumps = 2; });
-
-        //Level 10
     }
 
     private void InitializeLevels()
@@ -48,13 +40,7 @@ public class PlayerLevel : MonoBehaviour
             return (level - 1) * 20;
         }
 
-        system = new LevellingSystem(LevelFormula).SetOnLevelup(OnLevelup).AddEveryXLevels(5, delegate
-        {
-            if (_upgradesEvery5Levels.Count > 0)
-            {
-                _upgradesEvery5Levels.Dequeue()();
-            }
-        });
+        system = new LevellingSystem(LevelFormula).SetOnLevelup(OnLevelup).AddEveryXLevels(3, OnBigLevelUp);
     }
 
     public Exp FindExpOfType(ExpType type)
@@ -123,8 +109,17 @@ public class PlayerLevel : MonoBehaviour
         }
     }
 
+    private void OnBigLevelUp(int level)
+    {
+        PlayerUpgrades.UpgradeType type = PlayerUpgrades.UpgradeType.Big;
+
+        UILevelUpgradePrompt.instance.SetUpgrades(upgrades.GachaPull(type, exp), type);
+    }
     private void OnLevelup(int level)
     {
+        PlayerUpgrades.UpgradeType type = PlayerUpgrades.UpgradeType.Small;
+
+        UILevelUpgradePrompt.instance.SetUpgrades(upgrades.GachaPull(type, exp), type);
     }
 
     [Serializable]

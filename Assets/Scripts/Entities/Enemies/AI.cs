@@ -62,7 +62,11 @@ public abstract class AI : Entity
     }
     private void Start()
     {
-        deathModel?.SetActive(false);
+        if(deathModel != null)
+        {
+            deathModel.SetActive(false);
+        }
+        
         //Just get a random type for yourself
         switch (UnityEngine.Random.Range(0,3))
         {

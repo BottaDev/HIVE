@@ -6,11 +6,11 @@ public class PlayerUpgrades : MonoBehaviour
 {
     public class UpgradePool
     {
-        public List<Action> Attack = new List<Action>();
-        public List<Action> Mobility = new List<Action>();
-        public List<Action> Resistance = new List<Action>();
+        public List<Upgrade> Attack = new List<Upgrade>();
+        public List<Upgrade> Mobility = new List<Upgrade>();
+        public List<Upgrade> Resistance = new List<Upgrade>();
 
-        public List<Action> ChooseUpgradeList(PlayerLevel.ExpType type)
+        public List<Upgrade> ChooseUpgradeList(PlayerLevel.ExpType type)
         {
             switch (type)
             {
@@ -26,12 +26,20 @@ public class PlayerUpgrades : MonoBehaviour
             }
         }
     }
+    public class Upgrade
+    {
+        public string name;
+        public string description;
+        public Action action = delegate { };
+    }
 
     public enum UpgradeType
     {
         Small, Big
     }
-    
+
+    public Player player;
+
     public UpgradePool Small;
     public UpgradePool Big;
 
@@ -44,44 +52,64 @@ public class PlayerUpgrades : MonoBehaviour
     {
         Small = new UpgradePool()
         {
-            Attack = new List<Action>()
+            Attack = new List<Upgrade>()
             {
-
+                new Upgrade()
+                {
+                    name = "Attack Testing Upgrade",
+                    description = "Just a testing upgrade.",
+                    action = Test1
+                }
             },
 
-            Mobility = new List<Action>()
+            Mobility = new List<Upgrade>()
             {
-
+                new Upgrade()
+                {
+                    name = "Mobility Testing Upgrade",
+                    description = "Just a testing upgrade.",
+                    action = Test3
+                }
             },
 
-            Resistance = new List<Action>()
+            Resistance = new List<Upgrade>()
             {
-
+                new Upgrade()
+                {
+                    name = "Resistance Testing Upgrade",
+                    description = "Just a testing upgrade.",
+                    action = Test2
+                }
             },
         };
         
         Big = new UpgradePool()
         {
-            Attack = new List<Action>()
+            Attack = new List<Upgrade>()
             {
-
+                
             },
 
-            Mobility = new List<Action>()
+            Mobility = new List<Upgrade>()
             {
-
+                new Upgrade()
+                {
+                    name = "Double Jump",
+                    description = "Unlocks Double Jump",
+                    action = ActivateDoubleJump
+                }
             },
 
-            Resistance = new List<Action>()
+            Resistance = new List<Upgrade>()
             {
 
             },
         };
     }
 
-    public List<Action> GachaPull(UpgradeType type, List<PlayerLevel.Exp> exp)
+    public List<Upgrade> GachaPull(UpgradeType type, List<PlayerLevel.Exp> exp)
     {
-        List<Action> upgradeOptions = new List<Action>();
+        List<Upgrade> upgradeOptions = new List<Upgrade>();
         
         UpgradePool pool = new UpgradePool();
         switch (type)
@@ -120,7 +148,7 @@ public class PlayerUpgrades : MonoBehaviour
         int currentMax2 = 0;
         foreach (PlayerLevel.Exp expType in exp)
         {
-            if (expType.ThisLevel > currentMax2)
+            if (expType.ThisLevel > currentMax2 && expType.type != topType)
             {
                 currentMax2 = expType.ThisLevel;
                 ties2.Clear();
@@ -135,13 +163,58 @@ public class PlayerUpgrades : MonoBehaviour
         top2Type = ties2.ChooseRandom();
         #endregion
 
-        List<Action> upgradesOfTopType = pool.ChooseUpgradeList(topType);
-        List<Action> upgradesOfTop2Type = pool.ChooseUpgradeList(top2Type);
+        List<Upgrade> upgradesOfTopType = pool.ChooseUpgradeList(topType);
+        List<Upgrade> upgradesOfTop2Type = pool.ChooseUpgradeList(top2Type);
+
+        Upgrade empty = new Upgrade();
+        if (upgradesOfTopType.Count > 0)
+        {
+            upgradeOptions.Add(upgradesOfTopType.ChooseRandom());
+            upgradeOptions.Add(upgradesOfTopType.ChooseRandom());
+        }
+        else
+        {
+            upgradeOptions.Add(empty);
+            upgradeOptions.Add(empty);
+        }
+
+        if (upgradesOfTop2Type.Count > 0)
+        {
+            upgradeOptions.Add(upgradesOfTop2Type.ChooseRandom());
+        }
+        else
+        {
+            upgradeOptions.Add(empty);
+        }
+
         
-        upgradeOptions.Add(upgradesOfTopType.ChooseRandom());
-        upgradeOptions.Add(upgradesOfTopType.ChooseRandom());
-        upgradeOptions.Add(upgradesOfTop2Type.ChooseRandom());
 
         return upgradeOptions;
     }
+
+    #region UpgradesSmall
+    void Test1()
+    {
+        Debug.Log("ATTACK TEST UPGRADE TRIGGER");
+    }
+
+    void Test2()
+    {
+        Debug.Log("RESISTANCE TEST UPGRADE TRIGGER");
+    }
+
+    void Test3()
+    {
+        Debug.Log("MOBILITY TEST UPGRADE TRIGGER");
+    }
+
+    #endregion
+
+    #region UpgradesBig
+    void ActivateDoubleJump()
+    {
+        player.jump.amountOfJumps = 2;
+    }
+
+    #endregion
 }
