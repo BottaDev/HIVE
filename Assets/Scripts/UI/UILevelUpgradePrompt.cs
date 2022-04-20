@@ -10,6 +10,10 @@ public class UILevelUpgradePrompt : MonoBehaviour
 
     public TextMeshProUGUI text;
 
+    public Color attackColor;
+    public Color defenseColor;
+    public Color mobilityColor;
+    
     private bool waitingForInput;
 
     private Queue<ChoosableUpgradePrompt> choices = new Queue<ChoosableUpgradePrompt>();
@@ -94,12 +98,28 @@ public class UILevelUpgradePrompt : MonoBehaviour
         {
             PlayerUpgrades.Upgrade current = upgrades[i];
             string addText = $"\n{i+1} - {current.name}: {current.description}";
-            result += addText;
+            result += addText.Colorize(GetColorOfType(current.type));
         }
 
         ChoosableUpgradePrompt add = new ChoosableUpgradePrompt(){displayText = result, upgrades = upgrades};
 
         choices.Enqueue(add);
         choiceAmount++;
+    }
+
+    private Color GetColorOfType(PlayerLevel.ExpType type)
+    {
+        switch (type)
+        {
+            case PlayerLevel.ExpType.Attack:
+                return attackColor;
+            case PlayerLevel.ExpType.Defense:
+                return defenseColor;
+            case PlayerLevel.ExpType.Mobility:
+                return mobilityColor;
+                
+            default:
+                return attackColor;
+        }
     }
 }

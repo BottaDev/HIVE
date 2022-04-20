@@ -19,7 +19,7 @@ public class Player : Entity
     [SerializeField] private HealthBar healthBar;
 
     private bool Restart => input.Restart;
-
+    public float MaxHP{get{ return maxHealth; } set { maxHealth = value; healthBar.SetMaxHealt(maxHealth);} }
 
     protected override void Awake()
     {

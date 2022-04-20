@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-
+using System.Linq;
 public class PlayerUpgrades : MonoBehaviour
 {
     public class UpgradePool
@@ -25,12 +25,32 @@ public class PlayerUpgrades : MonoBehaviour
                     return Attack;
             }
         }
+
+        public void SetTypeOfUpgrades()
+        {
+            foreach (var upgrade in Attack)
+            {
+                upgrade.type = PlayerLevel.ExpType.Attack;
+            }
+            
+            foreach (var upgrade in Mobility)
+            {
+                upgrade.type = PlayerLevel.ExpType.Mobility;
+            }
+            
+            foreach (var upgrade in Resistance)
+            {
+                upgrade.type = PlayerLevel.ExpType.Defense;
+            }
+        }
     }
     public class Upgrade
     {
         public string name;
         public string description;
         public Action action = delegate { };
+        public bool oneTimeOnly = true;
+        public PlayerLevel.ExpType type;
     }
 
     public enum UpgradeType
@@ -56,9 +76,10 @@ public class PlayerUpgrades : MonoBehaviour
             {
                 new Upgrade()
                 {
-                    name = "Attack Testing Upgrade",
-                    description = "Just a testing upgrade.",
-                    action = Test1
+                    name = "DMG Buff",
+                    description = "+20% DMG",
+                    action = DamagePercentBuff,
+                    oneTimeOnly = false
                 }
             },
 
@@ -66,9 +87,10 @@ public class PlayerUpgrades : MonoBehaviour
             {
                 new Upgrade()
                 {
-                    name = "Mobility Testing Upgrade",
-                    description = "Just a testing upgrade.",
-                    action = Test3
+                    name = "Speed Buff",
+                    description = "+5% Mobility",
+                    action = MobilityPercentBuff,
+                    oneTimeOnly = false
                 }
             },
 
@@ -76,18 +98,20 @@ public class PlayerUpgrades : MonoBehaviour
             {
                 new Upgrade()
                 {
-                    name = "Resistance Testing Upgrade",
-                    description = "Just a testing upgrade.",
-                    action = Test2
+                    name = "HP Buff",
+                    description = "+5 HP",
+                    action = HPFlatUpgrade,
+                    oneTimeOnly = false
                 }
             },
         };
-        
+        Small.SetTypeOfUpgrades();
+
         Big = new UpgradePool()
         {
             Attack = new List<Upgrade>()
             {
-                
+
             },
 
             Mobility = new List<Upgrade>()
@@ -105,6 +129,7 @@ public class PlayerUpgrades : MonoBehaviour
 
             },
         };
+        Big.SetTypeOfUpgrades();
     }
 
     public List<Upgrade> GachaPull(UpgradeType type, List<PlayerLevel.Exp> exp)
@@ -167,10 +192,34 @@ public class PlayerUpgrades : MonoBehaviour
         List<Upgrade> upgradesOfTop2Type = pool.ChooseUpgradeList(top2Type);
 
         Upgrade empty = new Upgrade();
+        empty.type = topType;
         if (upgradesOfTopType.Count > 0)
         {
-            upgradeOptions.Add(upgradesOfTopType.ChooseRandom());
-            upgradeOptions.Add(upgradesOfTopType.ChooseRandom());
+            Upgrade one = upgradesOfTopType.ChooseRandom();
+            upgradeOptions.Add(one);
+
+            if (one.oneTimeOnly)
+            {
+                upgradesOfTopType.Remove(one);
+            }
+            
+
+            
+            List<Upgrade> newList = upgradesOfTopType.Where(x => x != one).ToList();
+            if (newList.Count > 0)
+            {
+                Upgrade two = newList.ChooseRandom();
+                upgradeOptions.Add(two);
+                if (two.oneTimeOnly)
+                {
+                    upgradesOfTopType.Remove(two);
+                }
+            }
+            else
+            {
+                
+                upgradeOptions.Add(empty);
+            }
         }
         else
         {
@@ -180,10 +229,18 @@ public class PlayerUpgrades : MonoBehaviour
 
         if (upgradesOfTop2Type.Count > 0)
         {
-            upgradeOptions.Add(upgradesOfTop2Type.ChooseRandom());
+            Upgrade one = upgradesOfTop2Type.ChooseRandom();
+            upgradeOptions.Add(one);
+            
+            if (one.oneTimeOnly)
+            {
+                upgradesOfTop2Type.Remove(one);
+            }
         }
         else
         {
+            Upgrade empty2 = new Upgrade();
+            empty2.type = top2Type;
             upgradeOptions.Add(empty);
         }
 
@@ -193,19 +250,23 @@ public class PlayerUpgrades : MonoBehaviour
     }
 
     #region UpgradesSmall
-    void Test1()
+    void DamagePercentBuff()
     {
-        Debug.Log("ATTACK TEST UPGRADE TRIGGER");
+        float percentageUpgrade = 20;
+        player.shoot.damage += (player.shoot.damage * percentageUpgrade)/100;
     }
 
-    void Test2()
+    void HPFlatUpgrade()
     {
-        Debug.Log("RESISTANCE TEST UPGRADE TRIGGER");
+        int buff = 5;
+        player.MaxHP += buff;
+        player.CurrentHealth += buff;
     }
 
-    void Test3()
+    void MobilityPercentBuff()
     {
-        Debug.Log("MOBILITY TEST UPGRADE TRIGGER");
+        float percentageUpgrade = 5;
+        player.movement.maxSpeed += (player.movement.maxSpeed * percentageUpgrade)/100;
     }
 
     #endregion

@@ -16,6 +16,7 @@ public class PlayerInput : MonoBehaviour
     [SerializeField] private KeyCode restartKey = KeyCode.R;
     [SerializeField] private KeyCode freeCamKey = KeyCode.LeftControl;
     [SerializeField] private KeyCode grappleKey = KeyCode.Q;
+    [SerializeField] private KeyCode grenadeKey = KeyCode.E;
     [SerializeField] private MouseCode railAttachKey = MouseCode.Right;
     private bool _attaching;
     private bool _dashing;
@@ -27,7 +28,7 @@ public class PlayerInput : MonoBehaviour
     private bool _stoppedJumping;
     private bool _grapple;
     private bool _stoppedGrapple;
-    
+    private bool _grenadeThrow;
     //Input variables (Used by other scripts to run their actions)
     private float _x;
     private float _y;
@@ -44,6 +45,7 @@ public class PlayerInput : MonoBehaviour
     public bool Attaching { get => _attaching; set => _attaching = value; }
     public bool Grapple { get => _grapple; set => _grapple = value; }
     public bool StoppedGrapple { get => _stoppedGrapple; set => _stoppedGrapple = value; }
+    public bool GrenadeThrow { get => _grenadeThrow; set => _grenadeThrow = value; }
     
     private void Update()
     {
@@ -64,5 +66,6 @@ public class PlayerInput : MonoBehaviour
         Attaching = Input.GetMouseButtonDown((int) railAttachKey);
         Grapple = Input.GetKeyDown(grappleKey);
         StoppedGrapple = Input.GetKeyUp(grappleKey);
+        GrenadeThrow = Input.GetKeyDown(grenadeKey);
     }
 }

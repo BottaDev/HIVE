@@ -11,7 +11,7 @@ public abstract class Entity : MonoBehaviour, IDamageable
 
     [SerializeField] private float _currentHealth;
 
-    public float CurrentHealth { get { return _currentHealth; } protected set { _currentHealth = value; } }
+    public float CurrentHealth { get { return _currentHealth; } set { _currentHealth = value; } }
     public float CurrentSpeed { get ; protected set; }
 
     protected virtual void Awake()
