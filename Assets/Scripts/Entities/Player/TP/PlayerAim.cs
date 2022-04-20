@@ -21,7 +21,7 @@ public class PlayerAim : MonoBehaviour
         _cam = Camera.main;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         Aim = false;
         Vector2 screenCenterPoint = new Vector2(Screen.width / 2, Screen.height / 2);

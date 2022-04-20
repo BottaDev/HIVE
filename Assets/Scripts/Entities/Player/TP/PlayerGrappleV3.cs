@@ -11,7 +11,8 @@ public class PlayerGrappleV3 : MonoBehaviour,ITestGrapple
     [SerializeField] private float hookSpeed = 5f;
     [SerializeField] private float forwardSpeed = 1f;
     [SerializeField] private float pullSpeed = 0.5f;
-    
+    [SerializeField] private float minDistancePullMultiplier = 0.5f;
+    [SerializeField] private float maxDistancePullMultiplier = 10f;
     [SerializeField] private float lifetime = 8f;
     [SerializeField] private float minDistance = 1f;
     
@@ -37,7 +38,9 @@ public class PlayerGrappleV3 : MonoBehaviour,ITestGrapple
     [SerializeField] private bool useExtraForwardForce;
     [SerializeField] private bool useJointDistanceAsForce;
     [SerializeField] private bool useMinDistanceToHook;
-    
+    [SerializeField] private bool useDistanceMultiplier;
+    [SerializeField] private bool useRigidbodyPosition;
+
     private HookPlayerGrappleV2 _hook;
     private bool _pulling;
     private Action _onProximity;
@@ -107,14 +110,22 @@ public class PlayerGrappleV3 : MonoBehaviour,ITestGrapple
                 {
                     hookDir += player.movement.playerModel.forward * forwardSpeed;
                 }
-                
-                rigid.AddForce(hookDir * pullSpeed * Time.deltaTime, ForceMode.VelocityChange);
-            
-                Vector3 nextPos = rigid.PredictNextPosition();
-                float newDistance = Vector3.Distance(nextPos, _hook.transform.position);
-                if (newDistance >= distance)
+
+                Vector3 addSpeed = hookDir * pullSpeed * Time.deltaTime;
+
+                if (useDistanceMultiplier)
                 {
-                    rigid.AddForce(hookDir * pullSpeed, ForceMode.VelocityChange);
+                    float distanceVelocity = Mathf.Clamp(distance, minDistancePullMultiplier, maxDistancePullMultiplier);
+                    addSpeed *= distanceVelocity;
+                }
+
+                if (useRigidbodyPosition)
+                {
+                    rigid.position += addSpeed;
+                }
+                else
+                {
+                    rigid.AddForce(addSpeed, ForceMode.VelocityChange);
                 }
             }
         }

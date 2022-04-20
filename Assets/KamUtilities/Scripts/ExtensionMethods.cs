@@ -329,3 +329,11 @@ public static partial class ExtensionMethods_List
         }
     }
 }
+
+public static partial class ExtensionMethods_LayerMask
+{
+    public static bool CheckLayer(this LayerMask self, int layer)
+    {
+        return self == (self | (1 << layer));
+    }
+}

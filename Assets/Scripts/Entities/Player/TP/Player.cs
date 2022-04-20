@@ -14,6 +14,7 @@ public class Player : Entity
     public PlayerDebugDevTools debug;
     public PlayerAim aim;
     public PlayerGrappleV2 grapple;
+    public PlayerGrenadeThrow grenadeThrow;
 
     [SerializeField] private UILevelSystem levelSystemUI;
     [SerializeField] private HealthBar healthBar;
@@ -32,6 +33,7 @@ public class Player : Entity
     private void Start()
     {
         healthBar.SetMaxHealt(maxHealth);
+        healthBar.SetHealth(maxHealth);
     }
 
     private void Update()

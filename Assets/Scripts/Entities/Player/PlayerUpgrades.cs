@@ -111,7 +111,12 @@ public class PlayerUpgrades : MonoBehaviour
         {
             Attack = new List<Upgrade>()
             {
-
+                new Upgrade()
+                {
+                    name = "Grenade Throw",
+                    description = "Unlocks Grenade Throw",
+                    action = ActivateGrenadeThrow
+                }
             },
 
             Mobility = new List<Upgrade>()
@@ -173,15 +178,18 @@ public class PlayerUpgrades : MonoBehaviour
         int currentMax2 = 0;
         foreach (PlayerLevel.Exp expType in exp)
         {
-            if (expType.ThisLevel > currentMax2 && expType.type != topType)
+            if(expType.type != topType)
             {
-                currentMax2 = expType.ThisLevel;
-                ties2.Clear();
-                ties2.Add(expType.type);
-            }
-            else if (expType.ThisLevel == currentMax2)
-            {
-                ties2.Add(expType.type);
+                if (expType.ThisLevel > currentMax2)
+                {
+                    currentMax2 = expType.ThisLevel;
+                    ties2.Clear();
+                    ties2.Add(expType.type);
+                }
+                else if (expType.ThisLevel == currentMax2)
+                {
+                    ties2.Add(expType.type);
+                }
             }
         }
 
@@ -244,7 +252,29 @@ public class PlayerUpgrades : MonoBehaviour
             upgradeOptions.Add(empty);
         }
 
-        
+
+        //DEBUG TEST
+        bool first = true;
+        PlayerLevel.ExpType checktype = PlayerLevel.ExpType.Attack;
+        int count = 0;
+        foreach (var item in upgradeOptions)
+        {
+            if (first)
+            {
+                checktype = item.type;
+            }
+
+            if(item.type == checktype)
+            {
+                count++;
+            }
+            
+        }
+
+        if(count > 2)
+        {
+            Debug.Log("Bug");
+        }
 
         return upgradeOptions;
     }
@@ -277,5 +307,9 @@ public class PlayerUpgrades : MonoBehaviour
         player.jump.amountOfJumps = 2;
     }
 
+    void ActivateGrenadeThrow()
+    {
+        player.grenadeThrow.MechanicActivated = true;
+    }
     #endregion
 }
