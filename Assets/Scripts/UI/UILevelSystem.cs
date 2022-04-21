@@ -73,8 +73,7 @@ public class UILevelSystem : MonoBehaviour
                             {
                                 total += list[j];
                             }
-
-                            Debug.Log(exp.type.ToString() + ": "+ total);
+                            
                             exp.ThisLevel = total;
                         }
                         else

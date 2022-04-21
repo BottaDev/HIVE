@@ -328,6 +328,30 @@ public static partial class ExtensionMethods_List
             return default(T);
         }
     }
+    
+    public static T GetMax<T>(this List<T> self, Func<T, int> filterMethod, bool randomizeTie = false)
+    {
+        List<T> ties = new List<T>();
+        
+        int currentMax = 0;
+        foreach (T item in self)
+        {
+            int value = filterMethod(item);
+            if (value > currentMax)
+            {
+                currentMax = value;
+                ties.Clear();
+                ties.Add(item);
+            }
+            else if (value == currentMax)
+            {
+                ties.Add(item);
+            }
+        }
+        
+        T max = randomizeTie ? ties.ChooseRandom() : ties[0];
+        return max;
+    }
 }
 
 public static partial class ExtensionMethods_LayerMask

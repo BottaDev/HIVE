@@ -151,50 +151,11 @@ public class PlayerUpgrades : MonoBehaviour
                 pool = Big;
                 break;
         }
-
-        #region Get Top Type exp wise
-        PlayerLevel.ExpType topType;
-        List<PlayerLevel.ExpType> ties = new List<PlayerLevel.ExpType>();
-        int currentMax = 0;
-        foreach (PlayerLevel.Exp expType in exp)
-        {
-            if (expType.ThisLevel > currentMax)
-            {
-                currentMax = expType.ThisLevel;
-                ties.Clear();
-                ties.Add(expType.type);
-            }
-            else if (expType.ThisLevel == currentMax)
-            {
-                ties.Add(expType.type);
-            }
-        }
-        topType = ties.ChooseRandom();
-        #endregion
         
-        #region Get top 2 type exp wise
-        PlayerLevel.ExpType top2Type = PlayerLevel.ExpType.Attack;
-        List<PlayerLevel.ExpType> ties2 = new List<PlayerLevel.ExpType>();
-        int currentMax2 = 0;
-        foreach (PlayerLevel.Exp expType in exp)
-        {
-            if(expType.type != topType)
-            {
-                if (expType.ThisLevel > currentMax2)
-                {
-                    currentMax2 = expType.ThisLevel;
-                    ties2.Clear();
-                    ties2.Add(expType.type);
-                }
-                else if (expType.ThisLevel == currentMax2)
-                {
-                    ties2.Add(expType.type);
-                }
-            }
-        }
-
-        top2Type = ties2.ChooseRandom();
-        #endregion
+        PlayerLevel.ExpType topType = exp.GetMax((x => x.ThisLevel), true).type;
+        
+        PlayerLevel.ExpType top2Type = exp.Where(x => x.type != topType).ToList()
+            .GetMax((x => x.ThisLevel), true).type;
 
         List<Upgrade> upgradesOfTopType = pool.ChooseUpgradeList(topType);
         List<Upgrade> upgradesOfTop2Type = pool.ChooseUpgradeList(top2Type);
@@ -249,7 +210,7 @@ public class PlayerUpgrades : MonoBehaviour
         {
             Upgrade empty2 = new Upgrade();
             empty2.type = top2Type;
-            upgradeOptions.Add(empty);
+            upgradeOptions.Add(empty2);
         }
 
 
@@ -262,6 +223,7 @@ public class PlayerUpgrades : MonoBehaviour
             if (first)
             {
                 checktype = item.type;
+                first = false;
             }
 
             if(item.type == checktype)
@@ -273,7 +235,7 @@ public class PlayerUpgrades : MonoBehaviour
 
         if(count > 2)
         {
-            Debug.Log("Bug");
+            Debug.LogError($"Bug: TOP - {topType.ToString()}; TOP 2 - {top2Type.ToString()}");
         }
 
         return upgradeOptions;
