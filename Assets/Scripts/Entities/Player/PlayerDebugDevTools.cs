@@ -9,6 +9,7 @@ public class PlayerDebugDevTools : MonoBehaviour
     [SerializeField] private KeyCode addExpAttack = KeyCode.Alpha2;
     [SerializeField] private KeyCode addExpDefense = KeyCode.Alpha3;
     [SerializeField] private KeyCode addExpMobility = KeyCode.Alpha4;
+    [SerializeField] private KeyCode changeAmbientColor = KeyCode.Tab;
 
     private bool _invincible;
     public bool Invincible { get => _invincible; set => _invincible = value; }
@@ -41,6 +42,12 @@ public class PlayerDebugDevTools : MonoBehaviour
             {
                 player.AddExp(PlayerLevel.ExpType.Mobility, 5);
             }
+        }
+
+        if (Input.GetKeyDown(changeAmbientColor))
+        {
+            ChangeAmbientColor.i.IterateThroughColors();
+            
         }
         
     }
