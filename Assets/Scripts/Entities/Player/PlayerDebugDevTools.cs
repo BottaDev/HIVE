@@ -21,7 +21,7 @@ public class PlayerDebugDevTools : MonoBehaviour
 
     private void DebugInput()
     {
-        if (Input.GetKey(KeyCode.LeftControl))
+        if (Input.GetKey(KeyCode.LeftAlt))
         {
             if (Input.GetKeyDown(invincibilityKey))
             {
