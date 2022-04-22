@@ -92,6 +92,7 @@ GameObject:
   - component: {fileID: 8040213256160230167}
   - component: {fileID: 640414617348797176}
   - component: {fileID: 1034500826797044218}
+  - component: {fileID: -7917423776523289316}
   m_Layer: 9
   m_Name: Enemy Bullet
   m_TagString: Untagged
@@ -242,3 +243,17 @@ MonoBehaviour:
   wasShotByPlayer: 0
   trail: {fileID: 640414617348797176}
   impactParticles: {fileID: 8287791036412207694, guid: c51ccda746d82a44f95202a7602a4194, type: 3}
+--- !u!136 &-7917423776523289316
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8040213256160230170}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.1
+  m_Height: 0.2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}

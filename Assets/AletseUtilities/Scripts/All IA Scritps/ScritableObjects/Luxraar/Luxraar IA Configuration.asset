@@ -12,23 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6af15cefec62b6b4188a41274e9403b1, type: 3}
   m_Name: Luxraar IA Configuration
   m_EditorClassIdentifier: 
-  Prefab: {fileID: 0}
-  AttackConfiguration: {fileID: 0}
-  Health: 100
-  DefaultState: 0
+  Prefab: {fileID: 259773368641358045, guid: 64f1d885141de214ea4adb95769aa398, type: 3}
+  AttackConfiguration: {fileID: 11400000, guid: d56e44c871e5987419644517b1289083, type: 2}
+  Health: 5
+  DefaultState: 3
   IdleLocationRadius: 4
   IdleMovespeedMultiplier: 0.5
   Waypoints: 4
-  LineOfSightRange: 6
-  FieldOfView: 90
+  LineOfSightRange: 10
+  FieldOfView: 180
   AIUpdateInterval: 0.1
   Acceleration: 8
   AngularSpeed: 120
   AreaMask: -1
   AvoidancePriority: 50
-  BaseOffset: 0
+  BaseOffset: 0.76
   Height: 2
   ObstacleAvoidanceType: 1
   Radius: 0.5
   Speed: 3
-  StoppingDistance: 0.5
+  StoppingDistance: 3

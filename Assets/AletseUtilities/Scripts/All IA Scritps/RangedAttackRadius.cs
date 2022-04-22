@@ -19,7 +19,7 @@ public class RangedAttackRadius : AttackRadius
     {
         if (BulletPool == null)
         {
-            BulletPool = ObjectPool.CreateInstance(BulletPrefab, Mathf.CeilToInt((1 / AttackDelay) * BulletPrefab.timeToDie));
+            BulletPool = ObjectPool.CreateInstance(BulletPrefab, 10);
         }
     }
 
@@ -49,9 +49,10 @@ public class RangedAttackRadius : AttackRadius
                 {
                     bullet = poolableObject.GetComponent<Bullet>();
 
-                    bullet.transform.position = transform.position + BulletSpawnOffset;
+                    var transform2 = bullet.transform;
+                    transform2.position = transform.position + BulletSpawnOffset;
                     var transform1 = Agent.transform;
-                    bullet.transform.rotation = transform1.rotation;
+                    transform2.rotation = transform1.rotation;
 
                     //bullet.Spawn(transform1.forward, Damage, targetDamageable.GetTransform());
                     bullet.MoveToPosition();
@@ -81,7 +82,7 @@ public class RangedAttackRadius : AttackRadius
         if (Physics.SphereCast(transform.position + BulletSpawnOffset, SpherecastRadius, ((Target.position + BulletSpawnOffset) - (transform.position + BulletSpawnOffset)).normalized, out Hit, Collider.radius, Mask))
         {
             IDamageable damageable;
-            if (Hit.collider.TryGetComponent<IDamageable>(out damageable))
+            if (Hit.collider.TryGetComponent(out damageable))
             {
                 return damageable.GetTransform() == Target;
             }

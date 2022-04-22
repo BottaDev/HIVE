@@ -8,7 +8,7 @@ public class EnemyIA : PoolableObject, IDamageable
     public Animator Animator;
     public EnemyMovement Movement;
     public NavMeshAgent Agent;
-    public int Health = 100;
+    public float Health = 100f;
     public delegate void DeathEvent(EnemyIA enemyIa);
     public DeathEvent OnDie;
     
@@ -22,7 +22,7 @@ public class EnemyIA : PoolableObject, IDamageable
 
     private void OnAttack(IDamageable Target)
     {
-        Animator.SetTrigger(ATTACK_TRIGGER);
+        //Animator.SetTrigger(ATTACK_TRIGGER);
 
         if (LookCoroutine != null)
         {
@@ -56,20 +56,16 @@ public class EnemyIA : PoolableObject, IDamageable
         OnDie = null;
     }
 
-    public void TakeDamage(int Damage)
+
+    public void TakeDamage(float damage)
     {
-        Health -= Damage;
+        Health -= damage;
 
         if (Health <= 0)
         {
             OnDie?.Invoke(this);
             gameObject.SetActive(false);
         }
-    }
-
-    public void TakeDamage(float damage)
-    {
-        
     }
 
     public Transform GetTransform()

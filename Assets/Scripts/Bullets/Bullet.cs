@@ -70,7 +70,7 @@ public sealed class Bullet : PoolableObject
     public void Collision(GameObject other)
     {
         IDamageable obj = other.GetComponentInParent<IDamageable>() ?? other.GetComponentInChildren<IDamageable>();
-
+        
         if (obj != null)
         {
             if (wasShotByPlayer)
@@ -84,8 +84,13 @@ public sealed class Bullet : PoolableObject
 
     private void Disable()
     {
-        CancelInvoke(DisableMethodName);
         gameObject.SetActive(false);
+    }
+
+    public override void OnDisable()
+    {
+        base.OnDisable();
+        CancelInvoke(DisableMethodName);
     }
 
     private void OnDrawGizmos()

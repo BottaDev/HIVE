@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ab72f2349a994841b93aaa19bc8458a, type: 3}
   m_Name: Luxraar Attack Configuration
   m_EditorClassIdentifier: 
-  IsRanged: 0
+  IsRanged: 1
   Damage: 5
-  AttackRadius: 1.5
-  AttackDelay: 1.5
-  BulletPrefab: {fileID: 0}
-  BulletSpawnOffset: {x: 0, y: 1, z: 0}
+  AttackRadius: 10
+  AttackDelay: 1
+  BulletPrefab: {fileID: 1034500826797044218, guid: 577be4e723b980b4abc86d25c5f2ed44, type: 3}
+  BulletSpawnOffset: {x: 0, y: 0.5, z: 0}
   LineOfSightLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 257
