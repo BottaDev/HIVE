@@ -24,7 +24,7 @@ public class PlayerGrenadeThrow : MonoBehaviour
 
 
     private bool readyToThrow;
-    private bool mechanicActivated = false;
+    [SerializeField] private bool mechanicActivated = false;
     public bool MechanicActivated { get => mechanicActivated; set => mechanicActivated = value; }
 
     private void Start()
@@ -42,6 +42,8 @@ public class PlayerGrenadeThrow : MonoBehaviour
 
     public void Throw()
     {
+        AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.GrenadeThrow));
+
         Grenade obj = Instantiate(grenade, firePoint.position, Quaternion.identity);
         obj.SetParameters(explosionRadius, damage, explosionTimeDelay, explodeOnContact, hitMask);
 

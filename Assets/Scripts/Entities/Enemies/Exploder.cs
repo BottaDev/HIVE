@@ -63,6 +63,7 @@ public class Exploder : AI
     {
         Explosion exp = Instantiate(explosion, transform.position, transform.rotation).GetComponent<Explosion>();
         exp.SetDamage(explosionDamage);
+        AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.Explosion));
     }
 
     protected override void OnDrawGizmosSelected()

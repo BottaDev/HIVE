@@ -134,6 +134,9 @@ public class PlayerJump : MonoBehaviour
     public void Jump(Vector3 force)
     {
         currentlyJumping = true;
+        
+        AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.PlayerJump));
+
 
         //Reset Y velocity
         Rb.velocity = new Vector3(Rb.velocity.x, 0, Rb.velocity.z);

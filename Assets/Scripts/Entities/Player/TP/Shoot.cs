@@ -30,6 +30,7 @@ public class Shoot : MonoBehaviour
 
     private float _nextShoot;
 
+    private bool _playedSFX;
     //Get whatever information you need for this script
     private bool Shooting => player.input.Shooting;
 
@@ -85,6 +86,7 @@ public class Shoot : MonoBehaviour
             reloading = false;
             _currentCd = 0;
 
+            AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.PlayerShot));
             Bullet bul = _bulletPool.GetObject().GetComponent<Bullet>();
 
 
@@ -107,6 +109,12 @@ public class Shoot : MonoBehaviour
 
     private void ReloadGun()
     {
+        if (!_playedSFX && reloading)
+        {
+            AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.GunRecharge));
+            _playedSFX = true;
+        }
+        
         reloading = true;
         CurrentAmmo += Mathf.CeilToInt(maxAmmo / totalReloadTime * Time.deltaTime);
 
@@ -114,6 +122,7 @@ public class Shoot : MonoBehaviour
         {
             CurrentAmmo = maxAmmo;
             reloading = false;
+            _playedSFX = false;
         }
     }
 }

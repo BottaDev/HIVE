@@ -157,7 +157,6 @@ public abstract class AI : Entity
     {
         EventManager.Instance.Trigger(EventManager.Events.OnEnemyDeath);
         dying = true;
-        
         if (useRigidBodyDeath)
         {
             _agent.enabled = false;
@@ -170,6 +169,8 @@ public abstract class AI : Entity
         {
             Destroy(gameObject);
         }
+        
+        AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.EnemyDeath));
     }
 
     private void DestroyDeathModel()

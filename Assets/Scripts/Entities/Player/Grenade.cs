@@ -33,6 +33,15 @@ public class Grenade : MonoBehaviour
         this.hitMask = hitMask;
         this.timeDelay = timeDelay;
         this.explodeOnContact = explodeOnContact;
+
+        ParticleSystem.MainModule main = impactParticles.main;
+        main.startSpeed = new ParticleSystem.MinMaxCurve(20*radius);
+        main.startSize = new ParticleSystem.MinMaxCurve(0.1f*radius);
+        ParticleSystem.EmissionModule emission = impactParticles.emission;
+        emission.SetBurst(0, new ParticleSystem.Burst(0f,100 * (int)radius)) ;
+        
+        ParticleSystem.ShapeModule shape = impactParticles.shape;
+        //shape.radius = radius;
     }
 
     void Explode()
@@ -50,6 +59,7 @@ public class Grenade : MonoBehaviour
             }
         }
 
+        AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.Explosion));
         effect.Play();
         Destroy(gameObject);
     }

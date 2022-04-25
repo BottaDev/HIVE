@@ -26,8 +26,8 @@ public class Player : Entity
     {
         base.Awake();
 
+        EventManager.Instance?.Subscribe(EventManager.Events.OnPlayerDead, PlayerDeath);
         EventManager.Instance?.Subscribe(EventManager.Events.OnPlayerDamaged, OnPlayerDamaged);
-        EventManager.Instance?.Subscribe(EventManager.Events.OnEnemyDamaged, Debug_EnemyDamaged);
     }
 
     private void Start()
@@ -39,12 +39,6 @@ public class Player : Entity
     private void Update()
     {
         if (Restart) SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
-
-    private static void Debug_EnemyDamaged(params object[] obj)
-    {
-        Debug.Log("Enemy damaged");
-        Crosshair.instance.Hit(); 
     }
 
     public void AddExp(PlayerLevel.ExpType type, int amount)
@@ -70,6 +64,14 @@ public class Player : Entity
         
         EventManager.Instance.Trigger(EventManager.Events.OnPlayerDead);
         EventManager.Instance.Unsubscribe(EventManager.Events.OnPlayerDamaged, OnPlayerDamaged);
+    }
+
+    public void PlayerDeath(params object[] parameters)
+    {
+        AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.PlayerDeath));
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
         gameObject.SetActive(false);
+        SceneManager.LoadScene(2);
     }
 }

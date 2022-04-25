@@ -14,16 +14,4 @@ public class WinLoseManager : MonoBehaviour
             SceneManager.LoadScene(1);
         }
     }
-
-    private void OnEnable()
-    {
-        EventManager.Instance.Subscribe(EventManager.Events.OnPlayerDead, OnPlayerDead);
-    }
-
-    void OnPlayerDead(params object[] parameters)
-    {
-        Cursor.lockState = CursorLockMode.Confined;
-        Cursor.visible = true;
-        SceneManager.LoadScene(2);
-    }
 }

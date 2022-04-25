@@ -69,6 +69,8 @@ public class Dash : MonoBehaviour
 
         player.animator.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsDashing, true);
 
+        AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.PlayerDash));
+    
         yield return new WaitForSeconds(dashDuration);
 
         player.animator.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsDashing, false);

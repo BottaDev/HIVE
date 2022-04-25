@@ -387,6 +387,7 @@ MonoBehaviour:
   addExpAttack: 50
   addExpDefense: 51
   addExpMobility: 52
+  changeAmbientColor: 9
 --- !u!120 &156484629
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -571,6 +572,8 @@ MonoBehaviour:
   hookSpeed: 300
   forwardSpeed: 1
   pullSpeed: 20
+  minDistancePullMultiplier: 0.5
+  maxDistancePullMultiplier: 10
   lifetime: 8
   minDistance: 1
   player: {fileID: 2010002419299452760}
@@ -589,6 +592,8 @@ MonoBehaviour:
   useExtraForwardForce: 0
   useJointDistanceAsForce: 0
   useMinDistanceToHook: 0
+  useDistanceMultiplier: 0
+  useRigidbodyPosition: 0
 --- !u!114 &2018263146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -628,6 +633,7 @@ MonoBehaviour:
   hitMask:
     serializedVersion: 2
     m_Bits: 4224
+  mechanicActivated: 0
 --- !u!1 &3473960329904449256
 GameObject:
   m_ObjectHideFlags: 0

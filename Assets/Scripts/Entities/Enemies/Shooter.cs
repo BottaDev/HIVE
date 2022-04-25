@@ -108,6 +108,7 @@ public class Shooter : AI
     {
         if (_currentAttackRate <= 0)
         {
+            AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.EnemyShot));
             GameObject bullet = Instantiate(bulletPrefab, spawnPos.position, Quaternion.identity);
             bullet.transform.LookAt(_player.transform.position);
             

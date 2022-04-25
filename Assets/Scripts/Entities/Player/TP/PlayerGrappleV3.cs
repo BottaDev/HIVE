@@ -142,6 +142,9 @@ public class PlayerGrappleV3 : MonoBehaviour,ITestGrapple
         _pulling = false;
         _hook = Instantiate(hookPrefab, shootTransform.position, Quaternion.identity)
             .GetComponent<HookPlayerGrappleV2>();
+        
+        AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.PlayerHook));
+        
         _hook.Initialize(shootTransform, this, player.aim.Point, grappleable, hookSpeed, delegate
         {
             _joint = gameObject.AddComponent<DistanceJoint3D>();
