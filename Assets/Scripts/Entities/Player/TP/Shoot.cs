@@ -6,6 +6,9 @@ public class Shoot : MonoBehaviour
     [Header("Assignables")]
     [SerializeField] private Player player;
 
+    [Header("Energy")]
+    public int energyCostPerBulletRecharge = 1;
+
     [Header("Gun")]
     public float damage = 5;
     public float fireRate = 15;
@@ -15,7 +18,7 @@ public class Shoot : MonoBehaviour
     [Header("Ammunition")]
     public int maxAmmo = 100;
     public float totalReloadTime = 1f;
-    public int ammoCost = 1;
+    
 
     [Header("Objects")]
     public LayerMask mask;
@@ -71,7 +74,10 @@ public class Shoot : MonoBehaviour
 
         if (_currentCd > gunCd)
         {
-            ReloadGun();
+            if(CurrentAmmo < maxAmmo)
+            {
+                ReloadGun();
+            }
         }
         else
         {
@@ -98,7 +104,7 @@ public class Shoot : MonoBehaviour
             bul.transform.LookAt(player.aim.Point);
 
             bul.trail.Clear();
-            CurrentAmmo -= ammoCost;
+            CurrentAmmo -= 1;
 
             if (CurrentAmmo <= 0)
             {
@@ -109,6 +115,11 @@ public class Shoot : MonoBehaviour
 
     private void ReloadGun()
     {
+        int recharge = Mathf.CeilToInt(maxAmmo / totalReloadTime * Time.deltaTime);
+        float energyCost = recharge * energyCostPerBulletRecharge;
+        if (!player.energy.TakeEnergy(energyCost)) return;
+
+
         if (!_playedSFX && reloading)
         {
             AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.GunRecharge));
@@ -116,7 +127,7 @@ public class Shoot : MonoBehaviour
         }
         
         reloading = true;
-        CurrentAmmo += Mathf.CeilToInt(maxAmmo / totalReloadTime * Time.deltaTime);
+        CurrentAmmo += recharge;
 
         if (CurrentAmmo >= maxAmmo)
         {

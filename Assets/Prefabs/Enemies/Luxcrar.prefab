@@ -745,6 +745,7 @@ MonoBehaviour:
     type: 2
     expAmount: 5
   useRigidBodyDeath: 0
+  deactivateColliders: []
   normalModel: {fileID: 0}
   deathModel: {fileID: 0}
   deathDelay: 5
@@ -1919,6 +1920,8 @@ MonoBehaviour:
     type: 2
     expAmount: 5
   useRigidBodyDeath: 1
+  deactivateColliders:
+  - {fileID: 6576070079687112171}
   normalModel: {fileID: 2018929520236701851}
   deathModel: {fileID: 5503149638354034617}
   deathDelay: 5

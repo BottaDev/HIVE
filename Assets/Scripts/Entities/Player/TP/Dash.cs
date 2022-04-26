@@ -10,6 +10,8 @@ public class Dash : MonoBehaviour
 
     
     [Header("Parameters")]
+    [Tooltip("Energy cost of dash")]
+    [SerializeField] private float energyCost;
     [FormerlySerializedAs("_dashVelocity")]
     [Tooltip("Speed during dash")] 
     [SerializeField] private float dashVelocity;
@@ -36,6 +38,7 @@ public class Dash : MonoBehaviour
     {
         if (Dashing && _currentDashCd <= 0)
         {
+            if (!player.energy.TakeEnergy(energyCost)) return;
             StartCoroutine(Cast());
             StartCoroutine(CameraEffect());
         }

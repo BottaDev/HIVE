@@ -26,6 +26,7 @@ public abstract class AI : Entity
 
     [Header("Death Parameters")]
     public bool useRigidBodyDeath = false;
+    public List<Collider> deactivateColliders;
     public GameObject normalModel;
     public GameObject deathModel;
     public float deathDelay = 5f;
@@ -163,6 +164,12 @@ public abstract class AI : Entity
             _agent.enabled = false;
             deathModel.transform.parent = null;
             deathModel.SetActive(true);
+
+            foreach (var collider in deactivateColliders)
+            {
+                collider.enabled = false;
+            }
+
             Destroy(normalModel.gameObject);
             Invoke(nameof(DestroyDeathModel), deathDelay);
         }

@@ -10,6 +10,7 @@ public class PlayerGrenadeThrow : MonoBehaviour
     public Grenade grenade;
 
     [Header("Throw Settings")]
+    public float energyCost;
     public float forwardForce;
     public float upwardsForce;
     public float throwCD;
@@ -40,6 +41,7 @@ public class PlayerGrenadeThrow : MonoBehaviour
     {
         if (player.input.GrenadeThrow && MechanicActivated && readyToThrow)
         {
+            if (!player.energy.TakeEnergy(energyCost)) return;
             Throw();
         }
     }

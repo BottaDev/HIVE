@@ -3,7 +3,8 @@ using UnityEngine.SceneManagement;
 
 public class Player : Entity
 {
-    [Header("Assignable")] 
+    [Header("Assignable")]
+    public PlayerEnergy energy;
     public PlayerInput input;
     public PlayerAnimator animator;
     public PlayerJump jump;

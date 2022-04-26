@@ -4,6 +4,9 @@ using System;
 
 public class PlayerGrappleV3 : MonoBehaviour,ITestGrapple
 {
+    [Header("Energy")]
+    [SerializeField] private float energyCost = 0;
+
     [Header("Parameters")]
     [SerializeField] private LayerMask grappleable;
     [SerializeField] private float hookCD = 0f;
@@ -139,6 +142,8 @@ public class PlayerGrappleV3 : MonoBehaviour,ITestGrapple
 
     private void StartHook()
     {
+        if(!player.energy.TakeEnergy(energyCost)) return;
+
         _pulling = false;
         _hook = Instantiate(hookPrefab, shootTransform.position, Quaternion.identity)
             .GetComponent<HookPlayerGrappleV2>();
