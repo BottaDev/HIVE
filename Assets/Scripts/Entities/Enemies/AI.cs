@@ -26,6 +26,7 @@ public abstract class AI : Entity
 
     [Header("Death Parameters")]
     public bool useRigidBodyDeath = false;
+    public GameObject normalModel;
     public GameObject deathModel;
     public float deathDelay = 5f;
     protected bool dying;
@@ -162,7 +163,7 @@ public abstract class AI : Entity
             _agent.enabled = false;
             deathModel.transform.parent = null;
             deathModel.SetActive(true);
-            Destroy(anim.gameObject);
+            Destroy(normalModel.gameObject);
             Invoke(nameof(DestroyDeathModel), deathDelay);
         }
         else
