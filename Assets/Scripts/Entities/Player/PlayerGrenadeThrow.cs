@@ -21,6 +21,10 @@ public class PlayerGrenadeThrow : MonoBehaviour
     public bool explodeOnContact = true;
     public LayerMask hitMask;
 
+    public bool useAddForce = false;
+    public float explosionForce;
+    public float explosionUpwardsForce;
+
 
 
     private bool readyToThrow;
@@ -44,8 +48,9 @@ public class PlayerGrenadeThrow : MonoBehaviour
     {
         AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.GrenadeThrow));
 
-        Grenade obj = Instantiate(grenade, firePoint.position, Quaternion.identity);
-        obj.SetParameters(explosionRadius, damage, explosionTimeDelay, explodeOnContact, hitMask);
+        Grenade obj = Instantiate(grenade, firePoint.position, Quaternion.identity)
+            .SetParameters(explosionRadius, damage, explosionTimeDelay, explodeOnContact, hitMask)
+            .SetAddForceToRigidbodies(useAddForce, explosionForce, explosionUpwardsForce);
 
         Rigidbody rb = obj.rb;
         Vector3 forwardForce = orientation.forward * this.forwardForce;
