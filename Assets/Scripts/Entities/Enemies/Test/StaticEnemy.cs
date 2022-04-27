@@ -90,7 +90,7 @@ public class StaticEnemy : Entity
         Gizmos.DrawWireSphere(transform.position, attackDistance);
     }
     
-    public override void TakeDamage(float damage)
+    public override void TakeDamage(int damage)
     {
         CurrentHealth -= damage;
 

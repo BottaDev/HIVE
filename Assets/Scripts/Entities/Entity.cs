@@ -6,12 +6,12 @@ using UnityEngine;
 public abstract class Entity : MonoBehaviour, IDamageable
 {
     [Header("Entity Parameters")]
-    public float maxHealth = 10f;
+    public int maxHealth = 10;
     public float baseSpeed = 5f;
 
-    [SerializeField] private float _currentHealth;
+    [SerializeField] private int _currentHealth;
 
-    public float CurrentHealth { get { return _currentHealth; } set { _currentHealth = value; } }
+    public int CurrentHealth { get { return _currentHealth; } set { _currentHealth = value; } }
     public float CurrentSpeed { get ; protected set; }
 
     protected virtual void Awake()
@@ -20,7 +20,7 @@ public abstract class Entity : MonoBehaviour, IDamageable
         CurrentSpeed = baseSpeed;
     }
     
-    public virtual void TakeDamage(float damage) { }
+    public virtual void TakeDamage(int damage) { }
     public Transform GetTransform()
     {
         return transform;

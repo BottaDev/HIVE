@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,12 +12,12 @@ public class Utilities_RadialProgressBar : MonoBehaviour
     [SerializeField] private float maxValue = 1;
     [SerializeField] private float minValue = 0;
     [SerializeField] private float currentValue = 1;
-    
+
     [SerializeField] private float animSpeed = 4f;
 
-    [SerializeField] private UnityEvent onFull = null;
-    [SerializeField] private UnityEvent onValueChanged = null;
-    [SerializeField] private UnityEvent onEmpty = null;
+    [SerializeField] protected UnityEvent onFull = null;
+    [SerializeField] protected UnityEvent onValueChanged = null;
+    [SerializeField] protected UnityEvent onEmpty = null;
 
     public float MaxValue { get { return maxValue; } }
     public float MinValue { get { return minValue; } }
@@ -31,8 +32,6 @@ public class Utilities_RadialProgressBar : MonoBehaviour
         if (animating)
         {
             currentValue = Mathf.Lerp(currentValue, targetValue, animSpeed * Time.deltaTime);
-            UpdateBar();
-
             bool endCondition = currentValue >= targetValue - 0.1f;
 
             if (currentValue > targetValue)
@@ -47,14 +46,42 @@ public class Utilities_RadialProgressBar : MonoBehaviour
                 currentValue = Mathf.Clamp(currentValue, minValue, maxValue);
                 onFinished?.Invoke();
             }
+            
+            UpdateBar();
         }
     }
 
-    public void SetRange(float minValue, float maxValue)
+    public void SetRange(float minValue, float maxValue, bool instant = true)
     {
         this.minValue = minValue;
-        this.maxValue = maxValue;
-        currentValue = minValue;
+        SetMaxValue(maxValue, instant);
+        if (instant)
+        {
+            currentValue = minValue;
+        }
+        else
+        {
+            SetValue(minValue);
+        }
+        
+        UpdateBar();
+    }
+
+    public void SetMaxValue(float newMaxValue, bool instant = true)
+    {
+        float difference =  newMaxValue - maxValue;
+
+        if (instant)
+        {
+            currentValue += difference;
+        }
+        else
+        {
+            SetValue(currentValue + difference);
+        }
+
+        maxValue = newMaxValue;
+        
         UpdateBar();
     }
 
@@ -83,24 +110,35 @@ public class Utilities_RadialProgressBar : MonoBehaviour
 
         UpdateBar();
     }
-    void CheckValue()
+    public void SetValueInstant(float newValue)
     {
-        if (currentValue > maxValue || currentValue < minValue)
+        newValue = Mathf.Clamp(newValue, minValue, maxValue);
+
+        if (newValue != lastSavedValue)
         {
-            if (currentValue > maxValue)
-            {
-                currentValue = maxValue;
-            }
-            else if (currentValue < minValue)
-            {
-                currentValue = minValue;
-            }
+            targetValue = newValue;
+            currentValue = newValue;
+            lastSavedValue = newValue;
+            onValueChanged?.Invoke();
         }
+
+        if(newValue == maxValue)
+        {
+            onFull?.Invoke();
+        }
+
+        if (newValue == minValue)
+        {
+            onEmpty?.Invoke();
+        }
+
+        UpdateBar();
     }
-    public void UpdateBar()
+    private void UpdateBar()
     {
         float range = maxValue - minValue;
         float newFill = (currentValue - minValue) / range;
         radialImage.fillAmount = newFill;
     }
 }
+

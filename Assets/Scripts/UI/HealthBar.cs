@@ -2,34 +2,27 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
-    public Image fill;
-    
-    private Slider _slider;
-
+    [SerializeField] private Utilities_RadialProgressBar progressBar;
+    [SerializeField] private TextMeshProUGUI text;
     private void Awake()
     {
-        _slider = GetComponent<Slider>();
-
         EventManager.Instance?.Subscribe(EventManager.Events.OnLifeUpdated, OnLifeUpdated);
-    }
-
-    public void SetMaxHealt(float health)
-    {
-        _slider.maxValue = health;
-    }
-
-    public void SetHealth(float haelth)
-    {
-        _slider.value = haelth;
     }
 
     private void OnLifeUpdated(params object[] parameters)
     {
-        SetHealth((float)parameters[0]);
+        int currentHp = (int) parameters[0];
+        int maxHp = (int) parameters[1];
+        progressBar.SetMaxValue(maxHp, false);
+        progressBar.SetValue(currentHp);
+
+        text.text = $"{currentHp}/{maxHp}";
     }
 }

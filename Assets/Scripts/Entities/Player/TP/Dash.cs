@@ -2,13 +2,13 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class Dash : MonoBehaviour
+public class Dash : UnlockableMechanic
 {
     [Header("Assignable")]
     [SerializeField] private Player player;
     [SerializeField] private TrailRenderer[] trails;
 
-    
+
     [Header("Parameters")]
     [Tooltip("Energy cost of dash")]
     [SerializeField] private float energyCost;
@@ -36,9 +36,12 @@ public class Dash : MonoBehaviour
 
     private void Update()
     {
+        if (!mechanicUnlocked) return;
+        
         if (Dashing && _currentDashCd <= 0)
         {
             if (!player.energy.TakeEnergy(energyCost)) return;
+            EventManager.Instance.Trigger(EventManager.Events.OnPlayerDashCd, dashCd);
             StartCoroutine(Cast());
             StartCoroutine(CameraEffect());
         }
@@ -113,5 +116,10 @@ public class Dash : MonoBehaviour
             _cam.fieldOfView -= 1;
             yield return new WaitForSeconds(slowTime / steps);
         }
+    }
+
+    public void Unlock()
+    {
+        
     }
 }

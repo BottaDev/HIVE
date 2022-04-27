@@ -25,13 +25,34 @@ public enum SFXs
 public class AssetDatabase : MonoBehaviour
 {
     #region singletonSetup
+    
     private static AssetDatabase instance;
-    public static AssetDatabase i { get { return instance; } }
+    public static AssetDatabase i
+    {
+        get
+        {
+            /*
+            if (instance == null)
+            {
+                instance = Resources.Load("AssetDatabase") as AssetDatabase;
+                Initialize();
+            }*/
+
+            return instance;
+        }
+    }
+    static void Initialize()
+    {
+        i.transform.parent = null;
+        DontDestroyOnLoad(i);
+    }
+    
     private void Awake()
     {
         if (instance == null)
         {
             instance = this;
+            Initialize();
         }
     }
     #endregion

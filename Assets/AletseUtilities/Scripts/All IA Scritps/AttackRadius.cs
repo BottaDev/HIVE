@@ -7,7 +7,7 @@ public class AttackRadius : MonoBehaviour
 {
     public SphereCollider Collider;
     protected List<IDamageable> Damageables = new List<IDamageable>();
-    public float Damage = 10f;
+    public int Damage = 10;
     public float AttackDelay = 0.5f;
     public delegate void AttackEvent(IDamageable Target);
     public AttackEvent OnAttack;

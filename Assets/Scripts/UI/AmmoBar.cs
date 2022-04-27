@@ -13,7 +13,21 @@ public class AmmoBar : MonoBehaviour
     
     public List<Image> ammoBars;
 
-    public void UpdateFillAmount(int currentAmmo)
+    private void Awake()
+    {
+        EventManager.Instance.Subscribe(EventManager.Events.OnPlayerUpdateAmmo, UpdateBar);
+    }
+
+    public void UpdateBar(params object[] p)
+    {
+        int currentAmmo = (int)p[0];
+        int maxAmmount = (int)p[1];
+        
+        UpdateFillAmount(currentAmmo);
+        SetMaxAmmo(maxAmmount);
+    }
+    
+    void UpdateFillAmount(int currentAmmo)
     {
         float currentOffSet = currentAmmo - minimum;
         float maximumOffset = maximum - minimum;
@@ -25,7 +39,7 @@ public class AmmoBar : MonoBehaviour
         }
     }
     
-    public void SetMaxAmmo(int maxAmmount)
+    void SetMaxAmmo(int maxAmmount)
     {
         maximum = maxAmmount;
     }

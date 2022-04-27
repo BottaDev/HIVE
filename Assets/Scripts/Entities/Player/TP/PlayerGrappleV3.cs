@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using System;
 
-public class PlayerGrappleV3 : MonoBehaviour,ITestGrapple
+public class PlayerGrappleV3 : UnlockableMechanic,ITestGrapple
 {
     [Header("Energy")]
     [SerializeField] private float energyCost = 0;
@@ -55,12 +55,15 @@ public class PlayerGrappleV3 : MonoBehaviour,ITestGrapple
     // Start is called before the first frame update
     private void Start()
     {
+        base.Start();
         _pulling = false;
     }
 
     // Update is called once per frame
     private void Update()
     {
+        if (!mechanicUnlocked) return;
+        
         _hookCdCounter -= Time.deltaTime;
         if (_hook == null && player.input.Grapple && _hookCdCounter < 0f)
         {
@@ -196,6 +199,7 @@ public class PlayerGrappleV3 : MonoBehaviour,ITestGrapple
             return;
         }
 
+        EventManager.Instance.Trigger(EventManager.Events.OnPlayerGrappleCd, hookCD);
         _hookCdCounter = hookCD;
         if (!ableToMoveWhileAttached)
         {

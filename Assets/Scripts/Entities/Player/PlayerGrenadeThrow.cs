@@ -1,8 +1,9 @@
 using System;
 using UnityEngine;
 
-public class PlayerGrenadeThrow : MonoBehaviour
+public class PlayerGrenadeThrow : UnlockableMechanic
 {
+    [Header("Assignables")]
     public Player player;
 
     public Transform orientation;
@@ -17,7 +18,7 @@ public class PlayerGrenadeThrow : MonoBehaviour
 
     [Header("Grenade Settings")]
     public float explosionTimeDelay = 3f;
-    public float damage = 2f;
+    public int damage = 2;
     public float explosionRadius = 2f;
     public bool explodeOnContact = true;
     public LayerMask hitMask;
@@ -29,17 +30,18 @@ public class PlayerGrenadeThrow : MonoBehaviour
 
 
     private bool readyToThrow;
-    [SerializeField] private bool mechanicActivated = false;
-    public bool MechanicActivated { get => mechanicActivated; set => mechanicActivated = value; }
 
     private void Start()
     {
+        base.Start();
         readyToThrow = true;
     }
 
     private void Update()
     {
-        if (player.input.GrenadeThrow && MechanicActivated && readyToThrow)
+        if (!mechanicUnlocked) return;
+        
+        if (player.input.GrenadeThrow && readyToThrow)
         {
             if (!player.energy.TakeEnergy(energyCost)) return;
             Throw();
@@ -60,6 +62,7 @@ public class PlayerGrenadeThrow : MonoBehaviour
         rb.AddForce(forwardForce + upwardsForce, ForceMode.Impulse);
         
         readyToThrow = false;
+        EventManager.Instance.Trigger(EventManager.Events.OnPlayerGrenadeCd, throwCD);
         Invoke(nameof(ResetThrow), throwCD);
     }
     

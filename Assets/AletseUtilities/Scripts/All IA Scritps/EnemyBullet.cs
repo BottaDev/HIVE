@@ -5,7 +5,7 @@ public class EnemyBullet : PoolableObject
 {
     public float AutoDestroyTime = 5f;
     public float MoveSpeed = 2f;
-    public float Damage = 5;
+    public int Damage = 5;
     public Rigidbody Rigidbody;
     private Transform target;
 
@@ -23,7 +23,7 @@ public class EnemyBullet : PoolableObject
         Invoke(DISABLE_METHOD_NAME, AutoDestroyTime);
     }
 
-    public virtual void Spawn(Vector3 Forward, float Damage, Transform Target)
+    public virtual void Spawn(Vector3 Forward, int Damage, Transform Target)
     {
         this.Damage = Damage;
         target = Target;

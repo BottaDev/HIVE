@@ -11,7 +11,7 @@ public class Grenade : MonoBehaviour
 
     private float timeDelay;
     private float timeCounter;
-    private float damage = 2f;
+    private int damage = 2;
     private float explosionRadius = 2f;
     private LayerMask hitMask;
     
@@ -31,7 +31,7 @@ public class Grenade : MonoBehaviour
         }
     }
 
-    public Grenade SetParameters(float radius, float damage, float timeDelay, bool explodeOnContact, LayerMask hitMask)
+    public Grenade SetParameters(float radius, int damage, float timeDelay, bool explodeOnContact, LayerMask hitMask)
     {
         explosionRadius = radius;
         this.damage = damage;

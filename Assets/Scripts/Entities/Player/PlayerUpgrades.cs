@@ -245,7 +245,7 @@ public class PlayerUpgrades : MonoBehaviour
     void DamagePercentBuff()
     {
         float percentageUpgrade = 20;
-        player.shoot.damage += (player.shoot.damage * percentageUpgrade)/100;
+        player.shoot.damage += (int)(player.shoot.damage * percentageUpgrade)/100;
     }
 
     void HPFlatUpgrade()
@@ -271,7 +271,7 @@ public class PlayerUpgrades : MonoBehaviour
 
     void ActivateGrenadeThrow()
     {
-        player.grenadeThrow.MechanicActivated = true;
+        player.grenadeThrow.Unlock();
     }
     #endregion
 }

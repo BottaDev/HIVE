@@ -29,6 +29,7 @@ public abstract class AI : Entity
     public List<Collider> deactivateColliders;
     public GameObject normalModel;
     public GameObject deathModel;
+    public bool destroyGarbageAfterDelay = false;
     public float deathDelay = 5f;
     protected bool dying;
 
@@ -138,7 +139,7 @@ public abstract class AI : Entity
 
     protected virtual void Attack() { }
     
-    public override void TakeDamage(float damage)
+    public override void TakeDamage(int damage)
     {
         if (dying) return;
         
@@ -149,7 +150,6 @@ public abstract class AI : Entity
         
         if(CurrentHealth <= 0)
         {
-            _player.AddExp(type, ExpParameters.Where(x => x.type == type).First().expAmount);
             KillAI();
         }
             
@@ -159,6 +159,7 @@ public abstract class AI : Entity
     {
         EventManager.Instance.Trigger(EventManager.Events.OnEnemyDeath);
         dying = true;
+        _player.AddExp(type, ExpParameters.Where(x => x.type == type).First().expAmount);
         if (useRigidBodyDeath)
         {
             _agent.enabled = false;
@@ -171,7 +172,14 @@ public abstract class AI : Entity
             }
 
             Destroy(normalModel.gameObject);
-            Invoke(nameof(DestroyDeathModel), deathDelay);
+            if (destroyGarbageAfterDelay)
+            {
+                Invoke(nameof(DestroyDeathModel), deathDelay);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
         else
         {

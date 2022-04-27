@@ -17,7 +17,17 @@ public class EventManager : MonoBehaviour
         OnLifeUpdated,
         OnPlayerRailAttached,
         OnPlayerRailDeAttached,
-        OnPlayerRailActive
+        OnPlayerRailActive,
+        OnPlayerDashCd,
+        OnPlayerGrappleCd,
+        OnPlayerGrenadeCd,
+        OnPlayerDashUnlock,
+        OnPlayerGrappleUnlock,
+        OnPlayerGrenadeUnlock,
+        OnPlayerUpdateAmmo,
+        NeedsPlayerReference,
+        OnPlayerLevelSystemUpdate,
+        OnEnergyUpdated
     }
 
     public static EventManager Instance { get; private set; }

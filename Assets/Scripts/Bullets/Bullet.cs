@@ -5,7 +5,7 @@ public sealed class Bullet : PoolableObject
 {
     [Header("Properties")]
     public float speed = 10f;
-    public float damage = 1f;
+    public int damage = 1;
     public float timeToDie = 3f;
     public LayerMask mask;
 

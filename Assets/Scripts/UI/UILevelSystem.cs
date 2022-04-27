@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,22 +18,29 @@ public class UILevelSystem : MonoBehaviour
     public List<UILevel> levelUIs;
     public TextMeshProUGUI level;
 
-    public Player player;
+    private Player _player;
 
-    private void Start()
+    private void Awake()
     {
+        EventManager.Instance.Subscribe(EventManager.Events.NeedsPlayerReference, GetPlayerReference);
+        EventManager.Instance.Subscribe(EventManager.Events.OnPlayerLevelSystemUpdate, UpdateUI);
+    }
+
+    private void GetPlayerReference(params object[] p)
+    {
+        _player = (Player)p[0];
         Initialize();
     }
 
     public void Initialize()
     {
-        PlayerLevel level = player.level;
+        PlayerLevel level = _player.level;
         LevellingSystem system = level.system;
 
         for (int i = 0; i < levelUIs.Count; i++)
         {
             UILevel current = levelUIs[i];
-            PlayerLevel.Exp exp = player.level.FindExpOfType(current.expType);
+            PlayerLevel.Exp exp = _player.level.FindExpOfType(current.expType);
 
             current.progressBar.SetRange(0, system.GetDifferenceBetweenLevels(system.Level, system.Level+1));
             current.progressBar.SetValue(exp.ThisLevel);
@@ -41,9 +49,10 @@ public class UILevelSystem : MonoBehaviour
         this.level.text = "LV. " + system.Level;
     }
 
-    public void UpdateUI(PlayerLevel.ExpType lastTypeGained)
+    public void UpdateUI(params object[] p)
     {
-        PlayerLevel level = player.level;
+        PlayerLevel.ExpType lastTypeGained = (PlayerLevel.ExpType) p[0];
+        PlayerLevel level = _player.level;
         LevellingSystem system = level.system;
 
         float previousValue = 0;

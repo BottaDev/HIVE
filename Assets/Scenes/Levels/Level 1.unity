@@ -1250,22 +1250,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20b3eae43aee14849835ac477cc50e7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 50
+  maxHealth: 10
   baseSpeed: 0
   _currentHealth: 0
   player: {fileID: 76275802}
   canKillYou: 0
---- !u!114 &861768623 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2010002419299452760, guid: ec303b27c67c819459c9c8a3a604e863, type: 3}
-  m_PrefabInstance: {fileID: 5527850385053274757}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 196f29743ccf31943a14d72d078d3c10, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &885201181
 GameObject:
   m_ObjectHideFlags: 0
@@ -2043,18 +2032,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 187529509, guid: 94245de088a2c374ebbb84cb6c6096ef, type: 3}
-      propertyPath: m_RootOrder
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2111571464, guid: 94245de088a2c374ebbb84cb6c6096ef, type: 3}
-      propertyPath: m_RootOrder
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1770172689012201221, guid: 94245de088a2c374ebbb84cb6c6096ef, type: 3}
-      propertyPath: m_RootOrder
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 4168305846267914286, guid: 94245de088a2c374ebbb84cb6c6096ef, type: 3}
       propertyPath: m_Name
       value: Gameplay Canvas (1)
@@ -2143,18 +2120,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4168305847499238815, guid: 94245de088a2c374ebbb84cb6c6096ef, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4168305847499238815, guid: 94245de088a2c374ebbb84cb6c6096ef, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5951578253588512110, guid: 94245de088a2c374ebbb84cb6c6096ef, type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 861768623}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 94245de088a2c374ebbb84cb6c6096ef, type: 3}
 --- !u!114 &1346965447 stripped
@@ -2166,17 +2131,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a284a52e18e96d44ebb99978d03177b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1346965448 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4168305845706687936, guid: 94245de088a2c374ebbb84cb6c6096ef, type: 3}
-  m_PrefabInstance: {fileID: 1346965446}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93cfa62347338094fbff8eded76e216a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1366254799 stripped
@@ -3068,10 +3022,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2010002419299452760, guid: ec303b27c67c819459c9c8a3a604e863, type: 3}
-      propertyPath: healthBar
-      value: 
-      objectReference: {fileID: 1346965448}
-    - target: {fileID: 2010002419299452760, guid: ec303b27c67c819459c9c8a3a604e863, type: 3}
       propertyPath: levelSystemUI
       value: 
       objectReference: {fileID: 1366254799}
@@ -3183,6 +3133,10 @@ PrefabInstance:
     - target: {fileID: 6780690899928310883, guid: 1d6d2b7993e585542acd64afa90c94e3, type: 3}
       propertyPath: m_Name
       value: AudioManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 6780690899928310883, guid: 1d6d2b7993e585542acd64afa90c94e3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d6d2b7993e585542acd64afa90c94e3, type: 3}

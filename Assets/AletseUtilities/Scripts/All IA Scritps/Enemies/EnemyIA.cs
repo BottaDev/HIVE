@@ -57,7 +57,7 @@ public class EnemyIA : PoolableObject, IDamageable
     }
 
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(int damage)
     {
         Health -= damage;
 

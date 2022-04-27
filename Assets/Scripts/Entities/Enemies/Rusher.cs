@@ -161,7 +161,7 @@ public class Rusher : AI
 
         if (player != null)
         {
-            player.TakeDamage(damage / 100);
+            player.TakeDamage((int)(damage / 100));
         }
     }
 }

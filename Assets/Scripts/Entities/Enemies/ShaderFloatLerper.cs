@@ -5,10 +5,11 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class EnemyDeathEffect : MonoBehaviour
+public class ShaderFloatLerper : MonoBehaviour
 {
     public List<Renderer> renderer;
-
+    public bool playOnAwake = true;
+    private bool started;
     [Serializable]
     public class FloatParameter
     {
@@ -31,37 +32,47 @@ public class EnemyDeathEffect : MonoBehaviour
 
     private void Start()
     {
+        if (playOnAwake)
+        {
+            StartEffect();
+        }
+    }
+
+    public void StartEffect()
+    {
+        started = true;
         foreach (var parameter in parameters)
         {
             parameter.current = parameter.startValue;
             parameter.positive = parameter.endValue >= parameter.startValue;
         }
     }
-
     private void FixedUpdate()
     {
-        foreach (var parameter in parameters)
+        if (started)
         {
-            if (!parameter.done)
+            foreach (var parameter in parameters)
             {
-                parameter.current = Mathf.Lerp(parameter.current,parameter.endValue,parameter.speed * Time.deltaTime);
-
-                foreach (var r in renderer)
+                if (!parameter.done)
                 {
-                    r.material.SetFloat("_"+parameter.propertyName, parameter.current);
-                }
+                    parameter.current = Mathf.Lerp(parameter.current,parameter.endValue,parameter.speed * Time.deltaTime);
 
-                bool condition = parameter.positive
-                    ? parameter.endValue - parameter.current <= 0
-                    : parameter.current - parameter.endValue <= 0;
+                    foreach (var r in renderer)
+                    {
+                        r.material.SetFloat("_"+parameter.propertyName, parameter.current);
+                    }
+
+                    bool condition = parameter.positive
+                        ? parameter.endValue - parameter.current <= 0
+                        : parameter.current - parameter.endValue <= 0;
                 
-                if (condition)
-                {
-                    parameter.done = true;
+                    if (condition)
+                    {
+                        parameter.done = true;
+                    }
                 }
             }
         }
-        
     }
 }
 

@@ -44,3 +44,15 @@ namespace Kam.CustomInput
         }
     }
 }
+
+namespace Kam.Utils
+{
+    public class KamUtilities
+    {
+        public static float Map(float original, float originalMin, float originalMax, float newMin, float newMax)
+        {
+            
+            return Mathf.Clamp((original - newMin) / (originalMax - originalMin) * (newMax - newMin) + originalMin, newMin, newMax);
+        }
+    }
+}

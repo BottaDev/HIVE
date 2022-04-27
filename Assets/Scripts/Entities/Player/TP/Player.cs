@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,12 +17,19 @@ public class Player : Entity
     public PlayerAim aim;
     public PlayerGrappleV2 grapple;
     public PlayerGrenadeThrow grenadeThrow;
-
-    [SerializeField] private UILevelSystem levelSystemUI;
-    [SerializeField] private HealthBar healthBar;
-
+    
     private bool Restart => input.Restart;
-    public float MaxHP{get{ return maxHealth; } set { maxHealth = value; healthBar.SetMaxHealt(maxHealth);} }
+    public int MaxHP
+    {
+        get => maxHealth;
+        set
+        {
+            int difference =  value - maxHealth;
+            CurrentHealth += difference;
+            maxHealth = value; 
+            EventManager.Instance.Trigger(EventManager.Events.OnLifeUpdated, CurrentHealth, maxHealth);
+        }
+    }
 
     protected override void Awake()
     {
@@ -33,8 +41,9 @@ public class Player : Entity
 
     private void Start()
     {
-        healthBar.SetMaxHealt(maxHealth);
-        healthBar.SetHealth(maxHealth);
+        EventManager.Instance.Trigger(EventManager.Events.OnLifeUpdated, CurrentHealth, MaxHP);
+        
+        EventManager.Instance.Trigger(EventManager.Events.NeedsPlayerReference, this);
     }
 
     private void Update()
@@ -46,20 +55,20 @@ public class Player : Entity
     {
         level.AddExp(type, amount);
 
-        levelSystemUI.UpdateUI(type);
+        EventManager.Instance.Trigger(EventManager.Events.OnPlayerLevelSystemUpdate, type);
     }
 
     private void OnPlayerDamaged(params object[] parameters)
     {
-        TakeDamage((float) parameters[0]);
+        TakeDamage((int) parameters[0]);
     }
 
-    public override void TakeDamage(float damage)
+    public override void TakeDamage(int damage)
     {
         if (debug.Invincible) return;
         
         CurrentHealth -= damage;
-        EventManager.Instance.Trigger(EventManager.Events.OnLifeUpdated, CurrentHealth);
+        EventManager.Instance.Trigger(EventManager.Events.OnLifeUpdated, CurrentHealth, MaxHP);
 
         if (!(CurrentHealth <= 0)) return;
         

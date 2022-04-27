@@ -10,7 +10,7 @@ public class Shoot : MonoBehaviour
     public int energyCostPerBulletRecharge = 1;
 
     [Header("Gun")]
-    public float damage = 5;
+    public int damage = 5;
     public float fireRate = 15;
     public float gunCd = 1f;
     public bool reloading;
@@ -25,7 +25,6 @@ public class Shoot : MonoBehaviour
     public Bullet bullet;
 
     [FormerlySerializedAs("_firePoint")] public Transform firePoint;
-    [FormerlySerializedAs("_ammoBar")] public AmmoBar ammoBar;
     private ObjectPool _bulletPool;
 
     private int _currentAmmo;
@@ -43,14 +42,13 @@ public class Shoot : MonoBehaviour
         set
         {
             _currentAmmo = value;
-            ammoBar.UpdateFillAmount(_currentAmmo);
+            EventManager.Instance.Trigger(EventManager.Events.OnPlayerUpdateAmmo, _currentAmmo, maxAmmo);
         }
     }
 
     private void Start()
     {
-        _currentAmmo = maxAmmo;
-        ammoBar.SetMaxAmmo(maxAmmo);
+        CurrentAmmo = maxAmmo;
 
         _bulletPool = ObjectPool.CreateInstance(bullet, 20);
         bullet.Parent = _bulletPool;

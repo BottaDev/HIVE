@@ -35,7 +35,7 @@ public class CommunistWall : Entity
     }
 
 
-    public override void TakeDamage(float damage)
+    public override void TakeDamage(int damage)
     {
         CurrentHealth -= damage;
         if(CurrentHealth <= 0)

@@ -6,14 +6,14 @@ using UnityEngine;
 public class Explosion : MonoBehaviour
 {
     public float duration = 0.1f;
-    private float _damage;
+    private int _damage;
 
     private void Start()
     {
         Destroy(GetComponent<Collider>(), duration);
     }
 
-    public void SetDamage(float dmg)
+    public void SetDamage(int dmg)
     {
         _damage = dmg;
     }

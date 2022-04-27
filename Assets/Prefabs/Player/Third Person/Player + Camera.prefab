@@ -1,5 +1,66 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &835001204
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 835001205}
+  - component: {fileID: 835001206}
+  - component: {fileID: 835001207}
+  m_Layer: 8
+  m_Name: CrystalAbsorbRange
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &835001205
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 835001204}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3473960329723331751}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &835001206
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 835001204}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 3.89
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &835001207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 835001204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcb1f31aabe5c6a4e8e60d97efa410c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 2010002419299452760}
+  maxEnergy: 100
+  absorbXPerTick: 1
+  absorbEveryXSeconds: 0.25
 --- !u!1 &736311966175326190
 GameObject:
   m_ObjectHideFlags: 0
@@ -114,8 +175,8 @@ GameObject:
   - component: {fileID: 156484631}
   - component: {fileID: 2930390506446303794}
   - component: {fileID: 7902526483891021790}
-  - component: {fileID: 3473960329723331749}
   - component: {fileID: 3473960329723331748}
+  - component: {fileID: 3473960329723331749}
   - component: {fileID: 156484630}
   - component: {fileID: 156484632}
   - component: {fileID: 156484633}
@@ -146,6 +207,7 @@ Transform:
   - {fileID: 3473960330480746457}
   - {fileID: 8530375990686177080}
   - {fileID: 3473960329904449257}
+  - {fileID: 835001205}
   m_Father: {fileID: 2479494150942079736}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -290,7 +352,7 @@ MonoBehaviour:
   maxHealth: 20
   baseSpeed: 5
   _currentHealth: 0
-  energy: {fileID: 8730629182175719396}
+  energy: {fileID: 835001207}
   input: {fileID: 2839959021259793015}
   animator: {fileID: 3565698566878828367}
   jump: {fileID: 7902526483891021790}
@@ -302,8 +364,6 @@ MonoBehaviour:
   aim: {fileID: 156484631}
   grapple: {fileID: 156484632}
   grenadeThrow: {fileID: 7902526483605664085}
-  levelSystemUI: {fileID: 0}
-  healthBar: {fileID: 0}
 --- !u!114 &8730629182175719396
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -311,12 +371,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3473960329723331750}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fcb1f31aabe5c6a4e8e60d97efa410c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 2010002419299452760}
   maxEnergy: 100
+  absorbXPerTick: 1
+  absorbEveryXSeconds: 0.25
 --- !u!114 &1238573687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -377,6 +440,7 @@ MonoBehaviour:
   freeCamKey: 306
   grappleKey: 113
   grenadeKey: 101
+  absorbKey: 102
   railAttachKey: 1
 --- !u!114 &3829715295368400988
 MonoBehaviour:
@@ -482,27 +546,6 @@ MonoBehaviour:
   jumpBufferingTime: 0.2
   fallingGravity: 0
   lowJumpGravity: 0
---- !u!114 &3473960329723331749
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3473960329723331750}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 164a507c6f3794f4cae47bf4593eefc1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 2010002419299452760}
-  trails:
-  - {fileID: 7902526484589566565}
-  - {fileID: 7902526484759244804}
-  - {fileID: 7902526483232057360}
-  energyCost: 0
-  dashVelocity: 50
-  dashDuration: 0.25
-  dashCd: 1
 --- !u!114 &3473960329723331748
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -528,7 +571,29 @@ MonoBehaviour:
     m_Bits: 56000
   bullet: {fileID: 6169558286150484466, guid: 2a203843cb7e36b4fae67710d61d7b6f, type: 3}
   firePoint: {fileID: 7518533697554243290}
-  ammoBar: {fileID: 0}
+--- !u!114 &3473960329723331749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3473960329723331750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 164a507c6f3794f4cae47bf4593eefc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unlockEvent: 14
+  unlockedAtTheStart: 1
+  player: {fileID: 2010002419299452760}
+  trails:
+  - {fileID: 7902526484589566565}
+  - {fileID: 7902526484759244804}
+  - {fileID: 7902526483232057360}
+  energyCost: 0
+  dashVelocity: 50
+  dashDuration: 0.25
+  dashCd: 1
 --- !u!114 &156484630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -593,17 +658,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af18a78f3a20415ba2edacbbb3502d2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unlockEvent: 15
+  unlockedAtTheStart: 1
   energyCost: 0
   grappleable:
     serializedVersion: 2
     m_Bits: 59456
-  hookCD: 0
+  hookCD: 1
   maxHookDistance: 100
   hookSpeed: 300
   forwardSpeed: 1
   pullSpeed: 20
-  minDistancePullMultiplier: 0.5
-  maxDistancePullMultiplier: 10
+  minDistancePullMultiplier: 0.2
+  maxDistancePullMultiplier: 4
   lifetime: 8
   minDistance: 1
   player: {fileID: 2010002419299452760}
@@ -636,6 +703,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be26c5b49d8240649d611586cbda0c24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unlockEvent: 16
+  unlockedAtTheStart: 0
   player: {fileID: 2010002419299452760}
   orientation: {fileID: 4629313644082423270}
   firePoint: {fileID: 7518533697554243290}
@@ -654,7 +723,6 @@ MonoBehaviour:
   useAddForce: 1
   explosionForce: 100
   explosionUpwardsForce: 50
-  mechanicActivated: 1
 --- !u!1 &3473960329904449256
 GameObject:
   m_ObjectHideFlags: 0

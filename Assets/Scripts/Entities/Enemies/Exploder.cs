@@ -8,7 +8,7 @@ using UnityEngine;
 public class Exploder : AI
 {
     [Header("Exploder Parameters")] 
-    public float explosionDamage = 5f;
+    public int explosionDamage = 5;
     public float engageSpeed = 12f;
     public float engageDistance = 8.5f;
     public float explodeDistance = 5f;

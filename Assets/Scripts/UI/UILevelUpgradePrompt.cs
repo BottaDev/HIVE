@@ -58,7 +58,7 @@ public class UILevelUpgradePrompt : MonoBehaviour
 
         if (waitingForInput)
         {
-            if (!Input.GetKey(KeyCode.LeftControl))
+            if (!Input.GetKey(KeyCode.LeftAlt))
             {
                 if (Input.GetKeyDown(KeyCode.Alpha1))
                 {
