@@ -23,14 +23,9 @@ public class PlayerLevel : MonoBehaviour
     public int Level => system.Level;
     public int ThisLevel { get => _thisLevel; set => _thisLevel = value; }
 
-    private void Start()
+    private void Awake()
     {
-        InitializeUpgrades();
         InitializeLevels();
-    }
-
-    private void InitializeUpgrades()
-    {
     }
 
     private void InitializeLevels()

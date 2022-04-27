@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 835001206}
   - component: {fileID: 835001207}
   m_Layer: 8
-  m_Name: CrystalAbsorbRange
+  m_Name: '[ENERGY SYSTEM]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -59,8 +59,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 2010002419299452760}
   maxEnergy: 100
-  absorbXPerTick: 1
+  absorbXPerTick: 5
   absorbEveryXSeconds: 0.25
+  message: Hold F to absorb
+  messageColor: {r: 1, g: 0, b: 0.77993584, a: 1}
 --- !u!1 &736311966175326190
 GameObject:
   m_ObjectHideFlags: 0
@@ -380,6 +382,8 @@ MonoBehaviour:
   maxEnergy: 100
   absorbXPerTick: 1
   absorbEveryXSeconds: 0.25
+  message: 
+  messageColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &1238573687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -660,7 +664,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unlockEvent: 15
   unlockedAtTheStart: 1
-  energyCost: 0
+  energyCost: 25
   grappleable:
     serializedVersion: 2
     m_Bits: 59456

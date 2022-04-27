@@ -13,6 +13,11 @@ public class PlayerEnergy : MonoBehaviour
     [SerializeField] private int absorbXPerTick = 1;
     [SerializeField] private float absorbEveryXSeconds = 0.25f;
 
+    [Header("Prompt")]
+    [SerializeField] private string message;
+    [SerializeField] private Color messageColor;
+    private bool promptShowing;
+
     private List<AbsorbableObject> absorbableObj = new List<AbsorbableObject>();
     private bool ableToAbsorb;
 
@@ -43,8 +48,18 @@ public class PlayerEnergy : MonoBehaviour
 
     private void Update()
     {
-        if (Current == MaxEnergy) return;
-        
+        if (Current == MaxEnergy)
+        {
+            HidePrompt();
+            return;
+        }
+        else if(absorbableObj.Count > 0)
+        {
+            ShowPrompt();
+        }
+
+        EmptyCheck();
+
         if (player.input.Absorbing)
         {
             if (ableToAbsorb && !absorbing)
@@ -87,7 +102,6 @@ public class PlayerEnergy : MonoBehaviour
     bool CheckCost(float amount)
     {
         bool res = amount <= Current;
-        Debug.Log("Check cost = " + res);
         return res;
     }
 
@@ -107,14 +121,58 @@ public class PlayerEnergy : MonoBehaviour
         }
     }
 
+    private void EmptyCheck()
+    {
+        List<AbsorbableObject> empty = new List<AbsorbableObject>();
+        foreach (var obj in absorbableObj)
+        {
+            if (obj.Empty)
+            {
+                empty.Add(obj);
+
+                if (absorbableObj.Count == empty.Count)
+                {
+                    HidePrompt();
+                }
+            }
+        }
+
+        foreach (var obj in empty)
+        {
+            absorbableObj.Remove(obj);
+        }
+    }
+    private void ShowPrompt()
+    {
+        if (!promptShowing)
+        {
+            promptShowing = true;
+            EventManager.Instance.Trigger(EventManager.Events.OnSendUIMessage, message, messageColor);
+        }
+    }
+
+    private void HidePrompt()
+    {
+        if (promptShowing)
+        {
+            EventManager.Instance.Trigger(EventManager.Events.OnEliminateUIMessage, message);
+            promptShowing = false;
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         AbsorbableObject obj = other.GetComponent<AbsorbableObject>();
 
-        if (obj != null)
+        if (obj != null && !obj.Empty)
         {
             absorbableObj.Add(obj);
             ableToAbsorb = true;
+
+            if(Current != MaxEnergy)
+            {
+                ShowPrompt();
+            }
         }
     }
 
@@ -129,6 +187,9 @@ public class PlayerEnergy : MonoBehaviour
             if (absorbableObj.Count == 0)
             {
                 ableToAbsorb = false;
+
+                HidePrompt();
+                
             }
         }
     }

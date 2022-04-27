@@ -27,7 +27,9 @@ public class EventManager : MonoBehaviour
         OnPlayerUpdateAmmo,
         NeedsPlayerReference,
         OnPlayerLevelSystemUpdate,
-        OnEnergyUpdated
+        OnEnergyUpdated,
+        OnSendUIMessage,
+        OnEliminateUIMessage
     }
 
     public static EventManager Instance { get; private set; }

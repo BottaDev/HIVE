@@ -66,11 +66,14 @@ public class Utilities_RadialProgressBar : MonoBehaviour
         
         UpdateBar();
     }
-
+     
     public void SetMaxValue(float newMaxValue, bool instant = true)
     {
         float difference =  newMaxValue - maxValue;
-
+        if(gameObject.name == "HP Bar")
+        {
+            Debug.Log("Hp update");
+        }
         if (instant)
         {
             currentValue += difference;

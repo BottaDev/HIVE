@@ -63,7 +63,7 @@ public class PlayerUpgrades : MonoBehaviour
     public UpgradePool Small;
     public UpgradePool Big;
 
-    private void Start()
+    private void Awake()
     {
         GeneratePools();
     }
@@ -252,7 +252,6 @@ public class PlayerUpgrades : MonoBehaviour
     {
         int buff = 5;
         player.MaxHP += buff;
-        player.CurrentHealth += buff;
     }
 
     void MobilityPercentBuff()

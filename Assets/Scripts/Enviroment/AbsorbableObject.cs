@@ -9,7 +9,10 @@ public class AbsorbableObject : MonoBehaviour
     [Header("Energy Parameters")]
     [SerializeField] private int totalEnergy;
     private int currentEnergy;
-    
+    private bool empty;
+
+    public bool Empty => empty;
+
     [Header("Effect Parameters")]
     [SerializeField] private List<Renderer> renderers;
     [SerializeField] private List<FloatParameter> parameters;
@@ -52,6 +55,11 @@ public class AbsorbableObject : MonoBehaviour
         {
             result = energyTaken;
             currentEnergy -= energyTaken;
+        }
+
+        if(currentEnergy <= 0)
+        {
+            empty = true;
         }
         
         foreach (var parameter in parameters)

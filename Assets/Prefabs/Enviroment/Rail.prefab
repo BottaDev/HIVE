@@ -1592,8 +1592,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f30eccae960d1384fbf9053b218cc929, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prompt: {fileID: 0}
+  triggerMask:
+    serializedVersion: 2
+    m_Bits: 256
   rail: {fileID: 4871120760018276242}
+  message: Press RightClick to attach!
+  messageColor: {r: 1, g: 0, b: 0.97422075, a: 1}
 --- !u!1 &4871120759536576777
 GameObject:
   m_ObjectHideFlags: 0
