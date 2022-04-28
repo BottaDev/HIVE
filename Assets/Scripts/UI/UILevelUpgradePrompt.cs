@@ -8,12 +8,21 @@ public class UILevelUpgradePrompt : MonoBehaviour
 {
     public static UILevelUpgradePrompt instance;
 
-    public TextMeshProUGUI text;
+    [Header("Assignables")]
+    [SerializeField] private GameObject showObject;
+    [SerializeField] private TextMeshProUGUI shortText;
+    [SerializeField] private TextMeshProUGUI longText;
 
-    public Color attackColor;
-    public Color defenseColor;
-    public Color mobilityColor;
-    
+    [Header("Upgrade Room Error Message")]
+    [SerializeField] private string errorMessage;
+    [SerializeField] private Color errorMessageColor;
+
+
+    [Header("Colors")]
+    [SerializeField] private Color attackColor;
+    [SerializeField] private Color defenseColor;
+    [SerializeField] private Color mobilityColor;
+
     private bool waitingForInput;
 
     private Queue<ChoosableUpgradePrompt> choices = new Queue<ChoosableUpgradePrompt>();
@@ -21,6 +30,7 @@ public class UILevelUpgradePrompt : MonoBehaviour
     class ChoosableUpgradePrompt
     {
         public string displayText;
+        public string longDisplayText;
         public List<PlayerUpgrades.Upgrade> upgrades;
     }
 
@@ -29,10 +39,16 @@ public class UILevelUpgradePrompt : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        
     }
     private void Start()
     {
-        text.gameObject.SetActive(false);
+        EventManager.Instance.Subscribe(EventManager.Events.OnPlayerEnteredUpgradeRoom, ShowLongDescription);
+        EventManager.Instance.Subscribe(EventManager.Events.OnPlayerLeftUpgradeRoom, HideLongDescription);
+        
+        ShowUI(false);
+        shortText.gameObject.SetActive(true);
+        longText.gameObject.SetActive(false);
     }
     private void Update()
     {
@@ -42,18 +58,18 @@ public class UILevelUpgradePrompt : MonoBehaviour
             {
                 current = choices.Dequeue();
                 waitingForInput = true;
-                text.gameObject.SetActive(true);
+
+                ShowUI(true);
             }
 
+            string prefix = "";
             if(choiceAmount > 1)
             {
-                text.text = $"({choiceAmount - 1} Extra Upgrade Choices Left)\n" + current.displayText;
+                prefix = $"({choiceAmount - 1} Extra Upgrade Choices Left)\n";
             }
-            else
-            {
-                text.text = current.displayText;
-            }
-            
+
+            shortText.text = prefix + current.displayText;
+            longText.text = prefix + current.longDisplayText;
         }
 
         if (waitingForInput)
@@ -87,21 +103,25 @@ public class UILevelUpgradePrompt : MonoBehaviour
     {
         current.upgrades.SafeGet(index).action.Invoke();
         waitingForInput = false;
-        text.gameObject.SetActive(false);
+        ShowUI(false);
         choiceAmount--;
     }
     public void SetUpgrades(List<PlayerUpgrades.Upgrade> upgrades, PlayerUpgrades.UpgradeType type)
     {
-        string result = $"{type.ToString().ToUpper()} LEVEL UPGRADE: \n";
-
+        string shortResult = $"{type.ToString().ToUpper()} LEVEL UPGRADE: \n";
+        string longResult = $"{type.ToString().ToUpper()} LEVEL UPGRADE: \n(Full description)\n";
+        
         for (int i = 0; i < upgrades.Count; i++)
         {
             PlayerUpgrades.Upgrade current = upgrades[i];
-            string addText = $"\n{i+1} - {current.name}: {current.description}";
-            result += addText.Colorize(GetColorOfType(current.type));
+            string addTextShort = $"\n{i+1} - {current.name}: {current.description}";
+            shortResult += addTextShort.Colorize(GetColorOfType(current.type));
+            
+            string addTextLong = $"\n{i+1} - {current.name}: {current.longDescription}";
+            longResult += addTextLong.Colorize(GetColorOfType(current.type));
         }
 
-        ChoosableUpgradePrompt add = new ChoosableUpgradePrompt(){displayText = result, upgrades = upgrades};
+        ChoosableUpgradePrompt add = new ChoosableUpgradePrompt(){displayText = shortResult, upgrades = upgrades, longDisplayText = longResult};
 
         choices.Enqueue(add);
         choiceAmount++;
@@ -120,6 +140,44 @@ public class UILevelUpgradePrompt : MonoBehaviour
                 
             default:
                 return attackColor;
+        }
+    }
+
+    public void ShowUI(bool state)
+    {
+        showObject.SetActive(state);
+    }
+
+    public void ShowLongDescription(params object[] p)
+    {
+        LongDescription(true);
+        
+        if (!showObject.activeSelf)
+        {
+            EventManager.Instance.Trigger(EventManager.Events.OnSendUIMessage, errorMessage, errorMessageColor);
+        }
+
+    }
+    public void HideLongDescription(params object[] p)
+    {
+        LongDescription(false);
+        
+        if (!showObject.activeSelf)
+        {
+            EventManager.Instance.Trigger(EventManager.Events.OnEliminateUIMessage, errorMessage);
+        }
+    }
+    void LongDescription(bool state)
+    {
+        if (state)
+        {
+            longText.gameObject.SetActive(true);
+            shortText.gameObject.SetActive(false);
+        }
+        else
+        {
+            longText.gameObject.SetActive(false);
+            shortText.gameObject.SetActive(true);
         }
     }
 }

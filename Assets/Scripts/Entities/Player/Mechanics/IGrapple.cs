@@ -1,5 +1,5 @@
 using System;
-public interface ITestGrapple
+public interface IGrapple
 {
     public void StartPull(Action onProximity = null);
 }

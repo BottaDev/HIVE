@@ -3,6 +3,8 @@ using UnityEngine;
 public class PlayerAim : MonoBehaviour
 {
     public LayerMask aimingMask;
+    public Transform firePoint;
+    
     [SerializeField] private bool drawGizmos;
     /// <summary>
     /// The in-world aiming point for the player
@@ -29,8 +31,16 @@ public class PlayerAim : MonoBehaviour
 
         if (Physics.Raycast(Ray, out RaycastHit raycastHit, 999f, aimingMask))
         {
-            Point = raycastHit.point;
-            Aim = true;
+            //Screen ray is colliding with something, now check what point a ray would collide with from the fire point
+            
+            Vector3 point = raycastHit.point;
+            Ray newRay = new Ray(firePoint.position, (point - firePoint.position).normalized);
+            
+            if (Physics.Raycast(newRay, out RaycastHit raycastHitTwo, 999f, aimingMask))
+            {
+                Point = raycastHitTwo.point;
+                Aim = true;
+            }
         }
     }
 
@@ -39,7 +49,7 @@ public class PlayerAim : MonoBehaviour
         if (drawGizmos)
         {
             Gizmos.color = Color.green;
-            Gizmos.DrawLine(transform.position, Point);
+            Gizmos.DrawLine(firePoint.position, Point);
         }
     }
 }

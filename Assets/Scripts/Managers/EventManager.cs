@@ -29,7 +29,12 @@ public class EventManager : MonoBehaviour
         OnPlayerLevelSystemUpdate,
         OnEnergyUpdated,
         OnSendUIMessage,
-        OnEliminateUIMessage
+        OnEliminateUIMessage,
+        OnPlayerDirectHookshotUnlock,
+        OnPlayerDirectHookshotCD,
+        OnSendUIMessageTemporary,
+        OnPlayerEnteredUpgradeRoom,
+        OnPlayerLeftUpgradeRoom
     }
 
     public static EventManager Instance { get; private set; }

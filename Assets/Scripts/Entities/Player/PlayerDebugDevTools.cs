@@ -25,21 +25,25 @@ public class PlayerDebugDevTools : MonoBehaviour
         {
             if (Input.GetKeyDown(invincibilityKey))
             {
+                Debug.Log("Debug Tools: Invincible Toggle");
                 Invincible = Invincible.Toggle();
             }
 
             if (Input.GetKeyDown(addExpAttack))
             {
+                Debug.Log("Debug Tools: Add Exp Attack");
                 player.AddExp(PlayerLevel.ExpType.Attack, 5);
             }
 
             if (Input.GetKeyDown(addExpDefense))
             {
+                Debug.Log("Debug Tools: Add Exp Defense");
                 player.AddExp(PlayerLevel.ExpType.Defense, 5);
             }
 
             if (Input.GetKeyDown(addExpMobility))
             {
+                Debug.Log("Debug Tools: Add Exp Mobility");
                 player.AddExp(PlayerLevel.ExpType.Mobility, 5);
             }
         }

@@ -121,14 +121,18 @@ public class PlayerJump : MonoBehaviour
         }
 
         //Falling = higher gravity
-        if (Rb.velocity.y < 0 && !Grounded && player.movement.rb.useGravity)
+        if (!Grounded)
         {
-            player.animator.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsJumping, false);
-            _lowJumpCondition = false;
-            currentlyJumping = false;
-            fallingGravity = true;
-            Rb.velocity += Vector3.up * Physics.gravity.y * fallingGravityMultiplier * Time.deltaTime;
+            if (Rb.velocity.y < 0 && player.movement.rb.useGravity)
+            {
+                player.animator.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsJumping, false);
+                _lowJumpCondition = false;
+                currentlyJumping = false;
+                fallingGravity = true;
+                Rb.velocity += Vector3.up * Physics.gravity.y * fallingGravityMultiplier * Time.deltaTime;
+            }
         }
+
     }
 
     public void Jump(Vector3 force)
@@ -153,5 +157,11 @@ public class PlayerJump : MonoBehaviour
     private void ResetJump()
     {
         _readyToJump = true;
+        currentlyJumping = false;
+    }
+    
+    private void ResetCurrentlyJumping()
+    {
+        currentlyJumping = false;
     }
 }

@@ -1,10 +1,10 @@
 using System;
 using UnityEngine;
 
-public class HookPlayerGrappleV2 : MonoBehaviour
+public class PlayerHookObject : MonoBehaviour
 {
     private float _speed;
-    private ITestGrapple _grapple;
+    private IGrapple _grapple;
     private Transform _grappleTransform;
     [SerializeField] private LineRenderer lineRenderer;
     private Vector3 _prevPos;
@@ -69,7 +69,7 @@ public class HookPlayerGrappleV2 : MonoBehaviour
         }
     }
 
-    public void Initialize(Transform transform, ITestGrapple grapple, Vector3 aimingPoint, LayerMask mask, float speed, Action onAttach = null)
+    public void Initialize(Transform transform, IGrapple grapple, Vector3 aimingPoint, LayerMask mask, float speed, Action onAttach = null)
     {
         this.transform.LookAt(aimingPoint);
         this._grapple = grapple;

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 835001205}
   - component: {fileID: 835001206}
   - component: {fileID: 835001207}
-  m_Layer: 8
+  m_Layer: 16
   m_Name: '[ENERGY SYSTEM]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 3.89
+  m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &835001207
 MonoBehaviour:
@@ -59,8 +59,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 2010002419299452760}
   maxEnergy: 100
-  absorbXPerTick: 5
-  absorbEveryXSeconds: 0.25
+  absorbXPerTick: 1
+  absorbEveryXSeconds: 0.1
   message: Hold F to absorb
   messageColor: {r: 1, g: 0, b: 0.77993584, a: 1}
 --- !u!1 &736311966175326190
@@ -169,7 +169,6 @@ GameObject:
   - component: {fileID: 3473960329723331747}
   - component: {fileID: 156484629}
   - component: {fileID: 2010002419299452760}
-  - component: {fileID: 8730629182175719396}
   - component: {fileID: 1238573687}
   - component: {fileID: 2018263146}
   - component: {fileID: 2839959021259793015}
@@ -179,9 +178,8 @@ GameObject:
   - component: {fileID: 7902526483891021790}
   - component: {fileID: 3473960329723331748}
   - component: {fileID: 3473960329723331749}
-  - component: {fileID: 156484630}
-  - component: {fileID: 156484632}
   - component: {fileID: 156484633}
+  - component: {fileID: 373072183}
   - component: {fileID: 7902526483605664085}
   m_Layer: 8
   m_Name: Player
@@ -364,26 +362,9 @@ MonoBehaviour:
   level: {fileID: 1238573687}
   debug: {fileID: 3829715295368400988}
   aim: {fileID: 156484631}
-  grapple: {fileID: 156484632}
+  grapple: {fileID: 156484633}
+  hookshot: {fileID: 373072183}
   grenadeThrow: {fileID: 7902526483605664085}
---- !u!114 &8730629182175719396
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3473960329723331750}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fcb1f31aabe5c6a4e8e60d97efa410c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 2010002419299452760}
-  maxEnergy: 100
-  absorbXPerTick: 1
-  absorbEveryXSeconds: 0.25
-  message: 
-  messageColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &1238573687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -443,6 +424,7 @@ MonoBehaviour:
   restartKey: 114
   freeCamKey: 306
   grappleKey: 113
+  directGrappleKey: 99
   grenadeKey: 101
   absorbKey: 102
   railAttachKey: 1
@@ -459,10 +441,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 2010002419299452760}
-  invincibilityKey: 49
-  addExpAttack: 50
-  addExpDefense: 51
-  addExpMobility: 52
+  invincibilityKey: 256
+  addExpAttack: 257
+  addExpDefense: 258
+  addExpMobility: 259
   changeAmbientColor: 9
 --- !u!114 &156484631
 MonoBehaviour:
@@ -479,6 +461,7 @@ MonoBehaviour:
   aimingMask:
     serializedVersion: 2
     m_Bits: 56000
+  firePoint: {fileID: 7518533697554243290}
   drawGizmos: 1
 --- !u!114 &2930390506446303794
 MonoBehaviour:
@@ -563,7 +546,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 2010002419299452760}
-  energyCostPerBulletRecharge: 0
+  energyCostPerBulletRecharge: 1
   damage: 5
   fireRate: 7
   gunCd: 1
@@ -589,67 +572,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unlockEvent: 14
   unlockedAtTheStart: 1
+  energyCost: 5
+  energyErrorMessage: Not enough energy to cast Dash!
+  energyErrorMessageColor: {r: 1, g: 0, b: 0, a: 1}
+  energyErrorTimeOnScreen: 0.5
+  cooldown: 1
+  cooldownErrorMessage: Dash is still on CD!
+  cooldownErrorMessageColor: {r: 1, g: 0, b: 0, a: 1}
+  cooldownErrorTimeOnScreen: 0.5
+  dashVelocity: 50
+  dashDuration: 0.25
   player: {fileID: 2010002419299452760}
   trails:
   - {fileID: 7902526484589566565}
   - {fileID: 7902526484759244804}
   - {fileID: 7902526483232057360}
-  energyCost: 0
-  dashVelocity: 50
-  dashDuration: 0.25
-  dashCd: 1
---- !u!114 &156484630
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3473960329723331750}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd61e9b48fe31c8449c58930bbe71b0d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  grappleable:
-    serializedVersion: 2
-    m_Bits: 51264
-  maxGrappleDistance: 100
-  maxDistance: 80
-  minDistance: 25
-  springForce: 4.5
-  damper: 7
-  massScale: 4.5
-  player: {fileID: 2010002419299452760}
-  lr: {fileID: 156484629}
-  firePoint: {fileID: 7518533697554243290}
---- !u!114 &156484632
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3473960329723331750}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88e0c058b06745e3a677e94dc264588c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  grappleable:
-    serializedVersion: 2
-    m_Bits: 51264
-  hookSpeed: 300
-  pullSpeed: 1
-  stopDistance: 4
-  lifetime: 8
-  player: {fileID: 2010002419299452760}
-  hookPrefab: {fileID: 277520169603632861, guid: 29e266a9fefc330478eb67696aefc859, type: 3}
-  shootTransform: {fileID: 7518533697554243290}
-  rigid: {fileID: 3473960329723331747}
-  lr: {fileID: 156484629}
-  useStopDistance: 0
-  destroyAfterLifetime: 0
-  useGravityWhileAttached: 0
-  ableToMoveWhileAttached: 0
 --- !u!114 &156484633
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -664,11 +601,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unlockEvent: 15
   unlockedAtTheStart: 1
-  energyCost: 25
+  energyCost: 10
+  energyErrorMessage: Not enough energy to cast Grapple!
+  energyErrorMessageColor: {r: 1, g: 0, b: 0, a: 1}
+  energyErrorTimeOnScreen: 0.5
+  cooldown: 1
+  cooldownErrorMessage: Grapple is still on CD!
+  cooldownErrorMessageColor: {r: 1, g: 0, b: 0, a: 1}
+  cooldownErrorTimeOnScreen: 0.5
   grappleable:
     serializedVersion: 2
     m_Bits: 59456
-  hookCD: 1
   maxHookDistance: 100
   hookSpeed: 300
   forwardSpeed: 1
@@ -695,6 +638,48 @@ MonoBehaviour:
   useMinDistanceToHook: 0
   useDistanceMultiplier: 0
   useRigidbodyPosition: 0
+--- !u!114 &373072183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3473960329723331750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3df0dc1131a1a1a4fa3015a2192e5a4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unlockEvent: 23
+  unlockedAtTheStart: 1
+  energyCost: 5
+  energyErrorMessage: Not enough energy to cast Hookshot!
+  energyErrorMessageColor: {r: 1, g: 0, b: 0, a: 1}
+  energyErrorTimeOnScreen: 0.5
+  cooldown: 1
+  cooldownErrorMessage: Hookshot is still on CD!
+  cooldownErrorMessageColor: {r: 1, g: 0, b: 0, a: 1}
+  cooldownErrorTimeOnScreen: 0.5
+  grappleable:
+    serializedVersion: 2
+    m_Bits: 59456
+  maxHookDistance: 100
+  hookSpeed: 300
+  pullSpeed: 5
+  minDistancePullMultiplier: 5
+  maxDistancePullMultiplier: 40
+  minDistance: 1
+  player: {fileID: 2010002419299452760}
+  hookPrefab: {fileID: 277520169603632861, guid: 29e266a9fefc330478eb67696aefc859, type: 3}
+  shootTransform: {fileID: 7518533697554243290}
+  rigid: {fileID: 3473960329723331747}
+  lr: {fileID: 7837721448713816051, guid: 29e266a9fefc330478eb67696aefc859, type: 3}
+  useStopDistance: 1
+  stopDistance: 2
+  sameButtonPressCancel: 1
+  useMinDistanceToHook: 0
+  useDistanceMultiplier: 1
+  useRigidbodyPosition: 1
 --- !u!114 &7902526483605664085
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -709,14 +694,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unlockEvent: 16
   unlockedAtTheStart: 0
+  energyCost: 20
+  energyErrorMessage: Not enough energy to throw Grenade!
+  energyErrorMessageColor: {r: 1, g: 0, b: 0, a: 1}
+  energyErrorTimeOnScreen: 0.5
+  cooldown: 15
+  cooldownErrorMessage: Grenade is still on CD!
+  cooldownErrorMessageColor: {r: 1, g: 0, b: 0, a: 1}
+  cooldownErrorTimeOnScreen: 0.5
   player: {fileID: 2010002419299452760}
   orientation: {fileID: 4629313644082423270}
   firePoint: {fileID: 7518533697554243290}
   grenade: {fileID: 6188199989328108756, guid: 8f07ce1c6e7792043b315202e0dde954, type: 3}
-  energyCost: 0
   forwardForce: 20
   upwardsForce: 10
-  throwCD: 3
   explosionTimeDelay: 3
   damage: 20
   explosionRadius: 20

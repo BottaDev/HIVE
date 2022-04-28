@@ -7,7 +7,7 @@ using UnityEngine.Serialization;
 
 public class ShaderFloatLerper : MonoBehaviour
 {
-    public List<Renderer> renderer;
+    public new List<Renderer> renderer;
     public bool playOnAwake = true;
     private bool started;
     [Serializable]

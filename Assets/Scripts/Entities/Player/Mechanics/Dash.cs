@@ -4,27 +4,32 @@ using UnityEngine.Serialization;
 
 public class Dash : UnlockableMechanic
 {
-    [Header("Assignable")]
-    [SerializeField] private Player player;
-    [SerializeField] private TrailRenderer[] trails;
-
-
+    [Header("Energy")]
+    [SerializeField] private float energyCost = 0;
+    [SerializeField] private string energyErrorMessage;
+    [SerializeField] private Color energyErrorMessageColor;
+    [SerializeField] private float energyErrorTimeOnScreen;
+    
+    [Header("Cooldown")]
+    [SerializeField] private float cooldown;
+    [SerializeField] private string cooldownErrorMessage;
+    [SerializeField] private Color cooldownErrorMessageColor;
+    [SerializeField] private float cooldownErrorTimeOnScreen;
+    private float _currentCooldown;
+    
     [Header("Parameters")]
-    [Tooltip("Energy cost of dash")]
-    [SerializeField] private float energyCost;
     [FormerlySerializedAs("_dashVelocity")]
     [Tooltip("Speed during dash")] 
     [SerializeField] private float dashVelocity;
     [FormerlySerializedAs("_dashDuration")]
     [Tooltip("Time you stay in dash Velocity.")] 
     [SerializeField] private float dashDuration;
-    [FormerlySerializedAs("_dashCD")]
-    [Tooltip("Time it takes for you to be able to dash again after cast.")] 
-    [SerializeField] private float dashCd;
+    
+    [Header("Assignable")]
+    [SerializeField] private Player player;
+    [SerializeField] private TrailRenderer[] trails;
     private Camera _cam;
 
-
-    private float _currentDashCd;
 
     //Get whatever information you need for this script
     private bool Dashing => player.input.Dashing;
@@ -38,15 +43,36 @@ public class Dash : UnlockableMechanic
     {
         if (!mechanicUnlocked) return;
         
-        if (Dashing && _currentDashCd <= 0)
+        if (Dashing)
         {
-            if (!player.energy.TakeEnergy(energyCost)) return;
-            EventManager.Instance.Trigger(EventManager.Events.OnPlayerDashCd, dashCd);
-            StartCoroutine(Cast());
-            StartCoroutine(CameraEffect());
+            if (_currentCooldown > 0)
+            {
+                //Still on cd
+                EventManager.Instance.Trigger(EventManager.Events.OnSendUIMessageTemporary, 
+                    cooldownErrorMessage, 
+                    cooldownErrorMessageColor, 
+                    cooldownErrorTimeOnScreen);
+
+            }
+            else
+            {
+                if (!player.energy.TakeEnergy(energyCost))
+                {
+                    EventManager.Instance.Trigger(EventManager.Events.OnSendUIMessageTemporary, 
+                        energyErrorMessage, 
+                        energyErrorMessageColor, 
+                        energyErrorTimeOnScreen);
+                    return;
+                }
+            
+                EventManager.Instance.Trigger(EventManager.Events.OnPlayerDashCd, cooldown);
+                StartCoroutine(Cast());
+                StartCoroutine(CameraEffect());
+            }
+            
         }
 
-        _currentDashCd -= Time.deltaTime;
+        _currentCooldown -= Time.deltaTime;
     }
 
     private IEnumerator Cast()
@@ -56,7 +82,7 @@ public class Dash : UnlockableMechanic
             item.emitting = true;
         }
         
-        _currentDashCd = dashCd;
+        _currentCooldown = cooldown;
 
         bool ableToMoveOld = player.movement.ableToMove;
         bool applyGravityOld = player.movement.rb.useGravity;
@@ -116,10 +142,5 @@ public class Dash : UnlockableMechanic
             _cam.fieldOfView -= 1;
             yield return new WaitForSeconds(slowTime / steps);
         }
-    }
-
-    public void Unlock()
-    {
-        
     }
 }

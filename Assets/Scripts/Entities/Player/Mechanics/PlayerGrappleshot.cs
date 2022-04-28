@@ -2,14 +2,23 @@ using System.Collections;
 using UnityEngine;
 using System;
 
-public class PlayerGrappleV3 : UnlockableMechanic,ITestGrapple
+public class PlayerGrappleshot : UnlockableMechanic,IGrapple
 {
     [Header("Energy")]
     [SerializeField] private float energyCost = 0;
+    [SerializeField] private string energyErrorMessage;
+    [SerializeField] private Color energyErrorMessageColor;
+    [SerializeField] private float energyErrorTimeOnScreen;
 
+    [Header("Cooldown")]
+    [SerializeField] private float cooldown;
+    [SerializeField] private string cooldownErrorMessage;
+    [SerializeField] private Color cooldownErrorMessageColor;
+    [SerializeField] private float cooldownErrorTimeOnScreen;
+    private float _currentCooldown;
+    
     [Header("Parameters")]
     [SerializeField] private LayerMask grappleable;
-    [SerializeField] private float hookCD = 0f;
     [SerializeField] private float maxHookDistance = 50f;
     [SerializeField] private float hookSpeed = 5f;
     [SerializeField] private float forwardSpeed = 1f;
@@ -44,12 +53,10 @@ public class PlayerGrappleV3 : UnlockableMechanic,ITestGrapple
     [SerializeField] private bool useDistanceMultiplier;
     [SerializeField] private bool useRigidbodyPosition;
 
-    private HookPlayerGrappleV2 _hook;
+    private PlayerHookObject _hook;
     private bool _pulling;
     private Action _onProximity;
     private DistanceJoint3D _joint;
-    private float _hookCdCounter;
-
     public bool Pulling => _pulling;
 
     // Start is called before the first frame update
@@ -64,10 +71,21 @@ public class PlayerGrappleV3 : UnlockableMechanic,ITestGrapple
     {
         if (!mechanicUnlocked) return;
         
-        _hookCdCounter -= Time.deltaTime;
-        if (_hook == null && player.input.Grapple && _hookCdCounter < 0f)
+        _currentCooldown -= Time.deltaTime;
+        if (_hook == null && player.input.Grapple && !player.hookshot.Pulling)
         {
-            StartHook();
+            if (_currentCooldown > 0)
+            {
+                //Still on cd
+                EventManager.Instance.Trigger(EventManager.Events.OnSendUIMessageTemporary, 
+                    cooldownErrorMessage, 
+                    cooldownErrorMessageColor, 
+                    cooldownErrorTimeOnScreen);
+            }
+            else
+            {
+                StartHook();
+            }
         }
         else if (_hook != null && (sameButtonPressCancel ? player.input.Grapple : player.input.StoppedGrapple))
         {
@@ -145,11 +163,15 @@ public class PlayerGrappleV3 : UnlockableMechanic,ITestGrapple
 
     private void StartHook()
     {
-        if(!player.energy.TakeEnergy(energyCost)) return;
+        if(!player.energy.TakeEnergy(energyCost)) 
+        {
+            EventManager.Instance.Trigger(EventManager.Events.OnSendUIMessageTemporary, energyErrorMessage, energyErrorMessageColor, energyErrorTimeOnScreen);
+            return;
+        }
 
         _pulling = false;
         _hook = Instantiate(hookPrefab, shootTransform.position, Quaternion.identity)
-            .GetComponent<HookPlayerGrappleV2>();
+            .GetComponent<PlayerHookObject>();
         
         AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.PlayerHook));
         
@@ -199,8 +221,8 @@ public class PlayerGrappleV3 : UnlockableMechanic,ITestGrapple
             return;
         }
 
-        EventManager.Instance.Trigger(EventManager.Events.OnPlayerGrappleCd, hookCD);
-        _hookCdCounter = hookCD;
+        EventManager.Instance.Trigger(EventManager.Events.OnPlayerGrappleCd, cooldown);
+        _currentCooldown = cooldown;
         if (!ableToMoveWhileAttached)
         {
             player.movement.ableToMove = true;

@@ -15,7 +15,8 @@ public class Player : Entity
     public PlayerLevel level;
     public PlayerDebugDevTools debug;
     public PlayerAim aim;
-    public PlayerGrappleV2 grapple;
+    public PlayerGrappleshot grapple;
+    public PlayerDirectHookshot hookshot;
     public PlayerGrenadeThrow grenadeThrow;
     
     private bool Restart => input.Restart;

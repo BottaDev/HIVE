@@ -59,7 +59,7 @@ public class Rails : MonoBehaviour
                 }
             }
             
-            if (p.input.Dashing || p.input.Jumping || p.input.Grapple || p.grapple.Pulling)
+            if (p.input.Dashing || p.input.Jumping || p.input.Grapple || p.grapple.Pulling || p.input.DirectGrapple)
             {
                 UnAttach();
             }

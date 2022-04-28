@@ -10,6 +10,7 @@ public class UIMessageList : ObjectList
     {
         EventManager.Instance.Subscribe(EventManager.Events.OnSendUIMessage, SendMessage);
         EventManager.Instance.Subscribe(EventManager.Events.OnEliminateUIMessage, EliminateMessage);
+        EventManager.Instance.Subscribe(EventManager.Events.OnSendUIMessageTemporary, SendMessageTemporary);
     }
 
     void SendMessage(params object[] p)
@@ -34,5 +35,22 @@ public class UIMessageList : ObjectList
 
         Remove(obj);
     }
+    
+    void SendMessageTemporary(params object[] p)
+    {
+        string message = (string)p[0];
+        Color color = (Color)p[1];
+        float time = (float) p[2];
 
+        StartCoroutine(SendMessageTemporaryCoroutine(message, color, time));
+    }
+
+    IEnumerator SendMessageTemporaryCoroutine(string message, Color color, float time)
+    {
+        SendMessage(message, color);
+        
+        yield return new WaitForSeconds(time);
+
+        EliminateMessage(message);
+    }
 }

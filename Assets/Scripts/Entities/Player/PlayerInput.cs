@@ -16,6 +16,7 @@ public class PlayerInput : MonoBehaviour
     [SerializeField] private KeyCode restartKey = KeyCode.R;
     [SerializeField] private KeyCode freeCamKey = KeyCode.LeftControl;
     [SerializeField] private KeyCode grappleKey = KeyCode.Q;
+    [SerializeField] private KeyCode directGrappleKey = KeyCode.C;
     [SerializeField] private KeyCode grenadeKey = KeyCode.E;
     [SerializeField] private KeyCode absorbKey = KeyCode.F;
     [SerializeField] private MouseCode railAttachKey = MouseCode.Right;
@@ -29,6 +30,8 @@ public class PlayerInput : MonoBehaviour
     private bool _stoppedJumping;
     private bool _grapple;
     private bool _stoppedGrapple;
+    private bool _directGrapple;
+    private bool _stoppedDirectGrapple;
     private bool _grenadeThrow;
     private bool _absorbing;
     //Input variables (Used by other scripts to run their actions)
@@ -47,6 +50,8 @@ public class PlayerInput : MonoBehaviour
     public bool Attaching { get => _attaching; set => _attaching = value; }
     public bool Grapple { get => _grapple; set => _grapple = value; }
     public bool StoppedGrapple { get => _stoppedGrapple; set => _stoppedGrapple = value; }
+    public bool DirectGrapple { get => _directGrapple; set => _directGrapple = value; }
+    public bool StoppedDirectGrapple { get => _stoppedDirectGrapple; set => _stoppedDirectGrapple = value; }
     public bool GrenadeThrow { get => _grenadeThrow; set => _grenadeThrow = value; }
     public bool Absorbing { get => _absorbing; set => _absorbing = value; }
     private void Update()
@@ -70,5 +75,7 @@ public class PlayerInput : MonoBehaviour
         StoppedGrapple = Input.GetKeyUp(grappleKey);
         GrenadeThrow = Input.GetKeyDown(grenadeKey);
         Absorbing = Input.GetKey(absorbKey);
+        DirectGrapple = Input.GetKeyDown(directGrappleKey);
+        StoppedDirectGrapple= Input.GetKeyUp(directGrappleKey);
     }
 }
