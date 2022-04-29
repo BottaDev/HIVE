@@ -17,7 +17,7 @@ public class Rusher : AI
     private bool _isJumping;
     private bool _isAttacking;
     private static readonly int IsAttacking = Animator.StringToHash("isAttacking");
-    private float damage = 1;
+    public int damage = 1;
 
     protected override void Awake()
     {
@@ -29,8 +29,7 @@ public class Rusher : AI
     {
         base.Update();
         if (dying) return;
-
-
+        
         if (_playerDetected)
             ChasePlayer();
     }
@@ -158,10 +157,11 @@ public class Rusher : AI
     private void OnTriggerStay(Collider other)
     {
         var player = other.GetComponent<Player>();
-
+    
         if (player != null)
         {
-            player.TakeDamage((int)(damage / 100));
+            player.TakeDamage(damage / 100);
+            EventManager.Instance.Trigger(EventManager.Events.OnPlayerDamaged, damage / 100);
         }
     }
 }

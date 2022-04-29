@@ -50,6 +50,7 @@ MonoBehaviour:
   - {fileID: 7180527455826666651}
   - {fileID: 2619091419160870225}
   - {fileID: 7024722411155621256}
+  playOnAwake: 1
   parameters:
   - name: Emission
     propertyName: EmissionValue
@@ -782,11 +783,12 @@ MonoBehaviour:
   _agent: {fileID: 441090482870392484}
   _playerDetected: 0
   updateRate: 0.1
-  attackJumpLength: 0
+  attackJumpLength: 10
   attackDuration: 0.1
   attackDistance: 0.1
   waitTime: 0.3
   collider: {fileID: 6813062088043000083}
+  damage: 2
 --- !u!65 &4412390479073506050
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -798,8 +800,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.99936414, z: 0.49773824}
-  m_Center: {x: 0, y: 0.5482383, z: 0.7507189}
+  m_Size: {x: 1, y: 0.99936414, z: 0.65102005}
+  m_Center: {x: 0, y: 0.5482383, z: 0.8273598}
 --- !u!114 &3265247517186823848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -866,7 +868,7 @@ MonoBehaviour:
   NavMeshLinkTraversalTypes:
   - MoveMethod: 1
     AreaType: 0
-  - MoveMethod: 3
+  - MoveMethod: 2
     AreaType: 3
 --- !u!1001 &5757964889338581997
 PrefabInstance:
