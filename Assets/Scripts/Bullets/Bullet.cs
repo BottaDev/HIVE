@@ -19,7 +19,6 @@ public sealed class Bullet : PoolableObject
 
     private void Awake()
     {
-        
     }
 
     private void OnEnable()
@@ -38,7 +37,7 @@ public sealed class Bullet : PoolableObject
     {
         _prevPos = transform.position;
         transform.Translate(Vector3.forward * Time.deltaTime * speed);
-
+    
         Vector3 dir = (transform.position - _prevPos);
         
         RaycastHitGameobject(dir);
@@ -94,7 +93,6 @@ public sealed class Bullet : PoolableObject
     public override void OnDisable()
     {
         base.OnDisable();
-        
         CancelInvoke(DisableMethodName);
     }
 

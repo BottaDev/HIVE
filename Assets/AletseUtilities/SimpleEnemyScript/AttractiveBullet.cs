@@ -1,18 +1,60 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttractiveBullet : MonoBehaviour
+public class AttractiveBullet : PoolableObject
 {
-    // Start is called before the first frame update
-    void Start()
+    [Header("Properties")]
+    public float speed = 10f;
+    public int damage = 1;
+    public float timeToDie = 3f;
+    //public LayerMask mask;
+
+    private const string DisableMethodName = "Disable";
+
+    public float attractForce = 2f;
+    
+    [HideInInspector] public bool wasShotByPlayer;
+
+    private void OnEnable()
     {
-        
+        Invoke(DisableMethodName, timeToDie);
     }
 
-    // Update is called once per frame
-    void Update()
+    private Vector3 _prevPos;
+
+    private void Update()
     {
+        MoveToPosition();
+    }
+
+    public void MoveToPosition()
+    {
+        transform.Translate(Vector3.forward * Time.deltaTime * speed);
+    }
+
+    private void Disable()
+    {
+        Destroy(gameObject);
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        var player = other.gameObject.GetComponent<Player>();
+
+        if (player != null)
+        {
+            other.gameObject.GetComponent<Rigidbody>().AddForce(-transform.forward * attractForce , ForceMode.Impulse);
+        }
         
+        Disable();
+    }
+
+    private void OnDrawGizmos()
+    {
+        Vector3 dir = (transform.position - _prevPos);
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(transform.position, transform.position + dir);
     }
 }
