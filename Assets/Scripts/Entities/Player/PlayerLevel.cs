@@ -112,7 +112,6 @@ public class PlayerLevel : MonoBehaviour
     }
     private void OnLevelup(int level)
     {
-        Debug.Log("OnLevelup");
         PlayerUpgrades.UpgradeType type = PlayerUpgrades.UpgradeType.Small;
 
         UILevelUpgradePrompt.instance.SetUpgrades(upgrades.GachaPull(type, exp), type);

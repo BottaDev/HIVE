@@ -48,26 +48,46 @@ public class PlayerEnergy : MonoBehaviour
 
     private void Update()
     {
-        if (Current == MaxEnergy)
-        {
-            HidePrompt();
-            return;
-        }
-        else if(absorbableObj.Count > 0)
-        {
-            ShowPrompt();
-        }
-
         EmptyCheck();
 
-        if (player.input.Absorbing)
+        if(Current == MaxEnergy)
         {
-            if (ableToAbsorb && !absorbing)
+            if (ableToAbsorb)
             {
-                absorbingCoroutine = StartCoroutine(Absorb());
+                ableToAbsorb = false;
             }
         }
-        else if (absorbing)
+        else
+        {
+            if (!ableToAbsorb && absorbableObj.Count > 0)
+            {
+                ableToAbsorb = true;
+            }
+        }
+        
+        if (absorbing)
+        {
+            if (!promptShowing)
+            {
+                promptShowing = true;
+                EventManager.Instance.Trigger(EventManager.Events.OnSendUIMessage, message, messageColor);
+            }
+        }
+        else
+        {
+            if (promptShowing)
+            {
+                EventManager.Instance.Trigger(EventManager.Events.OnEliminateUIMessage, message);
+                promptShowing = false;
+            }
+        }
+
+
+        if (ableToAbsorb && !absorbing)
+        {
+            absorbingCoroutine = StartCoroutine(Absorb());
+        }
+        else if (absorbing && !ableToAbsorb)
         {
             StopCoroutine(absorbingCoroutine);
             absorbingCoroutine = null;

@@ -146,6 +146,11 @@ public class UILevelUpgradePrompt : MonoBehaviour
     public void ShowUI(bool state)
     {
         showObject.SetActive(state);
+
+        if (state)
+        {
+            EventManager.Instance.Trigger(EventManager.Events.OnEliminateUIMessage, errorMessage);
+        }
     }
 
     public void ShowLongDescription(params object[] p)

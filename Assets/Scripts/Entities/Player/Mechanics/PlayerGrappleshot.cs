@@ -214,7 +214,7 @@ public class PlayerGrappleshot : UnlockableMechanic,IGrapple
             StartCoroutine(DestroyHookAfterLifetime());
         }
     }
-    private void DestroyHook()
+    public void DestroyHook()
     {
         if (_hook == null)
         {

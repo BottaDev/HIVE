@@ -4,7 +4,8 @@ using UnityEngine;
 public class Rails : MonoBehaviour
 {
     [Header("Assignables")]
-    public Player p;
+    private Player _p;
+    public Player p => _p;
 
     [Header("Path")] 
     public List<Transform> waypoints;
@@ -41,6 +42,16 @@ public class Rails : MonoBehaviour
         active = false;
         p.transform.parent = _unattachedParent;
         p.movement.rb.velocity = Vector3.zero;
+    }
+    private void Awake()
+    {
+        EventManager.Instance.Subscribe(EventManager.Events.SendPlayerReference, GetPlayerReference);
+        EventManager.Instance.Trigger(EventManager.Events.NeedsPlayerReference);
+    }
+
+    private void GetPlayerReference(params object[] p)
+    {
+        _p = (Player)p[0];
     }
 
     private void Update()

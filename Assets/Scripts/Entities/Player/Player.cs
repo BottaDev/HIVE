@@ -38,13 +38,16 @@ public class Player : Entity
 
         EventManager.Instance?.Subscribe(EventManager.Events.OnPlayerDead, PlayerDeath);
         EventManager.Instance?.Subscribe(EventManager.Events.OnPlayerDamaged, OnPlayerDamaged);
+        EventManager.Instance?.Subscribe(EventManager.Events.NeedsPlayerReference, SendPlayerReference);
+    }
+    public void SendPlayerReference(params object[] p)
+    {
+        EventManager.Instance.Trigger(EventManager.Events.SendPlayerReference, this);
     }
 
     private void Start()
     {
         EventManager.Instance.Trigger(EventManager.Events.OnLifeUpdated, CurrentHealth, MaxHP);
-        
-        EventManager.Instance.Trigger(EventManager.Events.NeedsPlayerReference, this);
     }
 
     private void Update()

@@ -25,7 +25,7 @@ public class EventManager : MonoBehaviour
         OnPlayerGrappleUnlock,
         OnPlayerGrenadeUnlock,
         OnPlayerUpdateAmmo,
-        NeedsPlayerReference,
+        SendPlayerReference,
         OnPlayerLevelSystemUpdate,
         OnEnergyUpdated,
         OnSendUIMessage,
@@ -34,7 +34,8 @@ public class EventManager : MonoBehaviour
         OnPlayerDirectHookshotCD,
         OnSendUIMessageTemporary,
         OnPlayerEnteredUpgradeRoom,
-        OnPlayerLeftUpgradeRoom
+        OnPlayerLeftUpgradeRoom,
+        NeedsPlayerReference
     }
 
     public static EventManager Instance { get; private set; }

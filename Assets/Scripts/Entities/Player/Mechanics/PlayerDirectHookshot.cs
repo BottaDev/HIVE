@@ -179,7 +179,7 @@ public class PlayerDirectHookshot : UnlockableMechanic,IGrapple
             
         });
     }
-    private void DestroyHook()
+    public void DestroyHook()
     {
         if (_hook == null)
         {
