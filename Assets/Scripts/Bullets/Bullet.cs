@@ -17,9 +17,13 @@ public sealed class Bullet : PoolableObject
     public TrailRenderer trail;
     public ParticleSystem impactParticles;
 
+    private void Awake()
+    {
+        
+    }
+
     private void OnEnable()
     {
-        //CancelInvoke(DISABLE_METHOD_NAME);
         Invoke(DisableMethodName, timeToDie);
     }
 
@@ -90,6 +94,7 @@ public sealed class Bullet : PoolableObject
     public override void OnDisable()
     {
         base.OnDisable();
+        
         CancelInvoke(DisableMethodName);
     }
 

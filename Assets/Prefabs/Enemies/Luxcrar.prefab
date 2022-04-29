@@ -748,6 +748,7 @@ MonoBehaviour:
   deactivateColliders: []
   normalModel: {fileID: 0}
   deathModel: {fileID: 0}
+  destroyGarbageAfterDelay: 0
   deathDelay: 5
   useMovingAnim: 0
   anim: {fileID: 0}
@@ -763,6 +764,7 @@ MonoBehaviour:
   evadeTime: 3
   bulletPrefab: {fileID: 8040213256160230170, guid: 577be4e723b980b4abc86d25c5f2ed44, type: 3}
   spawnPos: {fileID: 2214294912468786637}
+  _bullet: {fileID: 0}
 --- !u!114 &7544237025158046207
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1245,6 +1247,7 @@ MonoBehaviour:
   - {fileID: 3082741987042332590}
   - {fileID: 1758208033634258154}
   - {fileID: 2285533885638014354}
+  playOnAwake: 1
   parameters:
   - name: Emission
     propertyName: EmissionValue
@@ -1924,6 +1927,7 @@ MonoBehaviour:
   - {fileID: 6576070079687112171}
   normalModel: {fileID: 2018929520236701851}
   deathModel: {fileID: 5503149638354034617}
+  destroyGarbageAfterDelay: 0
   deathDelay: 5
   useMovingAnim: 1
   anim: {fileID: 4733091668655319131}
@@ -1939,6 +1943,7 @@ MonoBehaviour:
   evadeTime: 3
   bulletPrefab: {fileID: 8040213256160230170, guid: 577be4e723b980b4abc86d25c5f2ed44, type: 3}
   spawnPos: {fileID: 8855666439249537428}
+  _bullet: {fileID: 1034500826797044218, guid: 577be4e723b980b4abc86d25c5f2ed44, type: 3}
 --- !u!114 &6988060714340996797
 MonoBehaviour:
   m_ObjectHideFlags: 0

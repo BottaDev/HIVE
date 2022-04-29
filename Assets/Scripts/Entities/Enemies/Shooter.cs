@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.ProBuilder.MeshOperations;
+using UnityEngine.Rendering;
 
 public class Shooter : AI
 {
@@ -20,7 +21,6 @@ public class Shooter : AI
     protected override void Awake()
     {
         base.Awake();
-        
         EventManager.Instance.Subscribe(EventManager.Events.OnEnemyDamaged, OnEnemyDamaged);
         
         _currentEvadeTime = evadeTime;
@@ -109,6 +109,7 @@ public class Shooter : AI
         if (_currentAttackRate <= 0)
         {
             AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.EnemyShot));
+
             GameObject bullet = Instantiate(bulletPrefab, spawnPos.position, Quaternion.identity);
             bullet.transform.LookAt(_player.transform.position);
             
