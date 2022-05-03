@@ -11,6 +11,9 @@ public class Shooter : AI
     public float attackDistance = 20f;
     public float evadeDistance = 12f;
     public float evadeTime = 1.5f;
+
+    [Header("Shooter Animations")]
+    public string attackTrigger;
     
     [Header("Objects")]
     public GameObject bulletPrefab;
@@ -109,11 +112,13 @@ public class Shooter : AI
         if (_currentAttackRate <= 0)
         {
             AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.EnemyShot));
-
+            anim.SetTrigger(attackTrigger);
+            
             GameObject bullet = Instantiate(bulletPrefab, spawnPos.position, Quaternion.identity);
             bullet.transform.LookAt(_player.transform.position);
             
             _currentAttackRate = attackRate;
+            
         }
         else
         {
