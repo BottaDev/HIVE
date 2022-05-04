@@ -43,7 +43,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1
+  m_Radius: 1.5
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &835001207
 MonoBehaviour:
@@ -63,6 +63,7 @@ MonoBehaviour:
   absorbEveryXSeconds: 0.1
   message: Absorbing energy...
   messageColor: {r: 1, g: 0, b: 0.77993584, a: 1}
+  electricityPrefab: {fileID: 260542723248008745, guid: d43f180343a80ca499935d68bd4fd62e, type: 3}
 --- !u!1 &736311966175326190
 GameObject:
   m_ObjectHideFlags: 0

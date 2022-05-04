@@ -18,6 +18,11 @@ public class PlayerEnergy : MonoBehaviour
     [SerializeField] private Color messageColor;
     private bool promptShowing;
 
+    [Header("Effect")]
+    [SerializeField] private Electric electricityPrefab;
+    private List<Electric> effects = new List<Electric>();
+    private bool effectActive;
+
     private List<AbsorbableObject> absorbableObj = new List<AbsorbableObject>();
     private bool ableToAbsorb;
 
@@ -67,6 +72,23 @@ public class PlayerEnergy : MonoBehaviour
         
         if (absorbing)
         {
+            if (!effectActive)
+            {
+                for (int i = 0; i < absorbableObj.Count; i++)
+                {
+                    Electric effect = Instantiate(electricityPrefab);
+                    effect.transformPointB = player.transform;
+
+                    Transform a = absorbableObj[i].transform.parent == null ? absorbableObj[i].transform : absorbableObj[i].transform.parent;
+                    effect.transformPointA = a;
+
+                    effects.Add(effect);
+                }
+
+                effectActive = true;
+            }
+
+
             if (!promptShowing)
             {
                 promptShowing = true;
@@ -75,6 +97,17 @@ public class PlayerEnergy : MonoBehaviour
         }
         else
         {
+            if (effectActive)
+            {
+                foreach (var effect in effects)
+                {
+                    Destroy(effect.gameObject);
+                }
+                effects.Clear();
+
+                effectActive = false;
+            }
+
             if (promptShowing)
             {
                 EventManager.Instance.Trigger(EventManager.Events.OnEliminateUIMessage, message);
@@ -153,6 +186,7 @@ public class PlayerEnergy : MonoBehaviour
                 if (absorbableObj.Count == empty.Count)
                 {
                     HidePrompt();
+                    ableToAbsorb = false;
                 }
             }
         }

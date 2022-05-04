@@ -16,7 +16,6 @@ public class PlayerAim : MonoBehaviour
     
     public Vector3 Point { get => _point; set => _point = value; }
     public bool Aim { get => _success; set => _success = value; }
-    public Ray Ray { get => _ray; set => _ray = value; }
     
     private void Start()
     {
@@ -27,19 +26,24 @@ public class PlayerAim : MonoBehaviour
     {
         Aim = false;
         Vector2 screenCenterPoint = new Vector2(Screen.width / 2, Screen.height / 2);
-        Ray = _cam.ScreenPointToRay(screenCenterPoint);
+        Ray screenRay = _cam.ScreenPointToRay(screenCenterPoint);
 
-        if (Physics.Raycast(Ray, out RaycastHit raycastHit, 999f, aimingMask))
+        if (Physics.Raycast(screenRay, out RaycastHit raycastHit, 999f, aimingMask))
         {
             //Screen ray is colliding with something, now check what point a ray would collide with from the fire point
             
             Vector3 point = raycastHit.point;
-            Ray newRay = new Ray(firePoint.position, (point - firePoint.position).normalized);
+            Ray firepointRay = new Ray(firePoint.position, (point - firePoint.position).normalized);
             
-            if (Physics.Raycast(newRay, out RaycastHit raycastHitTwo, 999f, aimingMask))
+            if (Physics.Raycast(firepointRay, out RaycastHit raycastHitTwo, 999f, aimingMask))
             {
-                Point = raycastHitTwo.point;
-                Aim = true;
+                //Firepoint is colliding with something
+                if (Physics.SphereCast(firepointRay, 0.1f, out RaycastHit checkSpherehit,999f, aimingMask))
+                {
+                    Point = checkSpherehit.point;
+                    Aim = true;
+                }
+                
             }
         }
     }
