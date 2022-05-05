@@ -161,7 +161,7 @@ public class Rusher : AI
         if (player != null)
         {
             player.TakeDamage(damage / 100);
-            EventManager.Instance.Trigger(EventManager.Events.OnPlayerDamaged, damage / 100);
+            EventManager.Instance.Trigger("OnPlayerDamaged", damage / 100);
         }
     }
 }

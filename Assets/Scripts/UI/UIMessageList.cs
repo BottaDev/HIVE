@@ -8,9 +8,9 @@ public class UIMessageList : ObjectList
 {
     private void Awake()
     {
-        EventManager.Instance.Subscribe(EventManager.Events.OnSendUIMessage, SendMessage);
-        EventManager.Instance.Subscribe(EventManager.Events.OnEliminateUIMessage, EliminateMessage);
-        EventManager.Instance.Subscribe(EventManager.Events.OnSendUIMessageTemporary, SendMessageTemporary);
+        EventManager.Instance.Subscribe("OnSendUIMessage", SendMessage);
+        EventManager.Instance.Subscribe("OnEliminateUIMessage", EliminateMessage);
+        EventManager.Instance.Subscribe("OnSendUIMessageTemporary", SendMessageTemporary);
     }
 
     void SendMessage(params object[] p)

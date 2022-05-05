@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -15,9 +16,23 @@ public class Player : Entity
     public PlayerLevel level;
     public PlayerDebugDevTools debug;
     public PlayerAim aim;
-    public PlayerGrappleshot grapple;
     public PlayerDirectHookshot hookshot;
     public PlayerGrenadeThrow grenadeThrow;
+
+    public static Progress SavedPlayer;
+
+    public class Progress
+    {
+        //HP stuff
+        public int currentHP;
+        
+        //Energy stuff
+        public float currentEnergy;
+        
+        //Level stuff
+        public int level;
+        public List<PlayerUpgrades.Upgrade> upgrades = new List<PlayerUpgrades.Upgrade>();
+    }
     
     private bool Restart => input.Restart;
     public int MaxHP
@@ -28,7 +43,7 @@ public class Player : Entity
             int difference =  value - maxHealth;
             CurrentHealth += difference;
             maxHealth = value; 
-            EventManager.Instance.Trigger(EventManager.Events.OnLifeUpdated, CurrentHealth, maxHealth);
+            EventManager.Instance.Trigger("OnLifeUpdated", CurrentHealth, maxHealth);
         }
     }
 
@@ -36,30 +51,90 @@ public class Player : Entity
     {
         base.Awake();
 
-        EventManager.Instance?.Subscribe(EventManager.Events.OnPlayerDead, PlayerDeath);
-        EventManager.Instance?.Subscribe(EventManager.Events.OnPlayerDamaged, OnPlayerDamaged);
-        EventManager.Instance?.Subscribe(EventManager.Events.NeedsPlayerReference, SendPlayerReference);
+        EventManager.Instance?.Subscribe("OnPlayerDead", PlayerDeath);
+        EventManager.Instance?.Subscribe("OnPlayerDamaged", OnPlayerDamaged);
+        EventManager.Instance?.Subscribe("NeedsPlayerReference", SendPlayerReference);
     }
     public void SendPlayerReference(params object[] p)
     {
-        EventManager.Instance.Trigger(EventManager.Events.SendPlayerReference, this);
+        EventManager.Instance.Trigger("SendPlayerReference", this);
     }
 
     private void Start()
     {
-        EventManager.Instance.Trigger(EventManager.Events.OnLifeUpdated, CurrentHealth, MaxHP);
+        if (SavedPlayer != null)
+        {
+            //Load everything
+            //First, do all upgrades you had.
+            foreach (var upgrade in SavedPlayer.upgrades)
+            {
+                upgrade.action.Invoke(this);
+            }
+            
+            
+            //Then set your current hp and energy.
+            CurrentHealth = SavedPlayer.currentHP;
+            energy.Current = SavedPlayer.currentEnergy;
+        }
+        
+        EventManager.Instance.Trigger("OnLifeUpdated", CurrentHealth, MaxHP);
     }
 
     private void Update()
     {
-        if (Restart) SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        if (Input.GetKey(KeyCode.LeftAlt))
+        {
+            if (Restart)
+            {
+                SavePlayer();
+                RestartScene();
+            }
+        }
+        else if (Restart)
+        {
+            DeleteSavedPlayer();
+            RestartScene();
+        }
+    }
+
+    private void RestartScene()
+    {
+        SceneManager.LoadScene(0);
+    }
+
+    public void DeleteSavedPlayer()
+    {
+        SavedPlayer = null;
+    }
+    public void SavePlayer()
+    {
+        if (SavedPlayer == null)
+        {
+            SavedPlayer = new Progress()
+            {
+                currentEnergy = energy.Current, 
+                currentHP = CurrentHealth,
+                level = level.system.Level,
+                upgrades = UILevelUpgradePrompt.instance.upgradesChosen
+            };
+        }
+        else
+        {
+            SavedPlayer.currentEnergy = energy.Current;
+            SavedPlayer.currentHP = CurrentHealth;
+            SavedPlayer.level = level.system.Level;
+
+            foreach (var upgrade in UILevelUpgradePrompt.instance.upgradesChosen)
+            {
+                SavedPlayer.upgrades.Add(upgrade);
+            }
+            
+        }
     }
 
     public void AddExp(PlayerLevel.ExpType type, int amount)
     {
         level.AddExp(type, amount);
-
-        EventManager.Instance.Trigger(EventManager.Events.OnPlayerLevelSystemUpdate, type);
     }
 
     private void OnPlayerDamaged(params object[] parameters)
@@ -72,12 +147,13 @@ public class Player : Entity
         if (debug.Invincible) return;
         
         CurrentHealth -= damage;
-        EventManager.Instance.Trigger(EventManager.Events.OnLifeUpdated, CurrentHealth, MaxHP);
+        EventManager.Instance.Trigger("OnLifeUpdated", CurrentHealth, MaxHP);
 
         if (!(CurrentHealth <= 0)) return;
         
-        EventManager.Instance.Trigger(EventManager.Events.OnPlayerDead);
-        EventManager.Instance.Unsubscribe(EventManager.Events.OnPlayerDamaged, OnPlayerDamaged);
+        DeleteSavedPlayer();
+        EventManager.Instance.Trigger("OnPlayerDead");
+        EventManager.Instance.Unsubscribe("OnPlayerDamaged", OnPlayerDamaged);
     }
 
     public void PlayerDeath(params object[] parameters)

@@ -49,7 +49,7 @@ public class PlayerUpgrades : MonoBehaviour
         public string name;
         public string description;
         public string longDescription;
-        public Action action = delegate { };
+        public Action<Player> action = delegate { };
         public bool oneTimeOnly = true;
         public PlayerLevel.ExpType type;
     }
@@ -58,8 +58,6 @@ public class PlayerUpgrades : MonoBehaviour
     {
         Small, Big
     }
-
-    public Player player;
 
     public UpgradePool Small;
     public UpgradePool Big;
@@ -248,19 +246,19 @@ public class PlayerUpgrades : MonoBehaviour
     }
 
     #region UpgradesSmall
-    void DamagePercentBuff()
+    void DamagePercentBuff(Player player)
     {
         float percentageUpgrade = 20;
         player.shoot.damage += (int)(player.shoot.damage * percentageUpgrade)/100;
     }
 
-    void HPFlatUpgrade()
+    void HPFlatUpgrade(Player player)
     {
         int buff = 5;
         player.MaxHP += buff;
     }
 
-    void MobilityPercentBuff()
+    void MobilityPercentBuff(Player player)
     {
         float percentageUpgrade = 5;
         player.movement.maxSpeed += (player.movement.maxSpeed * percentageUpgrade)/100;
@@ -269,12 +267,12 @@ public class PlayerUpgrades : MonoBehaviour
     #endregion
 
     #region UpgradesBig
-    void ActivateDoubleJump()
+    void ActivateDoubleJump(Player player)
     {
         player.jump.amountOfJumps = 2;
     }
 
-    void ActivateGrenadeThrow()
+    void ActivateGrenadeThrow(Player player)
     {
         player.grenadeThrow.Unlock();
     }

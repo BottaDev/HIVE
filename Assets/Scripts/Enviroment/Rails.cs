@@ -29,7 +29,7 @@ public class Rails : MonoBehaviour
 
     public void Attach()
     {
-        EventManager.Instance.Trigger(EventManager.Events.OnPlayerRailAttached);
+        EventManager.Instance.Trigger("OnPlayerRailAttached");
         active = true;
         _unattachedParent = p.transform.parent;
         p.transform.parent = attachPoint;
@@ -38,15 +38,15 @@ public class Rails : MonoBehaviour
 
     public void UnAttach()
     {
-        EventManager.Instance.Trigger(EventManager.Events.OnPlayerRailDeAttached);
+        EventManager.Instance.Trigger("OnPlayerRailDeAttached");
         active = false;
         p.transform.parent = _unattachedParent;
         p.movement.rb.velocity = Vector3.zero;
     }
     private void Awake()
     {
-        EventManager.Instance.Subscribe(EventManager.Events.SendPlayerReference, GetPlayerReference);
-        EventManager.Instance.Trigger(EventManager.Events.NeedsPlayerReference);
+        EventManager.Instance.Subscribe("SendPlayerReference", GetPlayerReference);
+        EventManager.Instance.Trigger("NeedsPlayerReference");
     }
 
     private void GetPlayerReference(params object[] p)
@@ -70,7 +70,7 @@ public class Rails : MonoBehaviour
                 }
             }
             
-            if (p.input.Dashing || p.input.Jumping || p.input.Grapple || p.grapple.Pulling || p.input.DirectGrapple)
+            if (p.input.Dashing || p.input.Jumping || p.hookshot.Pulling || p.input.DirectGrapple)
             {
                 UnAttach();
             }

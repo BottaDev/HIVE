@@ -48,7 +48,7 @@ public class Dash : UnlockableMechanic
             if (_currentCooldown > 0)
             {
                 //Still on cd
-                EventManager.Instance.Trigger(EventManager.Events.OnSendUIMessageTemporary, 
+                EventManager.Instance.Trigger("OnSendUIMessageTemporary", 
                     cooldownErrorMessage, 
                     cooldownErrorMessageColor, 
                     cooldownErrorTimeOnScreen);
@@ -58,14 +58,14 @@ public class Dash : UnlockableMechanic
             {
                 if (!player.energy.TakeEnergy(energyCost))
                 {
-                    EventManager.Instance.Trigger(EventManager.Events.OnSendUIMessageTemporary, 
+                    EventManager.Instance.Trigger("OnSendUIMessageTemporary", 
                         energyErrorMessage, 
                         energyErrorMessageColor, 
                         energyErrorTimeOnScreen);
                     return;
                 }
             
-                EventManager.Instance.Trigger(EventManager.Events.OnPlayerDashCd, cooldown);
+                EventManager.Instance.Trigger("OnPlayerDashCd", cooldown);
                 StartCoroutine(Cast());
                 StartCoroutine(CameraEffect());
             }

@@ -15,7 +15,7 @@ public class AmmoBar : MonoBehaviour
 
     private void Awake()
     {
-        EventManager.Instance.Subscribe(EventManager.Events.OnPlayerUpdateAmmo, UpdateBar);
+        EventManager.Instance.Subscribe("OnPlayerUpdateAmmo", UpdateBar);
     }
 
     public void UpdateBar(params object[] p)

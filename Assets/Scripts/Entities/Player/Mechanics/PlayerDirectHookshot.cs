@@ -2,8 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-public class PlayerDirectHookshot : UnlockableMechanic,IGrapple
+using UnityEngine.Serialization;
+
+public class PlayerDirectHookshot : UnlockableMechanic
 {
+    public enum HookType
+    {
+        Direct, Indirect
+    }
+    
     [Header("Energy")]
     [SerializeField] private float energyCost = 0;
     [SerializeField] private string energyErrorMessage;
@@ -17,8 +24,11 @@ public class PlayerDirectHookshot : UnlockableMechanic,IGrapple
     [SerializeField] private float cooldownErrorTimeOnScreen;
     private float _currentCooldown;
     
+    
     [Header("Parameters")]
-    [SerializeField] private LayerMask grappleable;
+    [FormerlySerializedAs("grappleable")]
+    [SerializeField] private LayerMask directGrappleable;
+    [SerializeField] private LayerMask indirectGrappleable;
     [SerializeField] private float maxHookDistance = 50f;
     [SerializeField] private float hookSpeed = 5f;
     [SerializeField] private float pullSpeed = 0.5f;
@@ -40,9 +50,8 @@ public class PlayerDirectHookshot : UnlockableMechanic,IGrapple
     [Header("Settings")]
     [SerializeField] private bool sameButtonPressCancel;
     [SerializeField] private bool useMinDistanceToHook;
-    [SerializeField] private bool useDistanceMultiplier;
-    [SerializeField] private bool useRigidbodyPosition;
 
+    private HookType _type;
     private PlayerHookObject _hook;
     private bool _pulling;
     private Action _onProximity;
@@ -63,12 +72,12 @@ public class PlayerDirectHookshot : UnlockableMechanic,IGrapple
         if (!mechanicUnlocked) return;
         
         _currentCooldown -= Time.deltaTime;
-        if (_hook == null && player.input.DirectGrapple && !player.grapple.Pulling)
+        if (_hook == null && player.input.DirectGrapple)
         {
             if (_currentCooldown > 0)
             {
                 //Still on cd
-                EventManager.Instance.Trigger(EventManager.Events.OnSendUIMessageTemporary, 
+                EventManager.Instance.Trigger("OnSendUIMessageTemporary", 
                     cooldownErrorMessage, 
                     cooldownErrorMessageColor, 
                     cooldownErrorTimeOnScreen);
@@ -111,31 +120,27 @@ public class PlayerDirectHookshot : UnlockableMechanic,IGrapple
         }
         else
         {
-
             Vector3 hookDir = (_hook.transform.position - transform.position).normalized;
 
             Vector3 addSpeed = hookDir * pullSpeed * Time.deltaTime;
 
-            if (useDistanceMultiplier)
+            switch (_type)
             {
-                float distanceVelocity = Mathf.Clamp(distance, minDistancePullMultiplier, maxDistancePullMultiplier);
-                addSpeed *= distanceVelocity;
+                case HookType.Direct:
+                    float distanceVelocity = Mathf.Clamp(distance, minDistancePullMultiplier, maxDistancePullMultiplier);
+                    addSpeed *= distanceVelocity;
+                    rigid.position += addSpeed;
+                    break;
+                case HookType.Indirect:
+                    rigid.AddForce(addSpeed, ForceMode.VelocityChange);
+                    break;
             }
-
-            if (useRigidbodyPosition)
-            {
-                rigid.position += addSpeed;
-            }
-            else
-            {
-                rigid.AddForce(addSpeed, ForceMode.VelocityChange);
-            }
-            
         }
     }
 
-    public void StartPull(Action onProximity)
+    public void StartPull(HookType type, Action onProximity = null)
     {
+        _type = type;
         _onProximity = onProximity;
         _pulling = true;
     }
@@ -144,7 +149,7 @@ public class PlayerDirectHookshot : UnlockableMechanic,IGrapple
     {
         if(!player.energy.TakeEnergy(energyCost))
         {
-            EventManager.Instance.Trigger(EventManager.Events.OnSendUIMessageTemporary, energyErrorMessage, energyErrorMessageColor, energyErrorTimeOnScreen);
+            EventManager.Instance.Trigger("OnSendUIMessageTemporary", energyErrorMessage, energyErrorMessageColor, energyErrorTimeOnScreen);
             return;
         }
 
@@ -154,7 +159,7 @@ public class PlayerDirectHookshot : UnlockableMechanic,IGrapple
         
         AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.PlayerHook));
         
-        _hook.Initialize(shootTransform, this, player.aim.Point, grappleable, hookSpeed, delegate
+        _hook.Initialize(shootTransform, this, player.aim.Point, directGrappleable, indirectGrappleable, hookSpeed, delegate
         {
             _joint = gameObject.AddComponent<DistanceJoint3D>();
             _joint.connected = _hook.GetComponent<Rigidbody>();
@@ -172,11 +177,16 @@ public class PlayerDirectHookshot : UnlockableMechanic,IGrapple
                 _joint.minDistance = minDistance;
             }
 
-            rigid.velocity = Vector3.zero;
-            
+            switch (_type)
+            {
+                case HookType.Direct:
+                    rigid.velocity = Vector3.zero;
+                    break;
+                case HookType.Indirect:
+                    break;
+            }
             
             player.movement.ApplyGravity(false);
-            
         });
     }
     public void DestroyHook()
@@ -186,7 +196,7 @@ public class PlayerDirectHookshot : UnlockableMechanic,IGrapple
             return;
         }
 
-        EventManager.Instance.Trigger(EventManager.Events.OnPlayerDirectHookshotCD, cooldown);
+        EventManager.Instance.Trigger("OnPlayerHookshotCD", cooldown);
         _currentCooldown = cooldown;
         player.movement.ableToMove = true;
         player.movement.ApplyGravity(true);

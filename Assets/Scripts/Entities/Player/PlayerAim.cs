@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 public class PlayerAim : MonoBehaviour
 {
+    [SerializeField] private Player player;
     public LayerMask aimingMask;
     public Transform firePoint;
     
@@ -30,20 +31,15 @@ public class PlayerAim : MonoBehaviour
 
         if (Physics.Raycast(screenRay, out RaycastHit raycastHit, 999f, aimingMask))
         {
-            //Screen ray is colliding with something, now check what point a ray would collide with from the fire point
+            //Screen ray is colliding with something, now check what point a ray would collide with from the player transform
             
             Vector3 point = raycastHit.point;
-            Ray firepointRay = new Ray(firePoint.position, (point - firePoint.position).normalized);
+            Ray playerTramsformRay = new Ray(player.transform.position, (point - player.transform.position).normalized);
             
-            if (Physics.Raycast(firepointRay, out RaycastHit raycastHitTwo, 999f, aimingMask))
+            if (Physics.Raycast(playerTramsformRay, out RaycastHit raycastHitTwo, 999f, aimingMask))
             {
-                //Firepoint is colliding with something
-                if (Physics.SphereCast(firepointRay, 0.1f, out RaycastHit checkSpherehit,999f, aimingMask))
-                {
-                    Point = checkSpherehit.point;
-                    Aim = true;
-                }
-                
+                Point = raycastHitTwo.point;
+                Aim = true;
             }
         }
     }

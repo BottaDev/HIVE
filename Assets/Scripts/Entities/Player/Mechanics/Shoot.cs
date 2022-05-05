@@ -1,3 +1,5 @@
+using System.Collections;
+using EZCameraShake;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -18,15 +20,24 @@ public class Shoot : MonoBehaviour
     [Header("Ammunition")]
     public int maxAmmo = 100;
     public float totalReloadTime = 1f;
-    
 
     [Header("Objects")]
     public LayerMask mask;
     public Bullet bullet;
-
     [FormerlySerializedAs("_firePoint")] public Transform firePoint;
     private ObjectPool _bulletPool;
 
+    [Header("Effects")]
+    public GameObject shootingParticle;
+        
+    [Header("Screenshake")]
+    public float magnitude;
+    public float roughness;
+    public float fadeInTime;
+    public float fadeOutTime;
+    
+    
+    
     private int _currentAmmo;
     private float _currentCd;
 
@@ -42,7 +53,7 @@ public class Shoot : MonoBehaviour
         set
         {
             _currentAmmo = value;
-            EventManager.Instance.Trigger(EventManager.Events.OnPlayerUpdateAmmo, _currentAmmo, maxAmmo);
+            EventManager.Instance.Trigger("OnPlayerUpdateAmmo", _currentAmmo, maxAmmo);
         }
     }
 
@@ -91,6 +102,10 @@ public class Shoot : MonoBehaviour
             _currentCd = 0;
 
             AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.PlayerShot));
+            CameraShaker.Instance.ShakeOnce(magnitude, roughness, fadeInTime, fadeOutTime);
+            GameObject particle = Instantiate(shootingParticle, firePoint.position, firePoint.rotation);
+            Destroy(particle, 1f);
+            
             Bullet bul = _bulletPool.GetObject().GetComponent<Bullet>();
 
 

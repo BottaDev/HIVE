@@ -180,7 +180,7 @@ namespace UnityEngine.AI
                     AddData();
             }
 
-            EventManager.Instance.Trigger(EventManager.Events.OnNavMeshBake);
+            EventManager.Instance.Trigger("OnNavMeshBake");
         }
 
         public AsyncOperation UpdateNavMesh(NavMeshData data)

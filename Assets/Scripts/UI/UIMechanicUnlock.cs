@@ -6,7 +6,7 @@ using UnityEngine.Serialization;
 
 public class UIMechanicUnlock : MonoBehaviour
 {
-    [SerializeField] private EventManager.Events eventType;
+    [SerializeField] private string eventType;
     [SerializeField] private UnityEvent onTrigger;
     
     private void Awake()

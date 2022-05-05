@@ -9,12 +9,12 @@ public class UIRailInteractionPrompt : MonoBehaviour
 
     private void Awake()
     {
-        EventManager.Instance.Subscribe(EventManager.Events.OnPlayerRailAttached, DeactivateUIMessage);
+        EventManager.Instance.Subscribe("OnPlayerRailAttached", DeactivateUIMessage);
     }
 
     private void DeactivateUIMessage(params object[] p)
     {
-        EventManager.Instance.Trigger(EventManager.Events.OnEliminateUIMessage, message);
+        EventManager.Instance.Trigger("OnEliminateUIMessage", message);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -22,9 +22,9 @@ public class UIRailInteractionPrompt : MonoBehaviour
         if (!triggerMask.CheckLayer(other.gameObject.layer)) return;
 
         rail.WaitForInput(true);
-        if (!rail.active && !rail.p.grapple.Pulling)
+        if (!rail.active && !rail.p.hookshot.Pulling)
         {
-            EventManager.Instance.Trigger(EventManager.Events.OnSendUIMessage, message, messageColor);
+            EventManager.Instance.Trigger("OnSendUIMessage", message, messageColor);
         }
     }
 
@@ -34,6 +34,6 @@ public class UIRailInteractionPrompt : MonoBehaviour
 
         rail.WaitForInput(false);
         //prompt.SetActive(false);
-        EventManager.Instance.Trigger(EventManager.Events.OnEliminateUIMessage, message);
+        EventManager.Instance.Trigger("OnEliminateUIMessage", message);
     }
 }

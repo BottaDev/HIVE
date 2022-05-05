@@ -45,7 +45,6 @@ public class AttractiveBullet : PoolableObject
 
         if (player != null)
         {
-            player.grapple.DestroyHook();
             player.hookshot.DestroyHook();
             player.movement.rb.AddForce(-transform.forward * attractForce , ForceMode.Impulse);
         }

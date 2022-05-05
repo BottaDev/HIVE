@@ -22,13 +22,13 @@ public class UILevelSystem : MonoBehaviour
 
     private void Awake()
     {
-        EventManager.Instance.Subscribe(EventManager.Events.SendPlayerReference, GetPlayerReference);
-        EventManager.Instance.Subscribe(EventManager.Events.OnPlayerLevelSystemUpdate, UpdateUI);
+        EventManager.Instance.Subscribe("SendPlayerReference", GetPlayerReference);
+        EventManager.Instance.Subscribe("OnPlayerLevelSystemUpdate", UpdateUI);
     }
 
     private void Start()
     {
-        EventManager.Instance.Trigger(EventManager.Events.NeedsPlayerReference);
+        EventManager.Instance.Trigger("NeedsPlayerReference");
     }
 
     private void GetPlayerReference(params object[] p)

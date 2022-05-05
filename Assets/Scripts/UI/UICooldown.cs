@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class UICooldown : MonoBehaviour
 {
-    [SerializeField] private EventManager.Events eventType;
+    [SerializeField] private string eventType;
     [SerializeField] private Utilities_RadialTimerBar timer;
     [SerializeField] private bool startFull;
     

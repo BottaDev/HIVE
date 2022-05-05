@@ -58,7 +58,7 @@ public class PlayerGrenadeThrow : UnlockableMechanic
             if (!readyToThrow)
             {
                 //Still on cd
-                EventManager.Instance.Trigger(EventManager.Events.OnSendUIMessageTemporary, 
+                EventManager.Instance.Trigger("OnSendUIMessageTemporary", 
                     cooldownErrorMessage, 
                     cooldownErrorMessageColor, 
                     cooldownErrorTimeOnScreen);
@@ -67,7 +67,7 @@ public class PlayerGrenadeThrow : UnlockableMechanic
             {
                 if (!player.energy.TakeEnergy(energyCost))
                 {
-                    EventManager.Instance.Trigger(EventManager.Events.OnSendUIMessageTemporary, energyErrorMessage, energyErrorMessageColor, energyErrorTimeOnScreen);
+                    EventManager.Instance.Trigger("OnSendUIMessageTemporary", energyErrorMessage, energyErrorMessageColor, energyErrorTimeOnScreen);
                     return;
                 }
                 Throw();
@@ -89,7 +89,7 @@ public class PlayerGrenadeThrow : UnlockableMechanic
         rb.AddForce(forwardForce + upwardsForce, ForceMode.Impulse);
         
         readyToThrow = false;
-        EventManager.Instance.Trigger(EventManager.Events.OnPlayerGrenadeCd, cooldown);
+        EventManager.Instance.Trigger("OnPlayerGrenadeCd", cooldown);
         Invoke(nameof(ResetThrow), cooldown);
     }
     

@@ -19,6 +19,7 @@ public class PlayerEnergy : MonoBehaviour
     private bool promptShowing;
 
     [Header("Effect")]
+    [SerializeField] private string absorbablePivotTag;
     [SerializeField] private Electric electricityPrefab;
     private List<Electric> effects = new List<Electric>();
     private bool effectActive;
@@ -34,7 +35,7 @@ public class PlayerEnergy : MonoBehaviour
         set
         {
             _current = value; 
-            EventManager.Instance.Trigger(EventManager.Events.OnEnergyUpdated, _current, MaxEnergy);
+            EventManager.Instance.Trigger("OnEnergyUpdated", _current, MaxEnergy);
         } 
     }
     public float MaxEnergy
@@ -43,7 +44,7 @@ public class PlayerEnergy : MonoBehaviour
         set
         {
             maxEnergy = value;  
-            EventManager.Instance.Trigger(EventManager.Events.OnEnergyUpdated, _current, MaxEnergy);
+            EventManager.Instance.Trigger("OnEnergyUpdated", _current, MaxEnergy);
         }
     }
     private void Start()
@@ -79,7 +80,8 @@ public class PlayerEnergy : MonoBehaviour
                     Electric effect = Instantiate(electricityPrefab);
                     effect.transformPointB = player.transform;
 
-                    Transform a = absorbableObj[i].transform.parent == null ? absorbableObj[i].transform : absorbableObj[i].transform.parent;
+                    
+                    Transform a = absorbableObj[i].CompareTag(absorbablePivotTag) ? absorbableObj[i].transform : absorbableObj[i].transform.parent;
                     effect.transformPointA = a;
 
                     effects.Add(effect);
@@ -92,7 +94,7 @@ public class PlayerEnergy : MonoBehaviour
             if (!promptShowing)
             {
                 promptShowing = true;
-                EventManager.Instance.Trigger(EventManager.Events.OnSendUIMessage, message, messageColor);
+                EventManager.Instance.Trigger("OnSendUIMessage", message, messageColor);
             }
         }
         else
@@ -110,7 +112,7 @@ public class PlayerEnergy : MonoBehaviour
 
             if (promptShowing)
             {
-                EventManager.Instance.Trigger(EventManager.Events.OnEliminateUIMessage, message);
+                EventManager.Instance.Trigger("OnEliminateUIMessage", message);
                 promptShowing = false;
             }
         }
@@ -201,7 +203,7 @@ public class PlayerEnergy : MonoBehaviour
         if (!promptShowing)
         {
             promptShowing = true;
-            EventManager.Instance.Trigger(EventManager.Events.OnSendUIMessage, message, messageColor);
+            EventManager.Instance.Trigger("OnSendUIMessage", message, messageColor);
         }
     }
 
@@ -209,7 +211,7 @@ public class PlayerEnergy : MonoBehaviour
     {
         if (promptShowing)
         {
-            EventManager.Instance.Trigger(EventManager.Events.OnEliminateUIMessage, message);
+            EventManager.Instance.Trigger("OnEliminateUIMessage", message);
             promptShowing = false;
         }
     }

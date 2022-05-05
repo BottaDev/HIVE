@@ -13,7 +13,7 @@ public class HealthBar : MonoBehaviour
     [SerializeField] private TextMeshProUGUI text;
     private void Awake()
     {
-        EventManager.Instance?.Subscribe(EventManager.Events.OnLifeUpdated, OnLifeUpdated);
+        EventManager.Instance?.Subscribe("OnLifeUpdated", OnLifeUpdated);
     }
 
     private void OnLifeUpdated(params object[] parameters)

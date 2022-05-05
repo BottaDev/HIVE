@@ -43,6 +43,19 @@ public class LevellingSystem
         }
     }
 
+    public void SetExp(int value, bool updateLevelSystem = true)
+    {
+        _exp = value;
+
+        if (updateLevelSystem)
+        {
+            UpdateLevelSystem();
+        }
+        else
+        {
+            _level = GetCurrentLevel(_exp);
+        }
+    }
     public LevellingSystem SetMaxLevel(int newMaxLevel)
     {
         _maxLevel = newMaxLevel;

@@ -11,7 +11,7 @@ public class EnergyBar : MonoBehaviour
     [SerializeField] private TextMeshProUGUI amountText;
     private void Awake()
     {
-        EventManager.Instance?.Subscribe(EventManager.Events.OnEnergyUpdated, OnEnergyUpdated);
+        EventManager.Instance?.Subscribe("OnEnergyUpdated", OnEnergyUpdated);
     }
 
     private void OnEnergyUpdated(params object[] parameters)

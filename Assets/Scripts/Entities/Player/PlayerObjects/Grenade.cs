@@ -1,13 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+using EZCameraShake;
 using UnityEngine;
 
 public class Grenade : MonoBehaviour
 {
+    [Header("Assignables")]
     public Rigidbody rb;
     public ParticleSystem impactParticles;
     public TrailRenderer trail;
 
+    [Header("Screenshake")]
+    public float magnitude;
+    public float roughness;
+    public float fadeInTime;
+    public float fadeOutTime;
 
     private float timeDelay;
     private float timeCounter;
@@ -63,6 +70,7 @@ public class Grenade : MonoBehaviour
     void Explode()
     {
         ParticleSystem effect = Instantiate(impactParticles, transform.position, transform.rotation);
+        CameraShaker.Instance.ShakeOnce(magnitude, roughness, fadeInTime, fadeOutTime);
         Collider[] hits = Physics.OverlapSphere(transform.position, explosionRadius, hitMask);
 
         foreach (var hit in hits)
@@ -73,8 +81,6 @@ public class Grenade : MonoBehaviour
             {
                 obj.TakeDamage(damage);
             }
-
-            
         }
         
         if (addForceToRigidbodies)

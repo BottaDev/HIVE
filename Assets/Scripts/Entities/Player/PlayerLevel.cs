@@ -35,7 +35,9 @@ public class PlayerLevel : MonoBehaviour
             return (level - 1) * 20;
         }
 
-        system = new LevellingSystem(LevelFormula).SetOnLevelup(OnLevelup).AddEveryXLevels(3, OnBigLevelUp);
+        system = new LevellingSystem(LevelFormula).SetOnLevelup(OnLevelup)
+            .AddEveryXLevels(3, OnBigLevelUp)
+            .SetStartingLevel(Player.SavedPlayer == null ? 1 : Player.SavedPlayer.level);
     }
 
     public Exp FindExpOfType(ExpType type)
@@ -43,7 +45,7 @@ public class PlayerLevel : MonoBehaviour
         return exp.Find(x => x.type == type);
     }
 
-    public void AddExp(ExpType type, int amount)
+    public void AddExp(ExpType type, int amount, bool doLevelUp = true)
     {
         if (isDelayed)
         {
@@ -64,7 +66,7 @@ public class PlayerLevel : MonoBehaviour
         int currentLevel = system.Level;
         system.Exp += amount;
 
-        if (currentLevel < system.Level)
+        if (currentLevel < system.Level && doLevelUp)
         {
             //levelup
             int difference = system.Level - currentLevel;
@@ -102,6 +104,9 @@ public class PlayerLevel : MonoBehaviour
                 }
             }
         }
+        
+        
+        EventManager.Instance.Trigger("OnPlayerLevelSystemUpdate", type);
     }
 
     private void OnBigLevelUp(int level)
@@ -117,6 +122,16 @@ public class PlayerLevel : MonoBehaviour
         UILevelUpgradePrompt.instance.SetUpgrades(upgrades.GachaPull(type, exp), type);
     }
 
+    public List<Tuple<ExpType, int, int>> SaveToTupleList()
+    {
+        List<Tuple<ExpType, int, int>> list = new List<Tuple<ExpType, int, int>>();
+        foreach (var expType in exp)
+        {
+            list.Add(new Tuple<ExpType, int, int>(expType.type, expType.ThisLevel, expType.Total));
+        }
+
+        return list;
+    }
     [Serializable]
     public class Exp
     {

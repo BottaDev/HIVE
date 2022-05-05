@@ -27,6 +27,8 @@ public class UILevelUpgradePrompt : MonoBehaviour
 
     private Queue<ChoosableUpgradePrompt> choices = new Queue<ChoosableUpgradePrompt>();
     private ChoosableUpgradePrompt current;
+
+    public List<PlayerUpgrades.Upgrade> upgradesChosen = new List<PlayerUpgrades.Upgrade>();
     class ChoosableUpgradePrompt
     {
         public string displayText;
@@ -35,21 +37,23 @@ public class UILevelUpgradePrompt : MonoBehaviour
     }
 
     private int choiceAmount;
-
+    private Player _player;
+    
     private void Awake()
     {
         instance = this;
-        
+        EventManager.Instance.Subscribe("SendPlayerReference", GetPlayerReference);
     }
     private void Start()
     {
-        EventManager.Instance.Subscribe(EventManager.Events.OnPlayerEnteredUpgradeRoom, ShowLongDescription);
-        EventManager.Instance.Subscribe(EventManager.Events.OnPlayerLeftUpgradeRoom, HideLongDescription);
-        
+        EventManager.Instance.Subscribe("OnPlayerEnteredUpgradeRoom", ShowLongDescription);
+        EventManager.Instance.Subscribe("OnPlayerLeftUpgradeRoom", HideLongDescription);
+        EventManager.Instance.Trigger("NeedsPlayerReference");
         ShowUI(false);
         shortText.gameObject.SetActive(true);
         longText.gameObject.SetActive(false);
     }
+    
     private void Update()
     {
         if (choices.Count > 0)
@@ -99,9 +103,16 @@ public class UILevelUpgradePrompt : MonoBehaviour
         }
     }
 
+    private void GetPlayerReference(params object[] p)
+    {
+        _player = (Player)p[0];
+    }
+    
     void ChooseUpgrade(int index)
     {
-        current.upgrades.SafeGet(index).action.Invoke();
+        PlayerUpgrades.Upgrade upgrade = current.upgrades.SafeGet(index);
+        upgradesChosen.Add(upgrade);
+        upgrade.action.Invoke(_player);
         waitingForInput = false;
         ShowUI(false);
         choiceAmount--;
@@ -149,7 +160,7 @@ public class UILevelUpgradePrompt : MonoBehaviour
 
         if (state)
         {
-            EventManager.Instance.Trigger(EventManager.Events.OnEliminateUIMessage, errorMessage);
+            EventManager.Instance.Trigger("OnEliminateUIMessage", errorMessage);
         }
     }
 
@@ -159,7 +170,7 @@ public class UILevelUpgradePrompt : MonoBehaviour
         
         if (!showObject.activeSelf)
         {
-            EventManager.Instance.Trigger(EventManager.Events.OnSendUIMessage, errorMessage, errorMessageColor);
+            EventManager.Instance.Trigger("OnSendUIMessage", errorMessage, errorMessageColor);
         }
 
     }
@@ -169,7 +180,7 @@ public class UILevelUpgradePrompt : MonoBehaviour
         
         if (!showObject.activeSelf)
         {
-            EventManager.Instance.Trigger(EventManager.Events.OnEliminateUIMessage, errorMessage);
+            EventManager.Instance.Trigger("OnEliminateUIMessage", errorMessage);
         }
     }
     void LongDescription(bool state)

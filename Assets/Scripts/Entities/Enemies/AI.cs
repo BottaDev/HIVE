@@ -157,7 +157,7 @@ public abstract class AI : Entity
 
     private void KillAI()
     {
-        EventManager.Instance.Trigger(EventManager.Events.OnEnemyDeath);
+        EventManager.Instance.Trigger("OnEnemyDeath");
         dying = true;
         _player.AddExp(type, ExpParameters.Where(x => x.type == type).First().expAmount);
         if (useRigidBodyDeath)

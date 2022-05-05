@@ -5,42 +5,9 @@ using System;
 
 public class EventManager : MonoBehaviour
 {
-    public enum Events
-    {
-        OnNavMeshBake,
-        OnEnemyDamaged,
-        OnPlayerDamaged,
-        OnEnemyCounted,
-        OnTotalEnemy,
-        OnEnemyDeath,
-        OnPlayerDead,
-        OnLifeUpdated,
-        OnPlayerRailAttached,
-        OnPlayerRailDeAttached,
-        OnPlayerRailActive,
-        OnPlayerDashCd,
-        OnPlayerGrappleCd,
-        OnPlayerGrenadeCd,
-        OnPlayerDashUnlock,
-        OnPlayerGrappleUnlock,
-        OnPlayerGrenadeUnlock,
-        OnPlayerUpdateAmmo,
-        SendPlayerReference,
-        OnPlayerLevelSystemUpdate,
-        OnEnergyUpdated,
-        OnSendUIMessage,
-        OnEliminateUIMessage,
-        OnPlayerDirectHookshotUnlock,
-        OnPlayerDirectHookshotCD,
-        OnSendUIMessageTemporary,
-        OnPlayerEnteredUpgradeRoom,
-        OnPlayerLeftUpgradeRoom,
-        NeedsPlayerReference
-    }
-
     public static EventManager Instance { get; private set; }
 
-    Dictionary<Events, Action<object[]>> _subscribers = new Dictionary<Events, Action<object[]>>();
+    Dictionary<string, Action<object[]>> _subscribers = new Dictionary<string, Action<object[]>>();
 
     private void Awake()
     {
@@ -53,23 +20,26 @@ public class EventManager : MonoBehaviour
         }
     }
 
-    public void Subscribe(Events eventId, Action<object[]> callback)
+    public void Subscribe(string eventName, Action<object[]> callback)
     {
+        string eventId = eventName.ToLower();
         if (!_subscribers.ContainsKey(eventId))
             _subscribers.Add(eventId, callback);
         else
             _subscribers[eventId] += callback;
     }
 
-    public void Unsubscribe(Events eventId, Action<object[]> callback)
+    public void Unsubscribe(string eventName, Action<object[]> callback)
     {
+        string eventId = eventName.ToLower();
         if (!_subscribers.ContainsKey(eventId)) return;
 
         _subscribers[eventId] -= callback;
     }
 
-    public void Trigger(Events eventId, params object[] parameters)
+    public void Trigger(string eventName, params object[] parameters)
     {
+        string eventId = eventName.ToLower();
         if (!_subscribers.ContainsKey(eventId))
             return;
 

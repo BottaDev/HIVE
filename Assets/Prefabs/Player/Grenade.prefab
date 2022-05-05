@@ -50,6 +50,10 @@ MonoBehaviour:
   rb: {fileID: 6188199989328108754}
   impactParticles: {fileID: 4981918036036697285, guid: 7177159c241892b449e693dfbe9feb8c, type: 3}
   trail: {fileID: 6188199989328108755}
+  magnitude: 50
+  roughness: 4
+  fadeInTime: 0.1
+  fadeOutTime: 1
 --- !u!136 &6188199989328108757
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -130,7 +134,7 @@ TrailRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.042553596
+        value: 0.40853012
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -179,7 +183,7 @@ TrailRenderer:
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 15
-    numCapVertices: 1
+    numCapVertices: 15
     alignment: 0
     textureMode: 0
     shadowBias: 0.5

@@ -13,8 +13,8 @@ public class CountEnemyManager : MonoBehaviour
 
     private void Awake()
     {
-        EventManager.Instance.Subscribe(EventManager.Events.OnEnemyCounted, OnEnemyCounted);
-        EventManager.Instance.Subscribe(EventManager.Events.OnTotalEnemy, OnTotalEnemy);
+        EventManager.Instance.Subscribe("OnEnemyCounted", OnEnemyCounted);
+        EventManager.Instance.Subscribe("OnTotalEnemy", OnTotalEnemy);
     }
 
     private void UpdateText()
@@ -39,6 +39,6 @@ public class CountEnemyManager : MonoBehaviour
 
         UpdateText();
 
-        EventManager.Instance.Unsubscribe(EventManager.Events.OnTotalEnemy, OnTotalEnemy);
+        EventManager.Instance.Unsubscribe("OnTotalEnemy", OnTotalEnemy);
     }
 }

@@ -94,7 +94,7 @@ public class PlayerJump : MonoBehaviour
         fallingGravity = false;
 
         //Jump action
-        if (_jumpBufferCondition && _readyToJumpCondition && _jumpCounter > 0 && !player.grapple.Pulling)
+        if (_jumpBufferCondition && _readyToJumpCondition && _jumpCounter > 0 && !player.hookshot.Pulling)
         {
             //If you don't jump within coyote time in your first jump, it counts as 2 jumps (so you lose one jump if you do it from the air)
             if (!_coyoteTimeCondition && _firstJump)

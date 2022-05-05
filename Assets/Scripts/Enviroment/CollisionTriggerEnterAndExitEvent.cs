@@ -6,8 +6,8 @@ using UnityEngine;
 public class CollisionTriggerEnterAndExitEvent : MonoBehaviour
 {
     public LayerMask triggerable;
-    public EventManager.Events entered;
-    public EventManager.Events left;
+    public string entered;
+    public string left;
     
     private void OnTriggerEnter(Collider other)
     {

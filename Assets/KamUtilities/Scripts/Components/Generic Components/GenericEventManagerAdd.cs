@@ -8,7 +8,7 @@ public class GenericEventManagerAdd : MonoBehaviour
     [System.Serializable]
     public struct Events
     {
-        public EventManager.Events eventType;
+        public string eventType;
         public UnityEvent action;
     }
 
