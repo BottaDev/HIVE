@@ -122,17 +122,19 @@ public class PlayerDirectHookshot : UnlockableMechanic
         {
             Vector3 hookDir = (_hook.transform.position - transform.position).normalized;
 
-            Vector3 addSpeed = hookDir * pullSpeed * Time.deltaTime;
+            
 
             switch (_type)
             {
                 case HookType.Direct:
+                    Vector3 addSpeedDirect = hookDir * pullSpeed * Time.deltaTime;
                     float distanceVelocity = Mathf.Clamp(distance, minDistancePullMultiplier, maxDistancePullMultiplier);
-                    addSpeed *= distanceVelocity;
-                    rigid.position += addSpeed;
+                    addSpeedDirect *= distanceVelocity;
+                    rigid.position += addSpeedDirect;
                     break;
                 case HookType.Indirect:
-                    rigid.AddForce(addSpeed, ForceMode.VelocityChange);
+                    Vector3 addSpeedIndirect = hookDir * pullSpeed * 5 * Time.deltaTime;
+                    rigid.AddForce(addSpeedIndirect, ForceMode.VelocityChange);
                     break;
             }
         }

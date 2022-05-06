@@ -19,6 +19,9 @@ public class Player : Entity
     public PlayerDirectHookshot hookshot;
     public PlayerGrenadeThrow grenadeThrow;
 
+
+    public Rails attachedRail { get; set; }
+    public bool attachedToRail => attachedRail != null;
     public static Progress SavedPlayer;
 
     public class Progress
@@ -99,7 +102,7 @@ public class Player : Entity
 
     private void RestartScene()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void DeleteSavedPlayer()

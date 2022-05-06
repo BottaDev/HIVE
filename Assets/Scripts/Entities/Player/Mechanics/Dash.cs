@@ -66,7 +66,15 @@ public class Dash : UnlockableMechanic
                 }
             
                 EventManager.Instance.Trigger("OnPlayerDashCd", cooldown);
-                StartCoroutine(Cast());
+                if (player.attachedToRail)
+                {
+                    StartCoroutine(RailDashCast(player.attachedRail));
+                }
+                else
+                {
+                    StartCoroutine(DashCast());
+                }
+                
                 StartCoroutine(CameraEffect());
             }
             
@@ -75,7 +83,7 @@ public class Dash : UnlockableMechanic
         _currentCooldown -= Time.deltaTime;
     }
 
-    private IEnumerator Cast()
+    private IEnumerator DashCast()
     {
         foreach (TrailRenderer item in trails)
         {
@@ -118,6 +126,35 @@ public class Dash : UnlockableMechanic
 
         player.movement.ableToMove = ableToMoveOld;
         player.movement.ApplyGravity(applyGravityOld);
+    }
+    
+    public IEnumerator RailDashCast(Rails rail)
+    {
+        foreach (TrailRenderer item in trails)
+        {
+            item.emitting = true;
+        }
+        
+        _currentCooldown = cooldown;
+        
+        float originalVelocity = rail.speed;
+        float originalDetectionRange = rail.detectionRange;
+        rail.speed = rail.railDashSpeed;
+        rail.detectionRange = Mathf.RoundToInt(rail.railDashSpeed / 7f) * 0.1f;
+        player.movement.ableToMove = false;
+        
+        AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.PlayerDash));
+    
+        yield return new WaitForSeconds(dashDuration);
+        
+        foreach (TrailRenderer item in trails)
+        {
+            item.emitting = false;
+        }
+
+        player.movement.ableToMove = true;
+        rail.speed = originalVelocity;
+        rail.detectionRange = originalDetectionRange;
     }
 
     private IEnumerator CameraEffect()

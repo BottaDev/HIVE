@@ -16,6 +16,7 @@ public class Rails : MonoBehaviour
 
     [Header("Settings")]
     public float speed;
+    public float railDashSpeed;
     public float detectionRange;
 
     private bool _waitingForInput;
@@ -26,13 +27,17 @@ public class Rails : MonoBehaviour
     [Header("Debug")]
     
     public bool loop;
+    public bool returnOnInactive;
 
     public void Attach()
     {
         EventManager.Instance.Trigger("OnPlayerRailAttached");
         active = true;
         _unattachedParent = p.transform.parent;
+        p.attachedRail = this;
+        Vector3 rot = p.transform.rotation.eulerAngles;
         p.transform.parent = attachPoint;
+        p.transform.rotation = Quaternion.Euler(rot);
         p.transform.localPosition = Vector3.zero;
     }
 
@@ -40,6 +45,7 @@ public class Rails : MonoBehaviour
     {
         EventManager.Instance.Trigger("OnPlayerRailDeAttached");
         active = false;
+        p.attachedRail = null;
         p.transform.parent = _unattachedParent;
         p.movement.rb.velocity = Vector3.zero;
     }
@@ -69,8 +75,8 @@ public class Rails : MonoBehaviour
                     UnAttach();
                 }
             }
-            
-            if (p.input.Dashing || p.input.Jumping || p.hookshot.Pulling || p.input.DirectGrapple)
+
+            if (p.input.Jumping || p.hookshot.Pulling || p.input.DirectGrapple)
             {
                 UnAttach();
             }
@@ -86,6 +92,11 @@ public class Rails : MonoBehaviour
     {
         if (active)
         {
+            MoveTowards(waypoints[_current].position);
+        }
+        else if (_current >= 0 && returnOnInactive)
+        {
+            _reverse = true;
             MoveTowards(waypoints[_current].position);
         }
     }
@@ -116,7 +127,7 @@ public class Rails : MonoBehaviour
                 {
                     _current--;
                 }
-                else if (loop)
+                else if (loop && active)
                 {
                     _reverse = false;
                     _current++;
