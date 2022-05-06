@@ -73,22 +73,19 @@ public class PlayerEnergy : MonoBehaviour
         
         if (absorbing)
         {
-            if (!effectActive)
+            for (int i = 0; i < absorbableObj.Count - effects.Count; i++)
             {
-                for (int i = 0; i < absorbableObj.Count; i++)
-                {
-                    Electric effect = Instantiate(electricityPrefab);
-                    effect.transformPointB = player.transform;
+                Electric effect = Instantiate(electricityPrefab);
+                effect.transformPointB = player.transform;
+                AbsorbableObject obj = absorbableObj[effects.Count + i];
+                Transform a = obj.CompareTag(absorbablePivotTag) ? obj.transform : obj.transform.parent;
+                effect.transformPointA = a;
 
-                    
-                    Transform a = absorbableObj[i].CompareTag(absorbablePivotTag) ? absorbableObj[i].transform : absorbableObj[i].transform.parent;
-                    effect.transformPointA = a;
-
-                    effects.Add(effect);
-                }
-
-                effectActive = true;
+                effects.Add(effect);
             }
+
+            effectActive = true;
+            
 
 
             if (!promptShowing)
@@ -105,11 +102,12 @@ public class PlayerEnergy : MonoBehaviour
                 {
                     Destroy(effect.gameObject);
                 }
+            
                 effects.Clear();
-
                 effectActive = false;
             }
-
+            
+            
             if (promptShowing)
             {
                 EventManager.Instance.Trigger("OnEliminateUIMessage", message);
@@ -195,6 +193,7 @@ public class PlayerEnergy : MonoBehaviour
 
         foreach (var obj in empty)
         {
+            DestroyEffectOf(obj);
             absorbableObj.Remove(obj);
         }
     }
@@ -238,6 +237,11 @@ public class PlayerEnergy : MonoBehaviour
 
         if (obj != null)
         {
+            if (!obj.Empty)
+            {
+                DestroyEffectOf(obj);
+            }
+            
             absorbableObj.Remove(obj);
 
             if (absorbableObj.Count == 0)
@@ -245,8 +249,18 @@ public class PlayerEnergy : MonoBehaviour
                 ableToAbsorb = false;
 
                 HidePrompt();
-                
             }
         }
+    }
+
+    private void DestroyEffectOf(AbsorbableObject obj)
+    {
+        int index = absorbableObj.IndexOf(obj);
+
+        if (index == -1 || index >= effects.Count) return;
+        Electric effect = effects[index];
+        
+        effects.Remove(effect);
+        Destroy(effect.gameObject);
     }
 }

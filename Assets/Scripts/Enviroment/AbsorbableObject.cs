@@ -14,8 +14,24 @@ public class AbsorbableObject : MonoBehaviour
     public bool Empty => empty;
 
     [Header("Effect Parameters")]
-    [SerializeField] private List<Renderer> renderers;
-    [SerializeField] private List<FloatParameter> parameters;
+    [SerializeField] private List<Renderer> extraRenderers = new List<Renderer>();
+    private readonly List<FloatParameter> _parameters = new List<FloatParameter>()
+    {
+        new FloatParameter()
+        {
+            name = "Emission",
+            propertyName = "EmissionValue",
+            startValue = 1,
+            endValue = 20
+        },
+        new FloatParameter()
+        {
+            name = "Black",
+            propertyName = "Black",
+            startValue = 0,
+            endValue = 0.5f
+        }
+    };
 
     [Serializable]
     public class FloatParameter
@@ -34,9 +50,15 @@ public class AbsorbableObject : MonoBehaviour
 
     private void Start()
     {
+        Renderer rend = GetComponent<MeshRenderer>();
+        if (rend != null)
+        {
+            extraRenderers.Add(rend);
+        }
+        
         currentEnergy = totalEnergy;
         
-        foreach (var parameter in parameters)
+        foreach (var parameter in _parameters)
         {
             parameter.current = parameter.startValue;
             parameter.positive = parameter.endValue >= parameter.startValue;
@@ -62,12 +84,12 @@ public class AbsorbableObject : MonoBehaviour
             empty = true;
         }
         
-        foreach (var parameter in parameters)
+        foreach (var parameter in _parameters)
         {
             parameter.current = KamUtilities.Map(totalEnergy - currentEnergy,0,totalEnergy, 
                 parameter.startValue,parameter.endValue);
 
-            foreach (var r in renderers)
+            foreach (var r in extraRenderers)
             {
                 r.material.SetFloat("_"+parameter.propertyName, parameter.current);
             }
