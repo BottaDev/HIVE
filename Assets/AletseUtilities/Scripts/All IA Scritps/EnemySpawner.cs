@@ -8,7 +8,7 @@ public class EnemySpawner : MonoBehaviour
     public Transform Player;
     public int NumberOfEnemiesToSpawn = 5;
     public float SpawnDelay = 1f;
-    public List<EnemyScriptableObject> Enemies = new List<EnemyScriptableObject>();
+    public List<AI> Enemies = new List<AI>();
     public ScalingScriptableObject Scaling;
     public SpawnMethod EnemySpawnMethod = SpawnMethod.RoundRobin;
     public bool ContinuousSpawning;
@@ -16,8 +16,8 @@ public class EnemySpawner : MonoBehaviour
     [Header("Read At Runtime")]
     [SerializeField]
     private int Level = 0;
-    [SerializeField]
-    private List<EnemyScriptableObject> ScaledEnemies = new List<EnemyScriptableObject>();
+    //[SerializeField]
+    //private List<EnemyScriptableObject> ScaledEnemies = new List<EnemyScriptableObject>();
 
     private int EnemiesAlive = 0;
     private int SpawnedEnemies = 0;
@@ -30,9 +30,9 @@ public class EnemySpawner : MonoBehaviour
 
     private void Awake()
     {
-        for (int i = 0; i < Enemies.Count; i++)
+        for (var i = 0; i < Enemies.Count; i++)
         {
-            EnemyObjectPools.Add(i, ObjectPool.CreateInstance(Enemies[i].Prefab, NumberOfEnemiesToSpawn));
+            EnemyObjectPools.Add(i, ObjectPool.CreateInstance(Enemies[i], NumberOfEnemiesToSpawn));
         }
 
         InitialEnemiesToSpawn = NumberOfEnemiesToSpawn;
@@ -45,7 +45,7 @@ public class EnemySpawner : MonoBehaviour
 
         for (int i = 0; i < Enemies.Count; i++)
         {
-            ScaledEnemies.Add(Enemies[i].ScaleUpForLevel(Scaling, 0));
+            //ScaledEnemies.Add(Enemies[i].ScaleUpForLevel(Scaling, 0));
         }
 
         StartCoroutine(SpawnEnemies());
@@ -58,7 +58,7 @@ public class EnemySpawner : MonoBehaviour
         EnemiesAlive = 0;
         for (int i = 0; i < Enemies.Count; i++)
         {
-            ScaledEnemies[i] = Enemies[i].ScaleUpForLevel(Scaling, Level);
+            //ScaledEnemies[i] = Enemies[i].ScaleUpForLevel(Scaling, Level);
         }
 
         WaitForSeconds Wait = new WaitForSeconds(SpawnDelay);
@@ -86,10 +86,9 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    private void SpawnRoundRobinEnemy(int SpawnedEnemies)
+    private void SpawnRoundRobinEnemy(int spawnedEnemies)
     {
-        int SpawnIndex = SpawnedEnemies % Enemies.Count;
-
+        var SpawnIndex = spawnedEnemies % Enemies.Count;
         DoSpawnEnemy(SpawnIndex, ChooseRandomPositionOnNavMesh());
     }
 
@@ -106,25 +105,19 @@ public class EnemySpawner : MonoBehaviour
 
     public void DoSpawnEnemy(int SpawnIndex, Vector3 SpawnPosition)
     {
-        PoolableObject poolableObject = EnemyObjectPools[SpawnIndex].GetObject();
+        var poolableObject = EnemyObjectPools[SpawnIndex].GetObject();
 
         if (poolableObject != null)
         {
-            EnemyIA enemyIa = poolableObject.GetComponent<EnemyIA>();
-            ScaledEnemies[SpawnIndex].SetupEnemy(enemyIa);
-
-
-            NavMeshHit Hit;
-            if (NavMesh.SamplePosition(SpawnPosition, out Hit, 2f, -1))
+            AI enemyIa = poolableObject.GetComponent<AI>();
+            
+            if (NavMesh.SamplePosition(SpawnPosition, out var Hit, 2f, -1))
             {
-                enemyIa.Agent.Warp(Hit.position);
+                enemyIa._agent.Warp(Hit.position);
                 // enemy needs to get enabled and start chasing now.
-                enemyIa.Movement._player = Player;
-                enemyIa.Movement.Triangulation = Triangulation;
-                enemyIa.Agent.enabled = true;
-                enemyIa.Movement.Spawn();
-                enemyIa.OnDie += HandleEnemyDeath;
-
+                enemyIa.Player = Player;
+                enemyIa.Triangulation = Triangulation;
+                enemyIa._agent.enabled = true;
                 EnemiesAlive++;
             }
             else
@@ -161,5 +154,33 @@ public class EnemySpawner : MonoBehaviour
         RoundRobin,
         Random
         // Other spawn methods can be added here
+    }
+
+    public void DoSpawnEnemy(int spawnIndex)
+    {
+        var poolableObject = EnemyObjectPools[spawnIndex].GetObject();
+
+        if (poolableObject != null)
+        {
+            var enemy = poolableObject.GetComponent<AI>();
+
+            var VertexIndex = Random.Range(0, Triangulation.vertices.Length);
+
+            if (NavMesh.SamplePosition(Triangulation.vertices[VertexIndex], out var hit, 2f, -1))
+            {
+                enemy._agent.Warp(hit.position);
+                enemy.Player = Player;
+                enemy.Triangulation = Triangulation;
+                enemy._agent.enabled = true;
+            }
+            else
+            {
+                //Debug.LogError($"Unable to place NavMeshAgent on NavMesh. Tried to use"(Triangulation.vertices[VertexIndex]));
+            }
+        }
+        else
+        {
+            Debug.LogError($"Unable to fetch enemy of type {spawnIndex} from object pool. Out of objects?");
+        }
     }
 }

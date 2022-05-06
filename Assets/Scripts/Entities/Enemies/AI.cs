@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(NavMeshAgent), typeof(FOV))]
 public abstract class AI : Entity
@@ -53,14 +54,23 @@ public abstract class AI : Entity
     private Coroutine _followCoroutine;
     [SerializeField] private float updateRate = 0.1f;
     
+    public Vector3[] Waypoints = new Vector3[4];
+    [SerializeField]
+    private int WaypointIndex = 0;
     
+    public NavMeshTriangulation Triangulation = new NavMeshTriangulation();
+
+    public Transform Player;
+
+
     protected override void Awake()
     {
         base.Awake();
         _fov = GetComponent<FOV>();
         _agent = GetComponent<NavMeshAgent>();
         _player = FindObjectOfType<Player>();
-        
+        //Prefab = this;
+
         _currentAttackRate = 0;
     }
     private void Start()
@@ -193,6 +203,25 @@ public abstract class AI : Entity
     {
         Destroy(gameObject);
         Destroy(deathModel);
+    }
+    
+    public void Spawn()
+    {
+        if (Triangulation.vertices != null)
+        {
+            for (int i = 0; i < Waypoints.Length; i++)
+            {
+                NavMeshHit Hit;
+                if (NavMesh.SamplePosition(Triangulation.vertices[Random.Range(0, Triangulation.vertices.Length)], out Hit, 2f, _agent.areaMask))
+                {
+                    Waypoints[i] = Hit.position;
+                }
+                else
+                {
+                    Debug.LogError("Unable to find position for navmesh near Triangulation vertex!");
+                }
+            }
+        }
     }
     
     protected virtual void OnDrawGizmosSelected()
