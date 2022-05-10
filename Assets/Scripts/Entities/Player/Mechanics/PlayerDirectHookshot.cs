@@ -107,6 +107,10 @@ public class PlayerDirectHookshot : UnlockableMechanic
         {
             return;
         }
+        
+        //Rotation stuff
+        player.transform.LookAt(_hook.transform);
+        player.transform.Rotate(new Vector3(90,0,0));
 
         if (player.input.Dashing || player.input.Jumping)
         {
@@ -146,7 +150,7 @@ public class PlayerDirectHookshot : UnlockableMechanic
         _onProximity = onProximity;
         _pulling = true;
     }
-
+    
     private void StartHook()
     {
         if(!player.energy.TakeEnergy(energyCost))
@@ -154,7 +158,7 @@ public class PlayerDirectHookshot : UnlockableMechanic
             EventManager.Instance.Trigger("OnSendUIMessageTemporary", energyErrorMessage, energyErrorMessageColor, energyErrorTimeOnScreen);
             return;
         }
-
+        player.animator.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsHooking, true);
         _pulling = false;
         _hook = Instantiate(hookPrefab, shootTransform.position, Quaternion.identity)
             .GetComponent<PlayerHookObject>();
@@ -163,6 +167,13 @@ public class PlayerDirectHookshot : UnlockableMechanic
         
         _hook.Initialize(shootTransform, this, player.aim.Point, directGrappleable, indirectGrappleable, hookSpeed, delegate
         {
+            //Player settings stuff
+            player.movement.useLook = false;
+            player.movement.ableToMove = false;
+            player.movement.ApplyGravity(false);
+
+
+            //Joint stuff
             _joint = gameObject.AddComponent<DistanceJoint3D>();
             _joint.connected = _hook.GetComponent<Rigidbody>();
             _joint.self = rigid;
@@ -171,8 +182,6 @@ public class PlayerDirectHookshot : UnlockableMechanic
             _joint.ableToExpand = false;
             _joint.ableToShrink = true;
 
-            player.movement.ableToMove = false;
-            
             if (useMinDistanceToHook)
             {
                 _joint.useMinDistance = true;
@@ -188,7 +197,7 @@ public class PlayerDirectHookshot : UnlockableMechanic
                     break;
             }
             
-            player.movement.ApplyGravity(false);
+            
         });
     }
     public void DestroyHook()
@@ -198,8 +207,11 @@ public class PlayerDirectHookshot : UnlockableMechanic
             return;
         }
 
+        player.animator.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsHooking, false);
         EventManager.Instance.Trigger("OnPlayerHookshotCD", cooldown);
         _currentCooldown = cooldown;
+        
+        player.movement.useLook = true;
         player.movement.ableToMove = true;
         player.movement.ApplyGravity(true);
         

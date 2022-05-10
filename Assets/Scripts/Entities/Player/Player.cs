@@ -79,7 +79,8 @@ public class Player : Entity
             CurrentHealth = SavedPlayer.currentHP;
             energy.Current = SavedPlayer.currentEnergy;
         }
-        
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
         EventManager.Instance.Trigger("OnLifeUpdated", CurrentHealth, MaxHP);
     }
 

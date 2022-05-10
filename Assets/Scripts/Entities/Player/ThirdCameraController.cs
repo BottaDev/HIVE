@@ -20,12 +20,6 @@ public class ThirdCameraController : MonoBehaviour
 
     private readonly float _distance = 5f;
 
-    private void Start()
-    {
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-    }
-
     private void Update()
     {
         _currentX += Input.GetAxis("Mouse X") * mouseSensitivity;

@@ -16,6 +16,10 @@ public class Grenade : MonoBehaviour
     public float fadeInTime;
     public float fadeOutTime;
 
+    [Header("Settings")]
+    public bool setParticleParametersInCode;
+    
+
     private float timeDelay;
     private float timeCounter;
     private int damage = 2;
@@ -45,16 +49,6 @@ public class Grenade : MonoBehaviour
         this.hitMask = hitMask;
         this.timeDelay = timeDelay;
         this.explodeOnContact = explodeOnContact;
-
-        ParticleSystem.MainModule main = impactParticles.main;
-        main.startSpeed = new ParticleSystem.MinMaxCurve(20*radius);
-        main.startSize = new ParticleSystem.MinMaxCurve(0.1f*radius);
-        ParticleSystem.EmissionModule emission = impactParticles.emission;
-        emission.SetBurst(0, new ParticleSystem.Burst(0f,100 * (int)radius)) ;
-        
-        ParticleSystem.ShapeModule shape = impactParticles.shape;
-        //shape.radius = radius;
-
         return this;
     }
 
@@ -70,6 +64,20 @@ public class Grenade : MonoBehaviour
     void Explode()
     {
         ParticleSystem effect = Instantiate(impactParticles, transform.position, transform.rotation);
+        
+        if(setParticleParametersInCode)
+        {
+            ParticleSystem.MainModule main = effect.main;
+            main.startSpeed = new ParticleSystem.MinMaxCurve(20*explosionRadius);
+            main.startSize = new ParticleSystem.MinMaxCurve(0.1f*explosionRadius);
+            ParticleSystem.EmissionModule emission = effect.emission;
+            emission.SetBurst(0, new ParticleSystem.Burst(0f,100 * (int)explosionRadius)) ;
+            
+            ParticleSystem.ShapeModule shape = effect.shape;
+            //shape.radius = radius;
+        }
+        
+        
         CameraShaker.Instance.ShakeOnce(magnitude, roughness, fadeInTime, fadeOutTime);
         Collider[] hits = Physics.OverlapSphere(transform.position, explosionRadius, hitMask);
 
@@ -97,6 +105,15 @@ public class Grenade : MonoBehaviour
 
         AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.Explosion));
         effect.Play();
+        StartCoroutine(DestroyCoroutine(effect, effect.main.duration));
+        Destroy(gameObject);
+    }
+
+    IEnumerator DestroyCoroutine(ParticleSystem effect, float time)
+    {
+        yield return new WaitForSeconds(time);
+        
+        Destroy(effect);
         Destroy(gameObject);
     }
 

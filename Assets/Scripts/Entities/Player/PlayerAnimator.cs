@@ -5,13 +5,14 @@ public class PlayerAnimator : MonoBehaviour
 {
     public enum AnimationTriggers
     {
-        IsJumping, IsDashing, IsShooting, IsRunning
+        IsJumping, IsDashing, IsShooting, IsRunning, IsHooking
     }
 
     private static readonly int IsJumping = Animator.StringToHash("isJumping");
     private static readonly int IsDashing = Animator.StringToHash("isDashing");
     private static readonly int IsShooting = Animator.StringToHash("isShooting");
     private static readonly int IsRunning = Animator.StringToHash("isRunning");
+    private static readonly int IsHooking = Animator.StringToHash("isHooking");
     [FormerlySerializedAs("_top")] [SerializeField] private Animator top;
     [FormerlySerializedAs("_bottom")] [SerializeField] private Animator bottom;
 
@@ -33,6 +34,9 @@ public class PlayerAnimator : MonoBehaviour
             case AnimationTriggers.IsRunning:
                 top.SetBool(IsRunning, state);
                 bottom.SetBool(IsRunning, state);
+                break;
+            case AnimationTriggers.IsHooking:
+                top.SetBool(IsHooking, state); 
                 break;
         }
     }
