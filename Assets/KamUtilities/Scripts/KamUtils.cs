@@ -51,8 +51,7 @@ namespace Kam.Utils
     {
         public static float Map(float original, float originalMin, float originalMax, float newMin, float newMax)
         {
-            
-            return Mathf.Clamp((original - newMin) / (originalMax - originalMin) * (newMax - newMin) + originalMin, newMin, newMax);
+            return newMin + (original - originalMin) * (newMax - newMin) / (originalMax - originalMin);
         }
     }
 }
