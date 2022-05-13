@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 
 public class EggSpawner : MonoBehaviour
 {
-    [SerializeField] private BoxCollider SpawnCollider;
+    [SerializeField] private List<BoxCollider> SpawnCollider;
     [SerializeField] private EnemySpawner EnemySpawner;
     [SerializeField] private List<AI> Enemies = new List<AI>();
     [SerializeField] private EnemySpawner.SpawnMethod SpawnMethod = EnemySpawner.SpawnMethod.Random;
@@ -14,20 +14,20 @@ public class EggSpawner : MonoBehaviour
     [SerializeField] private float DelayBeforeSpawn;
     [SerializeField] private float SpawnDelay = 0.5f;
     [SerializeField] private bool DieAfterSpawn;
+    [SerializeField] private bool UpsideDown;
     
     private Coroutine SpawnEnemiesCoroutine;
-    private Bounds _bounds;
-
     private void Awake()
     {
         EnemySpawner = FindObjectOfType<EnemySpawner>();
-        
-        if (SpawnCollider == null)
+
+        if (SpawnCollider != null)
         {
-            SpawnCollider = GetComponent<BoxCollider>();
+            if (SpawnCollider.Count == 0)
+            {
+                SpawnCollider.Add(GetComponent<BoxCollider>());
+            }
         }
-        
-        _bounds = SpawnCollider.bounds;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -46,7 +46,8 @@ public class EggSpawner : MonoBehaviour
 
     private Vector3 GetRandomPositionInBounds()
     {
-        return new Vector3(Random.Range(_bounds.min.x, _bounds.max.x), _bounds.min.y,
+        Bounds _bounds = SpawnCollider[Random.Range(0, SpawnCollider.Count)].bounds;
+        return new Vector3(Random.Range(_bounds.min.x, _bounds.max.x), UpsideDown ? _bounds.max.y : _bounds.min.y,
             Random.Range(_bounds.min.z, _bounds.max.z));
     }
     private IEnumerator SpawnEnemies()

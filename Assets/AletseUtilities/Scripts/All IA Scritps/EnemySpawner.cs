@@ -105,8 +105,9 @@ public class EnemySpawner : MonoBehaviour
 
     public void DoSpawnEnemy(int SpawnIndex, Vector3 SpawnPosition)
     {
-        var poolableObject = EnemyObjectPools[SpawnIndex].GetObject();
-
+        //var poolableObject = EnemyObjectPools[SpawnIndex].GetObject();
+        var poolableObject = Instantiate(Enemies[SpawnIndex]);
+        
         if (poolableObject != null)
         {
             AI enemyIa = poolableObject.GetComponent<AI>();
