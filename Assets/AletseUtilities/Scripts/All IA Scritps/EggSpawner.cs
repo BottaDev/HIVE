@@ -15,8 +15,12 @@ public class EggSpawner : MonoBehaviour
     [SerializeField] private float SpawnDelay = 0.5f;
     [SerializeField] private bool DieAfterSpawn;
     [SerializeField] private bool UpsideDown;
-    
     private Coroutine SpawnEnemiesCoroutine;
+    public enum Side
+    {
+        down, up, front, back, left, right
+    }
+    
     private void Awake()
     {
         EnemySpawner = FindObjectOfType<EnemySpawner>();

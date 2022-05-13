@@ -5726,9 +5726,10 @@ GameObject:
   - component: {fileID: 7362573977472751386}
   - component: {fileID: 638474044769106448}
   - component: {fileID: 4798322208434744175}
+  - component: {fileID: 8754408942162013522}
   m_Layer: 11
   m_Name: "Plataforma peque\xF1a  (18)"
-  m_TagString: Untagged
+  m_TagString: AbsorbablePivot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -5745,7 +5746,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2916984557860944912}
-  m_RootOrder: 13
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
 --- !u!33 &7362573977472751386
 MeshFilter:
@@ -5810,6 +5811,20 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 664456749670281567, guid: d44cad4545c30604d85123f32c7f9e5b, type: 3}
+--- !u!114 &8754408942162013522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 419242642794409364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26e622995122716469fe7e9292afc900, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalEnergy: 25
+  extraRenderers: []
 --- !u!1 &421387928916813349
 GameObject:
   m_ObjectHideFlags: 0
@@ -15368,9 +15383,10 @@ GameObject:
   - component: {fileID: 6091397376681567666}
   - component: {fileID: 1501573137947427967}
   - component: {fileID: 1501573137947427966}
+  - component: {fileID: 3985565916818316174}
   m_Layer: 11
   m_Name: Long_Bridge_2
-  m_TagString: Untagged
+  m_TagString: AbsorbablePivot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -15387,7 +15403,7 @@ Transform:
   m_LocalScale: {x: 72.73448, y: 50.691544, z: 113.45361}
   m_Children: []
   m_Father: {fileID: 2916984557860944912}
-  m_RootOrder: 1
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1180751602507033708
 MeshFilter:
@@ -15464,6 +15480,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.026461564, y: 0.021057583, z: 0.0532904}
   m_Center: {x: -0.007669158, y: -0.000000012934131, z: 0.08231856}
+--- !u!114 &3985565916818316174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1501573137947427961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26e622995122716469fe7e9292afc900, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalEnergy: 20
+  extraRenderers: []
 --- !u!1 &1534516395281744800
 GameObject:
   m_ObjectHideFlags: 0
@@ -27801,9 +27831,10 @@ GameObject:
   - component: {fileID: 2916984557342623864}
   - component: {fileID: 2916984557342623867}
   - component: {fileID: 2916984557342623866}
+  - component: {fileID: 2571741830963252481}
   m_Layer: 11
   m_Name: Plataforma grande  (12)
-  m_TagString: Untagged
+  m_TagString: AbsorbablePivot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -27820,7 +27851,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2916984557860944912}
-  m_RootOrder: 6
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: -359.299, z: 0}
 --- !u!33 &2916984557342623864
 MeshFilter:
@@ -27885,6 +27916,20 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 9042771077998628582, guid: d44cad4545c30604d85123f32c7f9e5b, type: 3}
+--- !u!114 &2571741830963252481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2916984557342623860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26e622995122716469fe7e9292afc900, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalEnergy: 50
+  extraRenderers: []
 --- !u!1 &2916984557527752474
 GameObject:
   m_ObjectHideFlags: 0
@@ -27946,9 +27991,10 @@ GameObject:
   - component: {fileID: 2916984557712134104}
   - component: {fileID: 2916984557712134107}
   - component: {fileID: 2916984557712134106}
+  - component: {fileID: 4454937907847571055}
   m_Layer: 11
   m_Name: "Plataforma peque\xF1a  (8)"
-  m_TagString: Untagged
+  m_TagString: AbsorbablePivot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -27965,7 +28011,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2916984557860944912}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!33 &2916984557712134104
 MeshFilter:
@@ -28030,6 +28076,20 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 664456749670281567, guid: d44cad4545c30604d85123f32c7f9e5b, type: 3}
+--- !u!114 &4454937907847571055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2916984557712134100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26e622995122716469fe7e9292afc900, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalEnergy: 25
+  extraRenderers: []
 --- !u!1 &2916984557735784727
 GameObject:
   m_ObjectHideFlags: 0
@@ -28042,9 +28102,10 @@ GameObject:
   - component: {fileID: 2916984557735784731}
   - component: {fileID: 2916984557735784730}
   - component: {fileID: 2916984557735784725}
+  - component: {fileID: 1125160091812597478}
   m_Layer: 11
   m_Name: "Plataforma peque\xF1a  (15)"
-  m_TagString: Untagged
+  m_TagString: AbsorbablePivot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -28061,7 +28122,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2916984557860944912}
-  m_RootOrder: 9
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2916984557735784731
 MeshFilter:
@@ -28126,6 +28187,20 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 664456749670281567, guid: d44cad4545c30604d85123f32c7f9e5b, type: 3}
+--- !u!114 &1125160091812597478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2916984557735784727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26e622995122716469fe7e9292afc900, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalEnergy: 25
+  extraRenderers: []
 --- !u!1 &2916984557809160874
 GameObject:
   m_ObjectHideFlags: 0
@@ -28202,20 +28277,20 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 2916984557941574824}
-  - {fileID: 5243018804013180239}
-  - {fileID: 2916984558417985381}
   - {fileID: 2916984557712134101}
   - {fileID: 2916984559195944061}
+  - {fileID: 2916984557735784724}
+  - {fileID: 2916984559273263786}
+  - {fileID: 2916984558260291907}
+  - {fileID: 4835339475689510702}
+  - {fileID: 2916984557941574824}
+  - {fileID: 3668182168769141351}
+  - {fileID: 5243018804013180239}
+  - {fileID: 2916984558417985381}
   - {fileID: 2916984558022662130}
   - {fileID: 2916984557342623861}
   - {fileID: 2916984559269123139}
   - {fileID: 2916984559186814933}
-  - {fileID: 2916984557735784724}
-  - {fileID: 2916984559273263786}
-  - {fileID: 2916984558260291907}
-  - {fileID: 3668182168769141351}
-  - {fileID: 4835339475689510702}
   - {fileID: 1178482195869566691}
   - {fileID: 2130157028461743024}
   - {fileID: 2515569891567008249}
@@ -28242,9 +28317,10 @@ GameObject:
   - component: {fileID: 2916984557941574831}
   - component: {fileID: 2916984557941574830}
   - component: {fileID: 2916984557941574825}
+  - component: {fileID: 1478196695084807908}
   m_Layer: 11
   m_Name: Long_Bridge_2 (2)
-  m_TagString: Untagged
+  m_TagString: AbsorbablePivot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -28261,7 +28337,7 @@ Transform:
   m_LocalScale: {x: 72.73448, y: 50.691544, z: 113.45363}
   m_Children: []
   m_Father: {fileID: 2916984557860944912}
-  m_RootOrder: 0
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!33 &2916984557941574828
 MeshFilter:
@@ -28338,6 +28414,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.026461564, y: 0.021057583, z: 0.0532904}
   m_Center: {x: -0.007669158, y: -0.000000012934131, z: 0.08231856}
+--- !u!114 &1478196695084807908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2916984557941574827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26e622995122716469fe7e9292afc900, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalEnergy: 20
+  extraRenderers: []
 --- !u!1 &2916984558022626471
 GameObject:
   m_ObjectHideFlags: 0
@@ -28412,9 +28502,10 @@ GameObject:
   - component: {fileID: 2916984558022662129}
   - component: {fileID: 2916984558022662128}
   - component: {fileID: 2916984558022662131}
+  - component: {fileID: 597541219854622334}
   m_Layer: 11
   m_Name: Plataforma grande  (10)
-  m_TagString: Untagged
+  m_TagString: AbsorbablePivot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -28431,7 +28522,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2916984557860944912}
-  m_RootOrder: 5
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: -269.299, z: 0}
 --- !u!33 &2916984558022662129
 MeshFilter:
@@ -28496,6 +28587,20 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 9042771077998628582, guid: d44cad4545c30604d85123f32c7f9e5b, type: 3}
+--- !u!114 &597541219854622334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2916984558022662125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26e622995122716469fe7e9292afc900, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalEnergy: 50
+  extraRenderers: []
 --- !u!1 &2916984558260291906
 GameObject:
   m_ObjectHideFlags: 0
@@ -28508,9 +28613,10 @@ GameObject:
   - component: {fileID: 2916984558260291910}
   - component: {fileID: 2916984558260291905}
   - component: {fileID: 2916984558260291904}
+  - component: {fileID: 3259811605067206301}
   m_Layer: 11
   m_Name: "Plataforma peque\xF1a  (17)"
-  m_TagString: Untagged
+  m_TagString: AbsorbablePivot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -28527,7 +28633,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2916984557860944912}
-  m_RootOrder: 11
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
 --- !u!33 &2916984558260291910
 MeshFilter:
@@ -28592,6 +28698,20 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 664456749670281567, guid: d44cad4545c30604d85123f32c7f9e5b, type: 3}
+--- !u!114 &3259811605067206301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2916984558260291906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26e622995122716469fe7e9292afc900, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalEnergy: 25
+  extraRenderers: []
 --- !u!1 &2916984558315002583
 GameObject:
   m_ObjectHideFlags: 0
@@ -28653,9 +28773,10 @@ GameObject:
   - component: {fileID: 2916984558417985384}
   - component: {fileID: 2916984558417985387}
   - component: {fileID: 2916984558417985386}
+  - component: {fileID: 6662359393169182918}
   m_Layer: 11
   m_Name: Plataforma grande  (8)
-  m_TagString: Untagged
+  m_TagString: AbsorbablePivot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -28672,7 +28793,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2916984557860944912}
-  m_RootOrder: 2
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: -179.299, z: 0}
 --- !u!33 &2916984558417985384
 MeshFilter:
@@ -28737,6 +28858,20 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 9042771077998628582, guid: d44cad4545c30604d85123f32c7f9e5b, type: 3}
+--- !u!114 &6662359393169182918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2916984558417985380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26e622995122716469fe7e9292afc900, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalEnergy: 50
+  extraRenderers: []
 --- !u!1 &2916984558431333423
 GameObject:
   m_ObjectHideFlags: 0
@@ -29030,9 +29165,10 @@ GameObject:
   - component: {fileID: 2916984559186814936}
   - component: {fileID: 2916984559186814939}
   - component: {fileID: 2916984559186814938}
+  - component: {fileID: 5295555059596697774}
   m_Layer: 11
   m_Name: Plataforma grande  (13)
-  m_TagString: Untagged
+  m_TagString: AbsorbablePivot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -29049,7 +29185,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2916984557860944912}
-  m_RootOrder: 8
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: -269.299, z: 0}
 --- !u!33 &2916984559186814936
 MeshFilter:
@@ -29114,6 +29250,20 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 9042771077998628582, guid: d44cad4545c30604d85123f32c7f9e5b, type: 3}
+--- !u!114 &5295555059596697774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2916984559186814932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26e622995122716469fe7e9292afc900, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalEnergy: 50
+  extraRenderers: []
 --- !u!1 &2916984559195944060
 GameObject:
   m_ObjectHideFlags: 0
@@ -29126,9 +29276,10 @@ GameObject:
   - component: {fileID: 2916984559195944000}
   - component: {fileID: 2916984559195944003}
   - component: {fileID: 2916984559195944002}
+  - component: {fileID: 2967060494379652197}
   m_Layer: 11
   m_Name: "Plataforma peque\xF1a  (14)"
-  m_TagString: Untagged
+  m_TagString: AbsorbablePivot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -29145,7 +29296,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2916984557860944912}
-  m_RootOrder: 4
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!33 &2916984559195944000
 MeshFilter:
@@ -29210,6 +29361,20 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 664456749670281567, guid: d44cad4545c30604d85123f32c7f9e5b, type: 3}
+--- !u!114 &2967060494379652197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2916984559195944060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26e622995122716469fe7e9292afc900, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalEnergy: 25
+  extraRenderers: []
 --- !u!1 &2916984559269123138
 GameObject:
   m_ObjectHideFlags: 0
@@ -29222,9 +29387,10 @@ GameObject:
   - component: {fileID: 2916984559269123142}
   - component: {fileID: 2916984559269123137}
   - component: {fileID: 2916984559269123136}
+  - component: {fileID: 1090660513800996609}
   m_Layer: 11
   m_Name: Plataforma grande  (11)
-  m_TagString: Untagged
+  m_TagString: AbsorbablePivot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -29241,7 +29407,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2916984557860944912}
-  m_RootOrder: 7
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: -89.299, z: 0}
 --- !u!33 &2916984559269123142
 MeshFilter:
@@ -29306,6 +29472,20 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 9042771077998628582, guid: d44cad4545c30604d85123f32c7f9e5b, type: 3}
+--- !u!114 &1090660513800996609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2916984559269123138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26e622995122716469fe7e9292afc900, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalEnergy: 50
+  extraRenderers: []
 --- !u!1 &2916984559273263781
 GameObject:
   m_ObjectHideFlags: 0
@@ -29318,9 +29498,10 @@ GameObject:
   - component: {fileID: 2916984559273263785}
   - component: {fileID: 2916984559273263784}
   - component: {fileID: 2916984559273263787}
+  - component: {fileID: 2480705122049212222}
   m_Layer: 11
   m_Name: "Plataforma peque\xF1a  (16)"
-  m_TagString: Untagged
+  m_TagString: AbsorbablePivot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -29337,7 +29518,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2916984557860944912}
-  m_RootOrder: 10
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
 --- !u!33 &2916984559273263785
 MeshFilter:
@@ -29402,6 +29583,20 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 664456749670281567, guid: d44cad4545c30604d85123f32c7f9e5b, type: 3}
+--- !u!114 &2480705122049212222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2916984559273263781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26e622995122716469fe7e9292afc900, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalEnergy: 25
+  extraRenderers: []
 --- !u!1 &2924115032262545922
 GameObject:
   m_ObjectHideFlags: 0
@@ -36418,9 +36613,10 @@ GameObject:
   - component: {fileID: 3668182168769141348}
   - component: {fileID: 3668182168769141349}
   - component: {fileID: 3668182168769141350}
+  - component: {fileID: 6917556744124371738}
   m_Layer: 11
   m_Name: Long_Bridge_2 (1)
-  m_TagString: Untagged
+  m_TagString: AbsorbablePivot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -36437,7 +36633,7 @@ Transform:
   m_LocalScale: {x: 72.73448, y: 50.691544, z: 113.45361}
   m_Children: []
   m_Father: {fileID: 2916984557860944912}
-  m_RootOrder: 12
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3668182168769141355
 MeshFilter:
@@ -36514,6 +36710,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.026461564, y: 0.021057583, z: 0.0532904}
   m_Center: {x: -0.007669158, y: -0.000000012934131, z: 0.08231856}
+--- !u!114 &6917556744124371738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3668182168769141344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26e622995122716469fe7e9292afc900, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalEnergy: 20
+  extraRenderers: []
 --- !u!1 &3677291758257163053
 GameObject:
   m_ObjectHideFlags: 0
