@@ -17,12 +17,16 @@ public sealed class Bullet : PoolableObject
     public TrailRenderer trail;
     public ParticleSystem impactParticles;
 
+    bool firstFrame = true;
+    private Vector3 translation;
     private void Awake()
     {
+        translation = Vector3.forward * Time.deltaTime * speed;
     }
 
     private void OnEnable()
     {
+        firstFrame = true;
         Invoke(DisableMethodName, timeToDie);
     }
 
@@ -30,22 +34,36 @@ public sealed class Bullet : PoolableObject
 
     private void Update()
     {
+        if (firstFrame)
+        {
+            firstFrame = false;
+            //There is a specific bug that makes it so the first frame actually isn't checked for collision
+            //This is due to "_prevPos" being at 0, 0, 0 on the first frame of the bullet
+            //To fix this, we move the bullet back, then save its position, and move it forward within one frame.
+
+            transform.Translate(-translation);
+            _prevPos = transform.position;
+            transform.Translate(translation);
+        }
+
+        Vector3 dir = (transform.position - _prevPos);
+        RaycastHitGameobject(dir);
+    }
+
+    private void FixedUpdate()
+    {
         MoveToPosition();
     }
 
     public void MoveToPosition()
     {
         _prevPos = transform.position;
-        transform.Translate(Vector3.forward * Time.deltaTime * speed);
-    
-        Vector3 dir = (transform.position - _prevPos);
-        
-        RaycastHitGameobject(dir);
+        transform.Translate(translation);
     }
     
     private void RaycastHitGameobject(Vector3 dir)
     {
-        if(Physics.Raycast(transform.position, dir, out RaycastHit hit, dir.magnitude, mask))
+        if (Physics.Raycast(transform.position, dir, out RaycastHit hit, dir.magnitude, mask))
         {
             Hit(hit);
         }
