@@ -17,6 +17,7 @@ public class UILevelSystem : MonoBehaviour
 
     public List<UILevel> levelUIs;
     public TextMeshProUGUI level;
+    public TextMeshProUGUI expAmountText;
 
     private Player _player;
 
@@ -51,7 +52,8 @@ public class UILevelSystem : MonoBehaviour
             current.progressBar.SetValue(exp.ThisLevel);
         }
 
-        this.level.text = "LV. " + system.Level;
+        UpdateLevelText();
+        UpdateEXPAmountText();
     }
 
     public void UpdateUI(params object[] p)
@@ -59,7 +61,8 @@ public class UILevelSystem : MonoBehaviour
         PlayerLevel.ExpType lastTypeGained = (PlayerLevel.ExpType) p[0];
         PlayerLevel level = _player.level;
         LevellingSystem system = level.system;
-
+        
+        
         float previousValue = 0;
         for (int i = 0; i < levelUIs.Count; i++)
         {
@@ -99,9 +102,10 @@ public class UILevelSystem : MonoBehaviour
                         int differenceBetweenLevels = system.GetDifferenceBetweenLevels(system.Level, system.Level + 1);
                         current.progressBar.SetRange(0, differenceBetweenLevels);
                         current.progressBar.SetValue(exp.ThisLevel + previousValue);
-                        this.level.text = "LV. " + system.Level;
+                        UpdateLevelText();
                         level.ThisLevel = difference;
                         previousValue += exp.ThisLevel;
+                        UpdateEXPAmountText();
                     }
 
                     level.isDelayed = false;
@@ -118,5 +122,20 @@ public class UILevelSystem : MonoBehaviour
 
             previousValue += exp.ThisLevel;
         }
+        
+        UpdateEXPAmountText();
+    }
+
+    private void UpdateEXPAmountText()
+    {
+        PlayerLevel level = _player.level;
+        LevellingSystem system = level.system;
+        int differenceBetweenLevels = system.GetDifferenceBetweenLevels(system.Level, system.Level + 1);
+        expAmountText.text = $"{level.ThisLevel} / {differenceBetweenLevels}"; 
+    }
+    
+    private void UpdateLevelText()
+    {
+        level.text = "LV. " + _player.level.system.Level;
     }
 }

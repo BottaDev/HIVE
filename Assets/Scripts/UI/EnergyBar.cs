@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class EnergyBar : MonoBehaviour
 {
-    [SerializeField] private Utilities_RadialProgressBar progressBar;
+    [SerializeField] private Utilities_ProgressBar progressBar;
     [SerializeField] private TextMeshProUGUI amountText;
     private void Awake()
     {

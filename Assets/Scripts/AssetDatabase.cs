@@ -21,6 +21,10 @@ public enum SFXs
     PlayerJump,
     GrenadeThrow
 }
+public enum Icons
+{
+    TestIcon
+}
 #endregion
 public class AssetDatabase : MonoBehaviour
 {
@@ -59,6 +63,7 @@ public class AssetDatabase : MonoBehaviour
 
     public SFX[] sfxs;
     public Music[] music;
+    public Icon[] upgradeIcons;
 
     public AudioClip GetSFX(SFXs name)
     {
@@ -83,6 +88,18 @@ public class AssetDatabase : MonoBehaviour
 
         throw new System.Exception("Id " + name + " not found in music array.");
     }
+    
+    public Sprite GetUpgradeIcon(Icons name)
+    {
+        Sprite upgradeIcon = upgradeIcons.First(x=> x.enumName == name).icon;
+
+        if (upgradeIcon != null)
+        {
+            return upgradeIcon;
+        }
+
+        throw new System.Exception("Id " + name + " not found in music array.");
+    }
 }
 
 
@@ -100,4 +117,12 @@ public struct Music
     public string name;
     public Songs enumName;
     public AudioClip music;
+}
+
+[System.Serializable]
+public struct Icon
+{
+    public string name;
+    public Icons enumName;
+    public Sprite icon;
 }

@@ -52,6 +52,7 @@ public class PlayerUpgrades : MonoBehaviour
         public Action<Player> action = delegate { };
         public bool oneTimeOnly = true;
         public PlayerLevel.ExpType type;
+        public Sprite icon;
     }
 
     public enum UpgradeType
@@ -62,7 +63,7 @@ public class PlayerUpgrades : MonoBehaviour
     public UpgradePool Small;
     public UpgradePool Big;
 
-    private void Awake()
+    private void Start()
     {
         GeneratePools();
     }
@@ -79,7 +80,8 @@ public class PlayerUpgrades : MonoBehaviour
                     description = "+20% DMG",
                     longDescription = "+20% Damage based on current damage stat.",
                     action = DamagePercentBuff,
-                    oneTimeOnly = false
+                    oneTimeOnly = false, 
+                    icon = AssetDatabase.i.GetUpgradeIcon(Icons.TestIcon)
                 }
             },
 
@@ -91,7 +93,8 @@ public class PlayerUpgrades : MonoBehaviour
                     description = "+5% Mobility",
                     longDescription = "+5% Max Speed based on current max speed stat.",
                     action = MobilityPercentBuff,
-                    oneTimeOnly = false
+                    oneTimeOnly = false, 
+                    icon = AssetDatabase.i.GetUpgradeIcon(Icons.TestIcon)
                 }
             },
 
@@ -103,7 +106,8 @@ public class PlayerUpgrades : MonoBehaviour
                     description = "+5 HP",
                     longDescription = "+5 Max Hit points (Current hit points are also affected)",
                     action = HPFlatUpgrade,
-                    oneTimeOnly = false
+                    oneTimeOnly = false, 
+                    icon = AssetDatabase.i.GetUpgradeIcon(Icons.TestIcon)
                 }
             },
         };
@@ -118,7 +122,8 @@ public class PlayerUpgrades : MonoBehaviour
                     name = "Grenade Throw",
                     description = "Unlocks Grenade Throw",
                     longDescription = "Unlocks a grenade throw mechanic, the grenade has a great range and does 20 damage on hit. It has a 15 seconds cooldown and will explode on contact with any enemy or after 3 seconds of being thrown.",
-                    action = ActivateGrenadeThrow
+                    action = ActivateGrenadeThrow, 
+                    icon = AssetDatabase.i.GetUpgradeIcon(Icons.TestIcon)
                 }
             },
 
@@ -129,7 +134,8 @@ public class PlayerUpgrades : MonoBehaviour
                     name = "Double Jump",
                     description = "Unlocks Double Jump",
                     longDescription = "You read this like there was any reason to expand on it. It is a double jump. Go double jump.",
-                    action = ActivateDoubleJump
+                    action = ActivateDoubleJump, 
+                    icon = AssetDatabase.i.GetUpgradeIcon(Icons.TestIcon)
                 }
             },
 

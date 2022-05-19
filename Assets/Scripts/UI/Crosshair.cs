@@ -17,6 +17,7 @@ public class Crosshair : MonoBehaviour
 
     public void Hit()
     {
+        StopAllCoroutines();
         StartCoroutine(HitAnim());
     }
 

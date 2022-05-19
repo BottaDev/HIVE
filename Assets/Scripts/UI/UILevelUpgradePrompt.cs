@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
+using System.Linq;
+using UnityEngine.UI;
 
 public class UILevelUpgradePrompt : MonoBehaviour
 {
@@ -10,6 +12,7 @@ public class UILevelUpgradePrompt : MonoBehaviour
 
     [Header("Assignables")]
     [SerializeField] private GameObject showObject;
+    [SerializeField] private List<UIUpgrade> uiUpgrades;
     [SerializeField] private TextMeshProUGUI shortText;
     [SerializeField] private TextMeshProUGUI longText;
 
@@ -19,21 +22,43 @@ public class UILevelUpgradePrompt : MonoBehaviour
 
 
     [Header("Colors")]
-    [SerializeField] private Color attackColor;
-    [SerializeField] private Color defenseColor;
-    [SerializeField] private Color mobilityColor;
+    [SerializeField] private Sprite attackColor;
+    [SerializeField] private Sprite defenseColor;
+    [SerializeField] private Sprite mobilityColor;
 
+    [Header("Eye State")]
+    public GameObject closed;
+    public GameObject open;
+    public GameObject ultra;
+    private EyeState currentEyeState;
+    
+    
     private bool waitingForInput;
 
     private Queue<ChoosableUpgradePrompt> choices = new Queue<ChoosableUpgradePrompt>();
     private ChoosableUpgradePrompt current;
 
     public List<PlayerUpgrades.Upgrade> upgradesChosen = new List<PlayerUpgrades.Upgrade>();
+
+    
+    public enum EyeState
+    {
+        closed, open, ultra
+    }
+
+    [System.Serializable]
+    public struct UIUpgrade
+    {
+        public string name;
+        public Image background;
+        public Image icon;
+    }
     class ChoosableUpgradePrompt
     {
         public string displayText;
         public string longDisplayText;
-        public List<PlayerUpgrades.Upgrade> upgrades;
+        public List<Tuple<PlayerUpgrades.Upgrade, Sprite>> upgrades;
+        public PlayerUpgrades.UpgradeType type;
     }
 
     private int choiceAmount;
@@ -56,26 +81,6 @@ public class UILevelUpgradePrompt : MonoBehaviour
     
     private void Update()
     {
-        if (choices.Count > 0)
-        {
-            if (!waitingForInput)
-            {
-                current = choices.Dequeue();
-                waitingForInput = true;
-
-                ShowUI(true);
-            }
-
-            string prefix = "";
-            if(choiceAmount > 1)
-            {
-                prefix = $"({choiceAmount - 1} Extra Upgrade Choices Left)\n";
-            }
-
-            shortText.text = prefix + current.displayText;
-            longText.text = prefix + current.longDisplayText;
-        }
-
         if (waitingForInput)
         {
             if (!Input.GetKey(KeyCode.LeftAlt))
@@ -110,12 +115,19 @@ public class UILevelUpgradePrompt : MonoBehaviour
     
     void ChooseUpgrade(int index)
     {
-        PlayerUpgrades.Upgrade upgrade = current.upgrades.SafeGet(index);
+        PlayerUpgrades.Upgrade upgrade = current.upgrades.SafeGet(index).Item1;
         upgradesChosen.Add(upgrade);
         upgrade.action.Invoke(_player);
         waitingForInput = false;
         ShowUI(false);
         choiceAmount--;
+
+        if (choices.Count > 0)
+        {
+            NextUpgrade();
+        }
+        
+        CheckEyeState();
     }
     public void SetUpgrades(List<PlayerUpgrades.Upgrade> upgrades, PlayerUpgrades.UpgradeType type)
     {
@@ -126,31 +138,73 @@ public class UILevelUpgradePrompt : MonoBehaviour
         {
             PlayerUpgrades.Upgrade current = upgrades[i];
             string addTextShort = $"\n{i+1} - {current.name}: {current.description}";
-            shortResult += addTextShort.Colorize(GetColorOfType(current.type));
+            //shortResult += addTextShort.Colorize(GetColorOfType(current.type));
             
             string addTextLong = $"\n{i+1} - {current.name}: {current.longDescription}";
-            longResult += addTextLong.Colorize(GetColorOfType(current.type));
+            //longResult += addTextLong.Colorize(GetColorOfType(current.type));
         }
 
-        ChoosableUpgradePrompt add = new ChoosableUpgradePrompt(){displayText = shortResult, upgrades = upgrades, longDisplayText = longResult};
+        List<Tuple<PlayerUpgrades.Upgrade, Sprite>> tuples = new List<Tuple<PlayerUpgrades.Upgrade, Sprite>>();
+        
+        foreach (var upgrade in upgrades)
+        {
+            tuples.Add(Tuple.Create(upgrade, GetBackgroundType(upgrade.type)));
+        }
+        
+        ChoosableUpgradePrompt add = new ChoosableUpgradePrompt(){displayText = shortResult, upgrades = tuples, longDisplayText = longResult, type = type};
 
+        bool firstChoice = choices.Count == 0;
         choices.Enqueue(add);
         choiceAmount++;
+        
+        
+        
+        
+        if (firstChoice && !waitingForInput)
+        {
+            NextUpgrade();
+            
+        }
     }
 
-    private Color GetColorOfType(PlayerLevel.ExpType type)
+    private void NextUpgrade()
     {
-        switch (type)
+        current = choices.Dequeue();
+        waitingForInput = true;
+        ShowUI(true);
+        CheckEyeState();
+        
+        /*
+        string prefix = "";
+        if(choiceAmount > 1)
         {
-            case PlayerLevel.ExpType.Attack:
-                return attackColor;
-            case PlayerLevel.ExpType.Defense:
-                return defenseColor;
-            case PlayerLevel.ExpType.Mobility:
-                return mobilityColor;
+            prefix = $"({choiceAmount - 1} Extra Upgrade Choices Left)\n";
+        }
+
+        shortText.text = prefix + current.displayText;
+        longText.text = prefix + current.longDisplayText;*/
+
+        for (int i = 0; i < current.upgrades.Count; i++)
+        {
+            PlayerUpgrades.Upgrade upgrade = current.upgrades[i].Item1;
+            Sprite icon = upgrade.icon;
+            Sprite background = current.upgrades[i].Item2;
+
+            UIUpgrade ui = uiUpgrades[i];
+            if (upgrade.name == null)
+            {
+                ui.background.gameObject.SetActive(false);
+                ui.icon.gameObject.SetActive(false);
+            }
+            else
+            {
+                ui.background.gameObject.SetActive(true);
+                ui.icon.gameObject.SetActive(true);
                 
-            default:
-                return attackColor;
+                ui.background.sprite = background;
+                ui.icon.sprite = icon;
+            }
+            
         }
     }
 
@@ -194,6 +248,68 @@ public class UILevelUpgradePrompt : MonoBehaviour
         {
             longText.gameObject.SetActive(false);
             shortText.gameObject.SetActive(true);
+        }
+    }
+
+    void CheckEyeState()
+    {
+        if (choices.Count > 0 || waitingForInput)
+        {
+            bool ultraCondition = current.type == PlayerUpgrades.UpgradeType.Big;
+
+            if (ultraCondition)
+            {
+                SetEyeState(EyeState.ultra);
+            }
+            else
+            {
+                SetEyeState(EyeState.open);
+            }
+        }
+        else
+        {
+            SetEyeState(EyeState.closed);
+        }
+    }
+    void SetEyeState(EyeState state)
+    {
+        currentEyeState = state;
+        
+        switch (state)
+        {
+            case EyeState.closed:
+                closed.SetActive(true);
+                open.SetActive(false);
+                ultra.SetActive(false);
+                break;
+            
+            case EyeState.open:
+                closed.SetActive(false);
+                open.SetActive(true);
+                ultra.SetActive(false);
+                break;
+            
+            case EyeState.ultra:
+                closed.SetActive(false);
+                open.SetActive(false);
+                ultra.SetActive(true);
+                break;
+        }
+    }
+
+    private Sprite GetBackgroundType(PlayerLevel.ExpType type)
+    {
+        switch (type)
+        {
+            case PlayerLevel.ExpType.Attack:
+                return attackColor;
+            case PlayerLevel.ExpType.Defense:
+                return defenseColor;
+            case PlayerLevel.ExpType.Mobility:
+                return mobilityColor;
+                
+            default:
+                return attackColor;
         }
     }
 }
