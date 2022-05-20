@@ -12,7 +12,7 @@ public class UILevelUpgradePrompt : MonoBehaviour
 
     [Header("Assignables")]
     [SerializeField] private GameObject showObject;
-    [SerializeField] private List<UIUpgrade> uiUpgrades;
+    [SerializeField] private List<UISlot> uiUpgrades;
     [SerializeField] private TextMeshProUGUI shortText;
     [SerializeField] private TextMeshProUGUI longText;
 
@@ -45,14 +45,7 @@ public class UILevelUpgradePrompt : MonoBehaviour
     {
         closed, open, ultra
     }
-
-    [System.Serializable]
-    public struct UIUpgrade
-    {
-        public string name;
-        public Image background;
-        public Image icon;
-    }
+    
     class ChoosableUpgradePrompt
     {
         public string displayText;
@@ -173,16 +166,6 @@ public class UILevelUpgradePrompt : MonoBehaviour
         waitingForInput = true;
         ShowUI(true);
         CheckEyeState();
-        
-        /*
-        string prefix = "";
-        if(choiceAmount > 1)
-        {
-            prefix = $"({choiceAmount - 1} Extra Upgrade Choices Left)\n";
-        }
-
-        shortText.text = prefix + current.displayText;
-        longText.text = prefix + current.longDisplayText;*/
 
         for (int i = 0; i < current.upgrades.Count; i++)
         {
@@ -190,21 +173,9 @@ public class UILevelUpgradePrompt : MonoBehaviour
             Sprite icon = upgrade.icon;
             Sprite background = current.upgrades[i].Item2;
 
-            UIUpgrade ui = uiUpgrades[i];
-            if (upgrade.name == null)
-            {
-                ui.background.gameObject.SetActive(false);
-                ui.icon.gameObject.SetActive(false);
-            }
-            else
-            {
-                ui.background.gameObject.SetActive(true);
-                ui.icon.gameObject.SetActive(true);
-                
-                ui.background.sprite = background;
-                ui.icon.sprite = icon;
-            }
-            
+            UISlot ui = uiUpgrades[i];
+            ui.SetBackground(background);
+            ui.SetIcon(icon);
         }
     }
 

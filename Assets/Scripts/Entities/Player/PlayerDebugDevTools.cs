@@ -60,6 +60,24 @@ public class PlayerDebugDevTools : MonoBehaviour
                 Debug.Log("Debug Tools: Fill Energy");
                 player.energy.Current = player.energy.MaxEnergy;
             }
+            
+            if (Input.GetKeyDown(fillEnergy))
+            {
+                Debug.Log("Debug Tools: Fill Energy");
+                player.energy.Current = player.energy.MaxEnergy;
+            }
+            
+            if (player.input.StartedShootingLeft)
+            {
+                Debug.Log("Debug Tools: Iterate through left gun");
+                player.shoot.SetGun(Shoot.Gun.Left,player.shoot.gunStorage.IterateThroughLeftGun());
+            }
+            
+            if (player.input.StartedShootingRight)
+            {
+                Debug.Log("Debug Tools: Iterate through right gun");
+                player.shoot.SetGun(Shoot.Gun.Right,player.shoot.gunStorage.IterateThroughRightGun());
+            }
         }
 
         if (Input.GetKeyDown(changeAmbientColor))

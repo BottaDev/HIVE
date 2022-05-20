@@ -1,55 +1,53 @@
 using System;
 using UnityEngine;
-public class PlayerAim : MonoBehaviour
+using Random = UnityEngine.Random;
+
+public class PlayerAim
 {
-    [SerializeField] private Player player;
-    public LayerMask aimingMask;
-    public Transform firePoint;
-    
-    [SerializeField] private bool drawGizmos;
-    /// <summary>
-    /// The in-world aiming point for the player
-    /// </summary>
-    private Vector3 _point;
-    private Camera _cam;
-    private bool _success;
-    private Ray _ray;
-    
-    public Vector3 Point { get => _point; set => _point = value; }
-    public bool Aim { get => _success; set => _success = value; }
-    
-    private void Start()
+    //References
+    private Player player;
+    private Transform firePoint;
+
+    //Settings
+    private LayerMask aimingMask;
+    private float spread;
+
+    public PlayerAim(Player player, Transform firePoint, LayerMask aimingMask, float spread)
     {
-        _cam = Camera.main;
+        this.player = player;
+        this.firePoint = firePoint;
+        this.aimingMask = aimingMask;
+        this.spread = spread;
     }
-
-    private void LateUpdate()
+    
+    
+    public Vector3 Aim()
     {
-        Aim = false;
-        Vector2 screenCenterPoint = new Vector2(Screen.width / 2, Screen.height / 2);
-        Ray screenRay = _cam.ScreenPointToRay(screenCenterPoint);
+        Camera _cam = Camera.main;
+        
+        //Spread
+        float x = Random.Range(-spread, spread);
+        float y = Random.Range(-spread, spread);
+        Vector3 direction = _cam.transform.forward + _cam.transform.right * x + _cam.transform.up * y;
 
-        if (Physics.Raycast(screenRay, out RaycastHit raycastHit, 999f, aimingMask))
+        if (Physics.Raycast(_cam.transform.position, direction, out RaycastHit raycastHit, 999f, aimingMask))
         {
             //Screen ray is colliding with something, now check what point a ray would collide with from the player transform
-            
-            Vector3 point = raycastHit.point;
-            Ray playerTramsformRay = new Ray(player.transform.position, (point - player.transform.position).normalized);
+
+            Ray playerTramsformRay = new Ray(player.transform.position, (raycastHit.point - player.transform.position).normalized);
             
             if (Physics.Raycast(playerTramsformRay, out RaycastHit raycastHitTwo, 999f, aimingMask))
             {
-                Point = raycastHitTwo.point;
-                Aim = true;
+                return raycastHitTwo.point;
             }
         }
+        
+        return _cam.transform.forward * 999f;
     }
 
-    private void OnDrawGizmos()
+    public void DrawGizmos(Vector3 point)
     {
-        if (drawGizmos)
-        {
-            Gizmos.color = Color.green;
-            Gizmos.DrawLine(firePoint.position, Point);
-        }
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(firePoint.position, point);
     }
 }

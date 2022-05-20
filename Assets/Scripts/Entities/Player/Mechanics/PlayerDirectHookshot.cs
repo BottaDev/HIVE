@@ -165,7 +165,7 @@ public class PlayerDirectHookshot : UnlockableMechanic
         
         AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.PlayerHook));
         
-        _hook.Initialize(shootTransform, this, player.aim.Point, directGrappleable, indirectGrappleable, hookSpeed, delegate
+        _hook.Initialize(shootTransform, this, player.shoot.defaultAim.Aim(), directGrappleable, indirectGrappleable, hookSpeed, delegate
         {
             //Player settings stuff
             player.movement.useLook = false;

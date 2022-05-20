@@ -6,7 +6,7 @@ using UnityEngine;
 public class UICooldown : MonoBehaviour
 {
     [SerializeField] private string eventType;
-    [SerializeField] private Utilities_RadialTimerBar timer;
+    [SerializeField] private UtilitiesImageTimerBar timer;
     [SerializeField] private bool startFull;
     
     private void Awake()

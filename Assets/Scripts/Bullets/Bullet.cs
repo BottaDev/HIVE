@@ -96,7 +96,7 @@ public sealed class Bullet : PoolableObject
         {
             if (wasShotByPlayer)
             {
-                Crosshair.instance.Hit();
+                UIGunSight.instance.Hit();
             }
 
             obj.TakeDamage(damage);

@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 
-public class Utilities_RadialTimerBar : Utilities_RadialProgressBar
+public class UtilitiesImageTimerBar : Utilities_ImageProgressBar
 {
     [Header("TIMER")]
     public TextMeshProUGUI timerText;

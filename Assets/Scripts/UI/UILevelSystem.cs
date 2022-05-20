@@ -12,7 +12,7 @@ public class UILevelSystem : MonoBehaviour
     {
         public string name;
         public PlayerLevel.ExpType expType;
-        public Utilities_RadialProgressBar progressBar;
+        public Utilities_ImageProgressBar progressBar;
     }
 
     public List<UILevel> levelUIs;

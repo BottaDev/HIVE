@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using EZCameraShake;
 using UnityEngine;
@@ -8,145 +9,98 @@ public class Shoot : MonoBehaviour
     [Header("Assignables")]
     [SerializeField] private Player player;
 
-    [Header("Energy")]
-    public int energyCostPerBulletRecharge = 1;
-
-    [Header("Gun")]
-    public int damage = 5;
-    public float fireRate = 15;
-    public float gunCd = 1f;
-    public bool reloading;
-
-    [Header("Ammunition")]
-    public int maxAmmo = 100;
-    public float totalReloadTime = 1f;
-
     [Header("Objects")]
-    public LayerMask mask;
-    public Bullet bullet;
-    [FormerlySerializedAs("_firePoint")] public Transform firePoint;
-    private ObjectPool _bulletPool;
+    public Transform firePointLeft;
+    public Transform firePointRight;
+    public PlayerGunStorage gunStorage;
 
-    [Header("Effects")]
-    public GameObject shootingParticle;
-        
-    [Header("Screenshake")]
-    public float magnitude;
-    public float roughness;
-    public float fadeInTime;
-    public float fadeOutTime;
-    
-    
-    
-    private int _currentAmmo;
-    private float _currentCd;
+    [Header("Guns")]
+    public PlayerGunStorage.Guns startingLeftGun = PlayerGunStorage.Guns.Default;
+    public PlayerGunStorage.Guns startingRightGun = PlayerGunStorage.Guns.None;
+    public PlayerGun leftGun;
+    public PlayerGun rightGun;
 
-    private float _nextShoot;
+    [Header("Default Aim")]
+    public LayerMask defaultLayerMask;
+    public float defaultSpread;
+    public PlayerAim defaultAim { get; private set; }
 
-    private bool _playedSFX;
-    //Get whatever information you need for this script
-    private bool Shooting => player.input.Shooting;
-
-    private int CurrentAmmo
+    public enum Gun
     {
-        get => _currentAmmo;
-        set
-        {
-            _currentAmmo = value;
-            EventManager.Instance.Trigger("OnPlayerUpdateAmmo", _currentAmmo, maxAmmo);
-        }
+        Left, Right
     }
-
     private void Start()
     {
-        CurrentAmmo = maxAmmo;
-
-        _bulletPool = ObjectPool.CreateInstance(bullet, 20);
-        bullet.Parent = _bulletPool;
+        SetGun(Gun.Left, gunStorage.GetGun(startingLeftGun));
+        SetGun(Gun.Right, gunStorage.GetGun(startingRightGun));
+        defaultAim = new PlayerAim(player, player.shoot.firePointRight, defaultLayerMask, defaultSpread);
     }
 
     private void Update()
     {
-        if (Shooting)
+        if (leftGun != null)
         {
-            player.animator.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsShooting, true);
-            if (Time.time >= _nextShoot)
-            {
-                _nextShoot = Time.time + 1 / fireRate;
-                ShootAction();
-            }
-        }
-        else
-        {
-            player.animator.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsShooting, false);
-        }
-
-        if (_currentCd > gunCd)
-        {
-            if(CurrentAmmo < maxAmmo)
-            {
-                ReloadGun();
-            }
-        }
-        else
-        {
-            _currentCd += Time.deltaTime;
-        }
-    }
-
-    private void ShootAction()
-    {
-        if (CurrentAmmo > 0)
-        {
-            reloading = false;
-            _currentCd = 0;
-
-            AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.PlayerShot));
-            CameraShaker.Instance.ShakeOnce(magnitude, roughness, fadeInTime, fadeOutTime);
-            GameObject particle = Instantiate(shootingParticle, firePoint.position, firePoint.rotation);
-            Destroy(particle, 1f);
+            bool left = player.input.ShootingLeft;
+            leftGun.InputCheck(left);
             
-            Bullet bul = _bulletPool.GetObject().GetComponent<Bullet>();
-
-
-            bul.wasShotByPlayer = true;
-            bul.damage = damage;
-            bul.mask = mask;
-
-            bul.transform.position = firePoint.position;
-            bul.transform.LookAt(player.aim.Point);
-
-            bul.trail.Clear();
-            CurrentAmmo -= 1;
-
-            if (CurrentAmmo <= 0)
+            if (left)
             {
-                CurrentAmmo = 0;
+                leftGun.currentlySelected = true;
+                EventManager.Instance.Trigger("ShootingLeft");
             }
-        }
-    }
-
-    private void ReloadGun()
-    {
-        int recharge = Mathf.CeilToInt(maxAmmo / totalReloadTime * Time.deltaTime);
-        float energyCost = recharge * energyCostPerBulletRecharge;
-        if (!player.energy.TakeEnergy(energyCost)) return;
-
-
-        if (!_playedSFX && reloading)
-        {
-            AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.GunRecharge));
-            _playedSFX = true;
+            else
+            {
+                leftGun.currentlySelected = false;
+            }
         }
         
-        reloading = true;
-        CurrentAmmo += recharge;
-
-        if (CurrentAmmo >= maxAmmo)
+        if (rightGun != null)
         {
-            CurrentAmmo = maxAmmo;
-            reloading = false;
-            _playedSFX = false;
+            bool right = player.input.ShootingRight;
+            rightGun.InputCheck(right);
+            
+            if (right)
+            {
+                rightGun.currentlySelected = true;
+                EventManager.Instance.Trigger("ShootingRight");
+            }
+            else
+            {
+                rightGun.currentlySelected = false;
+            }
         }
+    }
+
+    public PlayerGun GetGun(Gun side)
+    {
+        switch (side)
+        {
+            case Gun.Left:
+                return leftGun;
+            case Gun.Right:
+                return rightGun;
+        }
+
+        throw new Exception($"Could not find gun of type \"{side.ToString()}\"");
+    }
+    public void SetGun(Gun side, PlayerGun gun)
+    {
+        gunStorage.TurnOffAllGuns();
+        switch (side)
+        {
+            case Gun.Left:
+                leftGun = gun;
+                leftGun?.Initialize(player);
+                break;
+            case Gun.Right:
+                rightGun = gun;
+                rightGun?.Initialize(player);
+                break;
+        }
+        
+        leftGun?.gameObject.SetActive(true);
+        rightGun?.gameObject.SetActive(true);
+        
+        EventManager.Instance.Trigger("UpdatedPlayerGuns", player);
     }
 }

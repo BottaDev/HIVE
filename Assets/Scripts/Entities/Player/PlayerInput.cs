@@ -10,7 +10,8 @@ public enum MouseCode
 public class PlayerInput : MonoBehaviour
 {
     [Header("Keybinds")]
-    [SerializeField] private MouseCode shootKey = MouseCode.Left;
+    [SerializeField] private MouseCode shootKeyLeft = MouseCode.Left;
+    [SerializeField] private MouseCode shootKeyRight = MouseCode.Right;
     [SerializeField] private KeyCode jumpKey = KeyCode.Space;
     [SerializeField] private KeyCode dashKey = KeyCode.LeftShift;
     [SerializeField] private KeyCode restartKey = KeyCode.R;
@@ -26,7 +27,10 @@ public class PlayerInput : MonoBehaviour
     private bool _isMoving;
     private bool _jumping;
     private bool _restart;
-    private bool _shooting;
+    private bool _startedShootingLeft;
+    private bool _shootingLeft;
+    private bool _startedShootingRight;
+    private bool _shootingRight;
     private bool _stoppedJumping;
     private bool _grapple;
     private bool _stoppedGrapple;
@@ -43,7 +47,10 @@ public class PlayerInput : MonoBehaviour
     public bool Jumping { get => _jumping; set => _jumping = value; }
     public bool StoppedJumping { get => _stoppedJumping; set => _stoppedJumping = value; }
     public bool Dashing { get => _dashing; set => _dashing = value; }
-    public bool Shooting { get => _shooting; set => _shooting = value; }
+    public bool StartedShootingLeft { get => _startedShootingLeft; set => _startedShootingLeft = value; }
+    public bool ShootingLeft { get => _shootingLeft; set => _shootingLeft = value; }
+    public bool StartedShootingRight { get => _startedShootingRight; set => _startedShootingRight = value; }
+    public bool ShootingRight { get => _shootingRight; set => _shootingRight = value; }
     public bool Restart { get => _restart; set => _restart = value; }
     public bool Freecam { get => _freecam; set => _freecam = value; }
     public bool IsMoving { get => _isMoving; set => _isMoving = value; }
@@ -67,7 +74,10 @@ public class PlayerInput : MonoBehaviour
         Jumping = Input.GetKeyDown(jumpKey);
         StoppedJumping = Input.GetKeyUp(jumpKey);
         Dashing = Input.GetKeyDown(dashKey);
-        Shooting = Input.GetMouseButton((int) shootKey);
+        StartedShootingLeft = Input.GetMouseButtonDown((int) shootKeyLeft);
+        ShootingLeft = Input.GetMouseButton((int) shootKeyLeft);
+        StartedShootingRight = Input.GetMouseButtonDown((int) shootKeyRight);
+        ShootingRight = Input.GetMouseButton((int) shootKeyRight);
         Restart = Input.GetKeyDown(restartKey);
         Freecam = Input.GetKey(freeCamKey);
         Attaching = Input.GetMouseButtonDown((int) railAttachKey);

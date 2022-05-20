@@ -255,7 +255,15 @@ public class PlayerUpgrades : MonoBehaviour
     void DamagePercentBuff(Player player)
     {
         float percentageUpgrade = 20;
-        player.shoot.damage += (int)(player.shoot.damage * percentageUpgrade)/100;
+        if(player.shoot.leftGun != null)
+        {
+            player.shoot.leftGun.damage += (int) (player.shoot.leftGun.damage * percentageUpgrade) / 100;
+        }
+        
+        if(player.shoot.rightGun != null)
+        {
+            player.shoot.rightGun.damage += (int) (player.shoot.rightGun.damage * percentageUpgrade) / 100;
+        }
     }
 
     void HPFlatUpgrade(Player player)

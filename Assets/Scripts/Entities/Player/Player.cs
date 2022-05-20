@@ -15,7 +15,6 @@ public class Player : Entity
     public Dash dash;
     public PlayerLevel level;
     public PlayerDebugDevTools debug;
-    public PlayerAim aim;
     public PlayerDirectHookshot hookshot;
     public PlayerGrenadeThrow grenadeThrow;
 

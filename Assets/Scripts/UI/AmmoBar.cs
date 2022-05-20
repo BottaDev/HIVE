@@ -7,11 +7,7 @@ using UnityEngine.UI;
 
 public class AmmoBar : MonoBehaviour
 {
-    public int minimum = 0;
-    public int maximum;
-    public int current;
-    
-    public List<Image> ammoBars;
+    public List<Utilities_ImageProgressBar> ammoBars;
 
     private void Awake()
     {
@@ -22,25 +18,11 @@ public class AmmoBar : MonoBehaviour
     {
         int currentAmmo = (int)p[0];
         int maxAmmount = (int)p[1];
-        
-        UpdateFillAmount(currentAmmo);
-        SetMaxAmmo(maxAmmount);
-    }
-    
-    void UpdateFillAmount(int currentAmmo)
-    {
-        float currentOffSet = currentAmmo - minimum;
-        float maximumOffset = maximum - minimum;
-        float fillAmount = currentOffSet / maximumOffset;
-        
-        foreach (Image bar in ammoBars)
+
+        foreach (var ammoBar in ammoBars)
         {
-            bar.fillAmount = fillAmount;    
+            ammoBar.SetValue(currentAmmo);
+            ammoBar.SetMaxValue(maxAmmount);
         }
-    }
-    
-    void SetMaxAmmo(int maxAmmount)
-    {
-        maximum = maxAmmount;
     }
 }
