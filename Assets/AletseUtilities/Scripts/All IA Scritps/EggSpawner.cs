@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class EggSpawner : MonoBehaviour
+public class EggSpawner : Entity
 {
+    [Header("Egg Spawner")]
     [SerializeField] private List<BoxCollider> SpawnCollider;
     [SerializeField] private EnemySpawner EnemySpawner;
     [SerializeField] private List<AI> Enemies = new List<AI>();
@@ -24,7 +25,8 @@ public class EggSpawner : MonoBehaviour
     private void Awake()
     {
         EnemySpawner = FindObjectOfType<EnemySpawner>();
-
+        CurrentHealth = maxHealth;
+        
         if (SpawnCollider != null)
         {
             if (SpawnCollider.Count == 0)
@@ -85,5 +87,19 @@ public class EggSpawner : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    
+
+    public override void TakeDamage(int damage)
+    {
+        CurrentHealth -= damage;
+        
+        if(CurrentHealth <= 0)
+        {
+            for (int i = 0; i < SpawnCount; i++)
+            {
+                EventManager.Instance.Trigger("OnEnemyDeath");
+            }
+
+            Destroy(gameObject);
+        }
+    }
 }
