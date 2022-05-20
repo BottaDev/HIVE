@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(NavMeshAgent), typeof(FOV))]
@@ -62,6 +63,13 @@ public abstract class AI : Entity
 
     public Transform Player;
 
+    [SerializeField] private ProgressBar HealthBar;
+
+    [SerializeField] private Camera Camera;
+    [SerializeField] private Canvas HealthBarCanvas;
+
+    public Slider healthSlider;
+    public GameObject HealthBarUI;
 
     protected override void Awake()
     {
@@ -69,9 +77,14 @@ public abstract class AI : Entity
         _fov = GetComponent<FOV>();
         _agent = GetComponent<NavMeshAgent>();
         _player = FindObjectOfType<Player>();
+        healthSlider = GetComponentInChildren<Slider>();
         //Prefab = this;
 
         _currentAttackRate = 0;
+    
+        healthSlider.value = maxHealth;
+
+        //SetupHealthBar(HealthBarCanvas, Camera);
     }
     private void Start()
     {
@@ -158,6 +171,13 @@ public abstract class AI : Entity
         
         CurrentHealth -= damage;
 
+        if (healthSlider != null)
+        {
+            healthSlider.value = CurrentHealth / 10f;
+        }
+
+        //HealthBar.SetProgress(CurrentHealth / maxHealth, 3);
+
         if(CurrentHealth <= 0)
         {
             KillAI();
@@ -196,6 +216,8 @@ public abstract class AI : Entity
             Destroy(gameObject);
         }
         
+        Destroy(HealthBar.gameObject);
+        
         AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.EnemyDeath));
     }
 
@@ -203,6 +225,15 @@ public abstract class AI : Entity
     {
         Destroy(gameObject);
         Destroy(deathModel);
+    }
+
+    public void SetupHealthBar(Canvas canvas, Camera camera)
+    {
+        HealthBar.transform.SetParent(canvas.transform);
+        if (HealthBar.TryGetComponent<FaceCamera>(out FaceCamera faceCamera))
+        {
+            faceCamera.Camera = camera;
+        }
     }
     
     public void Spawn()

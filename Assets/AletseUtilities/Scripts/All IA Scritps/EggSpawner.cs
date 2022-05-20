@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class EggSpawner : Entity
@@ -17,6 +18,8 @@ public class EggSpawner : Entity
     [SerializeField] private bool DieAfterSpawn;
     [SerializeField] private bool UpsideDown;
     private Coroutine SpawnEnemiesCoroutine;
+    
+    public Slider healthSlider;
     public enum Side
     {
         down, up, front, back, left, right
@@ -25,6 +28,8 @@ public class EggSpawner : Entity
     private void Awake()
     {
         EnemySpawner = FindObjectOfType<EnemySpawner>();
+        healthSlider = GetComponentInChildren<Slider>();
+        
         CurrentHealth = maxHealth;
         
         if (SpawnCollider != null)
@@ -39,6 +44,7 @@ public class EggSpawner : Entity
     private void OnTriggerEnter(Collider other)
     {
         var bullet = other.GetComponent<Bullet>();
+    
         if (bullet != null)
         {
             Destroy(gameObject);
@@ -91,7 +97,8 @@ public class EggSpawner : Entity
     public override void TakeDamage(int damage)
     {
         CurrentHealth -= damage;
-
+        healthSlider.value = CurrentHealth / 10f;
+        
         if(CurrentHealth <= 0)
         {
             for (int i = 0; i < SpawnCount; i++)
