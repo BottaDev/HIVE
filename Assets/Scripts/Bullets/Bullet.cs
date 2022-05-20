@@ -72,7 +72,7 @@ public sealed class Bullet : PoolableObject
     private void Hit(RaycastHit hit)
     {
         ImpactEffect(hit.point);
-        Collision(hit.collider.gameObject);
+        Collision(hit.collider.gameObject, hit.point);
         Disable();
     }
     
@@ -88,7 +88,7 @@ public sealed class Bullet : PoolableObject
         }
     }
 
-    public void Collision(GameObject other)
+    public void Collision(GameObject other, Vector3 point)
     {
         IDamageable obj = other.GetComponentInParent<IDamageable>() ?? other.GetComponentInChildren<IDamageable>();
         
@@ -98,6 +98,8 @@ public sealed class Bullet : PoolableObject
             {
                 UIGunSight.instance.Hit();
             }
+            
+            DamagePopup.Create(point, damage);
 
             obj.TakeDamage(damage);
         }

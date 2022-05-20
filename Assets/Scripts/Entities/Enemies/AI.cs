@@ -157,7 +157,7 @@ public abstract class AI : Entity
             DetectPlayer();
         
         CurrentHealth -= damage;
-        
+
         if(CurrentHealth <= 0)
         {
             KillAI();

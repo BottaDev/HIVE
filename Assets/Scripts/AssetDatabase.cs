@@ -64,6 +64,8 @@ public class AssetDatabase : MonoBehaviour
     public SFX[] sfxs;
     public Music[] music;
     public Icon[] upgradeIcons;
+    public DamagePopup damagePopup;
+    public Canvas instanceCanvas;
 
     public AudioClip GetSFX(SFXs name)
     {

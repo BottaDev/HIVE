@@ -91,7 +91,7 @@ public class EggSpawner : Entity
     public override void TakeDamage(int damage)
     {
         CurrentHealth -= damage;
-        
+
         if(CurrentHealth <= 0)
         {
             for (int i = 0; i < SpawnCount; i++)
