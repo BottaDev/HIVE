@@ -28,9 +28,8 @@ public class PlayerAim
         //Spread
         float x = Random.Range(-spread, spread);
         float y = Random.Range(-spread, spread);
-        Vector3 direction = _cam.transform.forward + _cam.transform.right * x + _cam.transform.up * y;
 
-        Ray screenRay = _cam.ScreenPointToRay(new Vector2(Screen.width / 2f, Screen.height / 2f));
+        Ray screenRay = _cam.ScreenPointToRay(new Vector2((Screen.width / 2f) + x, (Screen.height / 2f) + y));
 
         if (Physics.Raycast(screenRay, out RaycastHit raycastHit, 999f, aimingMask))
         {

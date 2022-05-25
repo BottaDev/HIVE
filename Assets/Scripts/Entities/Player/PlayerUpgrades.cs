@@ -257,12 +257,14 @@ public class PlayerUpgrades : MonoBehaviour
         float percentageUpgrade = 20;
         if(player.shoot.leftGun != null)
         {
-            player.shoot.leftGun.damage += (int) (player.shoot.leftGun.damage * percentageUpgrade) / 100;
+            float increase = (player.shoot.leftGun.damage * percentageUpgrade) / 100;
+            player.shoot.leftGun.damage += increase > 1 ? (int) increase : 1;
         }
         
         if(player.shoot.rightGun != null)
         {
-            player.shoot.rightGun.damage += (int) (player.shoot.rightGun.damage * percentageUpgrade) / 100;
+            float increase = (player.shoot.rightGun.damage * percentageUpgrade) / 100;
+            player.shoot.rightGun.damage += increase > 1 ? (int) increase : 1;
         }
     }
 
