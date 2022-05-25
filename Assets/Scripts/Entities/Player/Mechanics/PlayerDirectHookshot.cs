@@ -112,11 +112,7 @@ public class PlayerDirectHookshot : UnlockableMechanic
         player.transform.LookAt(_hook.transform);
         player.transform.Rotate(new Vector3(90,0,0));
 
-        if (player.input.Dashing || player.input.Jumping)
-        {
-            DestroyHook();
-        }
-        else if (distance <= stopDistance && useStopDistance)
+        if (distance <= stopDistance && useStopDistance)
         {
             DestroyHook();
             _onProximity?.Invoke();
@@ -171,6 +167,7 @@ public class PlayerDirectHookshot : UnlockableMechanic
             player.movement.useLook = false;
             player.movement.ableToMove = false;
             player.movement.ApplyGravity(false);
+            player.jump.CustomAbleToJump = true;
 
 
             //Joint stuff
@@ -214,7 +211,7 @@ public class PlayerDirectHookshot : UnlockableMechanic
         player.movement.useLook = true;
         player.movement.ableToMove = true;
         player.movement.ApplyGravity(true);
-        
+        player.jump.CustomAbleToJump = false;
 
         rigid.velocity.Set(rigid.velocity.x,0,rigid.velocity.z);
         _pulling = false;

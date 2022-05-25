@@ -85,6 +85,8 @@ public class Dash : UnlockableMechanic
 
     private IEnumerator DashCast()
     {
+        player.hookshot.DestroyHook();
+        
         foreach (TrailRenderer item in trails)
         {
             item.emitting = true;
@@ -96,7 +98,8 @@ public class Dash : UnlockableMechanic
         bool applyGravityOld = player.movement.rb.useGravity;
         player.movement.ableToMove = false;
         player.movement.ApplyGravity(false);
-
+        
+        
         Vector3 originalVelocity = player.movement.rb.velocity;
         Vector3 orientation = new Vector3(originalVelocity.x, 0, originalVelocity.z);
         if (orientation.magnitude == 0)

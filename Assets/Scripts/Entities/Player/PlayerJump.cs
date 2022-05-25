@@ -139,6 +139,7 @@ public class PlayerJump : MonoBehaviour
     {
         currentlyJumping = true;
         
+        player.hookshot.DestroyHook();
         AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.PlayerJump));
 
 
