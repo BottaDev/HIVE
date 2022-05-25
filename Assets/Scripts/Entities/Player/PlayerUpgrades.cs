@@ -81,7 +81,7 @@ public class PlayerUpgrades : MonoBehaviour
                     longDescription = "+20% Damage based on current damage stat.",
                     action = DamagePercentBuff,
                     oneTimeOnly = false, 
-                    icon = AssetDatabase.i.GetUpgradeIcon(Icons.TestIcon)
+                    icon = AssetDatabase.i.GetUpgradeIcon(Icons.Attack)
                 }
             },
 
@@ -94,7 +94,7 @@ public class PlayerUpgrades : MonoBehaviour
                     longDescription = "+5% Max Speed based on current max speed stat.",
                     action = MobilityPercentBuff,
                     oneTimeOnly = false, 
-                    icon = AssetDatabase.i.GetUpgradeIcon(Icons.TestIcon)
+                    icon = AssetDatabase.i.GetUpgradeIcon(Icons.Mobility)
                 }
             },
 
@@ -107,7 +107,7 @@ public class PlayerUpgrades : MonoBehaviour
                     longDescription = "+5 Max Hit points (Current hit points are also affected)",
                     action = HPFlatUpgrade,
                     oneTimeOnly = false, 
-                    icon = AssetDatabase.i.GetUpgradeIcon(Icons.TestIcon)
+                    icon = AssetDatabase.i.GetUpgradeIcon(Icons.Defense)
                 }
             },
         };
@@ -123,7 +123,7 @@ public class PlayerUpgrades : MonoBehaviour
                     description = "Unlocks Grenade Throw",
                     longDescription = "Unlocks a grenade throw mechanic, the grenade has a great range and does 20 damage on hit. It has a 15 seconds cooldown and will explode on contact with any enemy or after 3 seconds of being thrown.",
                     action = ActivateGrenadeThrow, 
-                    icon = AssetDatabase.i.GetUpgradeIcon(Icons.TestIcon)
+                    icon = AssetDatabase.i.GetUpgradeIcon(Icons.Attack)
                 }
             },
 
@@ -135,7 +135,7 @@ public class PlayerUpgrades : MonoBehaviour
                     description = "Unlocks Double Jump",
                     longDescription = "You read this like there was any reason to expand on it. It is a double jump. Go double jump.",
                     action = ActivateDoubleJump, 
-                    icon = AssetDatabase.i.GetUpgradeIcon(Icons.TestIcon)
+                    icon = AssetDatabase.i.GetUpgradeIcon(Icons.Mobility)
                 }
             },
 

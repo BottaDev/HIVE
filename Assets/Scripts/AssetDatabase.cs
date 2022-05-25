@@ -23,7 +23,10 @@ public enum SFXs
 }
 public enum Icons
 {
-    TestIcon
+    TestIcon,
+    Attack,
+    Defense,
+    Mobility
 }
 #endregion
 public class AssetDatabase : MonoBehaviour
