@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
-    [SerializeField] private Utilities_ProgressBar progressBar;
+    [SerializeField] private Utilities_ImageLazyProgressBar progressBar;
     [SerializeField] private TextMeshProUGUI text;
     private void Awake()
     {

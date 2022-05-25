@@ -32,13 +32,18 @@ public class Grenade : MonoBehaviour
     private bool addForceToRigidbodies = true;
     private float force;
     private float upwardsForce;
+
+    private bool exploded;
     private void Update()
     {
-        timeCounter += Time.deltaTime;
-
-        if(timeCounter > timeDelay)
+        if (!exploded)
         {
-            Explode();
+            timeCounter += Time.deltaTime;
+
+            if(timeCounter > timeDelay)
+            {
+                Explode();
+            }
         }
     }
 
@@ -63,6 +68,22 @@ public class Grenade : MonoBehaviour
 
     void Explode()
     {
+        Debug.Log("Art is an Explosion!");
+        exploded = true;
+        
+        Collider[] hits = Physics.OverlapSphere(transform.position, explosionRadius, hitMask);
+
+        foreach (var hit in hits)
+        {
+            IDamageable obj = hit.GetComponentInParent<IDamageable>() ?? hit.GetComponentInChildren<IDamageable>();
+
+            if (obj != null)
+            {
+                obj.TakeDamage(damage);
+            }
+        }
+        
+        #region Effects
         ParticleSystem effect = Instantiate(impactParticles, transform.position, transform.rotation);
         
         if(setParticleParametersInCode)
@@ -77,20 +98,7 @@ public class Grenade : MonoBehaviour
             //shape.radius = radius;
         }
         
-        
         CameraShaker.Instance.ShakeOnce(magnitude, roughness, fadeInTime, fadeOutTime);
-        Collider[] hits = Physics.OverlapSphere(transform.position, explosionRadius, hitMask);
-
-        foreach (var hit in hits)
-        {
-            IDamageable obj = hit.GetComponentInParent<IDamageable>() ?? hit.GetComponentInChildren<IDamageable>();
-
-            if (obj != null)
-            {
-                obj.TakeDamage(damage);
-            }
-        }
-        
         if (addForceToRigidbodies)
         {
             Collider[] hits2 = Physics.OverlapSphere(transform.position, explosionRadius, hitMask);
@@ -105,7 +113,8 @@ public class Grenade : MonoBehaviour
 
         AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.Explosion));
         effect.Play();
-        StartCoroutine(DestroyCoroutine(effect, effect.main.duration));
+        #endregion
+        
         Destroy(gameObject);
     }
 

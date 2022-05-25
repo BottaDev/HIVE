@@ -78,8 +78,7 @@ public class Player : Entity
             CurrentHealth = SavedPlayer.currentHP;
             energy.Current = SavedPlayer.currentEnergy;
         }
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+
         EventManager.Instance.Trigger("OnLifeUpdated", CurrentHealth, MaxHP);
     }
 
@@ -162,8 +161,7 @@ public class Player : Entity
     public void PlayerDeath(params object[] parameters)
     {
         AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.PlayerDeath));
-        Cursor.lockState = CursorLockMode.Confined;
-        Cursor.visible = true;
+        
         gameObject.SetActive(false);
         SceneManager.LoadScene(2);
     }

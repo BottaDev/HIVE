@@ -34,7 +34,7 @@ public class PlayerJump : MonoBehaviour
     private readonly float jumpCooldown = 0.25f;
     private int _jumpCounter;
     private bool _lowJumpCondition;
-    
+    public bool CustomAbleToJump { get; set; }
     private readonly Vector3 _normalVector = Vector3.up;
     private bool _readyToJump = true;
     private bool _readyToJumpCondition;
@@ -48,7 +48,7 @@ public class PlayerJump : MonoBehaviour
     private void Update()
     {
         //CoyoteTime
-        if (Grounded)
+        if (Grounded || CustomAbleToJump)
         {
             if (!currentlyJumping)
             {

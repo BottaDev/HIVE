@@ -65,11 +65,8 @@ public abstract class AI : Entity
 
     [SerializeField] private ProgressBar HealthBar;
 
-    [SerializeField] private Camera Camera;
-    [SerializeField] private Canvas HealthBarCanvas;
-
-    public Slider healthSlider;
-    public GameObject HealthBarUI;
+    public Utilities_ProgressBar healthSlider;
+    public Utilities_TemporaryCanvasGroupReveal reveal;
 
     protected override void Awake()
     {
@@ -77,12 +74,12 @@ public abstract class AI : Entity
         _fov = GetComponent<FOV>();
         _agent = GetComponent<NavMeshAgent>();
         _player = FindObjectOfType<Player>();
-        healthSlider = GetComponentInChildren<Slider>();
         //Prefab = this;
 
         _currentAttackRate = 0;
     
-        healthSlider.value = maxHealth;
+        healthSlider.SetRange(0,maxHealth);
+        healthSlider.SetValue(maxHealth);
 
         //SetupHealthBar(HealthBarCanvas, Camera);
     }
@@ -173,7 +170,8 @@ public abstract class AI : Entity
 
         if (healthSlider != null)
         {
-            healthSlider.value = CurrentHealth / 10f;
+            reveal.Reveal();
+            healthSlider.SetValue(CurrentHealth);
         }
 
         //HealthBar.SetProgress(CurrentHealth / maxHealth, 3);
@@ -215,8 +213,12 @@ public abstract class AI : Entity
         {
             Destroy(gameObject);
         }
+
+        if (HealthBar != null)
+        {
+            Destroy(HealthBar.gameObject);
+        }
         
-        Destroy(HealthBar.gameObject);
         
         AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.EnemyDeath));
     }

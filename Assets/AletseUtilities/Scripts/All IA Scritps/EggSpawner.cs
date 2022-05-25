@@ -19,7 +19,8 @@ public class EggSpawner : Entity
     [SerializeField] private bool UpsideDown;
     private Coroutine SpawnEnemiesCoroutine;
     
-    public Slider healthSlider;
+    public Utilities_SliderLinearProgressBar healthSlider;
+    public Utilities_TemporaryCanvasGroupReveal reveal;
     public enum Side
     {
         down, up, front, back, left, right
@@ -28,7 +29,8 @@ public class EggSpawner : Entity
     private void Awake()
     {
         EnemySpawner = FindObjectOfType<EnemySpawner>();
-        healthSlider = GetComponentInChildren<Slider>();
+        healthSlider.SetRange(0,maxHealth);
+        healthSlider.SetValue(maxHealth);
         
         CurrentHealth = maxHealth;
         
@@ -97,7 +99,9 @@ public class EggSpawner : Entity
     public override void TakeDamage(int damage)
     {
         CurrentHealth -= damage;
-        healthSlider.value = CurrentHealth / 10f;
+        
+        reveal.Reveal();
+        healthSlider.SetValue(CurrentHealth);
         
         if(CurrentHealth <= 0)
         {

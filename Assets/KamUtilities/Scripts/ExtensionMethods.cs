@@ -361,3 +361,11 @@ public static partial class ExtensionMethods_LayerMask
         return self == (self | (1 << layer));
     }
 }
+
+public static class ExtensionMethods_Vector3
+{
+    public static string ToCoordinatesAsString(this Vector3 self)
+    {
+        return $"x: {self.x}; y: {self.y}; z: {self.z};";
+    }
+}

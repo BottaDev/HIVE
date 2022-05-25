@@ -35,6 +35,7 @@ public class Rails : MonoBehaviour
         active = true;
         _unattachedParent = p.transform.parent;
         p.attachedRail = this;
+        p.jump.CustomAbleToJump = true;
         Vector3 rot = p.transform.rotation.eulerAngles;
         p.transform.parent = attachPoint;
         p.transform.rotation = Quaternion.Euler(rot);
@@ -46,6 +47,7 @@ public class Rails : MonoBehaviour
         EventManager.Instance.Trigger("OnPlayerRailDeAttached");
         active = false;
         p.attachedRail = null;
+        p.jump.CustomAbleToJump = false;
         p.transform.parent = _unattachedParent;
         p.movement.rb.velocity = Vector3.zero;
     }

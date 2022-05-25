@@ -231,7 +231,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8978c0a65050a03498d5980e1dad34e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 5
+  damage: 1
   spread: 0
   maxAmmo: 100
   bulletsPerTap: 3
@@ -242,15 +242,15 @@ MonoBehaviour:
   energyCostPerBulletRecharge: 1
   mask:
     serializedVersion: 2
-    m_Bits: 2939073
+    m_Bits: 2676928
   firePoint: {fileID: 7518533697554243290}
   bullet: {fileID: 6169558286150484466, guid: 2a203843cb7e36b4fae67710d61d7b6f, type: 3}
   shootingParticle: {fileID: 8479355793438946228, guid: 33eb354b490580f498971c2269f4c939, type: 3}
   sight: 0
   magnitude: 4
   roughness: 1
-  fadeInTime: 0.2
-  fadeOutTime: 0.2
+  fadeInTime: 0.1
+  fadeOutTime: 0.1
   useRechargeSfx: 1
   rechargeSfx: 1
   useShotSfx: 1
@@ -339,7 +339,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8978c0a65050a03498d5980e1dad34e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 5
+  damage: 3
   spread: 0.02
   maxAmmo: 100
   bulletsPerTap: 1
@@ -350,15 +350,15 @@ MonoBehaviour:
   energyCostPerBulletRecharge: 1
   mask:
     serializedVersion: 2
-    m_Bits: 2939073
+    m_Bits: 2676928
   firePoint: {fileID: 7518533697554243290}
   bullet: {fileID: 6169558286150484466, guid: 2a203843cb7e36b4fae67710d61d7b6f, type: 3}
   shootingParticle: {fileID: 8479355793438946228, guid: 33eb354b490580f498971c2269f4c939, type: 3}
   sight: 0
-  magnitude: 4
+  magnitude: 5
   roughness: 1
-  fadeInTime: 0.2
-  fadeOutTime: 0.2
+  fadeInTime: 0.1
+  fadeOutTime: 0.1
   useRechargeSfx: 1
   rechargeSfx: 1
   useShotSfx: 1
@@ -810,7 +810,7 @@ MonoBehaviour:
   cooldownErrorTimeOnScreen: 0.5
   directGrappleable:
     serializedVersion: 2
-    m_Bits: 59456
+    m_Bits: 59457
   indirectGrappleable:
     serializedVersion: 2
     m_Bits: 2097152
@@ -6986,8 +6986,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 5
   spread: 0.06
-  maxAmmo: 100
-  bulletsPerTap: 6
+  maxAmmo: 50
+  bulletsPerTap: 10
   timeBetweenShootingActions: 1
   reloadDelayTime: 1
   reloadTime: 2
@@ -6995,15 +6995,15 @@ MonoBehaviour:
   energyCostPerBulletRecharge: 1
   mask:
     serializedVersion: 2
-    m_Bits: 2939073
+    m_Bits: 2676928
   firePoint: {fileID: 7518533697554243290}
   bullet: {fileID: 6169558286150484466, guid: 2a203843cb7e36b4fae67710d61d7b6f, type: 3}
   shootingParticle: {fileID: 8479355793438946228, guid: 33eb354b490580f498971c2269f4c939, type: 3}
   sight: 1
-  magnitude: 4
-  roughness: 1
-  fadeInTime: 0.2
-  fadeOutTime: 0.2
+  magnitude: 10
+  roughness: 5
+  fadeInTime: 0.5
+  fadeOutTime: 0.5
   useRechargeSfx: 1
   rechargeSfx: 1
   useShotSfx: 1
@@ -7028,7 +7028,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4629313644082423270}
-  - component: {fileID: 4629313644082423265}
+  - component: {fileID: 6359261539784840157}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -7043,15 +7043,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4629313644082423264}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -3.5}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4629313644306813590}
   m_Father: {fileID: 2479494150942079736}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4629313644082423265
+--- !u!114 &6359261539784840157
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7060,16 +7060,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 4629313644082423264}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a81652e9a7ca48f41aa08d4991bfe386, type: 3}
+  m_Script: {fileID: 11500000, guid: 648fef0d6cdfb9c4cb18b4a06270f032, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mask:
+  character: {fileID: 3473960329723331750}
+  cameraCenter: {fileID: 4629313644082423264}
+  shaker: {fileID: 0}
+  cam: {fileID: 4629313644306813585}
+  yOffset: 1
+  sensitivity: 3
+  scrollSensitivity: 5
+  scrollDampening: 6
+  zoomMin: 1
+  zoomMax: 5
+  zoomDefault: 5
+  cameraCollisionMask:
     serializedVersion: 2
-    m_Bits: 51264
-  lookAt: {fileID: 3473960329904449257}
-  camTransform: {fileID: 4629313644306813590}
-  input: {fileID: 2839959021259793015}
-  mouseSensitivity: 2
+    m_Bits: 2148417
+  minimumCollisionProximity: 0
+  collisionSensitivity: 2
 --- !u!1 &4629313644306813586
 GameObject:
   m_ObjectHideFlags: 0
@@ -7098,7 +7107,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4629313644306813586}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4629313644082423270}
@@ -7127,7 +7136,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.01
   far clip plane: 1000
   field of view: 60
   orthographic: 0
@@ -7251,14 +7260,14 @@ MonoBehaviour:
   spread: 0
   maxAmmo: 100
   bulletsPerTap: 1
-  timeBetweenShootingActions: 0.4
+  timeBetweenShootingActions: 0.5
   reloadDelayTime: 1
   reloadTime: 1
   timeBetweenShotsInAction: 0
   energyCostPerBulletRecharge: 1
   mask:
     serializedVersion: 2
-    m_Bits: 2939073
+    m_Bits: 2676928
   firePoint: {fileID: 7518533697554243290}
   bullet: {fileID: 6169558286150484466, guid: 2a203843cb7e36b4fae67710d61d7b6f, type: 3}
   shootingParticle: {fileID: 8479355793438946228, guid: 33eb354b490580f498971c2269f4c939, type: 3}

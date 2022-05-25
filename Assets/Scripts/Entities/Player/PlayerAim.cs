@@ -30,8 +30,12 @@ public class PlayerAim
         float y = Random.Range(-spread, spread);
         Vector3 direction = _cam.transform.forward + _cam.transform.right * x + _cam.transform.up * y;
 
-        if (Physics.Raycast(_cam.transform.position, direction, out RaycastHit raycastHit, 999f, aimingMask))
+        Ray screenRay = _cam.ScreenPointToRay(new Vector2(Screen.width / 2f, Screen.height / 2f));
+
+        if (Physics.Raycast(screenRay, out RaycastHit raycastHit, 999f, aimingMask))
         {
+            return raycastHit.point;
+            /*
             //Screen ray is colliding with something, now check what point a ray would collide with from the player transform
 
             Ray playerTramsformRay = new Ray(player.transform.position, (raycastHit.point - player.transform.position).normalized);
@@ -39,10 +43,13 @@ public class PlayerAim
             if (Physics.Raycast(playerTramsformRay, out RaycastHit raycastHitTwo, 999f, aimingMask))
             {
                 return raycastHitTwo.point;
-            }
+            }*/
         }
+
+        return screenRay.GetPoint(999f);
         
-        return _cam.transform.forward * 999f;
+        
+        //return _cam.transform.forward * 999f;
     }
 
     public void DrawGizmos(Vector3 point)

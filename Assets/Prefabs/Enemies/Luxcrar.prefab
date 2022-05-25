@@ -767,10 +767,8 @@ MonoBehaviour:
   WaypointIndex: 0
   Player: {fileID: 0}
   HealthBar: {fileID: 0}
-  Camera: {fileID: 0}
-  HealthBarCanvas: {fileID: 0}
   healthSlider: {fileID: 0}
-  HealthBarUI: {fileID: 0}
+  reveal: {fileID: 0}
   attackDistance: 20
   evadeDistance: 8
   evadeTime: 3
@@ -1958,10 +1956,8 @@ MonoBehaviour:
   WaypointIndex: 0
   Player: {fileID: 0}
   HealthBar: {fileID: 0}
-  Camera: {fileID: 0}
-  HealthBarCanvas: {fileID: 0}
-  healthSlider: {fileID: 8280822614838370238}
-  HealthBarUI: {fileID: 4557113775863678716}
+  healthSlider: {fileID: 8059670286389860667}
+  reveal: {fileID: 2476992744275469315}
   attackDistance: 20
   evadeDistance: 8
   evadeTime: 3
@@ -3364,26 +3360,44 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 9094520287378786090, guid: 7296be3f113cd0b49a79f7f8ff7a36b7, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9094520287378786090, guid: 7296be3f113cd0b49a79f7f8ff7a36b7, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9112949317007031775, guid: 7296be3f113cd0b49a79f7f8ff7a36b7, type: 3}
+      propertyPath: m_Alpha
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7296be3f113cd0b49a79f7f8ff7a36b7, type: 3}
---- !u!1 &4557113775863678716 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8955134408479405625, guid: 7296be3f113cd0b49a79f7f8ff7a36b7, type: 3}
-  m_PrefabInstance: {fileID: 4861945421774074053}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &5304980069573257887 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 785327133040761434, guid: 7296be3f113cd0b49a79f7f8ff7a36b7, type: 3}
   m_PrefabInstance: {fileID: 4861945421774074053}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8280822614838370238 stripped
+--- !u!114 &2476992744275469315 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3572055797826875259, guid: 7296be3f113cd0b49a79f7f8ff7a36b7, type: 3}
+  m_CorrespondingSourceObject: {fileID: 6996643695595115718, guid: 7296be3f113cd0b49a79f7f8ff7a36b7, type: 3}
   m_PrefabInstance: {fileID: 4861945421774074053}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Script: {fileID: 11500000, guid: 7d598b567949c3d4da64b05cd3f5734c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8059670286389860667 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3215758105822882302, guid: 7296be3f113cd0b49a79f7f8ff7a36b7, type: 3}
+  m_PrefabInstance: {fileID: 4861945421774074053}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7d0522c37a1cd64da50c35b425a3f9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
