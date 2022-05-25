@@ -628,6 +628,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1324637086593576526}
+  - component: {fileID: 4212881564418405432}
   m_Layer: 0
   m_Name: Eggs
   m_TagString: Untagged
@@ -652,6 +653,25 @@ Transform:
   m_Father: {fileID: 8905677663923329890}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4212881564418405432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1324637086593576527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4d67114e1a40994fbdbe49b2179709a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawns:
+  - name: EggGroup
+    chanceToSpawn: 100
+    objects:
+    - {fileID: 3064380133939934986}
+    - {fileID: 2020825338142261422}
+    - {fileID: 910491115767763921}
 --- !u!1 &1581415891814903789
 GameObject:
   m_ObjectHideFlags: 0
@@ -10368,6 +10388,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ae4a24da3358c794d83f44ac9b7991e9, type: 3}
+--- !u!1 &910491115767763921 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5480976175980881416, guid: ae4a24da3358c794d83f44ac9b7991e9, type: 3}
+  m_PrefabInstance: {fileID: 4662034933836199385}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &570099476724500843 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5141851174316047538, guid: ae4a24da3358c794d83f44ac9b7991e9, type: 3}
@@ -10478,6 +10503,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ae4a24da3358c794d83f44ac9b7991e9, type: 3}
+--- !u!1 &2020825338142261422 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5480976175980881416, guid: ae4a24da3358c794d83f44ac9b7991e9, type: 3}
+  m_PrefabInstance: {fileID: 5772276869347681958}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1675542869049629204 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5141851174316047538, guid: ae4a24da3358c794d83f44ac9b7991e9, type: 3}
@@ -10639,5 +10669,10 @@ PrefabInstance:
 --- !u!4 &2435618170798648752 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5141851174316047538, guid: ae4a24da3358c794d83f44ac9b7991e9, type: 3}
+  m_PrefabInstance: {fileID: 7392249444054913282}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3064380133939934986 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5480976175980881416, guid: ae4a24da3358c794d83f44ac9b7991e9, type: 3}
   m_PrefabInstance: {fileID: 7392249444054913282}
   m_PrefabAsset: {fileID: 0}

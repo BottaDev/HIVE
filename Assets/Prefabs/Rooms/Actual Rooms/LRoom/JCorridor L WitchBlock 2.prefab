@@ -264,10 +264,8 @@ MonoBehaviour:
   WaypointIndex: 0
   Player: {fileID: 0}
   HealthBar: {fileID: 0}
-  Camera: {fileID: 0}
-  HealthBarCanvas: {fileID: 0}
   healthSlider: {fileID: 0}
-  HealthBarUI: {fileID: 0}
+  reveal: {fileID: 0}
   attackDistance: 20
   evadeDistance: 8
   evadeTime: 3
@@ -6624,10 +6622,8 @@ MonoBehaviour:
   WaypointIndex: 0
   Player: {fileID: 0}
   HealthBar: {fileID: 0}
-  Camera: {fileID: 0}
-  HealthBarCanvas: {fileID: 0}
   healthSlider: {fileID: 0}
-  HealthBarUI: {fileID: 0}
+  reveal: {fileID: 0}
   attackDistance: 20
   evadeDistance: 8
   evadeTime: 3
@@ -10396,10 +10392,8 @@ MonoBehaviour:
   WaypointIndex: 0
   Player: {fileID: 0}
   HealthBar: {fileID: 0}
-  Camera: {fileID: 0}
-  HealthBarCanvas: {fileID: 0}
   healthSlider: {fileID: 0}
-  HealthBarUI: {fileID: 0}
+  reveal: {fileID: 0}
   attackJumpLength: 10
   attackDuration: 0.1
   attackDistance: 0.1
@@ -13681,6 +13675,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2916984558541563145}
+  - component: {fileID: 6734916559216175047}
   m_Layer: 0
   m_Name: Eggs
   m_TagString: Untagged
@@ -13706,6 +13701,26 @@ Transform:
   m_Father: {fileID: 2916984558022626469}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6734916559216175047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2916984558541563144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4d67114e1a40994fbdbe49b2179709a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawns:
+  - name: EggGroup
+    chanceToSpawn: 75
+    objects:
+    - {fileID: 2195244128794633725}
+    - {fileID: 3653700868747502778}
+    - {fileID: 4520836848469122848}
+    - {fileID: 4319426409216722289}
 --- !u!1 &2916984559016157636
 GameObject:
   m_ObjectHideFlags: 0
@@ -14822,10 +14837,8 @@ MonoBehaviour:
   WaypointIndex: 0
   Player: {fileID: 0}
   HealthBar: {fileID: 0}
-  Camera: {fileID: 0}
-  HealthBarCanvas: {fileID: 0}
   healthSlider: {fileID: 0}
-  HealthBarUI: {fileID: 0}
+  reveal: {fileID: 0}
   attackJumpLength: 10
   attackDuration: 0.1
   attackDistance: 0.1
@@ -15268,10 +15281,8 @@ MonoBehaviour:
   WaypointIndex: 0
   Player: {fileID: 0}
   HealthBar: {fileID: 0}
-  Camera: {fileID: 0}
-  HealthBarCanvas: {fileID: 0}
   healthSlider: {fileID: 0}
-  HealthBarUI: {fileID: 0}
+  reveal: {fileID: 0}
   attackDistance: 20
   evadeDistance: 8
   evadeTime: 3
@@ -16712,10 +16723,8 @@ MonoBehaviour:
   WaypointIndex: 0
   Player: {fileID: 0}
   HealthBar: {fileID: 0}
-  Camera: {fileID: 0}
-  HealthBarCanvas: {fileID: 0}
   healthSlider: {fileID: 0}
-  HealthBarUI: {fileID: 0}
+  reveal: {fileID: 0}
   attackDistance: 20
   evadeDistance: 8
   evadeTime: 3
@@ -18509,10 +18518,8 @@ MonoBehaviour:
   WaypointIndex: 0
   Player: {fileID: 0}
   HealthBar: {fileID: 0}
-  Camera: {fileID: 0}
-  HealthBarCanvas: {fileID: 0}
   healthSlider: {fileID: 0}
-  HealthBarUI: {fileID: 0}
+  reveal: {fileID: 0}
   attackDistance: 20
   evadeDistance: 8
   evadeTime: 3
@@ -28839,10 +28846,8 @@ MonoBehaviour:
   WaypointIndex: 0
   Player: {fileID: 0}
   HealthBar: {fileID: 0}
-  Camera: {fileID: 0}
-  HealthBarCanvas: {fileID: 0}
   healthSlider: {fileID: 0}
-  HealthBarUI: {fileID: 0}
+  reveal: {fileID: 0}
   attackDistance: 20
   evadeDistance: 8
   evadeTime: 3
@@ -30042,10 +30047,8 @@ MonoBehaviour:
   WaypointIndex: 0
   Player: {fileID: 0}
   HealthBar: {fileID: 0}
-  Camera: {fileID: 0}
-  HealthBarCanvas: {fileID: 0}
   healthSlider: {fileID: 0}
-  HealthBarUI: {fileID: 0}
+  reveal: {fileID: 0}
   attackDistance: 20
   evadeDistance: 8
   evadeTime: 3
@@ -33373,10 +33376,8 @@ MonoBehaviour:
   WaypointIndex: 0
   Player: {fileID: 0}
   HealthBar: {fileID: 0}
-  Camera: {fileID: 0}
-  HealthBarCanvas: {fileID: 0}
   healthSlider: {fileID: 0}
-  HealthBarUI: {fileID: 0}
+  reveal: {fileID: 0}
   attackDistance: 20
   evadeDistance: 8
   evadeTime: 3
@@ -38974,10 +38975,8 @@ MonoBehaviour:
   WaypointIndex: 0
   Player: {fileID: 0}
   HealthBar: {fileID: 0}
-  Camera: {fileID: 0}
-  HealthBarCanvas: {fileID: 0}
   healthSlider: {fileID: 0}
-  HealthBarUI: {fileID: 0}
+  reveal: {fileID: 0}
   attackDistance: 20
   evadeDistance: 8
   evadeTime: 3
@@ -39417,10 +39416,8 @@ MonoBehaviour:
   WaypointIndex: 0
   Player: {fileID: 0}
   HealthBar: {fileID: 0}
-  Camera: {fileID: 0}
-  HealthBarCanvas: {fileID: 0}
   healthSlider: {fileID: 0}
-  HealthBarUI: {fileID: 0}
+  reveal: {fileID: 0}
   attackDistance: 20
   evadeDistance: 8
   evadeTime: 3
@@ -41434,7 +41431,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5480976175980881416, guid: ae4a24da3358c794d83f44ac9b7991e9, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7227651683022986859, guid: ae4a24da3358c794d83f44ac9b7991e9, type: 3}
       propertyPath: m_LocalRotation.w
@@ -41454,6 +41451,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ae4a24da3358c794d83f44ac9b7991e9, type: 3}
+--- !u!1 &2195244128794633725 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5480976175980881416, guid: ae4a24da3358c794d83f44ac9b7991e9, type: 3}
+  m_PrefabInstance: {fileID: 5937789596387034101}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1530311604646756167 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5141851174316047538, guid: ae4a24da3358c794d83f44ac9b7991e9, type: 3}
@@ -41560,7 +41562,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5480976175980881416, guid: ae4a24da3358c794d83f44ac9b7991e9, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7227651683022986859, guid: ae4a24da3358c794d83f44ac9b7991e9, type: 3}
       propertyPath: m_LocalRotation.w
@@ -41580,6 +41582,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ae4a24da3358c794d83f44ac9b7991e9, type: 3}
+--- !u!1 &4520836848469122848 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5480976175980881416, guid: ae4a24da3358c794d83f44ac9b7991e9, type: 3}
+  m_PrefabInstance: {fileID: 8263379516945578280}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3888556487304267162 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5141851174316047538, guid: ae4a24da3358c794d83f44ac9b7991e9, type: 3}
@@ -41686,7 +41693,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5480976175980881416, guid: ae4a24da3358c794d83f44ac9b7991e9, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7227651683022986859, guid: ae4a24da3358c794d83f44ac9b7991e9, type: 3}
       propertyPath: m_LocalRotation.w
@@ -41706,6 +41713,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ae4a24da3358c794d83f44ac9b7991e9, type: 3}
+--- !u!1 &4319426409216722289 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5480976175980881416, guid: ae4a24da3358c794d83f44ac9b7991e9, type: 3}
+  m_PrefabInstance: {fileID: 8638460051456385913}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3511259337274007499 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5141851174316047538, guid: ae4a24da3358c794d83f44ac9b7991e9, type: 3}
@@ -41812,7 +41824,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5480976175980881416, guid: ae4a24da3358c794d83f44ac9b7991e9, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7227651683022986859, guid: ae4a24da3358c794d83f44ac9b7991e9, type: 3}
       propertyPath: m_LocalRotation.w
@@ -41832,6 +41844,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ae4a24da3358c794d83f44ac9b7991e9, type: 3}
+--- !u!1 &3653700868747502778 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5480976175980881416, guid: ae4a24da3358c794d83f44ac9b7991e9, type: 3}
+  m_PrefabInstance: {fileID: 9125659942177669810}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4179161476059856384 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5141851174316047538, guid: ae4a24da3358c794d83f44ac9b7991e9, type: 3}
