@@ -36,8 +36,9 @@ public class PlayerLevel : MonoBehaviour
         }
 
         system = new LevellingSystem(LevelFormula).SetOnLevelup(OnLevelup)
-            .AddEveryXLevels(3, OnBigLevelUp)
-            .SetStartingLevel(Player.SavedPlayer == null ? 1 : Player.SavedPlayer.level);
+            .AddEveryXLevels(3, OnBigLevelUp);
+            
+        system.SetExp(Player.SavedPlayer == null ? 0 : Player.SavedPlayer.totalExp, false);
     }
 
     public Exp FindExpOfType(ExpType type)

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,6 +41,16 @@ public class PlayerGunStorage : MonoBehaviour
         return storage.First(x => x.enumName == gun).gun;
     }
 
+    public Guns GetGunEnum(PlayerGun gun)
+    {
+        if (gun == null)
+        {
+            return Guns.None;
+        }
+        
+        return storage.First(x => x.gun == gun).enumName;
+    }
+
     private int currentLeft = 0;
     public PlayerGun IterateThroughLeftGun()
     {
@@ -64,5 +75,13 @@ public class PlayerGunStorage : MonoBehaviour
         }
         
         return storage[currentRight].gun;
+    }
+
+    public void ForAllGuns(Action<PlayerGun> action)
+    {
+        foreach (Gun gun in storage)
+        {
+            action.Invoke(gun.gun);
+        }
     }
 }

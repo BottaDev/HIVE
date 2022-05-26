@@ -117,12 +117,32 @@ public class PlayerGun : MonoBehaviour
                 Reload();
             }
 
-            if (readyToShoot && shooting && CurrentAmmo > 0)
+            if (shooting)
             {
-                bulletsShot = bulletsPerTap;
-                if(useShotSfx) AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(shotSfx));
-                Shoot();
+                if (CurrentAmmo > 0)
+                {
+                    if (readyToShoot)
+                    {
+                        if (!player.energy.TakeEnergy(energyCostPerBulletRecharge))
+                        {
+                            EventManager.Instance.Trigger("OnSendUIMessageTemporary",
+                                "You don't have enough energy to shoot!", Color.red, 1.5f);
+                            return;
+                        }
+                
+                        bulletsShot = bulletsPerTap;
+                        if(useShotSfx) AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(shotSfx));
+                        Shoot();
+                    }
+                }
+                else
+                {
+                    EventManager.Instance.Trigger("OnSendUIMessageTemporary",
+                        "You don't have enough bullets to shoot!", Color.red, 1.5f);
+                }
             }
+            
+            
         }
         
     }
@@ -179,11 +199,7 @@ public class PlayerGun : MonoBehaviour
             yield return new WaitForEndOfFrame();
         
             int recharge = Mathf.CeilToInt(maxAmmo / reloadTime * Time.deltaTime);
-            float energyCost = recharge * energyCostPerBulletRecharge;
-            if (!player.energy.TakeEnergy(energyCost))
-            {
-                StopReload();
-            }
+            
             
             if (!_playedSFX && reloading)
             {

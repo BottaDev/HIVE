@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Unity.Mathematics;
 using UnityEngine.Serialization;
 
 public class PlayerDirectHookshot : UnlockableMechanic
@@ -109,8 +110,8 @@ public class PlayerDirectHookshot : UnlockableMechanic
         }
         
         //Rotation stuff
-        player.transform.LookAt(_hook.transform);
-        player.transform.Rotate(new Vector3(90,0,0));
+        player.model.transform.LookAt(_hook.transform);
+        player.model.transform.Rotate(new Vector3(90,0,0));
 
         if (distance <= stopDistance && useStopDistance)
         {
@@ -207,6 +208,8 @@ public class PlayerDirectHookshot : UnlockableMechanic
         player.animator.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsHooking, false);
         EventManager.Instance.Trigger("OnPlayerHookshotCD", cooldown);
         _currentCooldown = cooldown;
+        
+        player.model.transform.localRotation = Quaternion.identity;
         
         player.movement.useLook = true;
         player.movement.ableToMove = true;

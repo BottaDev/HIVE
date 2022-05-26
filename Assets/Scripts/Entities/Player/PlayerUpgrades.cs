@@ -255,17 +255,14 @@ public class PlayerUpgrades : MonoBehaviour
     void DamagePercentBuff(Player player)
     {
         float percentageUpgrade = 20;
-        if(player.shoot.leftGun != null)
-        {
-            float increase = (player.shoot.leftGun.damage * percentageUpgrade) / 100;
-            player.shoot.leftGun.damage += increase > 1 ? (int) increase : 1;
-        }
         
-        if(player.shoot.rightGun != null)
-        {
-            float increase = (player.shoot.rightGun.damage * percentageUpgrade) / 100;
-            player.shoot.rightGun.damage += increase > 1 ? (int) increase : 1;
-        }
+        player.shoot.gunStorage.ForAllGuns(
+            delegate(PlayerGun gun)
+            {
+                float increase = (gun.damage * percentageUpgrade) / 100;
+                gun.damage += increase > 1 ? (int) increase : 1;
+            }
+        );
     }
 
     void HPFlatUpgrade(Player player)

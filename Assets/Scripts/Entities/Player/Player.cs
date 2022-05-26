@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -17,7 +19,7 @@ public class Player : Entity
     public PlayerDebugDevTools debug;
     public PlayerDirectHookshot hookshot;
     public PlayerGrenadeThrow grenadeThrow;
-
+    public GameObject model;
 
     public Rails attachedRail { get; set; }
     public bool attachedToRail => attachedRail != null;
@@ -32,8 +34,16 @@ public class Player : Entity
         public float currentEnergy;
         
         //Level stuff
-        public int level;
+        public int totalExp;
+        public int expThisLevel;
+        public List<PlayerLevel.Exp> exps = new List<PlayerLevel.Exp>();
         public List<PlayerUpgrades.Upgrade> upgrades = new List<PlayerUpgrades.Upgrade>();
+        public Queue<UILevelUpgradePrompt.ChoosableUpgradePrompt> choices = new Queue<UILevelUpgradePrompt.ChoosableUpgradePrompt>();
+        public UILevelUpgradePrompt.ChoosableUpgradePrompt currentUpgrade;
+        
+        //Gun stuff
+        public PlayerGunStorage.Guns leftGun;
+        public PlayerGunStorage.Guns rightGun;
     }
     
     private bool Restart => input.Restart;
@@ -53,9 +63,10 @@ public class Player : Entity
     {
         base.Awake();
 
-        EventManager.Instance?.Subscribe("OnPlayerDead", PlayerDeath);
-        EventManager.Instance?.Subscribe("OnPlayerDamaged", OnPlayerDamaged);
-        EventManager.Instance?.Subscribe("NeedsPlayerReference", SendPlayerReference);
+        EventManager.Instance.Subscribe("OnPlayerDead", PlayerDeath);
+        EventManager.Instance.Subscribe("OnPlayerDamaged", OnPlayerDamaged);
+        EventManager.Instance.Subscribe("NeedsPlayerReference", SendPlayerReference);
+        EventManager.Instance.Subscribe("OnSaveGame", SavePlayer);
     }
     public void SendPlayerReference(params object[] p)
     {
@@ -73,7 +84,20 @@ public class Player : Entity
                 upgrade.action.Invoke(this);
             }
             
-            
+            level.ThisLevel = SavedPlayer.expThisLevel;
+            foreach (var exp in SavedPlayer.exps)
+            {
+                PlayerLevel.Exp current = level.exp.First(x => x.type == exp.type);
+                current.Total = exp.Total;
+                current.ThisLevel = exp.ThisLevel;
+                EventManager.Instance.Trigger("OnPlayerLevelSystemUpdate", current.type);
+            }
+
+            DelayAction(0f,
+                delegate {
+                    EventManager.Instance.Trigger("OnPlayerLevelSystemUpdate", PlayerLevel.ExpType.Defense); 
+                });
+
             //Then set your current hp and energy.
             CurrentHealth = SavedPlayer.currentHP;
             energy.Current = SavedPlayer.currentEnergy;
@@ -84,7 +108,7 @@ public class Player : Entity
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.LeftAlt))
+        if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKey(KeyCode.LeftControl))
         {
             if (Restart)
             {
@@ -108,7 +132,7 @@ public class Player : Entity
     {
         SavedPlayer = null;
     }
-    public void SavePlayer()
+    public void SavePlayer(params object[] obj)
     {
         if (SavedPlayer == null)
         {
@@ -116,21 +140,31 @@ public class Player : Entity
             {
                 currentEnergy = energy.Current, 
                 currentHP = CurrentHealth,
-                level = level.system.Level,
-                upgrades = UILevelUpgradePrompt.instance.upgradesChosen
+                totalExp = level.system.Exp,
+                expThisLevel = level.ThisLevel,
+                exps = level.exp,
+                upgrades = UILevelUpgradePrompt.instance.upgradesChosen,
+                choices = UILevelUpgradePrompt.instance.choices,
+                currentUpgrade = UILevelUpgradePrompt.instance.current,
+                leftGun = shoot.currentLeftGun,
+                rightGun = shoot.currentRightGun
             };
         }
         else
         {
             SavedPlayer.currentEnergy = energy.Current;
             SavedPlayer.currentHP = CurrentHealth;
-            SavedPlayer.level = level.system.Level;
 
             foreach (var upgrade in UILevelUpgradePrompt.instance.upgradesChosen)
             {
                 SavedPlayer.upgrades.Add(upgrade);
             }
-            
+
+            SavedPlayer.leftGun = shoot.currentLeftGun;
+            SavedPlayer.rightGun = shoot.currentRightGun;
+            SavedPlayer.exps = level.exp;
+            SavedPlayer.totalExp = level.system.Exp;
+            SavedPlayer.expThisLevel = level.ThisLevel;
         }
     }
 
@@ -164,5 +198,17 @@ public class Player : Entity
         
         gameObject.SetActive(false);
         SceneManager.LoadScene(2);
+    }
+
+
+    public void DelayAction(float time, Action action)
+    {
+        StartCoroutine(Delay(time, action));
+    }
+
+    IEnumerator Delay(float time, Action action)
+    {
+        yield return new WaitForSeconds(time);
+        action.Invoke();
     }
 }

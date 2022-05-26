@@ -17,8 +17,12 @@ public class Shoot : MonoBehaviour
     [Header("Guns")]
     public PlayerGunStorage.Guns startingLeftGun = PlayerGunStorage.Guns.Default;
     public PlayerGunStorage.Guns startingRightGun = PlayerGunStorage.Guns.None;
-    public PlayerGun leftGun;
-    public PlayerGun rightGun;
+    public PlayerGunStorage.Guns currentLeftGun;
+    public PlayerGunStorage.Guns currentRightGun;
+    
+    public PlayerGun leftGun { get; set; }
+    public PlayerGun rightGun { get; set; }
+    
 
     [Header("Default Aim")]
     public LayerMask defaultLayerMask;
@@ -31,8 +35,17 @@ public class Shoot : MonoBehaviour
     }
     private void Start()
     {
-        SetGun(Gun.Left, gunStorage.GetGun(startingLeftGun));
-        SetGun(Gun.Right, gunStorage.GetGun(startingRightGun));
+        if (Player.SavedPlayer == null)
+        {
+            SetGun(Gun.Left, startingLeftGun);
+            SetGun(Gun.Right, startingRightGun);
+        }
+        else
+        {
+            SetGun(Gun.Left, Player.SavedPlayer.leftGun);
+            SetGun(Gun.Right, Player.SavedPlayer.rightGun);
+        }
+        
         defaultAim = new PlayerAim(player, player.shoot.firePointRight, defaultLayerMask, defaultSpread);
     }
 
@@ -83,6 +96,11 @@ public class Shoot : MonoBehaviour
 
         throw new Exception($"Could not find gun of type \"{side.ToString()}\"");
     }
+    public void SetGun(Gun side, PlayerGunStorage.Guns gun)
+    {
+        SetGun(side, gunStorage.GetGun(gun));
+    }
+    
     public void SetGun(Gun side, PlayerGun gun)
     {
         gunStorage.TurnOffAllGuns();
@@ -91,10 +109,12 @@ public class Shoot : MonoBehaviour
             case Gun.Left:
                 leftGun = gun;
                 leftGun?.Initialize(player);
+                currentLeftGun = gunStorage.GetGunEnum(gun);
                 break;
             case Gun.Right:
                 rightGun = gun;
                 rightGun?.Initialize(player);
+                currentRightGun = gunStorage.GetGunEnum(gun);
                 break;
         }
         

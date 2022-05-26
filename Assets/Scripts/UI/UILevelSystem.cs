@@ -138,4 +138,14 @@ public class UILevelSystem : MonoBehaviour
     {
         level.text = "LV. " + _player.level.system.Level;
     }
+
+    private void Load()
+    {
+        Player.Progress saveFile = Player.SavedPlayer;
+
+        foreach (var ui in levelUIs)
+        {
+            ui.progressBar.SetValue(saveFile.exps.First(x => x.type == ui.expType).ThisLevel);
+        }
+    }
 }

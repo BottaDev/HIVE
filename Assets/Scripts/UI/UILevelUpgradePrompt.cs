@@ -35,8 +35,8 @@ public class UILevelUpgradePrompt : MonoBehaviour
     
     private bool waitingForInput;
 
-    private Queue<ChoosableUpgradePrompt> choices = new Queue<ChoosableUpgradePrompt>();
-    private ChoosableUpgradePrompt current;
+    public Queue<ChoosableUpgradePrompt> choices = new Queue<ChoosableUpgradePrompt>();
+    public ChoosableUpgradePrompt current;
 
     public List<PlayerUpgrades.Upgrade> upgradesChosen = new List<PlayerUpgrades.Upgrade>();
 
@@ -46,7 +46,7 @@ public class UILevelUpgradePrompt : MonoBehaviour
         closed, open, ultra
     }
     
-    class ChoosableUpgradePrompt
+    public class ChoosableUpgradePrompt
     {
         public string displayText;
         public string longDisplayText;
@@ -70,6 +70,24 @@ public class UILevelUpgradePrompt : MonoBehaviour
         ShowUI(false);
         shortText.gameObject.SetActive(true);
         longText.gameObject.SetActive(false);
+
+        if (Player.SavedPlayer != null)
+        {
+            if (Player.SavedPlayer.currentUpgrade != null)
+            {
+                choices.Enqueue(Player.SavedPlayer.currentUpgrade);
+            }
+            
+            foreach (var choice in Player.SavedPlayer.choices)
+            {
+                choices.Enqueue(choice);
+            }
+
+            if (choices.Count > 0)
+            {
+                NextUpgrade();
+            }
+        }
     }
     
     private void Update()
@@ -119,6 +137,10 @@ public class UILevelUpgradePrompt : MonoBehaviour
         {
             NextUpgrade();
         }
+        else
+        {
+            current = null;
+        }
         
         CheckEyeState();
     }
@@ -156,7 +178,6 @@ public class UILevelUpgradePrompt : MonoBehaviour
         if (firstChoice && !waitingForInput)
         {
             NextUpgrade();
-            
         }
     }
 

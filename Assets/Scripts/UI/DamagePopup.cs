@@ -14,10 +14,8 @@ public class DamagePopup : MonoBehaviour
         {
             canvas = Instantiate(AssetDatabase.i.instanceCanvas);
         }
-
-        Debug.LogWarning($"X: {position.x}; Y: {position.y}; Z: {position.z}");
+        
         Vector3 newPos = Camera.main.ScreenToWorldPoint(position);
-        Debug.LogWarning($"X: {newPos.x}; Y: {newPos.y}; Z: {newPos.z}");
         DamagePopup popup = Instantiate(AssetDatabase.i.damagePopup, canvas.transform);
         popup.transform.localPosition = newPos;
         

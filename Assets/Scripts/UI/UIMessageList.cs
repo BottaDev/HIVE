@@ -6,6 +6,7 @@ using System.Linq;
 
 public class UIMessageList : ObjectList
 {
+    private Dictionary<string, Coroutine> coroutines = new Dictionary<string, Coroutine>();
     private void Awake()
     {
         EventManager.Instance.Subscribe("OnSendUIMessage", SendMessage);
@@ -42,13 +43,21 @@ public class UIMessageList : ObjectList
         Color color = (Color)p[1];
         float time = (float) p[2];
 
-        StartCoroutine(SendMessageTemporaryCoroutine(message, color, time));
+        SendMessage(message, color);
+        
+        if (!coroutines.ContainsKey(message))
+        {
+            coroutines.Add(message, StartCoroutine(SendMessageTemporaryCoroutine(message, color, time)));
+        }
+        else
+        {
+            StopCoroutine(coroutines[message]);
+            coroutines[message] = StartCoroutine(SendMessageTemporaryCoroutine(message, color, time));
+        }
     }
 
     IEnumerator SendMessageTemporaryCoroutine(string message, Color color, float time)
     {
-        SendMessage(message, color);
-        
         yield return new WaitForSeconds(time);
 
         EliminateMessage(message);

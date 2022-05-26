@@ -11,6 +11,7 @@ public class Utilities_ProgressBar : MonoBehaviour
     [SerializeField] protected float minValue = 0;
     [SerializeField] protected float currentValue = 1;
 
+    
     [SerializeField] protected float animSpeed = 4f;
 
     [SerializeField] protected UnityEvent onFull = null;
@@ -19,6 +20,7 @@ public class Utilities_ProgressBar : MonoBehaviour
 
     public float MaxValue { get { return maxValue; } }
     public float MinValue { get { return minValue; } }
+    public float Value { get { return currentValue; } }
 
     private float targetValue;
     private bool animating;
