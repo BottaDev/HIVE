@@ -78,7 +78,6 @@ public class Player : Entity
         if (SavedPlayer != null)
         {
             //Load everything
-            //First, do all upgrades you had.
             foreach (var upgrade in SavedPlayer.upgrades)
             {
                 upgrade.action.Invoke(this);
@@ -97,8 +96,7 @@ public class Player : Entity
                 delegate {
                     EventManager.Instance.Trigger("OnPlayerLevelSystemUpdate", PlayerLevel.ExpType.Defense); 
                 });
-
-            //Then set your current hp and energy.
+            
             CurrentHealth = SavedPlayer.currentHP;
             energy.Current = SavedPlayer.currentEnergy;
         }
