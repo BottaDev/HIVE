@@ -20425,6 +20425,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3419176145782216340}
   - component: {fileID: 3960900135381247868}
+  - component: {fileID: 4293913986648081041}
+  - component: {fileID: 7388841543402930559}
   m_Layer: 0
   m_Name: PRoom
   m_TagString: Untagged
@@ -20466,6 +20468,63 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   connections: 01000000
+--- !u!114 &4293913986648081041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4336941005872933174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 473871a99f1d31f4587ac8963193b9be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderer:
+  - {fileID: 2480789509896640923}
+  - {fileID: 2480789510070533730}
+  - {fileID: 2480789509340042380}
+  - {fileID: 2480789509521185378}
+  - {fileID: 2480789510101253493}
+  - {fileID: 2480789509062201926}
+  - {fileID: 2480789509610803431}
+  - {fileID: 2480789508513239675}
+  - {fileID: 2480789509687992110}
+  - {fileID: 2480789509607082808}
+  - {fileID: 8081829490987065285}
+  - {fileID: 8979632444539911832}
+  - {fileID: 3311639425461134854}
+  - {fileID: 1938944993418926833}
+  - {fileID: 4452810910809447443}
+  - {fileID: 2480789508740849399}
+  - {fileID: 8565580403967349116}
+  - {fileID: 2480789510401330046}
+  - {fileID: 2480789509365315172}
+  playOnAwake: 0
+  parameters:
+  - name: Emission
+    propertyName: EmissionValue
+    startValue: 1
+    endValue: 20
+    speed: 0.5
+  - name: Black
+    propertyName: Black
+    startValue: 0
+    endValue: 0.5
+    speed: 0.5
+--- !u!114 &7388841543402930559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4336941005872933174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a2c74f2ab156ff4faaa3b8f3b2a00dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effect: {fileID: 4293913986648081041}
 --- !u!1 &4371209667296163177
 GameObject:
   m_ObjectHideFlags: 0
@@ -20775,6 +20834,7 @@ GameObject:
   - component: {fileID: 4680127799872916257}
   - component: {fileID: 4680127799872916256}
   - component: {fileID: 4680127799872916259}
+  - component: {fileID: 6787363092415415208}
   m_Layer: 13
   m_Name: UpgradeRoomTrigger
   m_TagString: Untagged
@@ -21114,8 +21174,41 @@ MonoBehaviour:
   triggerable:
     serializedVersion: 2
     m_Bits: 256
-  entered: 26
-  left: 27
+  entered: OnPlayerEnteredUpgradeRoom
+  left: OnPlayerLeftUpgradeRoom
+--- !u!114 &6787363092415415208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4680127799872916258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3be2a4dfd96df4f48a276105b654dcbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnOnTriggerEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnOnTriggerStay:
+    m_PersistentCalls:
+      m_Calls: []
+  OnOnTriggerExit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7388841543402930559}
+        m_TargetAssemblyTypeName: LoopRoom, Assembly-CSharp
+        m_MethodName: FadeEmissive
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4717613395170413068
 GameObject:
   m_ObjectHideFlags: 0
