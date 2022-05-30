@@ -19,16 +19,24 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _Albedo:
+        m_Texture: {fileID: 2800000, guid: 151aaef207058de42b2ef4b068c6bd9e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Normal:
+        m_Texture: {fileID: 2800000, guid: e1b0a20ed27d8f245bbd8cf40abda942, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _TextureSample0:
-        m_Texture: {fileID: 2800000, guid: 9258b0d395758f242bd864adb9e8f07a, type: 3}
+        m_Texture: {fileID: 2800000, guid: 8ee518fe8ef3f0545aa04c29e0c0b363, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureSample1:
-        m_Texture: {fileID: 2800000, guid: 71bba49e0d20daa4ea4d47a645e454e2, type: 3}
+        m_Texture: {fileID: 2800000, guid: 151aaef207058de42b2ef4b068c6bd9e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureSample2:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 5caf9bb1679801e449e523aa6f1b2ddc, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _texcoord:
@@ -41,5 +49,5 @@ Material:
     - _isBlinking: 1
     m_Colors:
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissiveColor: {r: 1, g: 0, b: 0, a: 0}
+    - _EmissiveColor: {r: 1, g: 0, b: 0.028217316, a: 0}
   m_BuildTextureStacks: []
