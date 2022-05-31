@@ -96,7 +96,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            player.animator.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsRunning, false);
+            player.view.anim.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsRunning, false);
         }
     }
 
@@ -138,7 +138,7 @@ public class PlayerMovement : MonoBehaviour
     private void Movement()
     {
         //Check if you're moving  to set animation (use original input)
-        player.animator.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsRunning, player.input.IsMoving);
+        player.view.anim.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsRunning, player.input.IsMoving);
         
         float x = this.X;
         float y = this.Y;

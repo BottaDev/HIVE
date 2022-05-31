@@ -397,6 +397,7 @@ GameObject:
   - component: {fileID: 7897884156068410996}
   - component: {fileID: 373072183}
   - component: {fileID: 7902526483605664085}
+  - component: {fileID: 2100890165552941233}
   m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
@@ -571,15 +572,15 @@ MonoBehaviour:
   _currentHealth: 0
   energy: {fileID: 835001207}
   input: {fileID: 2839959021259793015}
-  animator: {fileID: 3565698566878828367}
   jump: {fileID: 7902526483891021790}
   movement: {fileID: 2930390506446303794}
   shoot: {fileID: 3473960329723331748}
-  dash: {fileID: 0}
+  dash: {fileID: 7897884156068410996}
   level: {fileID: 1238573687}
   debug: {fileID: 3829715295368400988}
   hookshot: {fileID: 373072183}
   grenadeThrow: {fileID: 7902526483605664085}
+  view: {fileID: 2100890165552941233}
   model: {fileID: 3565698566878828360}
 --- !u!114 &1238573687
 MonoBehaviour:
@@ -868,6 +869,22 @@ MonoBehaviour:
   useAddForce: 1
   explosionForce: 100
   explosionUpwardsForce: 50
+--- !u!114 &2100890165552941233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3473960329723331750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30ba92f9a6f6e484caa99f3bb3cc259f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 3565698566878828367}
+  renderers:
+  - {fileID: 3565698566350176896}
+  - {fileID: 3565698567194342741}
 --- !u!1 &3473960329904449256
 GameObject:
   m_ObjectHideFlags: 0

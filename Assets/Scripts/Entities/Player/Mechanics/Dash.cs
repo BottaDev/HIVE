@@ -110,13 +110,13 @@ public class Dash : UnlockableMechanic
         Vector3 dashdirection = orientation.normalized;
         player.movement.rb.velocity = dashdirection * dashVelocity;
 
-        player.animator.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsDashing, true);
+        player.view.anim.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsDashing, true);
 
         AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.PlayerDash));
     
         yield return new WaitForSeconds(dashDuration);
 
-        player.animator.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsDashing, false);
+        player.view.anim.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsDashing, false);
 
         foreach (TrailRenderer item in trails)
         {

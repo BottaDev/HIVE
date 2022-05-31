@@ -125,7 +125,7 @@ public class PlayerJump : MonoBehaviour
         {
             if (Rb.velocity.y < 0 && player.movement.rb.useGravity)
             {
-                player.animator.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsJumping, false);
+                player.view.anim.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsJumping, false);
                 _lowJumpCondition = false;
                 currentlyJumping = false;
                 fallingGravity = true;
@@ -149,7 +149,7 @@ public class PlayerJump : MonoBehaviour
         //Add jump forces
         Rb.AddForce(force);
 
-        player.animator.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsJumping, true);
+        player.view.anim.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsJumping, true);
 
         _readyToJump = false;
         Invoke(nameof(ResetJump), jumpCooldown);

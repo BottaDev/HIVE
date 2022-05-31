@@ -155,7 +155,7 @@ public class PlayerDirectHookshot : UnlockableMechanic
             EventManager.Instance.Trigger("OnSendUIMessageTemporary", energyErrorMessage, energyErrorMessageColor, energyErrorTimeOnScreen);
             return;
         }
-        player.animator.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsHooking, true);
+        player.view.anim.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsHooking, true);
         _pulling = false;
         _hook = Instantiate(hookPrefab, shootTransform.position, Quaternion.identity)
             .GetComponent<PlayerHookObject>();
@@ -205,7 +205,7 @@ public class PlayerDirectHookshot : UnlockableMechanic
             return;
         }
 
-        player.animator.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsHooking, false);
+        player.view.anim.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsHooking, false);
         EventManager.Instance.Trigger("OnPlayerHookshotCD", cooldown);
         _currentCooldown = cooldown;
         

@@ -10,7 +10,6 @@ public class Player : Entity
     [Header("Assignable")]
     public PlayerEnergy energy;
     public PlayerInput input;
-    public PlayerAnimator animator;
     public PlayerJump jump;
     public PlayerMovement movement;
     public Shoot shoot;
@@ -19,6 +18,7 @@ public class Player : Entity
     public PlayerDebugDevTools debug;
     public PlayerDirectHookshot hookshot;
     public PlayerGrenadeThrow grenadeThrow;
+    public PlayerView view;
     public GameObject model;
 
     public Rails attachedRail { get; set; }
@@ -180,6 +180,7 @@ public class Player : Entity
     {
         if (debug.Invincible) return;
         
+        view.Blink(1f, 30f, Color.red);
         CurrentHealth -= damage;
         EventManager.Instance.Trigger("OnLifeUpdated", CurrentHealth, MaxHP);
 

@@ -102,12 +102,12 @@ public class PlayerGun : MonoBehaviour
         {
             UIGunSight.instance.SetGunsight(sight);
             currentReloadDelayTime = 0;
-            player.animator.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsShooting, true);
+            player.view.anim.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsShooting, true);
         }
         else
         {
             currentReloadDelayTime += Time.deltaTime;
-            player.animator.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsShooting, false);
+            player.view.anim.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsShooting, false);
         }
 
         if (!reloading)

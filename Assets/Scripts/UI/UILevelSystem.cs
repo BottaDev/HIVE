@@ -108,6 +108,7 @@ public class UILevelSystem : MonoBehaviour
                         UpdateEXPAmountText();
                     }
 
+                    
                     level.isDelayed = false;
                     level.DelayList.Clear();
                 };
