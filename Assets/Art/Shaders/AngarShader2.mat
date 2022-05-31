@@ -23,6 +23,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: 151aaef207058de42b2ef4b068c6bd9e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _EmissionMask:
+        m_Texture: {fileID: 2800000, guid: 8ee518fe8ef3f0545aa04c29e0c0b363, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Normal:
         m_Texture: {fileID: 2800000, guid: e1b0a20ed27d8f245bbd8cf40abda942, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -45,9 +49,14 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _AlphaCutoff: 0.5
+    - _BlinkingSpeed: 10
+    - _EmissionFill: 1
+    - _GlowAmount: 0
     - __dirty: 0
-    - _isBlinking: 1
+    - _isBlinking: 0
     m_Colors:
+    - _DefaultEmissionColor: {r: 0, g: 0.5624962, b: 1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissiveColor: {r: 1, g: 0, b: 0.028217316, a: 0}
+    - _EmissiveOffColor: {r: 0, g: 0.017604357, b: 0.20754719, a: 0}
   m_BuildTextureStacks: []
