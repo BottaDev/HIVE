@@ -83,6 +83,7 @@ GameObject:
   - component: {fileID: 161610391980539896}
   - component: {fileID: 161610391980539879}
   - component: {fileID: 161610391980539878}
+  - component: {fileID: 4833765586436989964}
   m_Layer: 0
   m_Name: ICorredor 3
   m_TagString: Untagged
@@ -124,7 +125,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab6d84fc65de7db4eb83a8c113d4cf60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  connections: 01010101
+  connections: 01000100
+  type: 3
+  effect: {fileID: 4833765586436989964}
 --- !u!114 &161610391980539878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -154,6 +157,35 @@ MonoBehaviour:
   m_VoxelSize: 0.16666667
   m_BuildHeightMesh: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &4833765586436989964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 161610391980539877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 473871a99f1d31f4587ac8963193b9be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderer:
+  - {fileID: 4580979864163749518}
+  - {fileID: 4580979864200596968}
+  - {fileID: 4580979864159077184}
+  - {fileID: 4580979864253038380}
+  playOnAwake: 0
+  parameters:
+  - name: Emission
+    propertyName: EmissionValue
+    startValue: 1
+    endValue: 20
+    speed: 0.5
+  - name: Black
+    propertyName: Black
+    startValue: 0
+    endValue: 0.5
+    speed: 0.5
 --- !u!1 &161610392061239168
 GameObject:
   m_ObjectHideFlags: 0

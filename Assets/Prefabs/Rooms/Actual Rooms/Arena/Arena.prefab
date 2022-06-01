@@ -563,6 +563,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7028618314847464867}
   - component: {fileID: 6125734180659664739}
+  - component: {fileID: 2486282697945359792}
   m_Layer: 0
   m_Name: Arena
   m_TagString: Untagged
@@ -611,6 +612,46 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   connections: 01000000
+  type: 5
+  effect: {fileID: 2486282697945359792}
+--- !u!114 &2486282697945359792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6640241896718625321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 473871a99f1d31f4587ac8963193b9be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderer:
+  - {fileID: 8683877326118863909}
+  - {fileID: 414694078493853403}
+  - {fileID: 8384478956757474132}
+  - {fileID: 7185992315569883223}
+  - {fileID: 7185992315360288738}
+  - {fileID: 7185992315539285830}
+  - {fileID: 7185992316245628651}
+  - {fileID: 7185992315706437134}
+  - {fileID: 8134002886729947084}
+  - {fileID: 8134002888193587726}
+  - {fileID: 8134002887015521119}
+  - {fileID: 8134002888326684635}
+  - {fileID: 8134002887674570921}
+  playOnAwake: 0
+  parameters:
+  - name: Emission
+    propertyName: EmissionValue
+    startValue: 1
+    endValue: 20
+    speed: 0.5
+  - name: Black
+    propertyName: Black
+    startValue: 0
+    endValue: 0.5
+    speed: 0.5
 --- !u!1 &6871983129905925810
 GameObject:
   m_ObjectHideFlags: 0

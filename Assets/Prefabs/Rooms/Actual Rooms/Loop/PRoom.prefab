@@ -20426,7 +20426,6 @@ GameObject:
   - component: {fileID: 3419176145782216340}
   - component: {fileID: 3960900135381247868}
   - component: {fileID: 4293913986648081041}
-  - component: {fileID: 7388841543402930559}
   m_Layer: 0
   m_Name: PRoom
   m_TagString: Untagged
@@ -20468,6 +20467,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   connections: 01000000
+  type: 4
+  effect: {fileID: 4293913986648081041}
 --- !u!114 &4293913986648081041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20512,19 +20513,6 @@ MonoBehaviour:
     startValue: 0
     endValue: 0.5
     speed: 0.5
---- !u!114 &7388841543402930559
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4336941005872933174}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a2c74f2ab156ff4faaa3b8f3b2a00dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  effect: {fileID: 4293913986648081041}
 --- !u!1 &4371209667296163177
 GameObject:
   m_ObjectHideFlags: 0
@@ -21197,8 +21185,8 @@ MonoBehaviour:
   OnOnTriggerExit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7388841543402930559}
-        m_TargetAssemblyTypeName: LoopRoom, Assembly-CSharp
+      - m_Target: {fileID: 3960900135381247868}
+        m_TargetAssemblyTypeName: Room, Assembly-CSharp
         m_MethodName: FadeEmissive
         m_Mode: 1
         m_Arguments:

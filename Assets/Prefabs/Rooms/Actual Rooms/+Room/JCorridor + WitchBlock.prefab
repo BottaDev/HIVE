@@ -658,6 +658,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1965944990904291242}
   - component: {fileID: 1965944990904291243}
+  - component: {fileID: 6694703141300572563}
   m_Layer: 0
   m_Name: JCorridor + WitchBlock
   m_TagString: Untagged
@@ -697,6 +698,43 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   connections: 01010101
+  type: 0
+  effect: {fileID: 6694703141300572563}
+--- !u!114 &6694703141300572563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1965944990904291245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 473871a99f1d31f4587ac8963193b9be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderer:
+  - {fileID: 3060552240706098133}
+  - {fileID: 2098340264933505665}
+  - {fileID: 3060552241535392562}
+  - {fileID: 3060552240880547174}
+  - {fileID: 3060552240319847808}
+  - {fileID: 3060552242060993022}
+  - {fileID: 3060552240927387354}
+  - {fileID: 3060552241815760733}
+  - {fileID: 3060552240203445105}
+  - {fileID: 3060552240152316234}
+  playOnAwake: 0
+  parameters:
+  - name: Emission
+    propertyName: EmissionValue
+    startValue: 1
+    endValue: 20
+    speed: 0.5
+  - name: Black
+    propertyName: Black
+    startValue: 0
+    endValue: 0.5
+    speed: 0.5
 --- !u!1 &2281526160591670737
 GameObject:
   m_ObjectHideFlags: 0
@@ -24056,14 +24094,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ae4a24da3358c794d83f44ac9b7991e9, type: 3}
---- !u!4 &7517803970078070737 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5141851174316047538, guid: ae4a24da3358c794d83f44ac9b7991e9, type: 3}
-  m_PrefabInstance: {fileID: 3390960411830266723}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &7142509231511833963 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5480976175980881416, guid: ae4a24da3358c794d83f44ac9b7991e9, type: 3}
+  m_PrefabInstance: {fileID: 3390960411830266723}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7517803970078070737 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5141851174316047538, guid: ae4a24da3358c794d83f44ac9b7991e9, type: 3}
   m_PrefabInstance: {fileID: 3390960411830266723}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3423604886259277266

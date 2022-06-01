@@ -12882,6 +12882,7 @@ GameObject:
   - component: {fileID: 4918619979761046390}
   - component: {fileID: 4918619979761046389}
   - component: {fileID: 4918619979761046388}
+  - component: {fileID: 8562784389687873702}
   m_Layer: 0
   m_Name: ICorredor 4
   m_TagString: Untagged
@@ -12923,7 +12924,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab6d84fc65de7db4eb83a8c113d4cf60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  connections: 01010101
+  connections: 01000100
+  type: 3
+  effect: {fileID: 8562784389687873702}
 --- !u!114 &4918619979761046388
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12953,6 +12956,35 @@ MonoBehaviour:
   m_VoxelSize: 0.16666667
   m_BuildHeightMesh: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &8562784389687873702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4918619979761046411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 473871a99f1d31f4587ac8963193b9be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderer:
+  - {fileID: 4918619980443667195}
+  - {fileID: 4918619980113126475}
+  - {fileID: 4918619978837602535}
+  - {fileID: 4918619980213387674}
+  playOnAwake: 0
+  parameters:
+  - name: Emission
+    propertyName: EmissionValue
+    startValue: 1
+    endValue: 20
+    speed: 0.5
+  - name: Black
+    propertyName: Black
+    startValue: 0
+    endValue: 0.5
+    speed: 0.5
 --- !u!1 &4918619979806020699
 GameObject:
   m_ObjectHideFlags: 0

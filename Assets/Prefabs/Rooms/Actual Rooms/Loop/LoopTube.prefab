@@ -11772,6 +11772,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6676023345835282812}
   - component: {fileID: 4981356007945838740}
+  - component: {fileID: 296521280385931745}
   m_Layer: 0
   m_Name: LoopTube
   m_TagString: Untagged
@@ -11813,6 +11814,52 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   connections: 01000000
+  type: 4
+  effect: {fileID: 296521280385931745}
+--- !u!114 &296521280385931745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5762722511339728606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 473871a99f1d31f4587ac8963193b9be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderer:
+  - {fileID: 5889351103917268595}
+  - {fileID: 5889351103055165834}
+  - {fileID: 5889351104475829092}
+  - {fileID: 5889351103554395530}
+  - {fileID: 5889351103093750429}
+  - {fileID: 5889351104198055342}
+  - {fileID: 5889351103668197135}
+  - {fileID: 5889351104681874835}
+  - {fileID: 5889351103708616902}
+  - {fileID: 5889351103669718224}
+  - {fileID: 287887672807249965}
+  - {fileID: 1101329583131801968}
+  - {fileID: 6783524710587474414}
+  - {fileID: 7583535624815992089}
+  - {fileID: 5628701993408879611}
+  - {fileID: 5889351104922065183}
+  - {fileID: 4330441939516397559}
+  - {fileID: 5889351103347166358}
+  - {fileID: 5889351104500642188}
+  playOnAwake: 0
+  parameters:
+  - name: Emission
+    propertyName: EmissionValue
+    startValue: 1
+    endValue: 20
+    speed: 0.5
+  - name: Black
+    propertyName: Black
+    startValue: 0
+    endValue: 0.5
+    speed: 0.5
 --- !u!1 &5777029669470217580
 GameObject:
   m_ObjectHideFlags: 0

@@ -1422,6 +1422,7 @@ GameObject:
   m_Component:
   - component: {fileID: 810141043423087392}
   - component: {fileID: 810141043423087393}
+  - component: {fileID: 8471886755504577473}
   m_Layer: 0
   m_Name: JCorridor + WitchBlock 2
   m_TagString: Untagged
@@ -1462,6 +1463,43 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   connections: 01010101
+  type: 0
+  effect: {fileID: 8471886755504577473}
+--- !u!114 &8471886755504577473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 810141043423087399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 473871a99f1d31f4587ac8963193b9be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderer:
+  - {fileID: 2436433640496649483}
+  - {fileID: 966179536876027403}
+  - {fileID: 2436433641442636300}
+  - {fileID: 2436433640191100741}
+  - {fileID: 2436433641212240942}
+  - {fileID: 2436433639965913771}
+  - {fileID: 2436433641547811705}
+  - {fileID: 2436433640570125696}
+  - {fileID: 2436433641341153691}
+  - {fileID: 2436433641066920979}
+  playOnAwake: 0
+  parameters:
+  - name: Emission
+    propertyName: EmissionValue
+    startValue: 1
+    endValue: 20
+    speed: 0.5
+  - name: Black
+    propertyName: Black
+    startValue: 0
+    endValue: 0.5
+    speed: 0.5
 --- !u!1 &850250009582418938
 GameObject:
   m_ObjectHideFlags: 0

@@ -11381,6 +11381,9 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   WaypointIndex: 0
   Player: {fileID: 0}
+  HealthBar: {fileID: 0}
+  healthSlider: {fileID: 0}
+  reveal: {fileID: 0}
   attackDistance: 20
   evadeDistance: 8
   evadeTime: 3
@@ -15139,6 +15142,9 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   WaypointIndex: 0
   Player: {fileID: 0}
+  HealthBar: {fileID: 0}
+  healthSlider: {fileID: 0}
+  reveal: {fileID: 0}
   attackDistance: 20
   evadeDistance: 8
   evadeTime: 3
@@ -19761,6 +19767,9 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   WaypointIndex: 0
   Player: {fileID: 0}
+  HealthBar: {fileID: 0}
+  healthSlider: {fileID: 0}
+  reveal: {fileID: 0}
   attackJumpLength: 10
   attackDuration: 0.1
   attackDistance: 0.1
@@ -20080,6 +20089,9 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   WaypointIndex: 0
   Player: {fileID: 0}
+  HealthBar: {fileID: 0}
+  healthSlider: {fileID: 0}
+  reveal: {fileID: 0}
   attackDistance: 20
   evadeDistance: 8
   evadeTime: 3
@@ -29741,6 +29753,9 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   WaypointIndex: 0
   Player: {fileID: 0}
+  HealthBar: {fileID: 0}
+  healthSlider: {fileID: 0}
+  reveal: {fileID: 0}
   attackDistance: 20
   evadeDistance: 8
   evadeTime: 3
@@ -30371,6 +30386,9 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   WaypointIndex: 0
   Player: {fileID: 0}
+  HealthBar: {fileID: 0}
+  healthSlider: {fileID: 0}
+  reveal: {fileID: 0}
   attackDistance: 20
   evadeDistance: 8
   evadeTime: 3
@@ -38394,6 +38412,9 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   WaypointIndex: 0
   Player: {fileID: 0}
+  HealthBar: {fileID: 0}
+  healthSlider: {fileID: 0}
+  reveal: {fileID: 0}
   attackDistance: 20
   evadeDistance: 8
   evadeTime: 3
@@ -39749,6 +39770,9 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   WaypointIndex: 0
   Player: {fileID: 0}
+  HealthBar: {fileID: 0}
+  healthSlider: {fileID: 0}
+  reveal: {fileID: 0}
   attackJumpLength: 10
   attackDuration: 0.1
   attackDistance: 0.1
@@ -39995,6 +40019,9 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   WaypointIndex: 0
   Player: {fileID: 0}
+  HealthBar: {fileID: 0}
+  healthSlider: {fileID: 0}
+  reveal: {fileID: 0}
   attackJumpLength: 10
   attackDuration: 0.1
   attackDistance: 0.1
@@ -42065,6 +42092,9 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   WaypointIndex: 0
   Player: {fileID: 0}
+  HealthBar: {fileID: 0}
+  healthSlider: {fileID: 0}
+  reveal: {fileID: 0}
   attackDistance: 20
   evadeDistance: 8
   evadeTime: 3
@@ -42868,6 +42898,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2602364809299614977}
   - component: {fileID: 198266003315974057}
+  - component: {fileID: 5122187499406857430}
   m_Layer: 0
   m_Name: TCorredor 2
   m_TagString: Untagged
@@ -42932,7 +42963,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab6d84fc65de7db4eb83a8c113d4cf60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  connections: 01010101
+  connections: 01010100
+  type: 1
+  effect: {fileID: 5122187499406857430}
+--- !u!114 &5122187499406857430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5416087673453622115}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 473871a99f1d31f4587ac8963193b9be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderer:
+  - {fileID: 94179457806579409}
+  - {fileID: 94179458397978892}
+  - {fileID: 94179458058625726}
+  - {fileID: 94179457584167649}
+  - {fileID: 94179458537334254}
+  - {fileID: 94179456726023066}
+  - {fileID: 94179457877462714}
+  playOnAwake: 0
+  parameters:
+  - name: Emission
+    propertyName: EmissionValue
+    startValue: 1
+    endValue: 20
+    speed: 0.5
+  - name: Black
+    propertyName: Black
+    startValue: 0
+    endValue: 0.5
+    speed: 0.5
 --- !u!1 &5424785838107115579
 GameObject:
   m_ObjectHideFlags: 0
@@ -45862,6 +45927,9 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   WaypointIndex: 0
   Player: {fileID: 0}
+  HealthBar: {fileID: 0}
+  healthSlider: {fileID: 0}
+  reveal: {fileID: 0}
   attackJumpLength: 10
   attackDuration: 0.1
   attackDistance: 0.1
@@ -46077,6 +46145,9 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   WaypointIndex: 0
   Player: {fileID: 0}
+  HealthBar: {fileID: 0}
+  healthSlider: {fileID: 0}
+  reveal: {fileID: 0}
   attackJumpLength: 10
   attackDuration: 0.1
   attackDistance: 0.1
@@ -50498,6 +50569,9 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   WaypointIndex: 0
   Player: {fileID: 0}
+  HealthBar: {fileID: 0}
+  healthSlider: {fileID: 0}
+  reveal: {fileID: 0}
   attackDistance: 20
   evadeDistance: 8
   evadeTime: 3
@@ -56481,6 +56555,9 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   WaypointIndex: 0
   Player: {fileID: 0}
+  HealthBar: {fileID: 0}
+  healthSlider: {fileID: 0}
+  reveal: {fileID: 0}
   attackDistance: 20
   evadeDistance: 8
   evadeTime: 3
@@ -68882,6 +68959,9 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   WaypointIndex: 0
   Player: {fileID: 0}
+  HealthBar: {fileID: 0}
+  healthSlider: {fileID: 0}
+  reveal: {fileID: 0}
   attackDistance: 20
   evadeDistance: 8
   evadeTime: 3

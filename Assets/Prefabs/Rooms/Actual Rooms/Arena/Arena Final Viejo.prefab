@@ -18988,6 +18988,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2017708658881362154}
   - component: {fileID: 2920591521753580074}
+  - component: {fileID: 8722185672867926975}
   m_Layer: 0
   m_Name: Arena Final Viejo
   m_TagString: Untagged
@@ -19038,6 +19039,48 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   connections: 01000000
+  type: 5
+  effect: {fileID: 8722185672867926975}
+--- !u!114 &8722185672867926975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2426345743406579552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 473871a99f1d31f4587ac8963193b9be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderer:
+  - {fileID: 8300512654573822680}
+  - {fileID: 4478077021382331241}
+  - {fileID: 3321522303105093268}
+  - {fileID: 8668222408848987026}
+  - {fileID: 707447203716107805}
+  - {fileID: 2176146524007374110}
+  - {fileID: 2176146524251048619}
+  - {fileID: 2176146524045849103}
+  - {fileID: 2176146523326383010}
+  - {fileID: 2176146523875556167}
+  - {fileID: 2772799015089462653}
+  - {fileID: 2772799013592248511}
+  - {fileID: 2772799014770332142}
+  - {fileID: 2772799013459137898}
+  - {fileID: 966924596572585440}
+  playOnAwake: 0
+  parameters:
+  - name: Emission
+    propertyName: EmissionValue
+    startValue: 1
+    endValue: 20
+    speed: 0.5
+  - name: Black
+    propertyName: Black
+    startValue: 0
+    endValue: 0.5
+    speed: 0.5
 --- !u!1 &2772799013459137905
 GameObject:
   m_ObjectHideFlags: 0

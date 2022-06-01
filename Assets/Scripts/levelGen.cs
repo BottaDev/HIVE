@@ -20,14 +20,17 @@ public class levelGen : MonoBehaviour
     public Room finalRoom;
     public GameObject mapContainer;
 
-    private Room[,] Map = new Room[5, 5];
+    public Room[,] _map = new Room[5, 5];
+    private Room[,] _actualMap = new Room[5, 5];
+    public Room[,] Map { get => _actualMap; }
+    
     private List<Room> arenaList = new List<Room>();
     private int changes;
     private int totalRooms = 0;
     
     public void StartGeneration()
     {
-        Map = new Room[mapBorders, mapBorders];
+        _map = new Room[mapBorders, mapBorders];
         if (!mapContainer) mapContainer = this.gameObject;
         GenerateFullLevel();   
     }
@@ -58,19 +61,19 @@ public class levelGen : MonoBehaviour
         changes = 0;
 
         //Instancia la primer habitación si no está
-        if (!Map[2, 0])
+        if (!_map[2, 0])
         {
-            Map[2, 0] = startingRoom;
+            _map[2, 0] = startingRoom;
 
             //Room e = Instantiate(startingRoom, new Vector3(2, 0, 0) * spaceMod + Vector3.down, Quaternion.identity);
             //e.transform.parent = mapContainer.transform;
         }
 
-        for (int horizontal = 0; horizontal < Map.GetLength(0); horizontal++) //i es horizontal
+        for (int horizontal = 0; horizontal < _map.GetLength(0); horizontal++) //i es horizontal
         {
-            for (int vertical = 0; vertical < Map.GetLength(1); vertical++) //j es vertical
+            for (int vertical = 0; vertical < _map.GetLength(1); vertical++) //j es vertical
             {
-                if (Map[horizontal, vertical])
+                if (_map[horizontal, vertical])
                 {
 
                     //Por cada habitación del mapa checkea por cada dirección cardinal:
@@ -79,9 +82,9 @@ public class levelGen : MonoBehaviour
                     //C. Que la habitación en cuestión tenga una puerta en aquella dirección
                     //Si se cumplen las 3, genera una habitación en ese lugar.
 
-                    if (vertical < 4 && Map[horizontal, vertical + 1] == null && Map[horizontal, vertical].connections[0])
+                    if (vertical < 4 && _map[horizontal, vertical + 1] == null && _map[horizontal, vertical].connections[0])
                     {
-                        Map[horizontal, vertical + 1] = SelectRandomRoom(2);
+                        _map[horizontal, vertical + 1] = SelectRandomRoom(2);
 
                         //Room e = Instantiate(SelectRandomRoom(2), new Vector3(i, 0, j + 1) * spaceMod + Vector3.down, Quaternion.identity);
                         //Map[i, j + 1] = e;
@@ -89,9 +92,9 @@ public class levelGen : MonoBehaviour
                         changes++;
                     }
 
-                    if (horizontal < 4 && Map[horizontal + 1, vertical] == null && Map[horizontal, vertical].connections[1])
+                    if (horizontal < 4 && _map[horizontal + 1, vertical] == null && _map[horizontal, vertical].connections[1])
                     {
-                        Map[horizontal + 1, vertical] = SelectRandomRoom(3);
+                        _map[horizontal + 1, vertical] = SelectRandomRoom(3);
 
                         //Room e = Instantiate(SelectRandomRoom(3), new Vector3(i + 1, 0, j) * spaceMod + Vector3.down, Quaternion.identity);
                         //Map[i + 1, j] = e;
@@ -99,9 +102,9 @@ public class levelGen : MonoBehaviour
                         changes++;
                     }
 
-                    if (vertical > 0 && Map[horizontal, vertical - 1] == null && Map[horizontal, vertical].connections[2])
+                    if (vertical > 0 && _map[horizontal, vertical - 1] == null && _map[horizontal, vertical].connections[2])
                     {
-                        Map[horizontal, vertical - 1] = SelectRandomRoom(0);
+                        _map[horizontal, vertical - 1] = SelectRandomRoom(0);
 
                         //Room e = Instantiate(SelectRandomRoom(0), new Vector3(i, 0, j - 1) * spaceMod + Vector3.down, Quaternion.identity);
                         //Map[i, j - 1] = e;
@@ -109,9 +112,9 @@ public class levelGen : MonoBehaviour
                         changes++;
                     }
 
-                    if (horizontal > 0 && Map[horizontal - 1, vertical] == null && Map[horizontal, vertical].connections[3])
+                    if (horizontal > 0 && _map[horizontal - 1, vertical] == null && _map[horizontal, vertical].connections[3])
                     {
-                        Map[horizontal - 1, vertical] = SelectRandomRoom(1);
+                        _map[horizontal - 1, vertical] = SelectRandomRoom(1);
 
                         //Room e = Instantiate(SelectRandomRoom(1), new Vector3(i - 1, 0, j) * spaceMod + Vector3.down, Quaternion.identity);
                         //Map[i - 1, j] = e;
@@ -131,22 +134,22 @@ public class levelGen : MonoBehaviour
     //D. Instancia un layout de habitación con las salidas compatibles
     void CleanMap()
     {
-        for (int i = 0; i < Map.GetLength(0); i++)
+        for (int i = 0; i < _map.GetLength(0); i++)
         {
-            for (int j = 0; j < Map.GetLength(1); j++)
+            for (int j = 0; j < _map.GetLength(1); j++)
             {
-                if (Map[i, j])
+                if (_map[i, j])
                 {
                     int changes = 0;
                     bool[] cleanRoomConnections = new bool[4];
                     for (int b = 0; b < 4; b++)
                     {
-                        cleanRoomConnections[b] = Map[i, j].connections[b];
+                        cleanRoomConnections[b] = _map[i, j].connections[b];
                     }
 
                     for (int k = 0; k < 4; k++)
                     {
-                        if (Map[i, j].connections[k] && !CheckRoomCoincidence(new Vector2Int(i, j))[k])
+                        if (_map[i, j].connections[k] && !CheckRoomCoincidence(new Vector2Int(i, j))[k])
                         {
                             cleanRoomConnections[k] = false;
                             changes++;
@@ -155,7 +158,7 @@ public class levelGen : MonoBehaviour
 
                     if (changes > 0)
                     {
-                        Map[i, j] = GetLayoutRoomPrefab(cleanRoomConnections);
+                        _map[i, j] = GetLayoutRoomPrefab(cleanRoomConnections);
 
                         //Destroy(Map[i, j].gameObject);
                         //Room e = Instantiate(GetLayoutRoomPrefab(cleanRoomConnections), new Vector3(i, 0, j) * spaceMod + Vector3.down, Quaternion.identity);
@@ -168,36 +171,39 @@ public class levelGen : MonoBehaviour
 
     void FillMap()
     {
-        for (int i = 0; i < Map.GetLength(0); i++)
+        for (int i = 0; i < _map.GetLength(0); i++)
         {
-            for (int j = 0; j < Map.GetLength(1); j++)
+            for (int j = 0; j < _map.GetLength(1); j++)
             {
-                if (Map[i,j])
+                if (_map[i,j])
                 {
                     Room current;
 
                     if(i == 2 && j == 0)
                         current = Instantiate(startingRoom, new Vector3(i, 0, j) * spaceMod + Vector3.down, Quaternion.identity);
                     else
-                        current = Instantiate(GetRandomRoomPrefab(Map[i, j]), new Vector3(i, 0, j) * spaceMod + Vector3.down, Quaternion.identity);
+                        current = Instantiate(GetRandomRoomPrefab(_map[i, j]), new Vector3(i, 0, j) * spaceMod + Vector3.down, Quaternion.identity);
 
                     current.transform.parent = mapContainer.transform;
+                    current.generator = this;
+                    current.mapPos = new Vector2Int(i, j);
+                    _actualMap[i, j] = current;
+                    
 
-
-                    switch (Map[i, j].ConnectionsCount())
+                    switch (_map[i, j].ConnectionsCount())
                     {
                         case 1:
-                                if (Map[i, j].connections[1])
+                                if (_map[i, j].connections[1])
                                 {
                                     current.transform.eulerAngles += new Vector3(0, 90, 0);
                                     //Rotate it 90 degrees
                                 }
-                                if (Map[i, j].connections[2])
+                                if (_map[i, j].connections[2])
                                 {
                                     current.transform.eulerAngles += new Vector3(0, 180, 0);
                                     //Rotate it 180 degrees
                                 }
-                                if (Map[i, j].connections[3])
+                                if (_map[i, j].connections[3])
                                 {
                                     current.transform.eulerAngles += new Vector3(0, -90, 0);
                                     //Rotate it -90 degrees
@@ -208,11 +214,11 @@ public class levelGen : MonoBehaviour
 
                         case 2:
 
-                            if ((Map[i, j].connections[0] && Map[i, j].connections[2]) || (Map[i, j].connections[1] && Map[i, j].connections[3]))
+                            if ((_map[i, j].connections[0] && _map[i, j].connections[2]) || (_map[i, j].connections[1] && _map[i, j].connections[3]))
                             {
                                 //Get a random Room from the Rect-Rooms Database
 
-                                if (Map[i, j].connections[1])
+                                if (_map[i, j].connections[1])
                                 {
                                     current.transform.eulerAngles += new Vector3(0, 90, 0);
                                     //Rotate it 90 degrees
@@ -222,23 +228,23 @@ public class levelGen : MonoBehaviour
                             {
                                 //Get a random Room from the L-Rooms Database
 
-                                if (Map[i, j].connections[0])
+                                if (_map[i, j].connections[0])
                                 {
-                                    if (Map[i, j].connections[3])
+                                    if (_map[i, j].connections[3])
                                     {
                                         current.transform.eulerAngles += new Vector3(0, -90, 0);
                                         //rotate -90 degrees
                                     }
                                 }
-                                else if (Map[i, j].connections[2])
+                                else if (_map[i, j].connections[2])
                                 {
-                                    if (Map[i, j].connections[3])
+                                    if (_map[i, j].connections[3])
                                     {
                                         current.transform.eulerAngles += new Vector3(0, 180, 0);
                                         //rotate 180 degrees
                                     }
                                     else
-                                    if (Map[i, j].connections[1])
+                                    if (_map[i, j].connections[1])
                                     {
                                         current.transform.eulerAngles += new Vector3(0, 90, 0);
                                         //rotate 90 degrees
@@ -250,19 +256,19 @@ public class levelGen : MonoBehaviour
                         case 3:
                             //Get a random Room from the T-Rooms Database
 
-                            if (!Map[i, j].connections[0])
+                            if (!_map[i, j].connections[0])
                             {
                                 current.transform.eulerAngles += new Vector3(0, 90, 0);
                                 //rotate 90 degrees
                             }
                             else
-                            if (!Map[i, j].connections[1])
+                            if (!_map[i, j].connections[1])
                             {
                                 current.transform.eulerAngles += new Vector3(0, 180, 0);
                                 //rotate 180 degrees
                             }
                             else
-                            if (!Map[i, j].connections[2])
+                            if (!_map[i, j].connections[2])
                             {
                                 current.transform.eulerAngles += new Vector3(0, -90, 0);
                                 //rotate -90 degrees
@@ -283,7 +289,7 @@ public class levelGen : MonoBehaviour
         Room farthest = arenaRooms[0];
         foreach (Room r in arenaRooms)
         {
-            if (Vector3.Distance(Map[2, 0].transform.position, r.transform.position) > Vector3.Distance(Map[2, 0].transform.position, farthest.transform.position))
+            if (Vector3.Distance(_map[2, 0].transform.position, r.transform.position) > Vector3.Distance(_map[2, 0].transform.position, farthest.transform.position))
                 farthest = r;
         }
 
@@ -360,11 +366,11 @@ public class levelGen : MonoBehaviour
     {
         List<Vector2> deadEndPositions = new List<Vector2>();
 
-        for (int i = 0; i < Map.GetLength(0); i++) //i es horizontal
+        for (int i = 0; i < _map.GetLength(0); i++) //i es horizontal
         {
-            for (int j = 0; j < Map.GetLength(1); j++) //j es vertical
+            for (int j = 0; j < _map.GetLength(1); j++) //j es vertical
             {
-                if (Map[i,j] && !(i == 2 && j == 0)) //checkea que la habitación esté y no sea la inicial
+                if (_map[i,j] && !(i == 2 && j == 0)) //checkea que la habitación esté y no sea la inicial
                 {
                     if (CheckDeadEnd(new Vector2Int(i, j)))
                     {
@@ -417,33 +423,33 @@ public class levelGen : MonoBehaviour
     {
         bool[] roomConnections = new bool[4];
 
-        if (Map[mapPos.x, mapPos.y].connections[0])
+        if (_map[mapPos.x, mapPos.y].connections[0])
         {
-            if (mapPos.y != Map.GetLength(1) - 1 && Map[mapPos.x, mapPos.y + 1].connections[2])
+            if (mapPos.y != _map.GetLength(1) - 1 && _map[mapPos.x, mapPos.y + 1].connections[2])
             {
                 roomConnections[0] = true;
             }
         }
 
-        if (Map[mapPos.x, mapPos.y].connections[1])
+        if (_map[mapPos.x, mapPos.y].connections[1])
         {
-            if (mapPos.x != Map.GetLength(0) - 1 && Map[mapPos.x + 1, mapPos.y].connections[3])
+            if (mapPos.x != _map.GetLength(0) - 1 && _map[mapPos.x + 1, mapPos.y].connections[3])
             {
                 roomConnections[1] = true;
             }
         }
 
-        if (Map[mapPos.x, mapPos.y].connections[2])
+        if (_map[mapPos.x, mapPos.y].connections[2])
         {
-            if (mapPos.y != 0 && Map[mapPos.x, mapPos.y - 1].connections[0])
+            if (mapPos.y != 0 && _map[mapPos.x, mapPos.y - 1].connections[0])
             {
                 roomConnections[2] = true;
             }
         }
 
-        if (Map[mapPos.x, mapPos.y].connections[3])
+        if (_map[mapPos.x, mapPos.y].connections[3])
         {
-            if (mapPos.x != 0 && Map[mapPos.x - 1, mapPos.y].connections[1])
+            if (mapPos.x != 0 && _map[mapPos.x - 1, mapPos.y].connections[1])
             {
                 roomConnections[3] = true;
             }
@@ -459,11 +465,11 @@ public class levelGen : MonoBehaviour
             Destroy(room.gameObject);
         }
 
-        for (int i = 0; i < Map.GetLength(0); i++)
+        for (int i = 0; i < _map.GetLength(0); i++)
         {
-            for (int j = 0; j < Map.GetLength(1); j++)
+            for (int j = 0; j < _map.GetLength(1); j++)
             {
-                Map[i, j] = null;
+                _map[i, j] = null;
             }
         }
 

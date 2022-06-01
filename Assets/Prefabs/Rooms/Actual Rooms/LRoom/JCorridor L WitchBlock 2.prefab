@@ -4871,6 +4871,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2916984558022626469}
   - component: {fileID: 2916984558022626468}
+  - component: {fileID: 5067724430543369310}
   m_Layer: 0
   m_Name: JCorridor L WitchBlock 2
   m_TagString: Untagged
@@ -4885,7 +4886,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2916984558022626471}
-  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -140.18327, y: -0.00026279688, z: 0.03173256}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -4897,7 +4898,7 @@ Transform:
   - {fileID: 9052047154658322866}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2916984558022626468
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4910,7 +4911,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab6d84fc65de7db4eb83a8c113d4cf60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  connections: 01010101
+  connections: 01010000
+  type: 2
+  effect: {fileID: 5067724430543369310}
+--- !u!114 &5067724430543369310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2916984558022626471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 473871a99f1d31f4587ac8963193b9be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderer:
+  - {fileID: 3282009003650209957}
+  - {fileID: 8871429415961993120}
+  - {fileID: 5533725557900659495}
+  - {fileID: 3903288583269852464}
+  - {fileID: 3102975116150705695}
+  - {fileID: 6340363469070889683}
+  playOnAwake: 0
+  parameters:
+  - name: Emission
+    propertyName: EmissionValue
+    startValue: 1
+    endValue: 20
+    speed: 0.5
+  - name: Black
+    propertyName: Black
+    startValue: 0
+    endValue: 0.5
+    speed: 0.5
 --- !u!1 &2916984558022662125
 GameObject:
   m_ObjectHideFlags: 0
