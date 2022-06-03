@@ -125,6 +125,7 @@ public class PlayerLevel : MonoBehaviour
         UILevelUpgradePrompt.instance.SetUpgrades(upgrades.GachaPull(type, exp), type);
         
         player.view.Blink(1f,30f, Color.white);
+        Popup.Create(player.model.transform.position, "LVL UP!",Color.white, new Vector2(0,5f)).ChangeSize(0.1f).SetParent(player.model.transform);
     }
 
     public List<Tuple<ExpType, int, int>> SaveToTupleList()

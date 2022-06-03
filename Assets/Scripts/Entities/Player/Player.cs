@@ -53,7 +53,7 @@ public class Player : Entity
         set
         {
             int difference =  value - maxHealth;
-            CurrentHealth += difference;
+            Heal(difference);
             maxHealth = value; 
             EventManager.Instance.Trigger("OnLifeUpdated", CurrentHealth, maxHealth);
         }
@@ -189,6 +189,15 @@ public class Player : Entity
         DeleteSavedPlayer();
         EventManager.Instance.Trigger("OnPlayerDead");
         EventManager.Instance.Unsubscribe("OnPlayerDamaged", OnPlayerDamaged);
+    }
+
+    public void Heal(int healAmount)
+    {
+        CurrentHealth += healAmount;
+        
+        view.Blink(1f, 10f, Color.green);
+        Popup.Create(model.transform.position, $"+{healAmount} HP",Color.green, new Vector2(0,3f)).ChangeSize(0.05f).SetParent(model.transform);
+
     }
 
     public void PlayerDeath(params object[] parameters)

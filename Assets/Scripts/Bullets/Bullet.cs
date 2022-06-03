@@ -99,7 +99,7 @@ public sealed class Bullet : PoolableObject
                 UIGunSight.instance.Hit();
             }
             
-            DamagePopup.Create(point, damage);
+            Popup.Create(point, damage.ToString(),Color.red);
 
             obj.TakeDamage(damage);
         }

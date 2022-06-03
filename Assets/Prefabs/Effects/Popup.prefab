@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 8076095921812888608}
   - component: {fileID: 1914146033}
   m_Layer: 5
-  m_Name: DamagePopup
+  m_Name: Popup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -194,8 +194,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 8657522318435472721}
-  moveBase: {x: 1, y: 0.7}
-  moveSpeed: 20
+  moveVector: {x: 15, y: 20, z: 0}
   disappearTimer: 1
   dissapearSpeed: 1
 --- !u!114 &1914146033
