@@ -141,27 +141,16 @@ public class Rusher : AI
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackDistance);
     }
-
-   //private void OnTriggerEnter(Collider other)
-   //{
-   //    var player = other.GetComponent<Player>();
-   //    
-   //    if (other.gameObject.layer == 8 || player != null)
-   //    {
-   //        player.TakeDamage(damage);
-   //        EventManager.Instance.Trigger(EventManager.Events.OnPlayerDamaged, damage);
-   //        _isJumping = false;
-   //    }
-   //}
-
-    private void OnTriggerStay(Collider other)
-    {
-        var player = other.GetComponent<Player>();
     
-        if (player != null)
-        {
-            player.TakeDamage(damage / 100);
-            EventManager.Instance.Trigger("OnPlayerDamaged", damage / 100);
-        }
-    }
+   private void OnTriggerEnter(Collider other)
+   {
+       var player = other.GetComponent<Player>();
+
+       if (other.gameObject.layer == 8 || player != null)
+       {
+           player.TakeDamage(damage);
+           EventManager.Instance.Trigger("OnPlayerDamaged", damage);
+           _isJumping = false;
+       }
+   }
 }
