@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DamagePopup : MonoBehaviour
 {
@@ -15,16 +17,14 @@ public class DamagePopup : MonoBehaviour
             canvas = Instantiate(AssetDatabase.i.instanceCanvas);
         }
         
-        Vector3 newPos = Camera.main.ScreenToWorldPoint(position);
-        DamagePopup popup = Instantiate(AssetDatabase.i.damagePopup, canvas.transform);
-        popup.transform.localPosition = newPos;
-        
+        DamagePopup popup = Instantiate(AssetDatabase.i.damagePopup, position, Quaternion.identity);
+
         popup.Initialize(damageAmount);
 
         return popup;
     }
 
-    [SerializeField] private TextMeshProUGUI txt;
+    [SerializeField] private Text txt;
     [SerializeField] private Vector2 moveBase;
     [SerializeField] private float moveSpeed;
     private Vector3 moveVector;

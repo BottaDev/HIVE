@@ -146,6 +146,7 @@ public class Room : MonoBehaviour
                     adjustedConnections[(int) Connection.West] = connections[(int) Connection.East];
                     break;
                 
+                case 270:
                 case -90:
                     //rotated to the left
                     adjustedConnections[(int) Connection.North] = connections[(int) Connection.East];

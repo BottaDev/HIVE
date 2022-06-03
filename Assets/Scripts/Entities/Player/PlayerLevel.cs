@@ -115,12 +115,16 @@ public class PlayerLevel : MonoBehaviour
         PlayerUpgrades.UpgradeType type = PlayerUpgrades.UpgradeType.Big;
 
         UILevelUpgradePrompt.instance.SetUpgrades(upgrades.GachaPull(type, exp), type);
+        
+        player.view.Blink(1f, 30f, Color.white);
     }
     private void OnLevelup(int level)
     {
         PlayerUpgrades.UpgradeType type = PlayerUpgrades.UpgradeType.Small;
 
         UILevelUpgradePrompt.instance.SetUpgrades(upgrades.GachaPull(type, exp), type);
+        
+        player.view.Blink(1f,30f, Color.white);
     }
 
     public List<Tuple<ExpType, int, int>> SaveToTupleList()

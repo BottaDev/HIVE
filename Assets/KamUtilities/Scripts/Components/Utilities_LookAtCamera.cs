@@ -7,7 +7,7 @@ public class Utilities_LookAtCamera : MonoBehaviour
 {
     [Tooltip("This transform will always look at the camera")]
     public Transform transform;
-
+    public Vector3 rotationOffset;
 
     [Header("Camera")]
     public Camera cameraToUse;
@@ -24,5 +24,9 @@ public class Utilities_LookAtCamera : MonoBehaviour
     private void LateUpdate()
     {
         transform?.LookAt(cameraToUse.transform);
+        var rot = UnityEditor.TransformUtils.GetInspectorRotation(gameObject.transform);
+        rot += rotationOffset;
+        
+        UnityEditor.TransformUtils.SetInspectorRotation(gameObject.transform, rot);
     }
 }
