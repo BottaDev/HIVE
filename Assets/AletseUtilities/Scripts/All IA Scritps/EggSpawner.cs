@@ -20,7 +20,7 @@ public class EggSpawner : Entity
     private Coroutine SpawnEnemiesCoroutine;
     
     public Utilities_SliderLinearProgressBar healthSlider;
-    public Utilities_TemporaryCanvasGroupReveal reveal;
+    public Utilities_CanvasGroupReveal reveal;
     public enum Side
     {
         down, up, front, back, left, right
@@ -100,7 +100,7 @@ public class EggSpawner : Entity
     {
         CurrentHealth -= damage;
         
-        reveal.Reveal();
+        reveal.RevealTemporary();
         healthSlider.SetValue(CurrentHealth);
         
         if(CurrentHealth <= 0)

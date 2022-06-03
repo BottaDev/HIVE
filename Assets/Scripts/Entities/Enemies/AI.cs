@@ -66,7 +66,7 @@ public abstract class AI : Entity
     [SerializeField] private ProgressBar HealthBar;
 
     public Utilities_ProgressBar healthSlider;
-    public Utilities_TemporaryCanvasGroupReveal reveal;
+    public Utilities_CanvasGroupReveal reveal;
 
     protected override void Awake()
     {
@@ -170,7 +170,7 @@ public abstract class AI : Entity
 
         if (healthSlider != null)
         {
-            reveal.Reveal();
+            reveal.RevealTemporary();
             healthSlider.SetValue(CurrentHealth);
         }
 

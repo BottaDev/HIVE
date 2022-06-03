@@ -64,8 +64,8 @@ public class UILevelUpgradePrompt : MonoBehaviour
     }
     private void Start()
     {
-        EventManager.Instance.Subscribe("OnPlayerEnteredUpgradeRoom", ShowLongDescription);
-        EventManager.Instance.Subscribe("OnPlayerLeftUpgradeRoom", HideLongDescription);
+        //EventManager.Instance.Subscribe("OnPlayerEnteredUpgradeRoom", ShowLongDescription);
+        //EventManager.Instance.Subscribe("OnPlayerLeftUpgradeRoom", HideLongDescription);
         EventManager.Instance.Trigger("NeedsPlayerReference");
         ShowUI(false);
         shortText.gameObject.SetActive(true);
@@ -98,22 +98,22 @@ public class UILevelUpgradePrompt : MonoBehaviour
             {
                 if (Input.GetKeyDown(KeyCode.Alpha1))
                 {
-                    ChooseUpgrade(0);
+                    ChooseUpgrade(current.upgrades.SafeGet(0).Item1);
                 }
 
                 if (Input.GetKeyDown(KeyCode.Alpha2))
                 {
-                    ChooseUpgrade(1);
+                    ChooseUpgrade(current.upgrades.SafeGet(1).Item1);
                 }
 
                 if (Input.GetKeyDown(KeyCode.Alpha3))
                 {
-                    ChooseUpgrade(2);
+                    ChooseUpgrade(current.upgrades.SafeGet(2).Item1);
                 }
 
                 if (Input.GetKeyDown(KeyCode.Alpha4))
                 {
-                    ChooseUpgrade(3);
+                    ChooseUpgrade(current.upgrades.SafeGet(3).Item1);
                 }
             }
         }
@@ -124,9 +124,8 @@ public class UILevelUpgradePrompt : MonoBehaviour
         _player = (Player)p[0];
     }
     
-    void ChooseUpgrade(int index)
+    public void ChooseUpgrade(PlayerUpgrades.Upgrade upgrade)
     {
-        PlayerUpgrades.Upgrade upgrade = current.upgrades.SafeGet(index).Item1;
         upgradesChosen.Add(upgrade);
         upgrade.action.Invoke(_player);
         waitingForInput = false;
@@ -140,12 +139,14 @@ public class UILevelUpgradePrompt : MonoBehaviour
         else
         {
             current = null;
+            UIUpgradeRoom_UpgradeList.i.Done();
         }
         
         CheckEyeState();
     }
     public void SetUpgrades(List<PlayerUpgrades.Upgrade> upgrades, PlayerUpgrades.UpgradeType type)
     {
+        
         string shortResult = $"{type.ToString().ToUpper()} LEVEL UPGRADE: \n";
         string longResult = $"{type.ToString().ToUpper()} LEVEL UPGRADE: \n(Full description)\n";
         
@@ -198,6 +199,8 @@ public class UILevelUpgradePrompt : MonoBehaviour
             ui.SetBackground(background);
             ui.SetIcon(icon);
         }
+        
+        UIUpgradeRoom_UpgradeList.i?.SetUpgrades(current.upgrades.Select(x=> x.Item1).ToList());
     }
 
     public void ShowUI(bool state)
