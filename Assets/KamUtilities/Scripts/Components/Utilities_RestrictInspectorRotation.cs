@@ -14,7 +14,7 @@ public class Utilities_RestrictInspectorRotation : MonoBehaviour
 
     private void LateUpdate()
     {
-        var rot = UnityEditor.TransformUtils.GetInspectorRotation(gameObject.transform);
+        var rot = gameObject.transform.localRotation.eulerAngles;
 
         Vector3 newRot = rot;
         if (useX)
@@ -56,6 +56,6 @@ public class Utilities_RestrictInspectorRotation : MonoBehaviour
             }
         }
         
-        UnityEditor.TransformUtils.SetInspectorRotation(gameObject.transform, newRot);
+        transform.rotation = Quaternion.Euler(newRot);
     }
 }

@@ -124,7 +124,7 @@ public class Room : MonoBehaviour
     public bool[] AdjustConnectionsBasedOnRotation()
     {
         bool[] adjustedConnections = new bool[4];
-        var rot = UnityEditor.TransformUtils.GetInspectorRotation(gameObject.transform).y;
+        var rot = gameObject.transform.localRotation.eulerAngles.y;
         if (rot != 0)
         {
             switch (rot)

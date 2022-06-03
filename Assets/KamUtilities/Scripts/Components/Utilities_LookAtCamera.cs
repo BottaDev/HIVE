@@ -24,9 +24,10 @@ public class Utilities_LookAtCamera : MonoBehaviour
     private void LateUpdate()
     {
         transform?.LookAt(cameraToUse.transform);
-        var rot = UnityEditor.TransformUtils.GetInspectorRotation(gameObject.transform);
+        var rot = transform.rotation.eulerAngles;
+        transform.Rotate(rotationOffset);
         rot += rotationOffset;
         
-        UnityEditor.TransformUtils.SetInspectorRotation(gameObject.transform, rot);
+        transform.SetPositionAndRotation(transform.position, Quaternion.Euler(rot));
     }
 }

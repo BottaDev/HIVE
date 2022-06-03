@@ -231,7 +231,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8978c0a65050a03498d5980e1dad34e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 1
+  damage: 5
   spread: 0
   maxAmmo: 100
   bulletsPerTap: 3
@@ -339,7 +339,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8978c0a65050a03498d5980e1dad34e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 3
+  damage: 10
   spread: 0.02
   maxAmmo: 100
   bulletsPerTap: 1
@@ -567,7 +567,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 196f29743ccf31943a14d72d078d3c10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 20
+  maxHealth: 100
   baseSpeed: 5
   _currentHealth: 0
   energy: {fileID: 835001207}
@@ -816,7 +816,7 @@ MonoBehaviour:
   indirectGrappleable:
     serializedVersion: 2
     m_Bits: 2097152
-  maxHookDistance: 100
+  maxHookDistance: 60
   hookSpeed: 300
   pullSpeed: 5
   minDistancePullMultiplier: 5
@@ -7002,7 +7002,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8978c0a65050a03498d5980e1dad34e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 5
+  damage: 20
   spread: 20
   maxAmmo: 50
   bulletsPerTap: 10
@@ -7095,7 +7095,7 @@ MonoBehaviour:
   zoomDefault: 5
   cameraCollisionMask:
     serializedVersion: 2
-    m_Bits: 2148417
+    m_Bits: 3196993
   minimumCollisionProximity: 0
   collisionSensitivity: 2
 --- !u!114 &7359116599907395390
@@ -7105,7 +7105,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4629313644082423264}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df9c0583c7e7b53459693c924f8d4271, type: 3}
   m_Name: 
@@ -7291,7 +7291,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8978c0a65050a03498d5980e1dad34e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 5
+  damage: 25
   spread: 0
   maxAmmo: 100
   bulletsPerTap: 1
