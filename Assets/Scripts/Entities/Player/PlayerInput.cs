@@ -26,6 +26,7 @@ public class PlayerInput : MonoBehaviour
     [SerializeField] private KeyCode grenadeKey = KeyCode.E;
     [SerializeField] private KeyCode absorbKey = KeyCode.F;
     [SerializeField] private MouseCode railAttachKey = MouseCode.Right;
+    [SerializeField] private KeyCode extraInfoKey = KeyCode.Tab;
     private bool _attaching;
     private bool _dashing;
     private bool _freecam;
@@ -92,6 +93,11 @@ public class PlayerInput : MonoBehaviour
         Absorbing = Input.GetKey(absorbKey);
         DirectGrapple = Input.GetKeyDown(directGrappleKey);
         StoppedDirectGrapple= Input.GetKeyUp(directGrappleKey);
+
+        if (Input.GetKeyDown(extraInfoKey))
+        {
+            EventManager.Instance.Trigger("ExtraInfoScreenInput");
+        }
     }
 }
 

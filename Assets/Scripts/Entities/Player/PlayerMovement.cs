@@ -70,6 +70,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void Start()
     {
+        SetMaxSpeed(maxSpeed);
         ableToMove = true;
         horizontalStepUpper.localPosition = horizontalStepLower.localPosition + new Vector3(0, horizontalStepHeight, 0);
     }
@@ -353,6 +354,13 @@ public class PlayerMovement : MonoBehaviour
     private void StopGrounded()
     {
         grounded = false;
+    }
+
+    public void SetMaxSpeed(float maxSpeed)
+    {
+        this.maxSpeed = maxSpeed;
+        GameStats.movementSPD = maxSpeed;
+        UIExtraInfoScreen.i.UpdateStats();
     }
 }
 

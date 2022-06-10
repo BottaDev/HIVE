@@ -29,7 +29,7 @@ public class Player : Entity
     public Rails attachedRail { get; set; }
     public bool attachedToRail => attachedRail != null;
     public static Progress SavedPlayer;
-
+    public static int rerunCount;
     public class Progress
     {
         //HP stuff
@@ -82,6 +82,7 @@ public class Player : Entity
     {
         if (SavedPlayer != null)
         {
+            rerunCount++;
             //Load everything
             foreach (var upgrade in SavedPlayer.upgrades)
             {
@@ -106,6 +107,8 @@ public class Player : Entity
             energy.Current = SavedPlayer.currentEnergy;
         }
 
+        UIExtraInfoScreen.i.SetRerun(rerunCount);
+        UIExtraInfoScreen.i.SetLevel(SceneManager.GetActiveScene().name);
         EventManager.Instance.Trigger("OnLifeUpdated", CurrentHealth, MaxHP);
     }
 
@@ -133,6 +136,8 @@ public class Player : Entity
 
     public void DeleteSavedPlayer()
     {
+        rerunCount = 0;
+        GameStats.upgrades.Clear();
         SavedPlayer = null;
     }
     public void SavePlayer(params object[] obj)
@@ -186,7 +191,11 @@ public class Player : Entity
         if (debug.Invincible) return;
         
         view.Blink(1f, 30f, Color.red);
+        
         CurrentHealth -= damage;
+        GameStats.hpLost += damage;
+        UIExtraInfoScreen.i.UpdateStats();
+        
         EventManager.Instance.Trigger("OnLifeUpdated", CurrentHealth, MaxHP);
 
         if (!(CurrentHealth <= 0)) return;

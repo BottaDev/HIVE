@@ -147,6 +147,8 @@ public class PlayerEnergy : MonoBehaviour
 
         float result = Current - amount;
         this.Current = Mathf.Clamp(result, 0, MaxEnergy);
+        GameStats.energyUsed += amount;
+        UIExtraInfoScreen.i.UpdateStats();
 
         return true;
     }

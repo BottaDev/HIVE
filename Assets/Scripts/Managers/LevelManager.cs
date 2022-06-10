@@ -36,6 +36,8 @@ public class LevelManager : MonoBehaviour
     private void OnEnemyDeath(params object[] parameters)
     {
         _enemiesKilled++;
+        GameStats.enemiesKilled++;
+        UIExtraInfoScreen.i.UpdateStats();
         EventManager.Instance.Trigger("OnEnemyCounted", _enemiesKilled);
 
         // Open the exit door

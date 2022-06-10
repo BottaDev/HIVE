@@ -280,7 +280,7 @@ public class PlayerUpgrades : MonoBehaviour
     void MobilityPercentBuff(Player player)
     {
         float percentageUpgrade = 5;
-        player.movement.maxSpeed += (player.movement.maxSpeed * percentageUpgrade)/100;
+        player.movement.SetMaxSpeed(player.movement.maxSpeed + (player.movement.maxSpeed * percentageUpgrade)/100);
     }
 
     #endregion
@@ -296,6 +296,21 @@ public class PlayerUpgrades : MonoBehaviour
         player.grenadeThrow.Unlock();
     }
     #endregion
+    
+    public static Color GetColorOfType(PlayerLevel.ExpType type)
+    {
+        switch (type)
+        {
+            case PlayerLevel.ExpType.Attack:
+                return Color.red;
+            case PlayerLevel.ExpType.Defense:
+                return Color.green;
+            case PlayerLevel.ExpType.Mobility:
+                return Color.magenta;
+        }
+
+        throw new Exception("Color error");
+    }
 }
 
 #region CUSTOM_EDITOR

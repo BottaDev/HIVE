@@ -20,7 +20,18 @@ public class UILevelSystem : MonoBehaviour
     public TextMeshProUGUI expAmountText;
 
     private Player _player;
+    private Player player 
+    {
+        get
+        {
+            if (_player == null)
+            {
+                EventManager.Instance.Trigger("NeedsPlayerReference");
+            }
 
+            return _player;
+        }
+    }
     private void Awake()
     {
         EventManager.Instance.Subscribe("SendPlayerReference", GetPlayerReference);
@@ -29,7 +40,7 @@ public class UILevelSystem : MonoBehaviour
 
     private void Start()
     {
-        EventManager.Instance.Trigger("NeedsPlayerReference");
+        Initialize();
     }
 
     private void GetPlayerReference(params object[] p)
@@ -40,13 +51,13 @@ public class UILevelSystem : MonoBehaviour
 
     public void Initialize()
     {
-        PlayerLevel level = _player.level;
+        PlayerLevel level = player.level;
         LevellingSystem system = level.system;
 
         for (int i = 0; i < levelUIs.Count; i++)
         {
             UILevel current = levelUIs[i];
-            PlayerLevel.Exp exp = _player.level.FindExpOfType(current.expType);
+            PlayerLevel.Exp exp = player.level.FindExpOfType(current.expType);
 
             current.progressBar.SetRange(0, system.GetDifferenceBetweenLevels(system.Level, system.Level+1));
             current.progressBar.SetValue(exp.ThisLevel);
@@ -59,7 +70,7 @@ public class UILevelSystem : MonoBehaviour
     public void UpdateUI(params object[] p)
     {
         PlayerLevel.ExpType lastTypeGained = (PlayerLevel.ExpType) p[0];
-        PlayerLevel level = _player.level;
+        PlayerLevel level = player.level;
         LevellingSystem system = level.system;
         
         
@@ -129,7 +140,7 @@ public class UILevelSystem : MonoBehaviour
 
     private void UpdateEXPAmountText()
     {
-        PlayerLevel level = _player.level;
+        PlayerLevel level = player.level;
         LevellingSystem system = level.system;
         int differenceBetweenLevels = system.GetDifferenceBetweenLevels(system.Level, system.Level + 1);
         expAmountText.text = $"{level.ThisLevel} / {differenceBetweenLevels}"; 
@@ -137,7 +148,7 @@ public class UILevelSystem : MonoBehaviour
     
     private void UpdateLevelText()
     {
-        level.text = "LV. " + _player.level.system.Level;
+        level.text = "LV. " + player.level.system.Level;
     }
 
     private void Load()

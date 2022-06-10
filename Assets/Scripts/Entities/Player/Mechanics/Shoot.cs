@@ -112,19 +112,36 @@ public class Shoot : MonoBehaviour
         {
             case Gun.Left:
                 leftGun = gun;
-                leftGun?.Initialize(player);
                 currentLeftGun = gunStorage.GetGunEnum(gun);
+                if (leftGun != null)
+                {
+                    leftGun.Initialize(player);
+                    GameStats.leftGunDMG = gun.damage;
+                }
+                else
+                {
+                    GameStats.leftGunDMG = 0;
+                }
                 break;
             case Gun.Right:
                 rightGun = gun;
-                rightGun?.Initialize(player);
+                
                 currentRightGun = gunStorage.GetGunEnum(gun);
+                if (rightGun != null)
+                {
+                    rightGun.Initialize(player);
+                    GameStats.rightGunDMG = gun.damage;
+                }
+                else
+                {
+                    GameStats.rightGunDMG = 0;
+                }
                 break;
         }
         
         leftGun?.gameObject.SetActive(true);
         rightGun?.gameObject.SetActive(true);
-        
+        UIExtraInfoScreen.i.UpdateStats();
         EventManager.Instance.Trigger("UpdatedPlayerGuns", player);
     }
 }

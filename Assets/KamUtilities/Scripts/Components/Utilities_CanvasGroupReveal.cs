@@ -16,6 +16,11 @@ public class Utilities_CanvasGroupReveal : MonoBehaviour
 
     public void Reveal()
     {
+        if (hiding)
+        {
+            StopCoroutine(hide);
+        }
+        
         if (revealing)
         {
             StopCoroutine(reveal);
@@ -26,6 +31,11 @@ public class Utilities_CanvasGroupReveal : MonoBehaviour
     
     public void Hide()
     {
+        if (revealing)
+        {
+            StopCoroutine(reveal);
+        }
+        
         if (hiding)
         {
             StopCoroutine(hide);
@@ -33,7 +43,22 @@ public class Utilities_CanvasGroupReveal : MonoBehaviour
         
         hide = StartCoroutine(HideCoroutine());
     }
-
+    
+    private bool showing;
+    public void RevealToggle()
+    {
+        if (!showing)
+        {
+            Reveal();
+            showing = true;
+        }
+        else
+        {
+            Hide();
+            showing = false;
+        }
+    }
+    
     private bool tempRunning { get => temporary != null;}
     private Coroutine temporary = null;
     private IEnumerator RevealTemporaryCoroutine()

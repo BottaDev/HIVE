@@ -71,6 +71,8 @@ public class UILevelUpgradePrompt : MonoBehaviour
         shortText.gameObject.SetActive(true);
         longText.gameObject.SetActive(false);
 
+        UIExtraInfoScreen.i.SetUpgrades(GameStats.upgrades);
+        
         if (Player.SavedPlayer != null)
         {
             if (Player.SavedPlayer.currentUpgrade != null)
@@ -127,6 +129,9 @@ public class UILevelUpgradePrompt : MonoBehaviour
     public void ChooseUpgrade(PlayerUpgrades.Upgrade upgrade)
     {
         upgradesChosen.Add(upgrade);
+        GameStats.upgrades.Add(upgrade);
+        UIExtraInfoScreen.i.SetUpgrades(GameStats.upgrades);
+        _player.SavePlayer();
         upgrade.action.Invoke(_player);
         waitingForInput = false;
         ShowUI(false);

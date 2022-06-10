@@ -78,13 +78,15 @@ public class PlayerDebugDevTools : MonoBehaviour
                 Debug.Log("Debug Tools: Iterate through right gun");
                 player.shoot.SetGun(Shoot.Gun.Right,player.shoot.gunStorage.IterateThroughRightGun());
             }
+            
+            if (Input.GetKeyDown(changeAmbientColor))
+            {
+                ChangeAmbientColor.i.IterateThroughColors();
+            
+            }
         }
 
-        if (Input.GetKeyDown(changeAmbientColor))
-        {
-            ChangeAmbientColor.i.IterateThroughColors();
-            
-        }
+        
         
     }
 }
