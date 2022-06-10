@@ -445,6 +445,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transform: {fileID: 8355819172918634931}
+  invert: 0
+  rotationOffset: {x: 0, y: 0, z: 0}
   cameraToUse: {fileID: 0}
   useMainCamera: 1
 --- !u!225 &532669980936752694
@@ -2748,7 +2750,8 @@ GameObject:
   - component: {fileID: 1965944990904291242}
   - component: {fileID: 1965944990904291243}
   - component: {fileID: 6694703141300572563}
-  m_Layer: 0
+  - component: {fileID: 5684127337927341084}
+  m_Layer: 13
   m_Name: JCorridor + WitchBlock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2824,6 +2827,19 @@ MonoBehaviour:
     startValue: 0
     endValue: 0.5
     speed: 0.5
+--- !u!65 &5684127337927341084
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1965944990904291245}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 67.36208, y: 20.325878, z: 67.40638}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2013380266085500136
 GameObject:
   m_ObjectHideFlags: 0
@@ -20761,6 +20777,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transform: {fileID: 4807656936622037466}
+  invert: 0
+  rotationOffset: {x: 0, y: 0, z: 0}
   cameraToUse: {fileID: 0}
   useMainCamera: 1
 --- !u!225 &3902794870649388639
@@ -22003,6 +22021,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transform: {fileID: 3899831712719761662}
+  invert: 0
+  rotationOffset: {x: 0, y: 0, z: 0}
   cameraToUse: {fileID: 0}
   useMainCamera: 1
 --- !u!225 &4796128566200735611
@@ -27431,6 +27451,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transform: {fileID: 1745051449674744810}
+  invert: 0
+  rotationOffset: {x: 0, y: 0, z: 0}
   cameraToUse: {fileID: 0}
   useMainCamera: 1
 --- !u!225 &7828965682257437807
@@ -28151,6 +28173,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transform: {fileID: 22256948556793157}
+  invert: 0
+  rotationOffset: {x: 0, y: 0, z: 0}
   cameraToUse: {fileID: 0}
   useMainCamera: 1
 --- !u!225 &8421356719313674944

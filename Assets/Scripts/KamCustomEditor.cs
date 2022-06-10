@@ -1,9 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
 public class KamCustomEditor : Editor
 {
     public enum EditorTypes
@@ -57,3 +58,4 @@ public class KamCustomEditor : Editor
         EditorGUILayout.HelpBox("There is nothing here for you to modify. Which means this is a programmer only script.", MessageType.Info);
     }
 }
+#endif

@@ -10653,6 +10653,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transform: {fileID: 5667561702236558260}
+  invert: 0
   rotationOffset: {x: 0, y: 0, z: 0}
   cameraToUse: {fileID: 0}
   useMainCamera: 1
@@ -14423,6 +14424,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transform: {fileID: 2467894931774717634}
+  invert: 0
   rotationOffset: {x: 0, y: 0, z: 0}
   cameraToUse: {fileID: 0}
   useMainCamera: 1
@@ -17837,6 +17839,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transform: {fileID: 3223396885177980835}
+  invert: 0
   rotationOffset: {x: 0, y: 0, z: 0}
   cameraToUse: {fileID: 0}
   useMainCamera: 1
@@ -23811,6 +23814,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transform: {fileID: 1153791563883528225}
+  invert: 0
   rotationOffset: {x: 0, y: 0, z: 0}
   cameraToUse: {fileID: 0}
   useMainCamera: 1
@@ -24360,6 +24364,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transform: {fileID: 2028597473754094663}
+  invert: 0
   rotationOffset: {x: 0, y: 0, z: 0}
   cameraToUse: {fileID: 0}
   useMainCamera: 1
@@ -25325,7 +25330,8 @@ GameObject:
   - component: {fileID: 8621747690399068888}
   - component: {fileID: 8621747690399068891}
   - component: {fileID: -7040707407615461951}
-  m_Layer: 0
+  - component: {fileID: 8198876083170809429}
+  m_Layer: 13
   m_Name: TCorredor 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25366,6 +25372,13 @@ MonoBehaviour:
   connections: 01010100
   type: 1
   effect: {fileID: -7040707407615461951}
+  deleteObjectsPostFade:
+  - {fileID: 5464955431506011989}
+  - {fileID: 7534595347983037542}
+  - {fileID: 5055403883215496797}
+  - {fileID: 8364531414439647422}
+  - {fileID: 5236578277542973244}
+  - {fileID: 4183982025790978965}
 --- !u!114 &-7040707407615461951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25398,6 +25411,19 @@ MonoBehaviour:
     startValue: 0
     endValue: 0.5
     speed: 0.5
+--- !u!65 &8198876083170809429
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8621747690399068890}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 67.36208, y: 20.325878, z: 67.40638}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8652131173967834176
 GameObject:
   m_ObjectHideFlags: 0
@@ -25930,6 +25956,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transform: {fileID: 902862727247916281}
+  invert: 0
   rotationOffset: {x: 0, y: 0, z: 0}
   cameraToUse: {fileID: 0}
   useMainCamera: 1

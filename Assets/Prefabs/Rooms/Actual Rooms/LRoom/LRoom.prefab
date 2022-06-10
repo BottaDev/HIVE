@@ -7617,6 +7617,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transform: {fileID: 7716962986866819957}
+  invert: 0
   rotationOffset: {x: 0, y: 0, z: 0}
   cameraToUse: {fileID: 0}
   useMainCamera: 1
@@ -8477,7 +8478,8 @@ GameObject:
   - component: {fileID: 2158452063887128189}
   - component: {fileID: 2158452063887128190}
   - component: {fileID: 4066307150131340699}
-  m_Layer: 0
+  - component: {fileID: 4807711810892661904}
+  m_Layer: 13
   m_Name: LRoom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8549,6 +8551,19 @@ MonoBehaviour:
     startValue: 0
     endValue: 0.5
     speed: 0.5
+--- !u!65 &4807711810892661904
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2158452063887128191}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 67.36208, y: 20.325878, z: 67.40638}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2158452064409465951
 GameObject:
   m_ObjectHideFlags: 0
@@ -9581,6 +9596,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transform: {fileID: 5842847240323123604}
+  invert: 0
   rotationOffset: {x: 0, y: 0, z: 0}
   cameraToUse: {fileID: 0}
   useMainCamera: 1
@@ -11577,6 +11593,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transform: {fileID: 5210807740583761175}
+  invert: 0
   rotationOffset: {x: 0, y: 0, z: 0}
   cameraToUse: {fileID: 0}
   useMainCamera: 1
@@ -17038,6 +17055,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transform: {fileID: 1101734827544347484}
+  invert: 0
   rotationOffset: {x: 0, y: 0, z: 0}
   cameraToUse: {fileID: 0}
   useMainCamera: 1

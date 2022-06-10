@@ -743,6 +743,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transform: {fileID: 8225115713643531242}
+  invert: 0
+  rotationOffset: {x: 0, y: 0, z: 0}
   cameraToUse: {fileID: 0}
   useMainCamera: 1
 --- !u!225 &483225376508456047
@@ -1686,7 +1688,8 @@ GameObject:
   - component: {fileID: 810141043423087392}
   - component: {fileID: 810141043423087393}
   - component: {fileID: 8471886755504577473}
-  m_Layer: 0
+  - component: {fileID: 6066078438546121553}
+  m_Layer: 13
   m_Name: JCorridor + WitchBlock 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1728,6 +1731,14 @@ MonoBehaviour:
   connections: 01010101
   type: 0
   effect: {fileID: 8471886755504577473}
+  deleteObjectsPostFade:
+  - {fileID: 656179431982648576}
+  - {fileID: 9052448167678880150}
+  - {fileID: 1564110007934333657}
+  - {fileID: 1261087665711933528}
+  - {fileID: 6057905488728239160}
+  - {fileID: 8106110228147125240}
+  - {fileID: 7781560309002928771}
 --- !u!114 &8471886755504577473
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1763,6 +1774,19 @@ MonoBehaviour:
     startValue: 0
     endValue: 0.5
     speed: 0.5
+--- !u!65 &6066078438546121553
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 810141043423087399}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 67.36208, y: 20.325878, z: 67.40638}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &841110483235929854
 GameObject:
   m_ObjectHideFlags: 0
@@ -19940,6 +19964,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transform: {fileID: 6599948829676490308}
+  invert: 0
+  rotationOffset: {x: 0, y: 0, z: 0}
   cameraToUse: {fileID: 0}
   useMainCamera: 1
 --- !u!225 &3388399879215000001
@@ -25651,6 +25677,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transform: {fileID: 4014734043590365066}
+  invert: 0
+  rotationOffset: {x: 0, y: 0, z: 0}
   cameraToUse: {fileID: 0}
   useMainCamera: 1
 --- !u!225 &4838707225345550351
@@ -26476,6 +26504,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transform: {fileID: 3712001938036020491}
+  invert: 0
+  rotationOffset: {x: 0, y: 0, z: 0}
   cameraToUse: {fileID: 0}
   useMainCamera: 1
 --- !u!225 &5121181954418127502
@@ -35170,6 +35200,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transform: {fileID: 1208067791021442153}
+  invert: 0
+  rotationOffset: {x: 0, y: 0, z: 0}
   cameraToUse: {fileID: 0}
   useMainCamera: 1
 --- !u!225 &7228931076916634604
@@ -37593,6 +37625,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transform: {fileID: 476973898213633916}
+  invert: 0
+  rotationOffset: {x: 0, y: 0, z: 0}
   cameraToUse: {fileID: 0}
   useMainCamera: 1
 --- !u!225 &8218846091024615673
@@ -40949,6 +40983,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transform: {fileID: 810925919565004050}
+  invert: 0
+  rotationOffset: {x: 0, y: 0, z: 0}
   cameraToUse: {fileID: 0}
   useMainCamera: 1
 --- !u!225 &9210218652330973847

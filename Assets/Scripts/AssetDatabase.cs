@@ -64,6 +64,7 @@ public class AssetDatabase : MonoBehaviour
     }
     #endregion
 
+    public LayerMask playerMask;
     public SFX[] sfxs;
     public Music[] music;
     public Icon[] upgradeIcons;

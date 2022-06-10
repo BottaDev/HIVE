@@ -12234,6 +12234,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transform: {fileID: 6806649091314205480}
+  invert: 0
   rotationOffset: {x: 0, y: 0, z: 0}
   cameraToUse: {fileID: 0}
   useMainCamera: 1
@@ -14561,6 +14562,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transform: {fileID: 4705926318992826517}
+  invert: 0
   rotationOffset: {x: 0, y: 0, z: 0}
   cameraToUse: {fileID: 0}
   useMainCamera: 1
@@ -16461,7 +16463,8 @@ GameObject:
   - component: {fileID: 2602364809299614977}
   - component: {fileID: 198266003315974057}
   - component: {fileID: 5122187499406857430}
-  m_Layer: 0
+  - component: {fileID: 7497385081556542451}
+  m_Layer: 13
   m_Name: TCorredor 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16516,6 +16519,11 @@ MonoBehaviour:
   connections: 01010100
   type: 1
   effect: {fileID: 5122187499406857430}
+  deleteObjectsPostFade:
+  - {fileID: 1108349568296843883}
+  - {fileID: 7456189490513004359}
+  - {fileID: 8665322136731723002}
+  - {fileID: 861694359521034244}
 --- !u!114 &5122187499406857430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16548,6 +16556,19 @@ MonoBehaviour:
     startValue: 0
     endValue: 0.5
     speed: 0.5
+--- !u!65 &7497385081556542451
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5416087673453622115}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 67.36208, y: 20.325878, z: 67.40638}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5433253927371636914
 GameObject:
   m_ObjectHideFlags: 0
@@ -18598,6 +18619,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transform: {fileID: 3297234915955337174}
+  invert: 0
   rotationOffset: {x: 0, y: 0, z: 0}
   cameraToUse: {fileID: 0}
   useMainCamera: 1
@@ -22915,6 +22937,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transform: {fileID: 997429257914999971}
+  invert: 0
   rotationOffset: {x: 0, y: 0, z: 0}
   cameraToUse: {fileID: 0}
   useMainCamera: 1

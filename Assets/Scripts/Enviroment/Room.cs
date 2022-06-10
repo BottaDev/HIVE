@@ -9,8 +9,10 @@ public class Room : MonoBehaviour
     public bool[] connections = new bool[4]; //clockwise starting from north. 0 North - 1 East - 2 South - 3 West
     public RoomType type;
     public ShaderFloatLerper effect;
+    public List<GameObject> deleteObjectsPostFade = new List<GameObject>();
     public Vector2Int mapPos { get; set; }
     public levelGen generator { get; set; }
+    public bool ShouldFade { get; private set; }
     public bool Faded { get; private set; }
     public enum RoomType
     {
@@ -36,9 +38,16 @@ public class Room : MonoBehaviour
     public void FadeEmissive()
     {
         //Start your own effect.
-        if (Faded) return;
-        effect.StartEffect();
-        Faded = true;
+        if (ShouldFade) return;
+        
+        ShouldFade = true;
+        foreach (var obj in deleteObjectsPostFade)
+        {
+            if(obj != null)
+            {
+                try { Destroy(obj); } catch { }
+            }
+        }
 
         #region Start Effects of other rooms
             foreach (var room in GetNeighbors())
@@ -54,6 +63,18 @@ public class Room : MonoBehaviour
             }
         #endregion
 
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (AssetDatabase.i.playerMask.CheckLayer(other.gameObject.layer))
+        {
+            if (!Faded && ShouldFade)
+            {
+                Faded = true;
+                effect.StartEffect();
+            }
+        }
     }
 
     public Room[] GetNeighbors()
@@ -108,7 +129,7 @@ public class Room : MonoBehaviour
                     .Select(x => x.Item2)
                     .ToArray();
 
-                return trueConnections.Count(x => x.Faded) >= trueConnections.Length - 1;
+                return trueConnections.Count(x => x.ShouldFade) >= trueConnections.Length - 1;
 
             //All of these have only one connection, so its safe to turn them off.
             case RoomType.L:
