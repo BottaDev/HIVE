@@ -2,6 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+using UnityEditorInternal;
+#endif
 
 public class PlayerView : MonoBehaviour
 {
@@ -114,3 +118,13 @@ public class PlayerView : MonoBehaviour
         }
     }
 }
+
+#region CUSTOM_EDITOR
+#if UNITY_EDITOR
+[CustomEditor(typeof(PlayerView))]
+public class KamCustomEditor_PlayerView : KamCustomEditor
+{
+
+}
+#endif
+#endregion

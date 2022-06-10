@@ -7,6 +7,7 @@ public class Utilities_LookAtCamera : MonoBehaviour
 {
     [Tooltip("This transform will always look at the camera")]
     public Transform transform;
+    public bool invert;
     public Vector3 rotationOffset;
 
     [Header("Camera")]
@@ -24,10 +25,9 @@ public class Utilities_LookAtCamera : MonoBehaviour
     private void LateUpdate()
     {
         transform?.LookAt(cameraToUse.transform);
-        var rot = transform.rotation.eulerAngles;
-        transform.Rotate(rotationOffset);
-        rot += rotationOffset;
-        
-        transform.SetPositionAndRotation(transform.position, Quaternion.Euler(rot));
+        if (invert)
+        {
+            transform.forward = -transform.forward;
+        }
     }
 }

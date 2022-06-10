@@ -14,7 +14,7 @@ public class Utilities_RestrictInspectorRotation : MonoBehaviour
 
     private void LateUpdate()
     {
-        var rot = gameObject.transform.localRotation.eulerAngles;
+        var rot = gameObject.transform.localEulerAngles;
 
         Vector3 newRot = rot;
         if (useX)

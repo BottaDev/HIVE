@@ -1,6 +1,11 @@
 using UnityEngine;
 using UnityEngine.Serialization;
 
+#if UNITY_EDITOR
+using UnityEditor;
+using UnityEditorInternal;
+#endif
+
 public class PlayerJump : MonoBehaviour
 {
     [Header("Assignables")]
@@ -166,3 +171,70 @@ public class PlayerJump : MonoBehaviour
         currentlyJumping = false;
     }
 }
+
+#region CUSTOM_EDITOR
+#if UNITY_EDITOR
+[CustomEditor(typeof(PlayerJump))]
+public class KamCustomEditor_PlayerJump : KamCustomEditor
+{
+    private PlayerJump editorTarget;
+    private void OnEnable()
+    {
+        editorTarget = (PlayerJump)target;
+    }
+    
+    public override void GameDesignerInspector()
+    {
+        EditorGUILayout.LabelField("Jump settings", EditorStyles.centeredGreyMiniLabel);
+        
+        editorTarget.amountOfJumps = EditorGUILayout.IntField(
+            new GUIContent(
+                "Amount of Jumps",
+                "The amount of jumps the player has before touching the ground."),
+            editorTarget.amountOfJumps);
+        
+        editorTarget.jumpForce = EditorGUILayout.FloatField(
+            new GUIContent(
+                "Jump force",
+                "The force the player gets upwards when jumping."),
+            editorTarget.jumpForce);
+        
+        EditorGUILayout.Space();
+        EditorGUILayout.Space();
+        
+        EditorGUILayout.LabelField("Gravity multipliers", EditorStyles.centeredGreyMiniLabel);
+        
+        editorTarget.fallingGravityMultiplier = EditorGUILayout.FloatField(
+            new GUIContent(
+                "Falling multiplier",
+                "Gravity * Multiplier = Velocity when you fall."),
+            editorTarget.fallingGravityMultiplier);
+        
+        editorTarget.lowJumpGravityMultiplier = EditorGUILayout.FloatField(
+            new GUIContent(
+                "Low Jump Multiplier",
+                "Gravity * Multiplier = Velocity when you let go of jump button midway through a jump."),
+            editorTarget.lowJumpGravityMultiplier);
+        
+        
+        EditorGUILayout.Space();
+        EditorGUILayout.Space();
+        
+        EditorGUILayout.LabelField("Extra Parameters", EditorStyles.centeredGreyMiniLabel);
+        
+        editorTarget.coyoteTime = EditorGUILayout.FloatField(
+            new GUIContent(
+                "Coyote time",
+                "This is the time you have to jump after leaving a platform."),
+            editorTarget.coyoteTime);
+        
+        editorTarget.jumpBufferingTime = EditorGUILayout.FloatField(
+            new GUIContent(
+                "Buffer time",
+                "This is the time where a jump counts before touching the ground."),
+            editorTarget.jumpBufferingTime);
+        
+    }
+}
+#endif
+#endregion

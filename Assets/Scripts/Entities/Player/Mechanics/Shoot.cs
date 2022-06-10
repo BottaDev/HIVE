@@ -3,6 +3,10 @@ using System.Collections;
 using EZCameraShake;
 using UnityEngine;
 using UnityEngine.Serialization;
+#if UNITY_EDITOR
+using UnityEditor;
+using UnityEditorInternal;
+#endif
 
 public class Shoot : MonoBehaviour
 {
@@ -124,3 +128,47 @@ public class Shoot : MonoBehaviour
         EventManager.Instance.Trigger("UpdatedPlayerGuns", player);
     }
 }
+
+#region CUSTOM_EDITOR
+#if UNITY_EDITOR
+[CustomEditor(typeof(Shoot))]
+public class KamCustomEditor_Shoot : KamCustomEditor
+{
+    private Shoot editorTarget;
+    private void OnEnable()
+    {
+        editorTarget = (Shoot)target;
+    }
+    
+    public override void GameDesignerInspector()
+    {
+        EditorGUILayout.LabelField("Starting Guns", EditorStyles.centeredGreyMiniLabel);
+        editorTarget.startingLeftGun = (PlayerGunStorage.Guns) EditorGUILayout.EnumPopup(new GUIContent(
+            "Left",
+            "The gun the player starts with in their left gun slot."),
+            editorTarget.startingLeftGun);
+        
+        editorTarget.startingRightGun = (PlayerGunStorage.Guns) EditorGUILayout.EnumPopup(new GUIContent(
+                "Right",
+                "The gun the player starts with in their right gun slot."),
+            editorTarget.startingRightGun);
+        
+        EditorGUILayout.Space();
+        EditorGUILayout.Space();
+        
+        EditorGUILayout.LabelField("Default aiming parameters", EditorStyles.centeredGreyMiniLabel);
+        
+        editorTarget.defaultLayerMask = EditorGUILayout.MaskField(
+            new GUIContent("Shootable Mask",
+                "These layers are the ones that you will be able to aim at."),
+            InternalEditorUtility.LayerMaskToConcatenatedLayersMask(editorTarget.defaultLayerMask), InternalEditorUtility.layers);
+        
+        editorTarget.defaultSpread = EditorGUILayout.FloatField(
+            new GUIContent(
+                "Spread",
+                "This is the default shooting spread."),
+            editorTarget.defaultSpread);
+    }
+}
+#endif
+#endregion

@@ -1,17 +1,20 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Serialization;
-
+#if UNITY_EDITOR
+using UnityEditor;
+using UnityEditorInternal;
+#endif
 public class Dash : UnlockableMechanic
 {
     [Header("Energy")]
-    [SerializeField] private float energyCost = 0;
+    public float energyCost = 0;
     [SerializeField] private string energyErrorMessage;
     [SerializeField] private Color energyErrorMessageColor;
     [SerializeField] private float energyErrorTimeOnScreen;
     
     [Header("Cooldown")]
-    [SerializeField] private float cooldown;
+    public float cooldown;
     [SerializeField] private string cooldownErrorMessage;
     [SerializeField] private Color cooldownErrorMessageColor;
     [SerializeField] private float cooldownErrorTimeOnScreen;
@@ -20,10 +23,10 @@ public class Dash : UnlockableMechanic
     [Header("Parameters")]
     [FormerlySerializedAs("_dashVelocity")]
     [Tooltip("Speed during dash")] 
-    [SerializeField] private float dashVelocity;
+    public float dashVelocity;
     [FormerlySerializedAs("_dashDuration")]
     [Tooltip("Time you stay in dash Velocity.")] 
-    [SerializeField] private float dashDuration;
+    public float dashDuration;
     
     [Header("Assignable")]
     [SerializeField] private Player player;
@@ -184,3 +187,51 @@ public class Dash : UnlockableMechanic
         }
     }
 }
+
+#region CUSTOM_EDITOR
+#if UNITY_EDITOR
+[CustomEditor(typeof(Dash))]
+public class KamCustomEditor_Dash : KamCustomEditor
+{
+    private Dash editorTarget;
+    private void OnEnable()
+    {
+        editorTarget = (Dash)target;
+    }
+    
+    public override void GameDesignerInspector()
+    {
+        editorTarget.unlockedAtTheStart = EditorGUILayout.Toggle(
+            new GUIContent("Start Unlock",
+                "This boolean determines if this is unlocked by default."),
+            editorTarget.unlockedAtTheStart);
+        
+        EditorGUILayout.LabelField("Parameters", EditorStyles.centeredGreyMiniLabel);
+
+        editorTarget.energyCost = EditorGUILayout.FloatField(
+            new GUIContent(
+                "Cost",
+                "This is the energy cost of casting dash."),
+            editorTarget.energyCost);
+        
+        editorTarget.cooldown = EditorGUILayout.FloatField(
+            new GUIContent(
+                "Cooldown",
+                "Time it takes for dash to be able to be cast again. It starts the moment you press the dash key."),
+            editorTarget.cooldown);
+        
+        editorTarget.dashVelocity = EditorGUILayout.FloatField(
+            new GUIContent(
+                "Speed",
+                "This speed will override the player's speed when dashing, and it will be constant for the duration the dash lasts. Keep in mind changing either the speed or the duration will change how \"Long\" the dash is."),
+            editorTarget.dashVelocity);
+        
+        editorTarget.dashDuration = EditorGUILayout.FloatField(
+            new GUIContent(
+                "Duration",
+                "This is the amount of time the dash will last. For this period of time, the player's speed will be equal to the dash's speed. Keep in mind changing either the speed or the duration will change how \"Long\" the dash is."),
+            editorTarget.dashDuration);
+    }
+}
+#endif
+#endregion

@@ -2,6 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+using UnityEditorInternal;
+#endif
 
 public class PlayerEnergy : MonoBehaviour
 {
@@ -9,9 +13,9 @@ public class PlayerEnergy : MonoBehaviour
     [SerializeField] private Player player;
     
     [Header("Parameters")]
-    [SerializeField] private float maxEnergy = 100;
-    [SerializeField] private int absorbXPerTick = 1;
-    [SerializeField] private float absorbEveryXSeconds = 0.25f;
+    public float maxEnergy = 100;
+    public int absorbXPerTick = 1;
+    public float absorbEveryXSeconds = 0.25f;
 
     [Header("Prompt")]
     [SerializeField] private string message;
@@ -264,3 +268,42 @@ public class PlayerEnergy : MonoBehaviour
         Destroy(effect.gameObject);
     }
 }
+
+#region CUSTOM_EDITOR
+#if UNITY_EDITOR
+[CustomEditor(typeof(PlayerEnergy))]
+public class KamCustomEditor_PlayerEnergy : KamCustomEditor
+{
+    private PlayerEnergy editorTarget;
+    private void OnEnable()
+    {
+        editorTarget = (PlayerEnergy)target;
+    }
+    
+    public override void GameDesignerInspector()
+    {
+        EditorGUILayout.LabelField("Parameters", EditorStyles.centeredGreyMiniLabel);
+         
+        editorTarget.maxEnergy = EditorGUILayout.FloatField(
+            new GUIContent(
+                "Max Energy",
+                "The max energy the player can hold."),
+            editorTarget.maxEnergy);
+
+        EditorGUILayout.BeginHorizontal();
+        EditorGUILayout.LabelField(new GUIContent(
+            "Absorb ",
+            ""),GUILayout.Width(45));
+        editorTarget.absorbXPerTick = EditorGUILayout.IntField(editorTarget.absorbXPerTick,GUILayout.Width(30));
+        EditorGUILayout.LabelField(new GUIContent(
+            " energy every ",
+            ""),GUILayout.Width(85));
+        editorTarget.absorbEveryXSeconds = EditorGUILayout.FloatField(editorTarget.absorbEveryXSeconds,GUILayout.Width(30));
+        EditorGUILayout.LabelField(new GUIContent(
+            " seconds.",
+            ""),GUILayout.Width(60));
+        EditorGUILayout.EndHorizontal();
+    }
+}
+#endif
+#endregion

@@ -1,5 +1,10 @@
 using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
+using UnityEditorInternal;
+#endif
+
 public enum MouseCode
 {
     Left = 0,
@@ -89,3 +94,24 @@ public class PlayerInput : MonoBehaviour
         StoppedDirectGrapple= Input.GetKeyUp(directGrappleKey);
     }
 }
+
+#region CUSTOM_EDITOR
+#if UNITY_EDITOR
+//[CustomEditor(typeof(PlayerInput))]
+//This editor is not necessary, because its just a bunch of enums. Its just here for future's sake.
+public class KamCustomEditor_PlayerInput : KamCustomEditor
+{
+    private PlayerInput editorTarget;
+    private void OnEnable()
+    {
+        editorTarget = (PlayerInput)target;
+    }
+    
+    public override void GameDesignerInspector()
+    {
+        EditorGUILayout.LabelField("Keybinds", EditorStyles.centeredGreyMiniLabel);
+        
+    }
+}
+#endif
+#endregion

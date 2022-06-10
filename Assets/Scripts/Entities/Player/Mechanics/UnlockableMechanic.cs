@@ -8,7 +8,7 @@ public class UnlockableMechanic : MonoBehaviour
     [Header("Mechanic")]
     protected bool mechanicUnlocked;
     public string unlockEvent;
-    [SerializeField] private bool unlockedAtTheStart;
+    public bool unlockedAtTheStart;
 
     public void Start()
     {

@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
+using UnityEditorInternal;
+#endif
+
 public class PlayerLevel : MonoBehaviour
 {
     public enum ExpType
@@ -165,3 +170,13 @@ public class PlayerLevel : MonoBehaviour
         }
     }
 }
+
+#region CUSTOM_EDITOR
+#if UNITY_EDITOR
+[CustomEditor(typeof(PlayerLevel))]
+public class KamCustomEditor_PlayerLevel : KamCustomEditor
+{
+    
+}
+#endif
+#endregion

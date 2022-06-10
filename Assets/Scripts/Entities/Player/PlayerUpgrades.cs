@@ -2,6 +2,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Linq;
+
+#if UNITY_EDITOR
+using UnityEditor;
+using UnityEditorInternal;
+#endif
+
 public class PlayerUpgrades : MonoBehaviour
 {
     public class UpgradePool
@@ -291,3 +297,13 @@ public class PlayerUpgrades : MonoBehaviour
     }
     #endregion
 }
+
+#region CUSTOM_EDITOR
+#if UNITY_EDITOR
+[CustomEditor(typeof(PlayerUpgrades))]
+public class KamCustomEditor_PlayerUpgrades : KamCustomEditor
+{
+    
+}
+#endif
+#endregion

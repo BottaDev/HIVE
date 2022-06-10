@@ -1,5 +1,9 @@
 using System;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+using UnityEditorInternal;
+#endif
 
 public class PlayerHookObject : MonoBehaviour
 {
@@ -114,3 +118,13 @@ public class PlayerHookObject : MonoBehaviour
         
     }
 }
+
+#region CUSTOM_EDITOR
+#if UNITY_EDITOR
+[CustomEditor(typeof(PlayerHookObject))]
+public class KamCustomEditor_PlayerHookObject : KamCustomEditor
+{
+
+}
+#endif
+#endregion

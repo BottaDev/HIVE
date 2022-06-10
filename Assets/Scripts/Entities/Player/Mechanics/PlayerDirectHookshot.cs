@@ -4,6 +4,10 @@ using UnityEngine;
 using System;
 using Unity.Mathematics;
 using UnityEngine.Serialization;
+#if UNITY_EDITOR
+using UnityEditor;
+using UnityEditorInternal;
+#endif
 
 public class PlayerDirectHookshot : UnlockableMechanic
 {
@@ -13,13 +17,13 @@ public class PlayerDirectHookshot : UnlockableMechanic
     }
     
     [Header("Energy")]
-    [SerializeField] private float energyCost = 0;
+    public float energyCost = 0;
     [SerializeField] private string energyErrorMessage;
     [SerializeField] private Color energyErrorMessageColor;
     [SerializeField] private float energyErrorTimeOnScreen;
 
     [Header("Cooldown")]
-    [SerializeField] private float cooldown;
+    public float cooldown;
     [SerializeField] private string cooldownErrorMessage;
     [SerializeField] private Color cooldownErrorMessageColor;
     [SerializeField] private float cooldownErrorTimeOnScreen;
@@ -28,14 +32,14 @@ public class PlayerDirectHookshot : UnlockableMechanic
     
     [Header("Parameters")]
     [FormerlySerializedAs("grappleable")]
-    [SerializeField] private LayerMask directGrappleable;
-    [SerializeField] private LayerMask indirectGrappleable;
-    [SerializeField] private float maxHookDistance = 50f;
-    [SerializeField] private float hookSpeed = 5f;
-    [SerializeField] private float pullSpeed = 0.5f;
-    [SerializeField] private float minDistancePullMultiplier = 0.5f;
-    [SerializeField] private float maxDistancePullMultiplier = 10f;
-    [SerializeField] private float minDistance = 1f;
+    public LayerMask directGrappleable;
+    public LayerMask indirectGrappleable;
+    public float maxHookDistance = 50f;
+    public float hookSpeed = 5f;
+    public float pullSpeed = 0.5f;
+    public float minDistancePullMultiplier = 0.5f;
+    public float maxDistancePullMultiplier = 10f;
+    public float minDistance = 1f;
     
     [Header("Assignables")]
     [SerializeField] private Player player;
@@ -45,11 +49,11 @@ public class PlayerDirectHookshot : UnlockableMechanic
     [SerializeField] private LineRenderer lr;
 
     [Header("Break distance")]
-    [SerializeField] private bool useStopDistance;
-    [SerializeField] private float stopDistance = 4f;
+    public bool useStopDistance;
+    public float stopDistance = 4f;
     
     [Header("Settings")]
-    [SerializeField] private bool sameButtonPressCancel;
+    public bool sameButtonPressCancel;
     [SerializeField] private bool useMinDistanceToHook;
 
     private HookType _type;
@@ -225,3 +229,83 @@ public class PlayerDirectHookshot : UnlockableMechanic
     }
     
 }
+
+#region CUSTOM_EDITOR
+#if UNITY_EDITOR
+[CustomEditor(typeof(PlayerDirectHookshot))]
+public class KamCustomEditor_PlayerDirectHookshot : KamCustomEditor
+{
+    private PlayerDirectHookshot editorTarget;
+    private void OnEnable()
+    {
+        editorTarget = (PlayerDirectHookshot)target;
+    }
+    
+    public override void GameDesignerInspector()
+    {
+        editorTarget.unlockedAtTheStart = EditorGUILayout.Toggle(
+            new GUIContent("Start Unlock",
+                "This boolean determines if this is unlocked by default."),
+            editorTarget.unlockedAtTheStart);
+        
+        EditorGUILayout.LabelField("General", EditorStyles.centeredGreyMiniLabel);
+
+        editorTarget.energyCost = EditorGUILayout.FloatField(
+            new GUIContent(
+                "Cost",
+                "This is the energy cost of casting dash."),
+            editorTarget.energyCost);
+        
+        editorTarget.cooldown = EditorGUILayout.FloatField(
+            new GUIContent(
+                "Cooldown",
+                "Time it takes for hook to be able to be cast again. It starts the moment the hook comes back to you."),
+            editorTarget.cooldown);
+        
+        EditorGUILayout.Space();
+        EditorGUILayout.Space();
+        
+        EditorGUILayout.LabelField("Layer Masks", EditorStyles.centeredGreyMiniLabel);
+        
+        editorTarget.directGrappleable = EditorGUILayout.MaskField(
+            new GUIContent("Direct Mask",
+                "This mask is what layers will trigger the direct hookshot."),
+            InternalEditorUtility.LayerMaskToConcatenatedLayersMask(editorTarget.directGrappleable), InternalEditorUtility.layers);
+        
+        editorTarget.indirectGrappleable = EditorGUILayout.MaskField(
+            new GUIContent("Indirect Mask",
+                "This mask is what layers will trigger the direct hookshot."),
+            InternalEditorUtility.LayerMaskToConcatenatedLayersMask(editorTarget.indirectGrappleable), InternalEditorUtility.layers);
+        
+        EditorGUILayout.Space();
+        EditorGUILayout.Space();
+        
+        EditorGUILayout.LabelField("Parameters", EditorStyles.centeredGreyMiniLabel);
+        
+        editorTarget.maxHookDistance = EditorGUILayout.FloatField(
+            new GUIContent(
+                "Max Distance",
+                "This is the max distance the hook can go away from player before destroying itself."),
+            editorTarget.maxHookDistance);
+        
+        editorTarget.hookSpeed = EditorGUILayout.FloatField(
+            new GUIContent(
+                "Hook Speed",
+                "The speed the hook travels at."),
+            editorTarget.hookSpeed);
+
+        EditorGUILayout.BeginHorizontal();
+        editorTarget.stopDistance = EditorGUILayout.FloatField(new GUIContent(
+            "Break distance",
+            "The distance at which the hook considers you've arrived. The boolean is if the hook uses the stop distance or not, in case you don't want it to stop at all."),
+            editorTarget.stopDistance);
+        editorTarget.useStopDistance = EditorGUILayout.Toggle(editorTarget.useStopDistance, GUILayout.Width(15));
+        EditorGUILayout.EndHorizontal();
+        editorTarget.sameButtonPressCancel = EditorGUILayout.Toggle(
+            new GUIContent("Double Press Cancel",
+                "This boolean determines if pressing the hook button again will cancel the hook. In case of being false, it'll cancel when you let go of the button."),
+            editorTarget.sameButtonPressCancel);
+    }
+}
+#endif
+#endregion

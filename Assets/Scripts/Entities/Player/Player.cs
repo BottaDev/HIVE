@@ -5,6 +5,11 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+#if UNITY_EDITOR
+using UnityEditor;
+using UnityEditorInternal;
+#endif
+
 public class Player : Entity
 {
     [Header("Assignable")]
@@ -219,4 +224,31 @@ public class Player : Entity
         yield return new WaitForSeconds(time);
         action.Invoke();
     }
+    
+   
 }
+
+#region CUSTOM_EDITOR
+#if UNITY_EDITOR
+[CustomEditor(typeof(Player))]
+public class KamCustomEditor_Player : KamCustomEditor
+{
+    private Player editorTarget;
+    private void OnEnable()
+    {
+        editorTarget = (Player)target;
+    }
+
+    public override void GameDesignerInspector()
+    {
+        EditorGUILayout.LabelField("Entity Parameters", EditorStyles.centeredGreyMiniLabel);
+
+        editorTarget.maxHealth = EditorGUILayout.IntField(
+            new GUIContent(
+                "Max HP",
+                "Max player health points."),
+            editorTarget.maxHealth);
+    }
+}
+#endif
+#endregion

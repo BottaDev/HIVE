@@ -1,6 +1,9 @@
 using System;
 using UnityEngine;
-
+#if UNITY_EDITOR
+using UnityEditor;
+using UnityEditorInternal;
+#endif
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Assignable")]
@@ -33,7 +36,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Steps")]
     public LayerMask stepMask;
-    [SerializeField] private float stepCheckDistance = 0.2f;
+    public float stepCheckDistance = 0.2f;
     [SerializeField] private int stepSmoothing = 5;
 
 
@@ -352,3 +355,58 @@ public class PlayerMovement : MonoBehaviour
         grounded = false;
     }
 }
+
+#region CUSTOM_EDITOR
+#if UNITY_EDITOR
+[CustomEditor(typeof(PlayerMovement))]
+public class KamCustomEditor_PlayerMovement : KamCustomEditor
+{
+    private PlayerMovement editorTarget;
+    private void OnEnable()
+    {
+        editorTarget = (PlayerMovement)target;
+    }
+
+    public override void GameDesignerInspector()
+    {
+        EditorGUILayout.LabelField("Movement Variables", EditorStyles.centeredGreyMiniLabel);
+        
+        editorTarget.groundMask = EditorGUILayout.MaskField(
+            new GUIContent("Ground Mask",
+                "These are the layers that the player counts as ground. Without this, the player wont reset their jumps, nor walk properly on them."),
+            InternalEditorUtility.LayerMaskToConcatenatedLayersMask(editorTarget.groundMask), InternalEditorUtility.layers);
+        
+        editorTarget.maxSpeed = EditorGUILayout.FloatField(
+            new GUIContent(
+                "Max Speed",
+                "This is the maximum speed the player can reach by moving horizontally"),
+            editorTarget.maxSpeed);
+        
+        editorTarget.airMovementMultiplier = EditorGUILayout.FloatField(
+            new GUIContent("Air Movement Multiplier",
+                "This is a multiplier applied only on Airborn movement, think of it as the amount of air control the player has."),
+            editorTarget.airMovementMultiplier);
+        
+        EditorGUILayout.Space();
+        EditorGUILayout.Space();
+        
+        EditorGUILayout.LabelField("Step Variables", EditorStyles.centeredGreyMiniLabel);
+        
+        editorTarget.stepMask = EditorGUILayout.MaskField(
+            new GUIContent("Step Mask",
+            "These are the layers that can trigger the step in the code."),
+            InternalEditorUtility.LayerMaskToConcatenatedLayersMask(editorTarget.stepMask), InternalEditorUtility.layers);
+
+        editorTarget.stepCheckDistance = EditorGUILayout.FloatField(
+            new GUIContent("Step Height",
+                "Player's feet height + Step Height = Max amount a step can be counted as."),
+            editorTarget.stepCheckDistance);
+        
+        editorTarget.stepCheck = EditorGUILayout.Toggle(
+            new GUIContent("Activate Step",
+                "Activates or deactivates the step feature in the player."),
+            editorTarget.stepCheck);
+    }
+}
+#endif
+#endregion

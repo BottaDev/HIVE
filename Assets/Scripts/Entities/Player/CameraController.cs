@@ -5,6 +5,10 @@ using EZCameraShake;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
+#if UNITY_EDITOR
+using UnityEditor;
+using UnityEditorInternal;
+#endif
 
 public class CameraController : MonoBehaviour
 {
@@ -103,3 +107,92 @@ public class CameraController : MonoBehaviour
         _camPos = cam.transform.position;
     }
 }
+
+#region CUSTOM_EDITOR
+#if UNITY_EDITOR
+[CustomEditor(typeof(CameraController))]
+public class KamCustomEditor_CameraController : KamCustomEditor
+{
+    private CameraController editorTarget;
+    private void OnEnable()
+    {
+        editorTarget = (CameraController)target;
+    }
+    
+    public override void GameDesignerInspector()
+    {
+        EditorGUILayout.LabelField("General Parameters", EditorStyles.centeredGreyMiniLabel);
+        
+        
+        
+        editorTarget.yOffset = EditorGUILayout.FloatField(
+            new GUIContent(
+                "Height Offset",
+                "This is the offset that the camera will use in the Y axis. To visualize this, you can set the Y coordinate of this object in the inspector."),
+            editorTarget.yOffset);
+        
+        editorTarget.sensitivity = EditorGUILayout.FloatField(
+            new GUIContent(
+                "Sensitivity",
+                "The mouse sensitivity with which the camera is controlled"),
+            editorTarget.sensitivity);
+        
+        EditorGUILayout.Space();
+        EditorGUILayout.Space();
+        
+        EditorGUILayout.LabelField("Zoom Parameters", EditorStyles.centeredGreyMiniLabel);
+        
+        editorTarget.scrollSensitivity = EditorGUILayout.FloatField(
+            new GUIContent(
+                "Sensitivity",
+                "Zoom sensitivity."),
+            editorTarget.scrollSensitivity);
+        
+        
+        var style = new GUIStyle(GUI.skin.label) {alignment = TextAnchor.MiddleCenter};
+        EditorGUILayout.LabelField(
+            new GUIContent(
+            "Zoom",
+            "This is the force with which the player throws the grenade."), style, GUILayout.ExpandWidth(true));
+
+        
+        EditorGUILayout.BeginHorizontal();
+        editorTarget.zoomDefault = EditorGUILayout.FloatField(
+            new GUIContent(
+                "Default",
+                "Default zoom amount"), editorTarget.zoomDefault);
+
+        editorTarget.zoomMin = EditorGUILayout.FloatField(
+            new GUIContent(
+                "Min",
+                "Minimum zoom proximity"), editorTarget.zoomMin);
+        
+        editorTarget.zoomMax = EditorGUILayout.FloatField(
+            new GUIContent(
+                "Max",
+                "Maximum zoom proximity"), editorTarget.zoomMax);
+        EditorGUILayout.EndHorizontal();
+        
+        EditorGUILayout.Space();
+        EditorGUILayout.Space();
+        
+        EditorGUILayout.LabelField("Collision Parameters", EditorStyles.centeredGreyMiniLabel);
+        
+        editorTarget.cameraCollisionMask = EditorGUILayout.MaskField(
+            new GUIContent("Collision Mask",
+                "Layers that the camera will collide with."),
+            InternalEditorUtility.LayerMaskToConcatenatedLayersMask(editorTarget.cameraCollisionMask), InternalEditorUtility.layers);
+        
+        editorTarget.minimumCollisionProximity = EditorGUILayout.FloatField(
+            new GUIContent(
+                "Min Collision Proximity",
+                "The closest the camera can be to the player during collision"), editorTarget.minimumCollisionProximity);
+        
+        editorTarget.collisionSensitivity = EditorGUILayout.FloatField(
+            new GUIContent(
+                "Collision Sensitivity",
+                "The max distance from the camera a collision can be detected at."), editorTarget.collisionSensitivity);
+    }
+}
+#endif
+#endregion

@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using EZCameraShake;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+using UnityEditorInternal;
+#endif
 
 public class Grenade : MonoBehaviour
 {
@@ -144,3 +148,47 @@ public class Grenade : MonoBehaviour
         
     }
 }
+
+#region CUSTOM_EDITOR
+#if UNITY_EDITOR
+[CustomEditor(typeof(Grenade))]
+public class KamCustomEditor_Grenade : KamCustomEditor
+{
+    private Grenade editorTarget;
+    private void OnEnable()
+    {
+        editorTarget = (Grenade)target;
+    }
+    
+    public override void GameDesignerInspector()
+    {
+        EditorGUILayout.LabelField("Screenshake Parameters", EditorStyles.centeredGreyMiniLabel);
+
+        editorTarget.magnitude = EditorGUILayout.FloatField(
+            new GUIContent(
+                "Magnitude",
+                "The magnitude of the screenshake"),
+            editorTarget.magnitude);
+        
+        editorTarget.roughness = EditorGUILayout.FloatField(
+            new GUIContent(
+                "Roughness",
+                "The roughness of the screenshake"),
+            editorTarget.roughness);
+
+        editorTarget.fadeInTime = EditorGUILayout.FloatField(
+            new GUIContent(
+                "Fade in time",
+                "The amount of time it takes for the effect to go from no effect to full effect."),
+            editorTarget.fadeInTime);
+        
+        editorTarget.fadeOutTime = EditorGUILayout.FloatField(
+            new GUIContent(
+                "Fade out time",
+                "The amount of time it takes for the effect to go from full effect to no effect."),
+            editorTarget.fadeOutTime);
+        
+    }
+}
+#endif
+#endregion
