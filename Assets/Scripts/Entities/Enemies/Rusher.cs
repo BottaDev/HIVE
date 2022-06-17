@@ -22,6 +22,7 @@ public class Rusher : AI
     protected override void Awake()
     {
         base.Awake();
+        IAManager.Instance.Units.Add(this);
         _animator = GetComponent<Animator>();
     }
 
@@ -29,9 +30,11 @@ public class Rusher : AI
     {
         base.Update();
         if (dying) return;
-        
-        if (_playerDetected)
-            ChasePlayer();
+
+        //if (_playerDetected)
+        //    ChasePlayer();
+
+        ChasePlayer();
     }
 
     private void ChasePlayer()

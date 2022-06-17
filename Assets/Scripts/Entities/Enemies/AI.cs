@@ -9,6 +9,7 @@ using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(NavMeshAgent), typeof(FOV))]
+[DefaultExecutionOrder(1)]
 public abstract class AI : Entity
 {
     [System.Serializable]
@@ -105,6 +106,10 @@ public abstract class AI : Entity
         }
     }
 
+    public void MoveTo(Vector3 position)
+    {
+        _agent.SetDestination(position);
+    }
     protected virtual void Update()
     {
         if (dying) return;
@@ -112,8 +117,10 @@ public abstract class AI : Entity
         {
             anim.SetBool(movingBool, _agent.remainingDistance > _agent.stoppingDistance && !_agent.isStopped);
         }
-                
-        CheckPlayerDistance();
+
+        //CheckPlayerDistance();
+
+        DetectPlayer();
 
         // Update the agent speed all the time...
         _agent.speed = CurrentSpeed;
@@ -143,6 +150,7 @@ public abstract class AI : Entity
         {
             ai._playerDetected = true;
         }
+
     }
 
     protected void MoveToPosition(Vector3 position)
