@@ -109,9 +109,19 @@ public class PlayerUpgrades : MonoBehaviour
                 new Upgrade()
                 {
                     name = "HP Buff",
-                    description = "+5 HP",
-                    longDescription = "+5 Max Hit points (Current hit points are also affected)",
+                    description = "+25 HP",
+                    longDescription = "+25 Max Hit points (Current hit points are also affected)",
                     action = HPFlatUpgrade,
+                    oneTimeOnly = false, 
+                    icon = AssetDatabase.i.GetUpgradeIcon(Icons.Defense)
+                },
+                
+                new Upgrade()
+                {
+                    name = "Energy Buff",
+                    description = "+50 Max Energy",
+                    longDescription = "+50 Max Energy points (Current energy points are also affected)",
+                    action = EnergyFlatUpgrade,
                     oneTimeOnly = false, 
                     icon = AssetDatabase.i.GetUpgradeIcon(Icons.Defense)
                 }
@@ -130,7 +140,59 @@ public class PlayerUpgrades : MonoBehaviour
                     longDescription = "Unlocks a grenade throw mechanic, the grenade has a great range and does 20 damage on hit. It has a 15 seconds cooldown and will explode on contact with any enemy or after 3 seconds of being thrown.",
                     action = ActivateGrenadeThrow, 
                     icon = AssetDatabase.i.GetUpgradeIcon(Icons.Attack)
-                }
+                },
+                
+                new Upgrade()
+                {
+                    name = "Machine Gun (left arm)",
+                    description = "Unlocks machine gun",
+                    longDescription = "Unlocks a new gun type, the machine gun. It will auto equip itself onto your left arm, overwriting whatever weapon you had there before.",
+                    action = MachineGunLeft, 
+                    icon = AssetDatabase.i.GetUpgradeIcon(Icons.Attack)
+                },
+                
+                new Upgrade()
+                {
+                    name = "Machine Gun (right arm)",
+                    description = "Unlocks machine gun",
+                    longDescription = "Unlocks a new gun type, the machine gun. It will auto equip itself onto your right arm, overwriting whatever weapon you had there before.",
+                    action = MachineGunRight, 
+                    icon = AssetDatabase.i.GetUpgradeIcon(Icons.Attack)
+                },
+                
+                new Upgrade()
+                {
+                    name = "Burst Gun (left arm)",
+                    description = "Unlocks burst gun",
+                    longDescription = "Unlocks a new gun type, the burst gun. It will auto equip itself onto your left arm, overwriting whatever weapon you had there before.",
+                    action = BurstGunLeft, 
+                    icon = AssetDatabase.i.GetUpgradeIcon(Icons.Attack)
+                },
+                new Upgrade()
+                {
+                    name = "Burst Gun (right arm)",
+                    description = "Unlocks burst gun",
+                    longDescription = "Unlocks a new gun type, the burst gun. It will auto equip itself onto your right arm, overwriting whatever weapon you had there before.",
+                    action = BurstGunRight, 
+                    icon = AssetDatabase.i.GetUpgradeIcon(Icons.Attack)
+                },
+                
+                new Upgrade()
+                {
+                    name = "ShotGun (left arm)",
+                    description = "Unlocks shotgun",
+                    longDescription = "Unlocks a new gun type, the shotgun. It will auto equip itself onto your left arm, overwriting whatever weapon you had there before.",
+                    action = ShotGunLeft, 
+                    icon = AssetDatabase.i.GetUpgradeIcon(Icons.Attack)
+                },
+                new Upgrade()
+                {
+                    name = "ShotGun (right arm)",
+                    description = "Unlocks shotgun",
+                    longDescription = "Unlocks a new gun type, the shotgun. It will auto equip itself onto your right arm, overwriting whatever weapon you had there before.",
+                    action = ShotGunRight, 
+                    icon = AssetDatabase.i.GetUpgradeIcon(Icons.Attack)
+                },
             },
 
             Mobility = new List<Upgrade>()
@@ -273,7 +335,7 @@ public class PlayerUpgrades : MonoBehaviour
 
     void HPFlatUpgrade(Player player)
     {
-        int buff = 5;
+        int buff = 25;
         player.MaxHP += buff;
     }
 
@@ -281,6 +343,12 @@ public class PlayerUpgrades : MonoBehaviour
     {
         float percentageUpgrade = 5;
         player.movement.SetMaxSpeed(player.movement.maxSpeed + (player.movement.maxSpeed * percentageUpgrade)/100);
+    }
+
+    void EnergyFlatUpgrade(Player player)
+    {
+        int buff = 50;
+        player.energy.AddToMaxEnergy(buff);
     }
 
     #endregion
@@ -294,6 +362,33 @@ public class PlayerUpgrades : MonoBehaviour
     void ActivateGrenadeThrow(Player player)
     {
         player.grenadeThrow.Unlock();
+    }
+
+    void MachineGunLeft(Player player)
+    {
+        player.shoot.SetGun(Shoot.Gun.Left, PlayerGunStorage.Guns.MachineGun);
+    }
+    void MachineGunRight(Player player)
+    {
+        player.shoot.SetGun(Shoot.Gun.Right, PlayerGunStorage.Guns.MachineGun);
+    }
+    
+    void BurstGunLeft(Player player)
+    {
+        player.shoot.SetGun(Shoot.Gun.Left, PlayerGunStorage.Guns.Burst);
+    }
+    void BurstGunRight(Player player)
+    {
+        player.shoot.SetGun(Shoot.Gun.Right, PlayerGunStorage.Guns.Burst);
+    }
+    
+    void ShotGunLeft(Player player)
+    {
+        player.shoot.SetGun(Shoot.Gun.Left, PlayerGunStorage.Guns.Shotgun);
+    }
+    void ShotGunRight(Player player)
+    {
+        player.shoot.SetGun(Shoot.Gun.Right, PlayerGunStorage.Guns.Shotgun);
     }
     #endregion
     
