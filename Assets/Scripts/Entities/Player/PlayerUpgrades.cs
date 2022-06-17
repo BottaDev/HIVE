@@ -124,7 +124,26 @@ public class PlayerUpgrades : MonoBehaviour
                     action = EnergyFlatUpgrade,
                     oneTimeOnly = false, 
                     icon = AssetDatabase.i.GetUpgradeIcon(Icons.Defense)
-                }
+                },
+                new Upgrade()
+                {
+                    name = "Energy Absorption Amount Buff",
+                    description = "+100% Energy per absorption tick",
+                    longDescription = "+100% Energy per absorption tick",
+                    action = EnergyAbsorbPerTickUpgrade,
+                    oneTimeOnly = false, 
+                    icon = AssetDatabase.i.GetUpgradeIcon(Icons.Defense)
+                },
+                
+                new Upgrade()
+                {
+                    name = "Energy Absorption Speed Buff",
+                    description = "+50% faster energy absorption",
+                    longDescription = "+50% faster energy absorption",
+                    action = EnergyAbsorbTickTimingUpgrade,
+                    oneTimeOnly = false, 
+                    icon = AssetDatabase.i.GetUpgradeIcon(Icons.Defense)
+                },
             },
         };
         Small.SetTypeOfUpgrades();
@@ -349,6 +368,18 @@ public class PlayerUpgrades : MonoBehaviour
     {
         int buff = 50;
         player.energy.AddToMaxEnergy(buff);
+    }
+
+    void EnergyAbsorbPerTickUpgrade(Player player)
+    {
+        int percentageUpgrade = 100;
+        player.energy.absorbXPerTick += player.energy.absorbXPerTick * (100 / percentageUpgrade);
+    }
+    
+    void EnergyAbsorbTickTimingUpgrade(Player player)
+    {
+        int percentageUpgrade = 50;
+        player.energy.absorbEveryXSeconds -= player.energy.absorbEveryXSeconds / (100 / percentageUpgrade);
     }
 
     #endregion
