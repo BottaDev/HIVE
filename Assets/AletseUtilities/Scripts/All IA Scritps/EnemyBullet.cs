@@ -1,5 +1,13 @@
 using UnityEngine;
 
+public enum BulletDestroyLayer
+{
+    ground = 6,
+    steppable = 11,
+    wall = 14,
+    ceiling = 15
+}
+
 [RequireComponent(typeof(Rigidbody))]
 public class EnemyBullet : PoolableObject
 {
@@ -37,6 +45,12 @@ public class EnemyBullet : PoolableObject
         if (other.TryGetComponent<IDamageable>(out damageable))
         {
             damageable.TakeDamage(Damage);
+        }
+        
+        if(other.gameObject.layer == (int)BulletDestroyLayer.ground || other.gameObject.layer == (int)BulletDestroyLayer.steppable 
+            || other.gameObject.layer == (int)BulletDestroyLayer.wall || other.gameObject.layer == (int)BulletDestroyLayer.ceiling)
+        {
+            Disable();
         }
 
         Disable();

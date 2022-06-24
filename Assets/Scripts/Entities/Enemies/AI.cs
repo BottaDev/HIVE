@@ -86,11 +86,19 @@ public abstract class AI : Entity
     }
     private void Start()
     {
+        EventManager.Instance.Subscribe("OnPlayerEnteredUpgradeRoom", PauseIA);
+        EventManager.Instance.Subscribe("OnPlayerLeftUpgradeRoom", ContinueIA);
+
         if(deathModel != null)
         {
             deathModel.SetActive(false);
         }
-        
+
+        if (!_playerDetected && !_agent.isStopped)
+        {
+            DetectPlayer();
+        }
+
         //Just get a random type for yourself
         switch (UnityEngine.Random.Range(0,3))
         {
@@ -118,24 +126,43 @@ public abstract class AI : Entity
             anim.SetBool(movingBool, _agent.remainingDistance > _agent.stoppingDistance && !_agent.isStopped);
         }
 
-        CheckPlayerDistance();
-
-        //StartCoroutine("ArtificialUpdate");
-        //DetectPlayer();
-
         // Update the agent speed all the time...
-        _agent.speed = CurrentSpeed;
+        //_agent.speed = CurrentSpeed;
         
     }
 
-    private void CheckPlayerDistance()
+    //private void CheckPlayerDistance()
+    //{
+    //    if (!_playerDetected)
+    //    {
+    //        float distance = Vector3.Distance(transform.position, _player.transform.position);
+    //        if (distance <= detectionRange)
+    //            StartCoroutine("ArtificialUpdate");   
+    //    }
+    //}
+
+    public void PauseIA(params object[] p)
     {
-        if (!_playerDetected)
-        {
-            float distance = Vector3.Distance(transform.position, _player.transform.position);
-            if (distance <= detectionRange)
-                StartCoroutine("ArtificialUpdate");   
-        }
+        StopIA();
+    }
+
+    public void ContinueIA(params object[] p)
+    {
+        ResumeIA();
+    }
+
+    public void StopIA()
+    {
+        _agent.isStopped = true;
+        _agent.speed = 0;
+        _playerDetected = false;
+    }
+
+    public void ResumeIA()
+    {
+        _agent.isStopped = false;
+        _agent.speed = CurrentSpeed;
+        _playerDetected = true;
     }
 
     private void DetectPlayer()
@@ -152,17 +179,6 @@ public abstract class AI : Entity
             ai._playerDetected = true;
         }
 
-    }
-    
-    IEnumerator ArtificialUpdate()
-    {
-        var wait = new WaitForSeconds(5);
-
-        while(true)
-        {
-            DetectPlayer();
-            yield return wait;
-        }
     }
 
     protected void MoveToPosition(Vector3 position)
