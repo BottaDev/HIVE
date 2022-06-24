@@ -152,7 +152,7 @@ public class Rusher : AI
        if (other.gameObject.layer == 8 || player != null)
        {
            player.TakeDamage(damage);
-           EventManager.Instance.Trigger("OnPlayerDamaged", damage);
+           EventManager.Instance.Trigger("Damaged", damage);
            _isJumping = false;
        }
    }
