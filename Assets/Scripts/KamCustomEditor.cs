@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEditor;
 public class KamCustomEditor : Editor
 {
+    private static Texture2D logo = null;
     public enum EditorTypes
     {
         GameDesigner, Programmer
@@ -44,6 +45,17 @@ public class KamCustomEditor : Editor
                 break;
         }
 
+        EditorGUILayout.Space();
+        EditorGUILayout.Space();
+        EditorGUILayout.Space();
+        EditorGUILayout.Space();
+        EditorGUILayout.Space();
+        EditorGUILayout.Space();
+        EditorGUILayout.Space();
+        EditorGUILayout.Space();
+        
+        LogoGUI();
+        
         if (EditorGUI.EndChangeCheck())
         {
             guiChanged = true;
@@ -56,6 +68,22 @@ public class KamCustomEditor : Editor
     public virtual void GameDesignerInspector()
     {
         EditorGUILayout.HelpBox("There is nothing here for you to modify. Which means this is a programmer only script.", MessageType.Info);
+    }
+
+    public void LogoGUI()
+    {
+        if (logo == null)
+        {
+            logo = UnityEditor.AssetDatabase.LoadAssetAtPath<Texture2D>(
+                "Assets/KamUtilities/Images/OceanyaLaboratoriesLogo.png");
+        }
+
+        if (logo != null)
+        {
+            EditorGUILayout.LabelField("Sponsored by", EditorStyles.centeredGreyMiniLabel,GUILayout.MaxHeight(10f));
+            GUILayout.Label(logo, new GUIStyle(GUI.skin.label){alignment = TextAnchor.UpperCenter}, GUILayout.MaxHeight(75f));
+            EditorGUILayout.LabelField("\"Here to bring you the best, because you're definitely not it.\"", new GUIStyle(GUI.skin.label){alignment = TextAnchor.UpperCenter});
+        }
     }
 }
 #endif
