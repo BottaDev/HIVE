@@ -174,8 +174,12 @@ public class PlayerGun : MonoBehaviour
         #region Effects
             CameraShaker.Instance.ShakeOnce(magnitude, roughness, fadeInTime, fadeOutTime);
                 
+        if(shootingParticle != null)
+        {
             GameObject particle = Instantiate(shootingParticle, firePoint.position, firePoint.rotation);
             Destroy(particle, 1f);
+        }
+            
                 
             if(useBulletSfx) AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(bulletSfx));
         #endregion

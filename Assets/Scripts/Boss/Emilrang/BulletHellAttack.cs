@@ -39,4 +39,27 @@ public class BulletHellAttack : MonoBehaviour
         }
     }
 
+    public void SpawnProjectile_KamVersion()
+    {
+        startPoint = attackPoint.transform.position;
+
+        float angleStep = 360f / numberOfProjectiles;
+        float angle = 0f;
+
+        for (int i = 0; i < numberOfProjectiles - 1; i++)
+        {
+            //Direction Calculation
+            GameObject obj = new GameObject();
+            obj.transform.position = startPoint;
+            obj.transform.Rotate(new Vector3(0, angle, 0));
+            obj.transform.position += obj.transform.forward;
+
+            GameObject tempObj = Instantiate(projectileBulletHell, startPoint, Quaternion.identity);
+            tempObj.GetComponent<Bullet>().transform.LookAt(obj.transform);
+
+            angle += angleStep;
+            Destroy(obj);
+        }
+    }
+
 }

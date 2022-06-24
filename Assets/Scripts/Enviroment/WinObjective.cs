@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class WinObjective : MonoBehaviour
 {
+    static int winAmount = 0;
     private void OnTriggerEnter(Collider other)
     {
         Player p = other.GetComponentInParent<Player>() ?? other.GetComponentInChildren<Player>();
@@ -12,7 +13,21 @@ public class WinObjective : MonoBehaviour
         if (p != null)
         {
             p.SavePlayer();
-            SceneManager.LoadScene("Win Screen");
+            
+            switch (winAmount)
+            {
+                case 0:
+                    winAmount++;
+                    SceneManager.LoadScene("EmilrangBoss");
+                    break;
+                case 1:
+                    winAmount++;
+                    SceneManager.LoadScene("Win Screen");
+                    break;
+
+                default:
+                    break;
+            }
         }
     }
 }
