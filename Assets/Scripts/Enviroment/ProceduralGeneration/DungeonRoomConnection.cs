@@ -15,13 +15,9 @@ public class DungeonRoomConnection : MonoBehaviour
         Horizontal, Vertical
     }
 
-    private void Start()
-    {
-        myRoom = GetComponentInParent<DungeonRoom>();
-    }
-
     public IEnumerator Connect()
     {
+        myRoom = GetComponentInParent<DungeonRoom>();
         List<DungeonRoom>  possibleRooms = type == ConnectionType.Horizontal 
             ? DungeonGenerator.i.horizontalRooms
             : DungeonGenerator.i.verticalRooms;
@@ -35,26 +31,39 @@ public class DungeonRoomConnection : MonoBehaviour
             {
                 List<DungeonRoom> unusedRooms = possibleRooms.Where(x=>!usedRooms.Contains(x)).ToList();
 
-                
-                if (unusedRooms.Count == 0)
+                if (myRoom.DistanceFromStartingPoint >= DungeonGenerator.i.size && !DungeonGenerator.i.generatedEnd)
                 {
-                    //You've tried every room, and none can be placed. Use a wall instead.
+                    //Place the end room
+
+                    if (type == ConnectionType.Vertical)
+                    {
+                        DungeonRoom helper = Instantiate(DungeonGenerator.i.verticalToHorizontalHelper, myRoom.transform);
+                    
+                        PlaceAtConnection(helper);
+
+                        DungeonGenerator.i.AddToDungeon(helper);
+                        helper.DistanceFromStartingPoint = myRoom.DistanceFromStartingPoint + 1;
+                        success = true;
+                    }
+                    else
+                    {
+                        DungeonRoom end = Instantiate(DungeonGenerator.i.endRoom, myRoom.transform);
+                    
+                        PlaceAtConnection(end);
+
+                        end.generated = true;
+                        success = true;
+                        DungeonGenerator.i.AddToDungeon(end);
+                        DungeonGenerator.i.generatedEnd = true;
+                    }
+                }
+                else if (unusedRooms.Count == 0 || myRoom.DistanceFromStartingPoint >= DungeonGenerator.i.size)
+                {
+                    //No room can be placed or you've reached the limit
+                    //Use a wall instead.
                     GameObject obj = Instantiate(DungeonGenerator.i.deadEnd, myRoom.transform);
                     
-                    #region Place the wall
-                    Transform originalParent = obj.transform.parent;
-
-                    //Set parent to its entrance connection
-                    obj.transform.parent = transform;
-
-                    //Set position to this connection, and rotate to match
-                    obj.transform.localPosition = Vector3.zero;
-                    obj.transform.forward = -transform.forward;
-            
-                    //Revert back your changes
-
-                    obj.transform.parent = originalParent;
-                    #endregion
+                    PlaceAtConnection(obj);
 
                     success = true;
                 }
@@ -65,23 +74,7 @@ public class DungeonRoomConnection : MonoBehaviour
                     
                     DungeonRoom room = Instantiate(randomRoom, DungeonGenerator.i.transform);
 
-                    #region Place the room
-                    Transform originalParent = room.transform.parent;
-                    Transform entranceOriginalParent = room.entrance.transform.parent;
-
-                    //Set room parent to its entrance connection
-                    room.entrance.transform.parent = transform;
-                    room.transform.parent = room.entrance.transform;
-
-                    //Set entrance's position to this connection, and rotate to match
-                    room.entrance.transform.localPosition = Vector3.zero;
-                    room.entrance.transform.forward = -transform.forward;
-            
-                    //Revert back your changes
-
-                    room.transform.parent = originalParent;
-                    room.entrance.transform.parent = entranceOriginalParent;
-                    #endregion
+                    PlaceAtConnection(room);
 
                     yield return new WaitForSeconds(DungeonGenerator.i.validationTime);
                 
@@ -95,6 +88,7 @@ public class DungeonRoomConnection : MonoBehaviour
                     else
                     {
                         DungeonGenerator.i.AddToDungeon(room);
+                        room.DistanceFromStartingPoint = myRoom.DistanceFromStartingPoint + 1;
                         connection = room;
                     }
                 }
@@ -102,5 +96,42 @@ public class DungeonRoomConnection : MonoBehaviour
                 
             } while (!success);
         }
+    }
+
+    private void PlaceAtConnection(DungeonRoom room)
+    {
+        Transform originalParent = room.transform.parent;
+        Transform entranceOriginalParent = room.entrance.transform.parent;
+
+        //Set room parent to its entrance connection
+        room.entrance.transform.parent = transform;
+        room.transform.parent = room.entrance.transform;
+
+        //Set entrance's position to this connection, and rotate to match
+        room.entrance.transform.localPosition = Vector3.zero;
+        room.entrance.transform.forward = -transform.forward;
+            
+        //Revert back your changes
+
+        room.transform.parent = originalParent;
+        room.entrance.transform.parent = entranceOriginalParent;
+    }
+    
+    private void PlaceAtConnection(GameObject obj)
+    {
+        #region Place the wall
+        Transform originalParent = obj.transform.parent;
+
+        //Set parent to its entrance connection
+        obj.transform.parent = transform;
+
+        //Set position to this connection, and rotate to match
+        obj.transform.localPosition = Vector3.zero;
+        obj.transform.forward = -transform.forward;
+            
+        //Revert back your changes
+
+        obj.transform.parent = originalParent;
+        #endregion
     }
 }

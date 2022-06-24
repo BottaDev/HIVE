@@ -11,6 +11,8 @@ public class DungeonRoom : MonoBehaviour
     public Utilities_TriggerColliderList collisionList;
     
     public bool generated = false;
+
+    public int DistanceFromStartingPoint;
     
     public IEnumerator Generate()
     {

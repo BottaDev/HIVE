@@ -139,7 +139,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &88264925
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -155,9 +155,13 @@ MonoBehaviour:
   boundingBoxMask:
     serializedVersion: 2
     m_Bits: 4194304
+  size: 6
   startRoom: {fileID: 4919341799602937354, guid: 71f23cf2c594ad540ba56ebecfb3f11d, type: 3}
+  endRoom: {fileID: 4919341799602937354, guid: 71f23cf2c594ad540ba56ebecfb3f11d, type: 3}
+  verticalToHorizontalHelper: {fileID: 1102438736102780904, guid: f5f1ad9a19d2ea247a3cf3f9838e6973, type: 3}
   startingPoint: {x: 0, y: 0, z: 0}
   deadEnd: {fileID: 4795612620917870792, guid: 40a01a741c98a0a46804c4b6577bdad2, type: 3}
+  generatedEnd: 0
   horizontalRooms:
   - {fileID: 5210235282138259609, guid: fff7361772e2c474381ff1186091ec87, type: 3}
   - {fileID: 9182626522211119426, guid: 53ff1ffa2d09af040a54ae0b2f5883bc, type: 3}
@@ -174,6 +178,68 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 88264924}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &338740692
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 338740694}
+  - component: {fileID: 338740693}
+  m_Layer: 0
+  m_Name: Dungeon Multiple Exits
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &338740693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 338740692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7497c72b6331c8d49a00e9cdba99cc3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boundingBoxMask:
+    serializedVersion: 2
+    m_Bits: 4194304
+  size: 6
+  startRoom: {fileID: 4919341799602937354, guid: 71f23cf2c594ad540ba56ebecfb3f11d, type: 3}
+  endRoom: {fileID: 4919341799602937354, guid: 71f23cf2c594ad540ba56ebecfb3f11d, type: 3}
+  verticalToHorizontalHelper: {fileID: 0}
+  startingPoint: {x: 0, y: 0, z: 0}
+  deadEnd: {fileID: 4795612620917870792, guid: 40a01a741c98a0a46804c4b6577bdad2, type: 3}
+  generatedEnd: 0
+  horizontalRooms:
+  - {fileID: 5210235282138259609, guid: 1e90d14e88299b84c821abdf0b8a9a96, type: 3}
+  - {fileID: 1102438736102780904, guid: cf9439035df563045a64494acacdd959, type: 3}
+  - {fileID: 9189370561891013321, guid: 840d05c5cdeb7264191ba01e7b1d5894, type: 3}
+  - {fileID: 9182626522211119426, guid: 115605dabc21f6c419a75747f0b7900b, type: 3}
+  verticalRooms:
+  - {fileID: 1102438736102780904, guid: 924c27b6de6c9314a8c8ae3ab36dc90a, type: 3}
+  - {fileID: 8983115747757526265, guid: 29db78ea9115ef949ba83806a335c187, type: 3}
+  validationTime: 0.01
+--- !u!4 &338740694
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 338740692}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -232,7 +298,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 100000
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -258,13 +324,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 968182367}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 991, z: 0}
+  m_LocalRotation: {x: 0.043083288, y: -0.9082829, z: 0.0966826, w: 0.40474513}
+  m_LocalPosition: {x: 1574, y: 577, z: 1454}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 12.152, y: -131.963, z: 0}
 --- !u!114 &968182371
 MonoBehaviour:
   m_ObjectHideFlags: 0

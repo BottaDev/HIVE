@@ -10,9 +10,13 @@ public class DungeonGenerator : MonoBehaviour
 {
     public static DungeonGenerator i;
     public LayerMask boundingBoxMask;
+    public int size;
     public DungeonRoom startRoom;
+    public DungeonRoom endRoom;
+    public DungeonRoom verticalToHorizontalHelper;
     public Vector3 startingPoint;
     public GameObject deadEnd;
+    public bool generatedEnd;
     public List<DungeonRoom> horizontalRooms;
     public List<DungeonRoom> verticalRooms;
     public float validationTime;
@@ -27,13 +31,23 @@ public class DungeonGenerator : MonoBehaviour
 
     public void Start()
     {
-        StartCoroutine(GenerateDungeon());
+        ReGenerateDungeon();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            ReGenerateDungeon();
+        }
     }
 
     private IEnumerator GenerateDungeon()
     {
-        AddToDungeon(Instantiate(startRoom, startingPoint, Quaternion.identity));
-
+        DungeonRoom startingRoom = Instantiate(startRoom, startingPoint, Quaternion.identity, transform);
+        AddToDungeon(startingRoom);
+        startingRoom.DistanceFromStartingPoint = 0;
+        
         while (ungeneratedRooms.Count > 0)
         {
             DungeonRoom room = ungeneratedRooms[0];
@@ -41,6 +55,7 @@ public class DungeonGenerator : MonoBehaviour
             yield return room.Generate();
             
             Debug.Log("Room generated.");
+            
             ungeneratedRooms = dungeon.Where(x => !x.generated).ToList();
         }
         
@@ -67,5 +82,18 @@ public class DungeonGenerator : MonoBehaviour
                 break;
         }
         return result;
+    }
+
+    private void ReGenerateDungeon()
+    {
+        StopAllCoroutines();
+        foreach (var room in dungeon)
+        {
+            Destroy(room.gameObject);
+        }
+        dungeon.Clear();
+        generatedEnd = false;
+        
+        StartCoroutine(GenerateDungeon());
     }
 }
