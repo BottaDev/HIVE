@@ -118,9 +118,10 @@ public abstract class AI : Entity
             anim.SetBool(movingBool, _agent.remainingDistance > _agent.stoppingDistance && !_agent.isStopped);
         }
 
-        //CheckPlayerDistance();
+        CheckPlayerDistance();
 
-        DetectPlayer();
+        //StartCoroutine("ArtificialUpdate");
+        //DetectPlayer();
 
         // Update the agent speed all the time...
         _agent.speed = CurrentSpeed;
@@ -133,7 +134,7 @@ public abstract class AI : Entity
         {
             float distance = Vector3.Distance(transform.position, _player.transform.position);
             if (distance <= detectionRange)
-                DetectPlayer();   
+                StartCoroutine("ArtificialUpdate");   
         }
     }
 
@@ -151,6 +152,17 @@ public abstract class AI : Entity
             ai._playerDetected = true;
         }
 
+    }
+    
+    IEnumerator ArtificialUpdate()
+    {
+        var wait = new WaitForSeconds(5);
+
+        while(true)
+        {
+            DetectPlayer();
+            yield return wait;
+        }
     }
 
     protected void MoveToPosition(Vector3 position)
