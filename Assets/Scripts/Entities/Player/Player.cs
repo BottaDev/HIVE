@@ -210,6 +210,7 @@ public class Player : Entity
         CurrentHealth += healAmount;
         
         view.Blink(1f, 10f, Color.green);
+        view.HealEffect();
         Popup.Create(model.transform.position, $"+{healAmount} HP",Color.green, new Vector2(0,3f)).ChangeSize(0.05f).SetParent(model.transform);
 
     }

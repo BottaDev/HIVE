@@ -14,7 +14,7 @@ public class Shooter : AI
 
     [Header("Shooter Animations")]
     public string attackTrigger;
-    
+
     [Header("Objects")]
     public GameObject bulletPrefab;
     public Transform spawnPos;
@@ -111,22 +111,28 @@ public class Shooter : AI
     {
         if (_currentAttackRate <= 0)
         {
-            AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.EnemyShot));
+            //Shoot
+            
             anim.SetTrigger(attackTrigger);
-            
-            GameObject bullet = Instantiate(bulletPrefab, spawnPos.position, Quaternion.identity);
-            bullet.transform.LookAt(_player.transform.position);
-            
             _currentAttackRate = attackRate;
             
         }
         else
         {
             _currentAttackRate -= Time.deltaTime;
+            
         }
         
         _agent.isStopped = true;
         RotateTowards(_player.transform.position);
+    }
+
+    public void Shoot()
+    {
+        GameObject bullet = Instantiate(bulletPrefab, spawnPos.position, Quaternion.identity);
+        bullet.transform.LookAt(_player.transform.position);
+        
+        AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.EnemyShot));
     }
     
     protected override void OnDrawGizmosSelected()

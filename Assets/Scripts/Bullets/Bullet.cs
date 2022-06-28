@@ -15,7 +15,7 @@ public sealed class Bullet : PoolableObject
 
     [Header("Effects")]
     public TrailRenderer trail;
-    public ParticleSystem impactParticles;
+    public GameObject impactParticles;
 
     bool firstFrame = true;
     private Vector3 translation;
@@ -80,11 +80,21 @@ public sealed class Bullet : PoolableObject
     {
         if(impactParticles != null)
         {
-            ParticleSystem effect = Instantiate(impactParticles);
-            effect.transform.position = point;
-            effect.transform.eulerAngles = transform.eulerAngles * -1;
-            effect.Play();
-            Destroy(effect.gameObject, effect.main.duration);
+            GameObject obj = Instantiate(impactParticles);
+
+            foreach (Transform child in obj.transform)
+            {
+                ParticleSystem effect = child.GetComponent<ParticleSystem>();
+
+                if (effect != null)
+                {
+                    effect.transform.position = point;
+                    effect.transform.eulerAngles = transform.eulerAngles * -1;
+                    effect.Play();
+                    Destroy(effect.gameObject, effect.main.duration);
+                }
+            }
+            
         }
     }
 

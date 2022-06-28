@@ -245,7 +245,8 @@ MonoBehaviour:
     m_Bits: 2676928
   firePoint: {fileID: 7518533697554243290}
   bullet: {fileID: 6169558286150484466, guid: 2a203843cb7e36b4fae67710d61d7b6f, type: 3}
-  shootingParticle: {fileID: 0}
+  shootingParticle: {fileID: 250075956032604822, guid: 50b3c77729e2e7c489d17ef687ce9503, type: 3}
+  setParentOnShootingParticle: 1
   sight: 0
   magnitude: 4
   roughness: 1
@@ -352,8 +353,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2676928
   firePoint: {fileID: 7518533697554243290}
-  bullet: {fileID: 6169558286150484466, guid: 2a203843cb7e36b4fae67710d61d7b6f, type: 3}
-  shootingParticle: {fileID: 0}
+  bullet: {fileID: 4286190772281533662, guid: 2d6af0ca5b317714a9dc628a65fa54f3, type: 3}
+  shootingParticle: {fileID: 250075956032604822, guid: 50b3c77729e2e7c489d17ef687ce9503, type: 3}
+  setParentOnShootingParticle: 1
   sight: 0
   magnitude: 5
   roughness: 1
@@ -426,6 +428,7 @@ Transform:
   - {fileID: 8530375990686177080}
   - {fileID: 3473960329904449257}
   - {fileID: 835001205}
+  - {fileID: 8553635787159941474}
   m_Father: {fileID: 2479494150942079736}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -886,6 +889,9 @@ MonoBehaviour:
   renderers:
   - {fileID: 3565698566350176896}
   - {fileID: 3565698567194342741}
+  floorMarker: {fileID: 8553635787159941474}
+  levelupParticles: {fileID: 3918781445444056131, guid: c0d075cf285e9504c8e1c007d12447e4, type: 3}
+  healParticles: {fileID: 844035174378455351, guid: 8450b158796dfbb44a2498a4aaf09610, type: 3}
 --- !u!1 &3473960329904449256
 GameObject:
   m_ObjectHideFlags: 0
@@ -7017,7 +7023,8 @@ MonoBehaviour:
     m_Bits: 2676928
   firePoint: {fileID: 7518533697554243290}
   bullet: {fileID: 6169558286150484466, guid: 2a203843cb7e36b4fae67710d61d7b6f, type: 3}
-  shootingParticle: {fileID: 0}
+  shootingParticle: {fileID: 250075956032604822, guid: 50b3c77729e2e7c489d17ef687ce9503, type: 3}
+  setParentOnShootingParticle: 1
   sight: 1
   magnitude: 10
   roughness: 5
@@ -7249,6 +7256,36 @@ MonoBehaviour:
   DefaultRotInfluence: {x: 0.5, y: 0.5, z: 0.5}
   RestPositionOffset: {x: 0, y: 0, z: 0}
   RestRotationOffset: {x: 0, y: 0, z: 0}
+--- !u!1 &5175902070843490241
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8553635787159941474}
+  m_Layer: 8
+  m_Name: FloorMarker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8553635787159941474
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5175902070843490241}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3473960329723331751}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6790753593196695550
 GameObject:
   m_ObjectHideFlags: 0
@@ -7306,7 +7343,8 @@ MonoBehaviour:
     m_Bits: 2676928
   firePoint: {fileID: 7518533697554243290}
   bullet: {fileID: 6169558286150484466, guid: 2a203843cb7e36b4fae67710d61d7b6f, type: 3}
-  shootingParticle: {fileID: 0}
+  shootingParticle: {fileID: 250075956032604822, guid: 50b3c77729e2e7c489d17ef687ce9503, type: 3}
+  setParentOnShootingParticle: 1
   sight: 0
   magnitude: 4
   roughness: 1

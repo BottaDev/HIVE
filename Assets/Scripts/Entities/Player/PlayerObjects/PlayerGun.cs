@@ -63,6 +63,7 @@ public class PlayerGun : MonoBehaviour
     //Graphics
     [Header("Effects")]
     public GameObject shootingParticle;
+    public bool setParentOnShootingParticle;
     public UIGunSight.SightTypes sight = UIGunSight.SightTypes.Default;
     
     [Header("Screenshake")]
@@ -177,7 +178,21 @@ public class PlayerGun : MonoBehaviour
         if(shootingParticle != null)
         {
             GameObject particle = Instantiate(shootingParticle, firePoint.position, firePoint.rotation);
-            Destroy(particle, 1f);
+            if (setParentOnShootingParticle)
+            {
+                particle.transform.parent = transform;
+            }
+            
+            foreach (Transform child in particle.transform)
+            {
+                ParticleSystem effect = child.GetComponent<ParticleSystem>();
+
+                if (effect != null)
+                {
+                    effect.Play();
+                    Destroy(effect.gameObject, effect.main.duration);
+                }
+            }
         }
             
                 

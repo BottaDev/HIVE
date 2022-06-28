@@ -131,7 +131,6 @@ public class UILevelUpgradePrompt : MonoBehaviour
         upgradesChosen.Add(upgrade);
         GameStats.upgrades.Add(upgrade);
         UIExtraInfoScreen.i.SetUpgrades(GameStats.upgrades);
-        _player.SavePlayer();
         upgrade.action.Invoke(_player);
         waitingForInput = false;
         ShowUI(false);
@@ -148,6 +147,8 @@ public class UILevelUpgradePrompt : MonoBehaviour
         }
         
         CheckEyeState();
+        
+        _player.SavePlayer();
     }
     public void SetUpgrades(List<PlayerUpgrades.Upgrade> upgrades, PlayerUpgrades.UpgradeType type)
     {

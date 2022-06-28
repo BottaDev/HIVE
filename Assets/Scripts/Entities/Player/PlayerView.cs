@@ -11,6 +11,9 @@ public class PlayerView : MonoBehaviour
 {
     public PlayerAnimator anim;
     public List<Renderer> renderers;
+    public Transform floorMarker;
+    public GameObject levelupParticles;
+    public GameObject healParticles;
     private void Awake()
     {
         EventManager.Instance?.Subscribe("OnEnergyUpdated", OnEnergyUpdated);
@@ -84,7 +87,7 @@ public class PlayerView : MonoBehaviour
     private Coroutine _blink = null;
     IEnumerator BlinkingCoroutine(float duration, Action callback = null)
     {
-        float transitionValue = 0.01f;
+        float transitionValue = 0.05f;
         while (BlinkingValue < 1)
         {
             BlinkingValue += transitionValue;
@@ -115,6 +118,48 @@ public class PlayerView : MonoBehaviour
         foreach (var renderer in renderers)
         {
             renderer.material.SetFloat(EmissionFill, newFill);
+        }
+    }
+
+    public void LevelUpEffect()
+    {
+        if(levelupParticles != null)
+        {
+            GameObject obj = Instantiate(levelupParticles, transform, true);
+            obj.transform.position = floorMarker.position;
+
+            foreach (Transform child in obj.transform)
+            {
+                ParticleSystem effect = child.GetComponent<ParticleSystem>();
+
+                if (effect != null)
+                {
+                    effect.Play();
+                    Destroy(effect.gameObject, effect.main.duration);
+                }
+            }
+            
+        }
+    }
+
+    public void HealEffect()
+    {
+        if(healParticles != null)
+        {
+            GameObject obj = Instantiate(healParticles, transform, true);
+            obj.transform.position = floorMarker.position;
+
+            foreach (Transform child in obj.transform)
+            {
+                ParticleSystem effect = child.GetComponent<ParticleSystem>();
+
+                if (effect != null)
+                {
+                    effect.Play();
+                    Destroy(effect.gameObject, effect.main.duration);
+                }
+            }
+            
         }
     }
 }
