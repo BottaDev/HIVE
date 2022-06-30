@@ -170,6 +170,7 @@ public abstract class AI : Entity
         _playerDetected = true;
 
         // Warn other enemies
+        //IA2-P1
         List<AI> nearbyEnemies = FindObjectsOfType<AI>()
             .Where(x => (transform.position - x.transform.position).magnitude <= detectionRange)
             .ToList();

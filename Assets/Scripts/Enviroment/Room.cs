@@ -124,6 +124,7 @@ public class Room : MonoBehaviour
             //All of these have more than one connection
             case RoomType.X:
             case RoomType.T:
+                //IA2-P1
                 Room[] trueConnections = room.AdjustConnectionsBasedOnRotation().Zip(room.GetNeighbors(), (x, y) => Tuple.Create(x, y))
                     .Where(x=> x.Item1)
                     .Select(x => x.Item2)

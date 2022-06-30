@@ -53,6 +53,8 @@ public class DungeonRoom : MonoBehaviour
     {
         if (generated)
         {
+            //IA2-P1
+            //Esto reemplaza a "Concat", porque literalmente append es concat para un elemento solo.
             List<DungeonRoomConnection> connections = entrance != null ? exits.Append(entrance).ToList() : exits.ToList();
             
             foreach (var exit in connections)

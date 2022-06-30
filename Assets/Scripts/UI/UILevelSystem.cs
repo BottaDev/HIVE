@@ -94,6 +94,7 @@ public class UILevelSystem : MonoBehaviour
 
                         if(level.DelayList.Count > 0)
                         {
+                            //IA2-P1
                             List<int> list = level.DelayList.Where((x => x.Item1 == exp.type)).Select((x => x.Item2)).ToList();
                             int total = 0;
 

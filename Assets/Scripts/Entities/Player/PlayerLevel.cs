@@ -88,6 +88,7 @@ public class PlayerLevel : MonoBehaviour
                         {
                             if (cur.type == type)
                             {
+                                //IA2-P1
                                 int differenceBetweenLevels =
                                     system.GetDifferenceBetweenLevels(levelUp - reset.resetEvery, levelUp);
                                 differenceBetweenLevels =

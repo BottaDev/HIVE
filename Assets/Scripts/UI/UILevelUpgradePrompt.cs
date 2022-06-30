@@ -206,6 +206,7 @@ public class UILevelUpgradePrompt : MonoBehaviour
             ui.SetIcon(icon);
         }
         
+        //IA2-P1
         UIUpgradeRoom_UpgradeList.i?.SetUpgrades(current.upgrades.Select(x=> x.Item1).ToList());
     }
 

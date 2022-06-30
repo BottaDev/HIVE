@@ -55,6 +55,7 @@ public class PlayerUpgrades : MonoBehaviour
         public string name;
         public string description;
         public string longDescription;
+        public int rank;
         public Action<Player> action = delegate { };
         public bool oneTimeOnly = true;
         public PlayerLevel.ExpType type;
@@ -85,6 +86,7 @@ public class PlayerUpgrades : MonoBehaviour
                     name = "DMG Buff",
                     description = "+20% DMG",
                     longDescription = "+20% Damage based on current damage stat.",
+                    rank = 2,
                     action = DamagePercentBuff,
                     oneTimeOnly = false, 
                     icon = AssetDatabase.i.GetUpgradeIcon(Icons.Attack)
@@ -98,6 +100,7 @@ public class PlayerUpgrades : MonoBehaviour
                     name = "Speed Buff",
                     description = "+5% Mobility",
                     longDescription = "+5% Max Speed based on current max speed stat.",
+                    rank = 1,
                     action = MobilityPercentBuff,
                     oneTimeOnly = false, 
                     icon = AssetDatabase.i.GetUpgradeIcon(Icons.Mobility)
@@ -111,6 +114,7 @@ public class PlayerUpgrades : MonoBehaviour
                     name = "HP Buff",
                     description = "+25 HP",
                     longDescription = "+25 Max Hit points (Current hit points are also affected)",
+                    rank = 2,
                     action = HPFlatUpgrade,
                     oneTimeOnly = false, 
                     icon = AssetDatabase.i.GetUpgradeIcon(Icons.Defense)
@@ -121,6 +125,7 @@ public class PlayerUpgrades : MonoBehaviour
                     name = "Energy Buff",
                     description = "+50 Max Energy",
                     longDescription = "+50 Max Energy points (Current energy points are also affected)",
+                    rank = 2,
                     action = EnergyFlatUpgrade,
                     oneTimeOnly = false, 
                     icon = AssetDatabase.i.GetUpgradeIcon(Icons.Defense)
@@ -130,6 +135,7 @@ public class PlayerUpgrades : MonoBehaviour
                     name = "Energy Absorption Amount Buff",
                     description = "+100% Energy per absorption tick",
                     longDescription = "+100% Energy per absorption tick",
+                    rank = 1,
                     action = EnergyAbsorbPerTickUpgrade,
                     oneTimeOnly = false, 
                     icon = AssetDatabase.i.GetUpgradeIcon(Icons.Defense)
@@ -140,6 +146,7 @@ public class PlayerUpgrades : MonoBehaviour
                     name = "Energy Absorption Speed Buff",
                     description = "+50% faster energy absorption",
                     longDescription = "+50% faster energy absorption",
+                    rank = 1,
                     action = EnergyAbsorbTickTimingUpgrade,
                     oneTimeOnly = false, 
                     icon = AssetDatabase.i.GetUpgradeIcon(Icons.Defense)
@@ -157,6 +164,7 @@ public class PlayerUpgrades : MonoBehaviour
                     name = "Grenade Throw",
                     description = "Unlocks Grenade Throw",
                     longDescription = "Unlocks a grenade throw mechanic, the grenade has a great range and does 20 damage on hit. It has a 15 seconds cooldown and will explode on contact with any enemy or after 3 seconds of being thrown.",
+                    rank = 3,
                     action = ActivateGrenadeThrow, 
                     icon = AssetDatabase.i.GetUpgradeIcon(Icons.Attack)
                 },
@@ -166,6 +174,7 @@ public class PlayerUpgrades : MonoBehaviour
                     name = "Machine Gun (left arm)",
                     description = "Unlocks machine gun",
                     longDescription = "Unlocks a new gun type, the machine gun. It will auto equip itself onto your left arm, overwriting whatever weapon you had there before.",
+                    rank = 4,
                     action = MachineGunLeft, 
                     icon = AssetDatabase.i.GetUpgradeIcon(Icons.Attack)
                 },
@@ -175,6 +184,7 @@ public class PlayerUpgrades : MonoBehaviour
                     name = "Machine Gun (right arm)",
                     description = "Unlocks machine gun",
                     longDescription = "Unlocks a new gun type, the machine gun. It will auto equip itself onto your right arm, overwriting whatever weapon you had there before.",
+                    rank = 4,
                     action = MachineGunRight, 
                     icon = AssetDatabase.i.GetUpgradeIcon(Icons.Attack)
                 },
@@ -184,6 +194,7 @@ public class PlayerUpgrades : MonoBehaviour
                     name = "Burst Gun (left arm)",
                     description = "Unlocks burst gun",
                     longDescription = "Unlocks a new gun type, the burst gun. It will auto equip itself onto your left arm, overwriting whatever weapon you had there before.",
+                    rank = 3,
                     action = BurstGunLeft, 
                     icon = AssetDatabase.i.GetUpgradeIcon(Icons.Attack)
                 },
@@ -192,6 +203,7 @@ public class PlayerUpgrades : MonoBehaviour
                     name = "Burst Gun (right arm)",
                     description = "Unlocks burst gun",
                     longDescription = "Unlocks a new gun type, the burst gun. It will auto equip itself onto your right arm, overwriting whatever weapon you had there before.",
+                    rank = 3,
                     action = BurstGunRight, 
                     icon = AssetDatabase.i.GetUpgradeIcon(Icons.Attack)
                 },
@@ -201,6 +213,7 @@ public class PlayerUpgrades : MonoBehaviour
                     name = "ShotGun (left arm)",
                     description = "Unlocks shotgun",
                     longDescription = "Unlocks a new gun type, the shotgun. It will auto equip itself onto your left arm, overwriting whatever weapon you had there before.",
+                    rank = 4,
                     action = ShotGunLeft, 
                     icon = AssetDatabase.i.GetUpgradeIcon(Icons.Attack)
                 },
@@ -209,6 +222,7 @@ public class PlayerUpgrades : MonoBehaviour
                     name = "ShotGun (right arm)",
                     description = "Unlocks shotgun",
                     longDescription = "Unlocks a new gun type, the shotgun. It will auto equip itself onto your right arm, overwriting whatever weapon you had there before.",
+                    rank = 4,
                     action = ShotGunRight, 
                     icon = AssetDatabase.i.GetUpgradeIcon(Icons.Attack)
                 },
@@ -221,6 +235,7 @@ public class PlayerUpgrades : MonoBehaviour
                     name = "Double Jump",
                     description = "Unlocks Double Jump",
                     longDescription = "You read this like there was any reason to expand on it. It is a double jump. Go double jump.",
+                    rank = 3,
                     action = ActivateDoubleJump, 
                     icon = AssetDatabase.i.GetUpgradeIcon(Icons.Mobility)
                 }

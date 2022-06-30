@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -56,16 +57,48 @@ public class UIExtraInfoScreen : MonoBehaviour
     public void SetUpgrades(List<PlayerUpgrades.Upgrade> upgrades)
     {
         upgradesText.text = "";
-        bool first = true;
-        foreach (var upgrade in upgrades)
-        {
-            if (!first)
-            {
-                upgradesText.text += "\n";
-            }
 
-            upgradesText.text += $"-{upgrade.name}".Colorize(PlayerUpgrades.GetColorOfType(upgrade.type));
-            first = false;
+        if (upgrades.Count == 0) return;
+        
+        //IA2-P1
+        List<PlayerUpgrades.Upgrade> orderedUpgrades = upgrades.OrderByDescending(x => x.rank).ToList();
+        List<PlayerUpgrades.Upgrade> bigUpgrades = orderedUpgrades.TakeWhile(x => x.rank >= 3).ToList();
+        List<PlayerUpgrades.Upgrade> smallUpgrades = orderedUpgrades.SkipWhile(x => x.rank >= 3).ToList();
+
+        bool first;
+        if (bigUpgrades.Count != 0)
+        {
+            first = true;
+            upgradesText.text += "\n";
+            upgradesText.text += "BIG UPGRADES: \n";
+            foreach (var upgrade in bigUpgrades)
+            {
+                if (!first)
+                {
+                    upgradesText.text += "\n";
+                }
+
+                upgradesText.text += $"-{upgrade.name}".Colorize(PlayerUpgrades.GetColorOfType(upgrade.type));
+                first = false;
+            }
+        }
+
+        if (smallUpgrades.Count != 0)
+        {
+            first = true;
+            upgradesText.text += "\n";
+            upgradesText.text += "\n";
+            upgradesText.text += "SMALL UPGRADES: \n";
+            foreach (var upgrade in smallUpgrades)
+            {
+                if (!first)
+                {
+                    upgradesText.text += "\n";
+                }
+
+                upgradesText.text += $"-{upgrade.name}".Colorize(PlayerUpgrades.GetColorOfType(upgrade.type));
+                first = false;
+            }
         }
     }
 
