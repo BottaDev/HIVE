@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.PlayerLoop;
 
 public class DungeonGenerator : MonoBehaviour
@@ -11,19 +12,27 @@ public class DungeonGenerator : MonoBehaviour
     public static DungeonGenerator i;
     public LayerMask boundingBoxMask;
     public int size;
+    
     public DungeonRoom startRoom;
     public DungeonRoom endRoom;
     public DungeonRoom verticalToHorizontalHelper;
+    public bool useVerticalToHorizontalHelper = true;
     public Vector3 startingPoint;
     public GameObject deadEnd;
     public bool generatedEnd;
+    public bool shouldGenerateEnd;
     public List<DungeonRoom> horizontalRooms;
     public List<DungeonRoom> verticalRooms;
     public float validationTime;
-    public Action generation = delegate {  };
 
     private List<DungeonRoom> dungeon = new List<DungeonRoom>();
     private List<DungeonRoom> ungeneratedRooms = new List<DungeonRoom>();
+    
+    
+    //InfiniteRoomStuff
+    public int roomAmountBeforeAndAfterPlayer;
+
+    public UnityEvent onFinishedGeneration;
     private void Awake()
     {
         i = this;
@@ -36,10 +45,14 @@ public class DungeonGenerator : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKey(KeyCode.LeftAlt))
         {
-            ReGenerateDungeon();
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                ReGenerateDungeon();
+            }
         }
+        
     }
 
     private IEnumerator GenerateDungeon()
@@ -65,6 +78,12 @@ public class DungeonGenerator : MonoBehaviour
     public void AddToDungeon(DungeonRoom room)
     {
         dungeon.Add(room);
+        ungeneratedRooms = dungeon.Where(x => !x.generated).ToList();
+    }
+    public void RemoveFromDungeon(DungeonRoom room)
+    {
+        Destroy(room.gameObject);
+        dungeon.Remove(room);
         ungeneratedRooms = dungeon.Where(x => !x.generated).ToList();
     }
 
@@ -95,5 +114,10 @@ public class DungeonGenerator : MonoBehaviour
         generatedEnd = false;
         
         StartCoroutine(GenerateDungeon());
+    }
+
+    public void StopInfiniteGeneration()
+    {
+        shouldGenerateEnd = true;
     }
 }

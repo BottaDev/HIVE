@@ -31,11 +31,12 @@ public class DungeonRoomConnection : MonoBehaviour
             {
                 List<DungeonRoom> unusedRooms = possibleRooms.Where(x=>!usedRooms.Contains(x)).ToList();
 
-                if (myRoom.DistanceFromStartingPoint >= DungeonGenerator.i.size && !DungeonGenerator.i.generatedEnd)
+                bool cutoffCondition = DungeonGenerator.i.size != -1 ? myRoom.DistanceFromStartingPoint >= DungeonGenerator.i.size : DungeonGenerator.i.shouldGenerateEnd;
+                if (cutoffCondition && !DungeonGenerator.i.generatedEnd)
                 {
                     //Place the end room
 
-                    if (type == ConnectionType.Vertical)
+                    if (type == ConnectionType.Vertical && DungeonGenerator.i.useVerticalToHorizontalHelper)
                     {
                         DungeonRoom helper = Instantiate(DungeonGenerator.i.verticalToHorizontalHelper, myRoom.transform);
                     
@@ -57,7 +58,7 @@ public class DungeonRoomConnection : MonoBehaviour
                         DungeonGenerator.i.generatedEnd = true;
                     }
                 }
-                else if (unusedRooms.Count == 0 || myRoom.DistanceFromStartingPoint >= DungeonGenerator.i.size)
+                else if (unusedRooms.Count == 0 || cutoffCondition)
                 {
                     //No room can be placed or you've reached the limit
                     //Use a wall instead.
@@ -87,8 +88,14 @@ public class DungeonRoomConnection : MonoBehaviour
                     }
                     else
                     {
+                        if (connection != null)
+                        {
+                            DungeonGenerator.i.RemoveFromDungeon(connection);
+                        }
+                        
                         DungeonGenerator.i.AddToDungeon(room);
                         room.DistanceFromStartingPoint = myRoom.DistanceFromStartingPoint + 1;
+                        room.DistanceFromPlayer = room.DistanceFromStartingPoint;
                         connection = room;
                     }
                 }
@@ -115,6 +122,8 @@ public class DungeonRoomConnection : MonoBehaviour
 
         room.transform.parent = originalParent;
         room.entrance.transform.parent = entranceOriginalParent;
+
+        room.entrance.connection = myRoom;
     }
     
     private void PlaceAtConnection(GameObject obj)

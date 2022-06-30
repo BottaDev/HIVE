@@ -2361,6 +2361,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transform: {fileID: 8455296283138555062}
+  invert: 0
   rotationOffset: {x: 0, y: 0, z: 0}
   cameraToUse: {fileID: 0}
   useMainCamera: 1
@@ -7331,6 +7332,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transform: {fileID: 5938369784410784350}
+  invert: 0
   rotationOffset: {x: 0, y: 0, z: 0}
   cameraToUse: {fileID: 0}
   useMainCamera: 1
@@ -9030,6 +9032,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transform: {fileID: 467279297758089666}
+  invert: 0
   rotationOffset: {x: 0, y: 0, z: 0}
   cameraToUse: {fileID: 0}
   useMainCamera: 1
@@ -9551,6 +9554,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transform: {fileID: 5815703451395877062}
+  invert: 0
   rotationOffset: {x: 0, y: 0, z: 0}
   cameraToUse: {fileID: 0}
   useMainCamera: 1
@@ -10615,6 +10619,7 @@ MonoBehaviour:
   connections: 01000000
   type: 4
   effect: {fileID: 3098813358223209526}
+  deleteObjectsPostFade: []
 --- !u!114 &3098813358223209526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26380,6 +26385,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transform: {fileID: 6780493702177938451}
+  invert: 0
   rotationOffset: {x: 0, y: 0, z: 0}
   cameraToUse: {fileID: 0}
   useMainCamera: 1
@@ -29018,6 +29024,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transform: {fileID: 9050791200623483727}
+  invert: 0
   rotationOffset: {x: 0, y: 0, z: 0}
   cameraToUse: {fileID: 0}
   useMainCamera: 1
@@ -31880,6 +31887,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3be2a4dfd96df4f48a276105b654dcbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mask:
+    serializedVersion: 2
+    m_Bits: 256
   OnOnTriggerEnter:
     m_PersistentCalls:
       m_Calls:
@@ -38994,6 +39004,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3be2a4dfd96df4f48a276105b654dcbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mask:
+    serializedVersion: 2
+    m_Bits: 256
   OnOnTriggerEnter:
     m_PersistentCalls:
       m_Calls:
@@ -42664,6 +42677,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transform: {fileID: 8270906642934108790}
+  invert: 0
   rotationOffset: {x: 0, y: 0, z: 0}
   cameraToUse: {fileID: 0}
   useMainCamera: 1
