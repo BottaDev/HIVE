@@ -367,12 +367,12 @@ public class PlayerMovement : MonoBehaviour
 
     public void Pause(params object[] obj)
     {
-        rb.isKinematic = true;
+        
     }
     
     public void Unpause(params object[] obj)
     {
-        rb.isKinematic = false;
+        
     }
 }
 

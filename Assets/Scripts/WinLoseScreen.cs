@@ -11,8 +11,12 @@ public class WinLoseScreen : MonoBehaviour
         Cursor.visible = true;
     }
 
+    public void Win()
+    {
+        SceneLoaderManager.instance.LoadScene(SceneLoaderManager.Scenes.MainMenu);
+    }
     public void Restart()
     {
-        SceneManager.LoadScene(0);
+        SceneLoaderManager.instance.LoadLastScene();
     }
 }

@@ -19,7 +19,8 @@ public enum SFXs
     PlayerDash,
     PlayerHook,
     PlayerJump,
-    GrenadeThrow
+    GrenadeThrow,
+    LazerHit
 }
 public enum Icons
 {

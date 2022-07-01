@@ -55,6 +55,7 @@ public class SceneLoaderManager : MonoBehaviour
     }
     #endregion
 
+    public static Scenes lastScene;
     public static Scenes currentScene;
 
     public void Awake()
@@ -63,7 +64,7 @@ public class SceneLoaderManager : MonoBehaviour
     }
     public void LoadScene(Scenes scene)
     {
-        int newBuildIndex = (int)scene;
+        lastScene = currentScene;
         currentScene = scene;
         StartCoroutine(LoadSceneAsync(scene, LoadSceneMode.Single));
     }
@@ -73,11 +74,20 @@ public class SceneLoaderManager : MonoBehaviour
         LoadScene(Scenes.Level1);
     }
     
+    public void LoadWin()
+    {
+        LoadScene(Scenes.WinScreen);
+    }
+    
     public void LoadMainMenu()
     {
         LoadScene(Scenes.MainMenu);
     }
-    
+
+    public void LoadLastScene()
+    {
+        LoadScene(lastScene);
+    }
     public void ReloadScene()
     {
         StartCoroutine(LoadSceneAsync(currentScene, LoadSceneMode.Single));

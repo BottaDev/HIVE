@@ -18,11 +18,6 @@ public sealed class Bullet : PoolableObject
     public GameObject impactParticles;
 
     bool firstFrame = true;
-    private Vector3 translation;
-    private void Awake()
-    {
-        translation = Vector3.forward * Time.deltaTime * speed;
-    }
 
     private void OnEnable()
     {
@@ -34,6 +29,7 @@ public sealed class Bullet : PoolableObject
 
     private void Update()
     {
+        /*
         if (firstFrame)
         {
             firstFrame = false;
@@ -44,10 +40,10 @@ public sealed class Bullet : PoolableObject
             transform.Translate(-translation);
             _prevPos = transform.position;
             transform.Translate(translation);
-        }
+        }*/
 
-        Vector3 dir = (transform.position - _prevPos);
-        RaycastHitGameobject(dir);
+        //Vector3 dir = (transform.position - _prevPos);
+        //RaycastHitGameobject(dir);
     }
 
     private void FixedUpdate()
@@ -58,21 +54,21 @@ public sealed class Bullet : PoolableObject
     public void MoveToPosition()
     {
         _prevPos = transform.position;
-        transform.Translate(translation);
+        transform.position += transform.forward * Time.deltaTime * speed;
     }
     
     private void RaycastHitGameobject(Vector3 dir)
     {
         if (Physics.Raycast(transform.position, dir, out RaycastHit hit, dir.magnitude, mask))
         {
-            Hit(hit);
+            //Hit(hit);
         }
     }
 
-    private void Hit(RaycastHit hit)
+    private void Hit(Collider hit)
     {
-        ImpactEffect(hit.point);
-        Collision(hit.collider.gameObject, hit.point);
+        ImpactEffect(transform.position);
+        Collision(hit.gameObject, transform.position);
         Disable();
     }
     
@@ -131,5 +127,13 @@ public sealed class Bullet : PoolableObject
         Vector3 dir = (transform.position - _prevPos);
         Gizmos.color = Color.green;
         Gizmos.DrawLine(transform.position, transform.position + dir);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (mask.CheckLayer(other.gameObject.layer))
+        {
+            Hit(other);
+        }
     }
 }

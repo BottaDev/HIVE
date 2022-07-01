@@ -82,9 +82,17 @@ public class DungeonGenerator : MonoBehaviour
     }
     public void RemoveFromDungeon(DungeonRoom room)
     {
-        Destroy(room.gameObject);
-        dungeon.Remove(room);
-        ungeneratedRooms = dungeon.Where(x => !x.generated).ToList();
+        try
+        {
+            Destroy(room.gameObject);
+            dungeon.Remove(room);
+            ungeneratedRooms = dungeon.Where(x => !x.generated).ToList();
+        }
+        catch
+        {
+            Debug.LogWarning("The room you were trying to access was already destroyed.");
+        }
+        
     }
 
     public List<DungeonRoom> GetRoomsOfType(DungeonRoomConnection.ConnectionType type)

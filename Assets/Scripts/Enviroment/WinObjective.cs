@@ -18,11 +18,11 @@ public class WinObjective : MonoBehaviour
             {
                 case 0:
                     winAmount++;
-                    SceneManager.LoadScene("EmilrangBoss");
+                    SceneLoaderManager.instance.LoadScene(SceneLoaderManager.Scenes.EmilrangBoss);
                     break;
                 case 1:
                     winAmount++;
-                    SceneManager.LoadScene("Win Screen");
+                    SceneLoaderManager.instance.LoadScene(SceneLoaderManager.Scenes.WinScreen);
                     break;
 
                 default:

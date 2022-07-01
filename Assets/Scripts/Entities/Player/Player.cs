@@ -220,7 +220,7 @@ public class Player : Entity
         AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.PlayerDeath));
         
         gameObject.SetActive(false);
-        SceneManager.LoadScene(2);
+        SceneLoaderManager.instance.LoadScene(SceneLoaderManager.Scenes.LoseScreen);
     }
 
 
