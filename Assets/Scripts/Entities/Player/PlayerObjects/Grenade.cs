@@ -72,10 +72,10 @@ public class Grenade : MonoBehaviour
 
     void Explode()
     {
-        Debug.Log("Art is an Explosion!");
         exploded = true;
         
-        Collider[] hits = Physics.OverlapSphere(transform.position, explosionRadius, hitMask);
+        List<GridEntity> hits = SpatialGridManager.i.Query(transform.position, explosionRadius);
+        //Collider[] hits = Physics.OverlapSphere(transform.position, explosionRadius, hitMask);
 
         foreach (var hit in hits)
         {
@@ -105,7 +105,8 @@ public class Grenade : MonoBehaviour
         CameraShaker.Instance.ShakeOnce(magnitude, roughness, fadeInTime, fadeOutTime);
         if (addForceToRigidbodies)
         {
-            Collider[] hits2 = Physics.OverlapSphere(transform.position, explosionRadius, hitMask);
+            List<GridEntity> hits2 = SpatialGridManager.i.Query(transform.position, explosionRadius);
+            //Collider[] hits2 = Physics.OverlapSphere(transform.position, explosionRadius, hitMask);
             foreach (var hit in hits2)
             {
                 Rigidbody rb = hit.GetComponentInParent<Rigidbody>() ?? hit.GetComponentInChildren<Rigidbody>();

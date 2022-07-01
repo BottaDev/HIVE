@@ -34,6 +34,7 @@ public class PlayerDirectHookshot : UnlockableMechanic
     [FormerlySerializedAs("grappleable")]
     public LayerMask directGrappleable;
     public LayerMask indirectGrappleable;
+    public LayerMask railMask;
     public float maxHookDistance = 50f;
     public float hookSpeed = 5f;
     public float pullSpeed = 0.5f;
@@ -166,7 +167,7 @@ public class PlayerDirectHookshot : UnlockableMechanic
         
         AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.PlayerHook));
         
-        _hook.Initialize(shootTransform, this, player.shoot.defaultAim.Aim(), directGrappleable, indirectGrappleable, hookSpeed, delegate
+        _hook.Initialize(shootTransform, this, player.shoot.defaultAim.Aim(), directGrappleable, indirectGrappleable, railMask, hookSpeed, delegate
         {
             //Player settings stuff
             player.movement.useLook = false;

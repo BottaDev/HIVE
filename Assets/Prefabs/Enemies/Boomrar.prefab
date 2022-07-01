@@ -1012,6 +1012,7 @@ GameObject:
   - component: {fileID: 226318656586172159}
   - component: {fileID: 7478874491227580060}
   - component: {fileID: 2693721327358574399}
+  - component: {fileID: 4869127588844320905}
   m_Layer: 7
   m_Name: Boomrar
   m_TagString: Untagged
@@ -1165,6 +1166,20 @@ CapsuleCollider:
   m_Height: 2.7473505
   m_Direction: 1
   m_Center: {x: -0.0066919327, y: 0.39373457, z: 0.0108706355}
+--- !u!114 &4869127588844320905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6576070079687112172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac49b2b6d50c7a749bea4d8294713dac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  velocity: {x: 0, y: 0, z: 0}
+  onGrid: 0
 --- !u!1 &6634222961890955618
 GameObject:
   m_ObjectHideFlags: 0

@@ -42,21 +42,21 @@ public class CameraController : MonoBehaviour
         _zoomDistance = zoomDefault;
         _camDist.z = _zoomDistance;
         CameraShaker.Instance.StopAllCoroutines();
-
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void LateUpdate()
     {
+
         cameraCenter.transform.position = new Vector3(
             character.transform.position.x, 
             character.transform.position.y + yOffset, 
             character.transform.position.z);
-        
+
+        sensitivity = SettingsManager.mouseSensitivity;
+        float tempSensitivity = UIPauseMenu.paused ? 0 : SettingsManager.mouseSensitivity;
         Quaternion rot = Quaternion.Euler(
-            cameraCenter.transform.rotation.eulerAngles.x - Input.GetAxis("Mouse Y") * sensitivity / 2,
-            cameraCenter.transform.rotation.eulerAngles.y + Input.GetAxis("Mouse X") * sensitivity,
+            cameraCenter.transform.rotation.eulerAngles.x - Input.GetAxis("Mouse Y") * tempSensitivity / 2,
+            cameraCenter.transform.rotation.eulerAngles.y + Input.GetAxis("Mouse X") * tempSensitivity,
             cameraCenter.transform.rotation.eulerAngles.z);
 
         cameraCenter.transform.rotation = rot;

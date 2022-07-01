@@ -702,7 +702,7 @@ MonoBehaviour:
   stepMask:
     serializedVersion: 2
     m_Bits: 2048
-  stepCheckDistance: 0.4
+  stepCheckDistance: 0.6
   stepSmoothing: 6
   horizontalStepLower: {fileID: 8531726056114139706}
   horizontalStepUpper: {fileID: 7463580388882526727}
@@ -816,10 +816,13 @@ MonoBehaviour:
   cooldownErrorTimeOnScreen: 0.5
   directGrappleable:
     serializedVersion: 2
-    m_Bits: 1108033
+    m_Bits: 1099841
   indirectGrappleable:
     serializedVersion: 2
     m_Bits: 2097152
+  railMask:
+    serializedVersion: 2
+    m_Bits: 16777216
   maxHookDistance: 60
   hookSpeed: 300
   pullSpeed: 5
@@ -848,7 +851,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unlockEvent: OnPlayerGrenadeUnlock
-  unlockedAtTheStart: 0
+  unlockedAtTheStart: 1
   energyCost: 20
   energyErrorMessage: Not enough energy to throw Grenade!
   energyErrorMessageColor: {r: 1, g: 0, b: 0, a: 1}
@@ -861,10 +864,10 @@ MonoBehaviour:
   orientation: {fileID: 4629313644082423270}
   firePoint: {fileID: 7518533697554243290}
   grenade: {fileID: 6188199989328108756, guid: 8f07ce1c6e7792043b315202e0dde954, type: 3}
-  forwardForce: 100
-  upwardsForce: 50
+  forwardForce: 20
+  upwardsForce: 10
   explosionTimeDelay: 3
-  damage: 20
+  damage: 100
   explosionRadius: 20
   explodeOnContact: 1
   hitMask:

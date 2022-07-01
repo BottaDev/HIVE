@@ -23,7 +23,7 @@ public class PlayerDebugDevTools : MonoBehaviour
 
     private void DebugInput()
     {
-        if (Input.GetKey(KeyCode.LeftAlt))
+        if (Input.GetKey(KeyCode.LeftAlt) && !UIPauseMenu.paused)
         {
             if (Input.GetKeyDown(invincibilityKey))
             {

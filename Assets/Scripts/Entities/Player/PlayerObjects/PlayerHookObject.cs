@@ -14,6 +14,7 @@ public class PlayerHookObject : MonoBehaviour
     private Vector3 _prevPos;
     private LayerMask _directMask;
     private LayerMask _indirectMask;
+    private LayerMask _railTriggerMask;
     private Action _onAttached;
     private bool _frozen;
 
@@ -70,7 +71,7 @@ public class PlayerHookObject : MonoBehaviour
         if (Physics.Raycast(transform.position, dir, out RaycastHit hit, dir.magnitude, _directMask))
         {
             //check if its the layer RailTrigger
-            if (hit.transform.gameObject.layer == 13)
+            if (_railTriggerMask.CheckLayer(hit.transform.gameObject.layer))
             {
                 Rails rail = hit.transform.GetComponentInParent<Rails>();
                 transform.position = rail.hook.position;
@@ -99,7 +100,7 @@ public class PlayerHookObject : MonoBehaviour
         }
     }
 
-    public void Initialize(Transform transform, PlayerDirectHookshot grapple, Vector3 aimingPoint, LayerMask directMask,LayerMask indirectMask, float speed, Action onAttach = null)
+    public void Initialize(Transform transform, PlayerDirectHookshot grapple, Vector3 aimingPoint, LayerMask directMask,LayerMask indirectMask, LayerMask railTrigger, float speed, Action onAttach = null)
     {
         this.transform.LookAt(aimingPoint);
         this._grapple = grapple;
@@ -109,6 +110,7 @@ public class PlayerHookObject : MonoBehaviour
         this._speed = speed;
         _onAttached = onAttach;
         _frozen = false;
+        _railTriggerMask = railTrigger;
     }
     
     private void OnDrawGizmos()

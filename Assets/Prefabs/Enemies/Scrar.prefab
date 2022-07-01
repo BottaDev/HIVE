@@ -677,6 +677,7 @@ GameObject:
   - component: {fileID: 4412390479073506050}
   - component: {fileID: 3265247517186823848}
   - component: {fileID: 820666197597836252}
+  - component: {fileID: 3303096799542144660}
   m_Layer: 7
   m_Name: Scrar
   m_TagString: Untagged
@@ -881,6 +882,20 @@ MonoBehaviour:
     AreaType: 0
   - MoveMethod: 2
     AreaType: 3
+--- !u!114 &3303096799542144660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6576070079687112172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac49b2b6d50c7a749bea4d8294713dac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  velocity: {x: 0, y: 0, z: 0}
+  onGrid: 0
 --- !u!1001 &510535016986391892
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1211,11 +1226,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3492849157712901297, guid: a5c8ed741f3be9b48bf39ac8e7e187c8, type: 3}
   m_PrefabInstance: {fileID: 5757964889338581997}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &3194178978211542304 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: -2036640419921320243, guid: a5c8ed741f3be9b48bf39ac8e7e187c8, type: 3}
-  m_PrefabInstance: {fileID: 5757964889338581997}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2773207965916574888 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7607722699587004229, guid: a5c8ed741f3be9b48bf39ac8e7e187c8, type: 3}
@@ -1244,6 +1254,11 @@ GameObject:
 --- !u!1 &3083039427164038915 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -1936180012620155666, guid: a5c8ed741f3be9b48bf39ac8e7e187c8, type: 3}
+  m_PrefabInstance: {fileID: 5757964889338581997}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3194178978211542304 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -2036640419921320243, guid: a5c8ed741f3be9b48bf39ac8e7e187c8, type: 3}
   m_PrefabInstance: {fileID: 5757964889338581997}
   m_PrefabAsset: {fileID: 0}
 --- !u!54 &3929233462595084474

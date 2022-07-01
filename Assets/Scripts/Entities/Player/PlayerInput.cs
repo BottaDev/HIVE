@@ -74,30 +74,57 @@ public class PlayerInput : MonoBehaviour
 
     private void MyInput()
     {
-        X = Input.GetAxisRaw("Horizontal");
-        Y = Input.GetAxisRaw("Vertical");
-        IsMoving = X != 0 || Y != 0;
-        Jumping = Input.GetKeyDown(jumpKey);
-        StoppedJumping = Input.GetKeyUp(jumpKey);
-        Dashing = Input.GetKeyDown(dashKey);
-        StartedShootingLeft = Input.GetMouseButtonDown((int) shootKeyLeft);
-        ShootingLeft = Input.GetMouseButton((int) shootKeyLeft);
-        StartedShootingRight = Input.GetMouseButtonDown((int) shootKeyRight);
-        ShootingRight = Input.GetMouseButton((int) shootKeyRight);
-        Restart = Input.GetKeyDown(restartKey);
-        Freecam = Input.GetKey(freeCamKey);
-        Attaching = Input.GetMouseButtonDown((int) railAttachKey);
-        Grapple = Input.GetKeyDown(grappleKey);
-        StoppedGrapple = Input.GetKeyUp(grappleKey);
-        GrenadeThrow = Input.GetKeyDown(grenadeKey);
-        Absorbing = Input.GetKey(absorbKey);
-        DirectGrapple = Input.GetKeyDown(directGrappleKey);
-        StoppedDirectGrapple= Input.GetKeyUp(directGrappleKey);
-
-        if (Input.GetKeyDown(extraInfoKey))
+        if (UIPauseMenu.paused)
         {
-            EventManager.Instance.Trigger("ExtraInfoScreenInput");
+            X = Input.GetAxisRaw("Horizontal");
+            Y = Input.GetAxisRaw("Vertical");
+            IsMoving = false;
+            Jumping = false;
+            StoppedJumping = false;
+            Dashing = false;
+            StartedShootingLeft = false;
+            ShootingLeft = false;
+            StartedShootingRight = false;
+            ShootingRight = false;
+            Restart = false;
+            Freecam = false;
+            Attaching = false;
+            Grapple = false;
+            StoppedGrapple = false;
+            GrenadeThrow = false;
+            Absorbing = false;
+            DirectGrapple = false;
+            StoppedDirectGrapple = false;
         }
+        else
+        {
+            X = Input.GetAxisRaw("Horizontal");
+            Y = Input.GetAxisRaw("Vertical");
+            IsMoving = X != 0 || Y != 0;
+            Jumping = Input.GetKeyDown(jumpKey);
+            StoppedJumping = Input.GetKeyUp(jumpKey);
+            Dashing = Input.GetKeyDown(dashKey);
+            StartedShootingLeft = Input.GetMouseButtonDown((int) shootKeyLeft);
+            ShootingLeft = Input.GetMouseButton((int) shootKeyLeft);
+            StartedShootingRight = Input.GetMouseButtonDown((int) shootKeyRight);
+            ShootingRight = Input.GetMouseButton((int) shootKeyRight);
+            Restart = Input.GetKeyDown(restartKey);
+            Freecam = Input.GetKey(freeCamKey);
+            Attaching = Input.GetMouseButtonDown((int) railAttachKey);
+            Grapple = Input.GetKeyDown(grappleKey);
+            StoppedGrapple = Input.GetKeyUp(grappleKey);
+            GrenadeThrow = Input.GetKeyDown(grenadeKey);
+            Absorbing = Input.GetKey(absorbKey);
+            DirectGrapple = Input.GetKeyDown(directGrappleKey);
+            StoppedDirectGrapple= Input.GetKeyUp(directGrappleKey);
+
+            if (Input.GetKeyDown(extraInfoKey))
+            {
+                EventManager.Instance.Trigger("ExtraInfoScreenInput");
+            }
+        }
+        
+        
     }
 }
 

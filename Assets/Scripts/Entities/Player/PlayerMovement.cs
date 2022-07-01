@@ -73,6 +73,8 @@ public class PlayerMovement : MonoBehaviour
         SetMaxSpeed(maxSpeed);
         ableToMove = true;
         horizontalStepUpper.localPosition = horizontalStepLower.localPosition + new Vector3(0, horizontalStepHeight, 0);
+        EventManager.Instance.Subscribe("GamePause", Pause);
+        EventManager.Instance.Subscribe("GameUnPause", Unpause);
     }
 
     private void Update()
@@ -144,8 +146,8 @@ public class PlayerMovement : MonoBehaviour
         //Check if you're moving  to set animation (use original input)
         player.view.anim.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsRunning, player.input.IsMoving);
         
-        float x = this.X;
-        float y = this.Y;
+        float x = UIPauseMenu.paused ? 0 : this.X;
+        float y = UIPauseMenu.paused ? 0 : this.Y;
         if (rotateLowerHalf)
         {
             //Rotate towards input movement
@@ -361,6 +363,16 @@ public class PlayerMovement : MonoBehaviour
         this.maxSpeed = maxSpeed;
         GameStats.movementSPD = maxSpeed;
         UIExtraInfoScreen.i.UpdateStats();
+    }
+
+    public void Pause(params object[] obj)
+    {
+        rb.isKinematic = true;
+    }
+    
+    public void Unpause(params object[] obj)
+    {
+        rb.isKinematic = false;
     }
 }
 

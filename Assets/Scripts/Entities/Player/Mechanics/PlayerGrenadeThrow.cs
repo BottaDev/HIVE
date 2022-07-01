@@ -211,13 +211,13 @@ public class KamCustomEditor_PlayerGrenadeThrow : KamCustomEditor
             new GUIContent(
                 "→",
                 "This is the forward force."), GUILayout.MaxWidth(15));
-        editorTarget.forwardForce = EditorGUILayout.FloatField(editorTarget.explosionForce);
+        editorTarget.explosionForce = EditorGUILayout.FloatField(editorTarget.explosionForce);
         
         EditorGUILayout.LabelField(
             new GUIContent(
                 "↑",
                 "This is the upwards force."), GUILayout.MaxWidth(15));
-        editorTarget.upwardsForce = EditorGUILayout.FloatField(editorTarget.explosionUpwardsForce);
+        editorTarget.explosionUpwardsForce = EditorGUILayout.FloatField(editorTarget.explosionUpwardsForce);
         EditorGUILayout.EndHorizontal();
     }
 }

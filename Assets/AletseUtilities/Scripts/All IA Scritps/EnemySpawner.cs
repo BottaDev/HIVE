@@ -106,7 +106,8 @@ public class EnemySpawner : MonoBehaviour
     public void DoSpawnEnemy(int SpawnIndex, Vector3 SpawnPosition)
     {
         //var poolableObject = EnemyObjectPools[SpawnIndex].GetObject();
-        var poolableObject = Instantiate(Enemies[SpawnIndex]);
+        AI poolableObject = Instantiate(Enemies[SpawnIndex]);
+        SpatialGridManager.i.AttachEntity(poolableObject.gameObject.GetComponent<GridEntity>());
         
         if (poolableObject != null)
         {

@@ -88,7 +88,9 @@ public abstract class AI : Entity
     {
         EventManager.Instance.Subscribe("OnPlayerEnteredUpgradeRoom", PauseIA);
         EventManager.Instance.Subscribe("OnPlayerLeftUpgradeRoom", ContinueIA);
-
+        EventManager.Instance.Subscribe("GamePause", PauseIA);
+        EventManager.Instance.Subscribe("GameUnPause", ContinueIA);
+        
         if(deathModel != null)
         {
             deathModel.SetActive(false);
