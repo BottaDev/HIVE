@@ -44,11 +44,12 @@ public sealed class Bullet : PoolableObject
 
         //Vector3 dir = (transform.position - _prevPos);
         //RaycastHitGameobject(dir);
+        MoveToPosition();
     }
 
-    private void FixedUpdate()
+    private void update()
     {
-        MoveToPosition();
+       
     }
 
     public void MoveToPosition()
@@ -136,4 +137,6 @@ public sealed class Bullet : PoolableObject
             Hit(other);
         }
     }
+
+    
 }

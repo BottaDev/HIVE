@@ -58,20 +58,30 @@ public class SceneLoaderManager : MonoBehaviour
     public static Scenes lastScene;
     public static Scenes currentScene;
 
+    public enum SceneLoadType { async, normal};
     public void Awake()
     {
         _instance = this;
     }
-    public void LoadScene(Scenes scene)
+    public void LoadScene(Scenes scene, SceneLoadType loadType = SceneLoadType.async)
     {
         lastScene = currentScene;
         currentScene = scene;
-        StartCoroutine(LoadSceneAsync(scene, LoadSceneMode.Single));
+
+        if (loadType == SceneLoadType.async)
+        {
+            StartCoroutine(LoadSceneAsync(scene, LoadSceneMode.Single));
+        }
+        else
+        {
+            SceneManager.LoadScene((int)scene);
+        }
+        
     }
 
     public void LoadLevelOne()
     {
-        LoadScene(Scenes.Level1);
+        LoadScene(Scenes.Level1, SceneLoadType.normal);
     }
     
     public void LoadWin()
@@ -88,9 +98,14 @@ public class SceneLoaderManager : MonoBehaviour
     {
         LoadScene(lastScene);
     }
-    public void ReloadScene()
+    public void LoadEmilrang()
     {
-        StartCoroutine(LoadSceneAsync(currentScene, LoadSceneMode.Single));
+        LoadScene(Scenes.EmilrangBoss);
+    }
+
+    public void ReloadScene(SceneLoadType loadType = SceneLoadType.async)
+    {
+        LoadScene(currentScene, loadType);
     }
 
     public void Quit()
