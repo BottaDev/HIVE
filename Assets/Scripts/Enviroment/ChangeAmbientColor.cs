@@ -24,8 +24,11 @@ public class ChangeAmbientColor : MonoBehaviour
     }
     public List<VolumeStruct> colors;
 
-    public VolumeStruct current;
+    public static VolumeStruct current;
+    public static bool initialized = false;
 
+    public Colors currentColor;
+    
     private void Awake()
     {
         i = this;
@@ -52,6 +55,7 @@ public class ChangeAmbientColor : MonoBehaviour
         vol.volumeScript.enabled = true;
 
         current = vol;
+        currentColor = vol.color;
     }
 
     public void IterateThroughColors()

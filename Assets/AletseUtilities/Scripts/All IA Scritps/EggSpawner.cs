@@ -8,6 +8,7 @@ using Random = UnityEngine.Random;
 public class EggSpawner : Entity
 {
     [Header("Egg Spawner")]
+    [SerializeField] private LayerMask triggerMask;
     [SerializeField] private List<BoxCollider> SpawnCollider;
     [SerializeField] private EnemySpawner EnemySpawner;
     [SerializeField] private List<AI> Enemies = new List<AI>();
@@ -45,16 +46,12 @@ public class EggSpawner : Entity
 
     private void OnTriggerEnter(Collider other)
     {
-        var bullet = other.GetComponent<Bullet>();
-    
-        if (bullet != null)
+        if (triggerMask.CheckLayer(other.gameObject.layer))
         {
-            Destroy(gameObject);
-        }
-        
-        if (SpawnEnemiesCoroutine == null && other != bullet)
-        {
-            SpawnEnemiesCoroutine = StartCoroutine(SpawnEnemies());
+            if (SpawnEnemiesCoroutine == null)
+            {
+                SpawnEnemiesCoroutine = StartCoroutine(SpawnEnemies());
+            }
         }
     }
 

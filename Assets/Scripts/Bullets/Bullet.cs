@@ -29,7 +29,11 @@ public sealed class Bullet : PoolableObject
 
     private void Update()
     {
-        /*
+        if (UIPauseMenu.paused)
+        {
+            return;
+        }
+        
         if (firstFrame)
         {
             firstFrame = false;
@@ -37,23 +41,19 @@ public sealed class Bullet : PoolableObject
             //This is due to "_prevPos" being at 0, 0, 0 on the first frame of the bullet
             //To fix this, we move the bullet back, then save its position, and move it forward within one frame.
 
-            transform.Translate(-translation);
+            transform.Translate(-(transform.forward * Time.deltaTime * speed));
             _prevPos = transform.position;
-            transform.Translate(translation);
-        }*/
-
-        //Vector3 dir = (transform.position - _prevPos);
-        //RaycastHitGameobject(dir);
+            transform.Translate(transform.forward * Time.deltaTime * speed);
+        }
+        
         MoveToPosition();
     }
 
-    private void update()
-    {
-       
-    }
-
     public void MoveToPosition()
-    {
+    {   
+        Vector3 dir = (transform.position - _prevPos);
+        RaycastHitGameobject(dir);
+        
         _prevPos = transform.position;
         transform.position += transform.forward * Time.deltaTime * speed;
     }
@@ -62,7 +62,7 @@ public sealed class Bullet : PoolableObject
     {
         if (Physics.Raycast(transform.position, dir, out RaycastHit hit, dir.magnitude, mask))
         {
-            //Hit(hit);
+            Hit(hit.collider);
         }
     }
 
@@ -132,6 +132,8 @@ public sealed class Bullet : PoolableObject
 
     private void OnTriggerEnter(Collider other)
     {
+        if (firstFrame) return;
+        
         if (mask.CheckLayer(other.gameObject.layer))
         {
             Hit(other);

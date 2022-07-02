@@ -6,28 +6,37 @@ using UnityEngine.SceneManagement;
 public class WinObjective : MonoBehaviour
 {
     static int winAmount = 0;
+    private bool used;
     private void OnTriggerEnter(Collider other)
     {
-        Player p = other.GetComponentInParent<Player>() ?? other.GetComponentInChildren<Player>();
-
-        if (p != null)
+        if (!used)
         {
-            p.SavePlayer();
-            
-            switch (winAmount)
-            {
-                case 0:
-                    winAmount++;
-                    SceneLoaderManager.instance.LoadScene(SceneLoaderManager.Scenes.EmilrangBoss);
-                    break;
-                case 1:
-                    winAmount++;
-                    SceneLoaderManager.instance.LoadScene(SceneLoaderManager.Scenes.WinScreen);
-                    break;
+            Player p = other.GetComponentInParent<Player>() ?? other.GetComponentInChildren<Player>();
 
-                default:
-                    break;
+            if (p != null)
+            {
+                switch (winAmount)
+                {
+                    case 0:
+                        winAmount++;
+                        Emilrang.reloadedScene = false;
+                        SceneLoaderManager.instance.LoadScene(SceneLoaderManager.Scenes.EmilrangBoss, SceneLoaderManager.SceneLoadType.normal);
+                        break;
+                    case 1:
+                        winAmount++;
+                        SceneLoaderManager.instance.LoadScene(SceneLoaderManager.Scenes.WinScreen);
+                        break;
+
+                    default:
+                        break;
+                }
+                used = true;
+            
+                p.SavePlayer();
             }
+
+            
         }
+        
     }
 }

@@ -5,6 +5,8 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using IA2;
+
+//IA2-P3
 public class Emilrang : Entity
 {
     private Rigidbody rb;
@@ -22,7 +24,8 @@ public class Emilrang : Entity
     public UnityEvent onDeath;
     private EventFSM<MovementState> _movementFsm;
     private EventFSM<PhaseState> _phaseFsm;
-    
+
+    public static bool reloadedScene;
     protected override void Awake()
     {
         base.Awake();
@@ -33,11 +36,19 @@ public class Emilrang : Entity
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        hpBar.SetRange(0, maxHealth);
-        hpBar.SetValueInstant(CurrentHealth);
-        EventManager.Instance.Subscribe("GamePause", Pause);
-        EventManager.Instance.Unsubscribe("GameUnPause", Unpause);
+        if (!reloadedScene)
+        {
+            reloadedScene = true;
+            SceneLoaderManager.instance.ReloadScene(SceneLoaderManager.SceneLoadType.normal);
+        }
+        else
+        {
+            rb = GetComponent<Rigidbody>();
+            hpBar.SetRange(0, maxHealth);
+            hpBar.SetValueInstant(CurrentHealth);
+            EventManager.Instance.Subscribe("GamePause", Pause);
+            EventManager.Instance.Unsubscribe("GameUnPause", Unpause);
+        }
     }
 
     public enum MovementState{Idle, Speedup, Slowdown, Death}

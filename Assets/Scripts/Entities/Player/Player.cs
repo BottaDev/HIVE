@@ -131,7 +131,7 @@ public class Player : Entity
 
     private void RestartScene()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneLoaderManager.instance.ReloadScene(SceneLoaderManager.SceneLoadType.normal);
     }
 
     public void DeleteSavedPlayer()

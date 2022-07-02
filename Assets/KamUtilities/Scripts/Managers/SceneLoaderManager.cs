@@ -100,6 +100,7 @@ public class SceneLoaderManager : MonoBehaviour
     }
     public void LoadEmilrang()
     {
+        Emilrang.reloadedScene = false;
         LoadScene(Scenes.EmilrangBoss);
     }
 

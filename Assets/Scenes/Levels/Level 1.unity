@@ -123,6 +123,17 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &1662526 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5477342224341226198, guid: 94245de088a2c374ebbb84cb6c6096ef, type: 3}
+  m_PrefabInstance: {fileID: 1346965446}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15592de6ff104f04b80d55cdd16c8f59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &18013985
 GameObject:
   m_ObjectHideFlags: 0
@@ -1918,6 +1929,7 @@ GameObject:
   - component: {fileID: 1249021016}
   - component: {fileID: 1249021018}
   - component: {fileID: 1249021020}
+  - component: {fileID: 1249021021}
   m_Layer: 0
   m_Name: Global Volume
   m_TagString: Untagged
@@ -1995,10 +2007,7 @@ MonoBehaviour:
   - name: Verde
     color: 2
     volumeScript: {fileID: 1249021020}
-  current:
-    name: 
-    color: 0
-    volumeScript: {fileID: 0}
+  currentColor: 0
 --- !u!114 &1249021020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2016,6 +2025,36 @@ MonoBehaviour:
   blendDistance: 0
   weight: 1
   sharedProfile: {fileID: 11400000, guid: 78158ccaf48177449aa2aed8772f644b, type: 2}
+--- !u!114 &1249021021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1249021015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 141fdab460cadc14787701911ca1a15b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputs:
+  - name: Test
+    keyInputs: 1a010000
+    onInputTrigger:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1662526}
+          m_TargetAssemblyTypeName: SceneLoaderManager, Assembly-CSharp
+          m_MethodName: LoadEmilrang
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1263277188
 GameObject:
   m_ObjectHideFlags: 0
@@ -3232,10 +3271,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8454146301521871109, guid: 4e1cc12e5ecf14d4394b5d0da2ec97a8, type: 3}
-      propertyPath: damagePopup
-      value: 
-      objectReference: {fileID: 8076095921812888608, guid: 94204e6308efee94bba64124c3dd516f, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4e1cc12e5ecf14d4394b5d0da2ec97a8, type: 3}
 --- !u!1001 &5527850385053274757
