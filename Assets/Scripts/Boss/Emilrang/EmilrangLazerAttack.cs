@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Kam.Utils;
 using UnityEngine;
 
 public class EmilrangLazerAttack : MonoBehaviour
@@ -21,7 +22,7 @@ public class EmilrangLazerAttack : MonoBehaviour
     
                 if (obj != null)
                 {
-                    Popup.Create(other.ClosestPoint(transform.position), damage.ToString(),Color.red);
+                    Popup.Create(other.ClosestPoint(transform.position), damage.ToString(),KamColor.purple);
 
                     obj.TakeDamage(damage);
                 

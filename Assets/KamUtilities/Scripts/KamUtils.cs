@@ -54,4 +54,9 @@ namespace Kam.Utils
             return newMin + (original - originalMin) * (newMax - newMin) / (originalMax - originalMin);
         }
     }
+
+    public class KamColor
+    {
+        public static Color purple = new Color(0.73f, 0.02f, 1f);
+    }
 }

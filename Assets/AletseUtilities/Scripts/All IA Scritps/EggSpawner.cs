@@ -71,17 +71,27 @@ public class EggSpawner : Entity
         
         for (int i = 0; i < SpawnCount; i++)
         {
-            if (SpawnMethod == EnemySpawner.SpawnMethod.RoundRobin)
+            int index = 0;
+            switch (SpawnMethod)
             {
-                EnemySpawner.DoSpawnEnemy(EnemySpawner.Enemies.FindIndex((enemy) => enemy.Equals(Enemies[i % Enemies.Count])),
-                    GetRandomPositionInBounds());
+                case EnemySpawner.SpawnMethod.RoundRobin:
+                    index = i % Enemies.Count;
+                    break;
+                
+                case EnemySpawner.SpawnMethod.Random:
+                    index = Random.Range(0, Enemies.Count);
+                    break;
             }
-            else if (SpawnMethod == EnemySpawner.SpawnMethod.Random)
+
+            int spawnIndex = EnemySpawner.Enemies.FindIndex((enemy) => enemy.Equals(Enemies[index]));
+
+            bool result = false;
+            while (!result)
             {
-                int index = Random.Range(0, Enemies.Count);
-                EnemySpawner.DoSpawnEnemy(EnemySpawner.Enemies.FindIndex((enemy) => enemy.Equals(Enemies[index])),
-                GetRandomPositionInBounds());
+                Vector3 position = GetRandomPositionInBounds();
+                result = EnemySpawner.DoSpawnEnemy(spawnIndex, position);
             }
+            
             
             yield return wait;
         }

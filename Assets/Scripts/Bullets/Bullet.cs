@@ -1,4 +1,5 @@
 using System;
+using Kam.Utils;
 using UnityEngine;
 
 public sealed class Bullet : PoolableObject
@@ -17,7 +18,7 @@ public sealed class Bullet : PoolableObject
     public TrailRenderer trail;
     public GameObject impactParticles;
 
-    bool firstFrame = true;
+    private bool firstFrame = true;
 
     private void OnEnable()
     {
@@ -39,11 +40,8 @@ public sealed class Bullet : PoolableObject
             firstFrame = false;
             //There is a specific bug that makes it so the first frame actually isn't checked for collision
             //This is due to "_prevPos" being at 0, 0, 0 on the first frame of the bullet
-            //To fix this, we move the bullet back, then save its position, and move it forward within one frame.
 
-            transform.Translate(-(transform.forward * Time.deltaTime * speed));
-            _prevPos = transform.position;
-            transform.Translate(transform.forward * Time.deltaTime * speed);
+            _prevPos = transform.position - (transform.forward * Time.deltaTime * speed);
         }
         
         MoveToPosition();
@@ -68,6 +66,13 @@ public sealed class Bullet : PoolableObject
 
     private void Hit(Collider hit)
     {
+        Debug.Log("Hit at " + transform.position.ToCoordinatesAsString());
+
+        GameObject temp = new GameObject();
+        temp.transform.position = transform.position;
+        temp.name = "Hit";
+        
+        
         ImpactEffect(transform.position);
         Collision(hit.gameObject, transform.position);
         Disable();
@@ -106,9 +111,10 @@ public sealed class Bullet : PoolableObject
                 UIGunSight.instance.Hit();
             }
             
-            Popup.Create(point, damage.ToString(),Color.red);
+            Popup.Create(point, damage.ToString(),KamColor.purple);
 
             obj.TakeDamage(damage);
+            Debug.LogWarning("DamageHit");
         }
     }
 

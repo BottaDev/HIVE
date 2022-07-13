@@ -103,12 +103,11 @@ public class EnemySpawner : MonoBehaviour
         return Triangulation.vertices[VertexIndex];
     }
 
-    public void DoSpawnEnemy(int SpawnIndex, Vector3 SpawnPosition)
+    public bool DoSpawnEnemy(int SpawnIndex, Vector3 SpawnPosition)
     {
         //var poolableObject = EnemyObjectPools[SpawnIndex].GetObject();
         AI poolableObject = Instantiate(Enemies[SpawnIndex]);
-        SpatialGridManager.i.AttachEntity(poolableObject.gameObject.GetComponent<GridEntity>());
-        
+
         if (poolableObject != null)
         {
             AI enemyIa = poolableObject.GetComponent<AI>();
@@ -121,16 +120,16 @@ public class EnemySpawner : MonoBehaviour
                 enemyIa.Triangulation = Triangulation;
                 enemyIa._agent.enabled = true;
                 EnemiesAlive++;
+
+                return true;
             }
-            else
-            {
-                Debug.LogError($"Unable to place NavMeshAgent on NavMesh. Tried to use {SpawnPosition}");
-            }
+
+            //Debug.LogError($"Unable to place NavMeshAgent on NavMesh. Tried to use {SpawnPosition}");
+            return false;
         }
-        else
-        {
-            Debug.LogError($"Unable to fetch enemy of type {SpawnIndex} from object pool. Out of objects?");
-        }
+
+        Debug.LogError($"Unable to fetch enemy of type {SpawnIndex} from object pool. Out of objects?");
+        return false;
     }
 
     private void ScaleUpSpawns()
