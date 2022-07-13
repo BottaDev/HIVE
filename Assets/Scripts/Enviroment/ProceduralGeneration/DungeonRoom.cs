@@ -3,6 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+using UnityEditorInternal;
+#endif
 
 public class DungeonRoom : MonoBehaviour
 {
@@ -81,3 +85,36 @@ public class DungeonRoom : MonoBehaviour
         //Physics.OverlapBox(boundingBox.center, boundingBox.size * 0.5f, boundingBox.transform.rotation, DungeonGenerator.i.boundingBoxMask).Length == 1;
     }
 }
+
+#region CUSTOM_EDITOR
+#if UNITY_EDITOR
+[CustomEditor(typeof(DungeonRoom))]
+public class KamCustomEditor_DungeonRoom : KamCustomEditor
+{
+    private DungeonRoom editorTarget;
+    
+    private SerializedObject mySO;
+    private SerializedProperty exits;
+
+    private void OnEnable()
+    {
+        editorTarget = (DungeonRoom)target;
+
+        mySO = new SerializedObject(editorTarget);
+        exits = mySO.FindProperty("exits");
+    }
+
+    public override void GameDesignerInspector()
+    {
+        EditorGUILayout.LabelField("Connections", EditorStyles.centeredGreyMiniLabel);
+
+        editorTarget.entrance = (DungeonRoomConnection)EditorGUILayout.ObjectField(new GUIContent(
+                "Entrance",
+                "Entrance connection of the room")
+            , editorTarget.entrance, typeof(DungeonRoom), true);
+
+        EditorGUILayout.PropertyField(exits, true);
+    }
+}
+#endif
+#endregion

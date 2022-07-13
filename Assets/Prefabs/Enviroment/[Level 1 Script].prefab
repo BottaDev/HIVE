@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8264096840248448509}
   - component: {fileID: 7604773537428560289}
+  - component: {fileID: 6865274553634184551}
+  - component: {fileID: 8000277206609334363}
   m_Layer: 0
   m_Name: '[Level 1 Script]'
   m_TagString: Untagged
@@ -41,5 +43,31 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ac287d117954e0d94c2d585a39d2e96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  song: 0
+--- !u!114 &6865274553634184551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6482665699103137323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98a1ca22b13a2a2479abb5a025f3b09d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minEnemies: 100
+--- !u!114 &8000277206609334363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6482665699103137323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef9bcfeae8667fd4488d328522d46db2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

@@ -10,7 +10,6 @@ public class LevelManager : MonoBehaviour
     [Header("Objective")] 
     [Tooltip("The minimum number of enemies to kill to open the exit")] public int minEnemies = 10;
     
-    private GameObject _exitDoor;
     private int _enemiesKilled = 0;
     private levelGen _levelGen;
 
@@ -24,9 +23,12 @@ public class LevelManager : MonoBehaviour
     private void Start()
     {
         // Generate the level
-        _levelGen.StartGeneration();
-        _exitDoor = GameObject.FindWithTag("Door");
-        
+        if (_levelGen != null)
+        {
+            _levelGen.StartGeneration();
+            
+        }
+
         // Bake map navmesh
         //FindObjectOfType<NavMeshSurface>().BuildNavMesh();
         
@@ -41,7 +43,9 @@ public class LevelManager : MonoBehaviour
         EventManager.Instance.Trigger("OnEnemyCounted", _enemiesKilled);
 
         // Open the exit door
-        if (_enemiesKilled >= minEnemies && _exitDoor.activeSelf)
-            _exitDoor.SetActive(false);
+        if (_enemiesKilled >= minEnemies)
+        {
+            EventManager.Instance.Trigger("OnEnemyCounterConditionCleared");
+        }
     }
 }

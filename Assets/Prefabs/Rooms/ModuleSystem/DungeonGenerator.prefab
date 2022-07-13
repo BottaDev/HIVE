@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2058559739283193821
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2058559739283193823}
+  - component: {fileID: 2058559739283193820}
+  m_Layer: 0
+  m_Name: DungeonGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2058559739283193823
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2058559739283193821}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2058559739283193820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2058559739283193821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7497c72b6331c8d49a00e9cdba99cc3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boundingBoxMask:
+    serializedVersion: 2
+    m_Bits: 4194304
+  size: 3
+  startRoom: {fileID: 4919341799602937354, guid: 71f23cf2c594ad540ba56ebecfb3f11d, type: 3}
+  endRoom: {fileID: 9053724702303483877, guid: e811247935068d547b36a136d73defd9, type: 3}
+  verticalToHorizontalHelper: {fileID: 1102438736102780904, guid: f5f1ad9a19d2ea247a3cf3f9838e6973, type: 3}
+  useVerticalToHorizontalHelper: 1
+  startingPoint: {x: 0, y: 0, z: 0}
+  deadEnd: {fileID: 4795612620917870792, guid: 40a01a741c98a0a46804c4b6577bdad2, type: 3}
+  generatedEnd: 0
+  shouldGenerateEnd: 0
+  horizontalRooms:
+  - {fileID: 5172851016285527795, guid: 43de047488400394c8a07512fefbdc8b, type: 3}
+  verticalRooms: []
+  validationTime: 0.01
+  roomAmountBeforeAndAfterPlayer: 0
+  onFinishedGeneration:
+    m_PersistentCalls:
+      m_Calls: []

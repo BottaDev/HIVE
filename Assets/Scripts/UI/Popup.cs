@@ -30,7 +30,7 @@ public class Popup : MonoBehaviour
         return popup;
     }
 
-    [SerializeField] private Text txt;
+    [SerializeField] private TextMeshProUGUI txt;
     [SerializeField] private Vector3 moveVector;
     
     [SerializeField] private float disappearTimer;

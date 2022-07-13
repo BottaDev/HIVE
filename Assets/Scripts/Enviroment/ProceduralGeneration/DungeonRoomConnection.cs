@@ -3,6 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+using UnityEditorInternal;
+#endif
 
 public class DungeonRoomConnection : MonoBehaviour
 {
@@ -90,6 +94,7 @@ public class DungeonRoomConnection : MonoBehaviour
                     {
                         if (connection != null)
                         {
+                            Debug.Log("test");
                             DungeonGenerator.i.RemoveFromDungeon(connection);
                         }
                         
@@ -144,3 +149,28 @@ public class DungeonRoomConnection : MonoBehaviour
         #endregion
     }
 }
+
+#region CUSTOM_EDITOR
+#if UNITY_EDITOR
+[CustomEditor(typeof(DungeonRoomConnection))]
+public class KamCustomEditor_DungeonRoomConnection : KamCustomEditor
+{
+    private DungeonRoomConnection editorTarget;
+
+    private void OnEnable()
+    {
+        editorTarget = (DungeonRoomConnection)target;
+    }
+
+    public override void GameDesignerInspector()
+    {
+        EditorGUILayout.LabelField("Connections", EditorStyles.centeredGreyMiniLabel);
+
+        editorTarget.type = (DungeonRoomConnection.ConnectionType) EditorGUILayout.EnumPopup(new GUIContent(
+            "Connection Type",
+            "This determines what kind of room can be connected in this connection."),
+            editorTarget.type);
+    }
+}
+#endif
+#endregion

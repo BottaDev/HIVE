@@ -66,13 +66,6 @@ public sealed class Bullet : PoolableObject
 
     private void Hit(Collider hit)
     {
-        Debug.Log("Hit at " + transform.position.ToCoordinatesAsString());
-
-        GameObject temp = new GameObject();
-        temp.transform.position = transform.position;
-        temp.name = "Hit";
-        
-        
         ImpactEffect(transform.position);
         Collision(hit.gameObject, transform.position);
         Disable();
@@ -83,7 +76,7 @@ public sealed class Bullet : PoolableObject
         if(impactParticles != null)
         {
             GameObject obj = Instantiate(impactParticles);
-
+            float maxTime = 0;
             foreach (Transform child in obj.transform)
             {
                 ParticleSystem effect = child.GetComponent<ParticleSystem>();
@@ -94,9 +87,15 @@ public sealed class Bullet : PoolableObject
                     effect.transform.eulerAngles = transform.eulerAngles * -1;
                     effect.Play();
                     Destroy(effect.gameObject, effect.main.duration);
+
+                    if (effect.main.duration > maxTime)
+                    {
+                        maxTime = effect.main.duration;
+                    }
                 }
             }
             
+            Destroy(obj, maxTime);
         }
     }
 
@@ -114,7 +113,6 @@ public sealed class Bullet : PoolableObject
             Popup.Create(point, damage.ToString(),KamColor.purple);
 
             obj.TakeDamage(damage);
-            Debug.LogWarning("DamageHit");
         }
     }
 

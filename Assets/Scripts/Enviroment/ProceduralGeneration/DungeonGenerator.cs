@@ -6,6 +6,11 @@ using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.PlayerLoop;
+#if UNITY_EDITOR
+using UnityEditor;
+using UnityEditorInternal;
+#endif
+
 
 public class DungeonGenerator : MonoBehaviour
 {
@@ -129,3 +134,54 @@ public class DungeonGenerator : MonoBehaviour
         shouldGenerateEnd = true;
     }
 }
+
+#region CUSTOM_EDITOR
+#if UNITY_EDITOR
+[CustomEditor(typeof(DungeonGenerator))]
+public class KamCustomEditor_DungeonGenerator : KamCustomEditor
+{
+    private DungeonGenerator editorTarget;
+    
+    private SerializedObject mySO;
+    private SerializedProperty horizontalRooms;
+    private SerializedProperty verticalRooms;
+
+    private void OnEnable()
+    {
+        editorTarget = (DungeonGenerator)target;
+
+        mySO = new SerializedObject(editorTarget);
+        horizontalRooms = mySO.FindProperty("horizontalRooms");
+        verticalRooms = mySO.FindProperty("verticalRooms");
+    }
+
+    public override void GameDesignerInspector()
+    {
+        EditorGUILayout.LabelField("Parameters", EditorStyles.centeredGreyMiniLabel);
+         
+        editorTarget.size = EditorGUILayout.IntField(
+            new GUIContent(
+                "Dungeon Size",
+                "The amount of modules that are generated between the start point and end point of the dungeon."),
+            editorTarget.size);
+
+        EditorGUILayout.Space();
+        EditorGUILayout.Space();
+        
+        EditorGUILayout.LabelField("Rooms", EditorStyles.centeredGreyMiniLabel);
+
+        editorTarget.startRoom = (DungeonRoom)EditorGUILayout.ObjectField(new GUIContent(
+            "Starting Room",
+            "The very first room that is generated in the dungeon.")
+            , editorTarget.startRoom, typeof(DungeonRoom), false);
+        editorTarget.endRoom = (DungeonRoom)EditorGUILayout.ObjectField(new GUIContent(
+                "End Room",
+                "The end room of the dungeon.")
+            , editorTarget.endRoom, typeof(DungeonRoom), false);
+        
+        EditorGUILayout.PropertyField(horizontalRooms, true);
+        EditorGUILayout.PropertyField(verticalRooms, true);
+    }
+}
+#endif
+#endregion
