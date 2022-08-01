@@ -162,7 +162,7 @@ public class PlayerGun : MonoBehaviour
             bul.trail.Clear();
         #endregion
         
-        CurrentAmmo--;
+        //CurrentAmmo--;
         bulletsShot--;
 
         Invoke(nameof(ResetShot), timeBetweenShootingActions);
