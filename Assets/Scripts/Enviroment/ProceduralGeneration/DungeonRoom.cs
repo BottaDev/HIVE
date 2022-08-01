@@ -111,7 +111,7 @@ public class KamCustomEditor_DungeonRoom : KamCustomEditor
         editorTarget.entrance = (DungeonRoomConnection)EditorGUILayout.ObjectField(new GUIContent(
                 "Entrance",
                 "Entrance connection of the room")
-            , editorTarget.entrance, typeof(DungeonRoom), true);
+            , editorTarget.entrance, typeof(DungeonRoomConnection), true);
 
         EditorGUILayout.PropertyField(exits, true);
     }
