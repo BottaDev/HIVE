@@ -19,22 +19,24 @@ public class EggSpawner : Entity
     [SerializeField] private bool DieAfterSpawn;
     [SerializeField] private bool UpsideDown;
     private Coroutine SpawnEnemiesCoroutine;
-    
+
     public Utilities_SliderLinearProgressBar healthSlider;
     public Utilities_CanvasGroupReveal reveal;
+    public GameObject deathModel;
+    public GameObject normalModel;
     public enum Side
     {
         down, up, front, back, left, right
     }
-    
+
     private void Awake()
     {
         EnemySpawner = FindObjectOfType<EnemySpawner>();
-        healthSlider.SetRange(0,maxHealth);
+        healthSlider.SetRange(0, maxHealth);
         healthSlider.SetValue(maxHealth);
-        
+
         CurrentHealth = maxHealth;
-        
+
         if (SpawnCollider != null)
         {
             if (SpawnCollider.Count == 0)
@@ -61,14 +63,17 @@ public class EggSpawner : Entity
         return new Vector3(Random.Range(_bounds.min.x, _bounds.max.x), UpsideDown ? _bounds.max.y : _bounds.min.y,
             Random.Range(_bounds.min.z, _bounds.max.z));
     }
+
     private IEnumerator SpawnEnemies()
     {
         WaitForSeconds wait = new WaitForSeconds(SpawnDelay);
 
         WaitForSeconds waitBeforeSpawn = new WaitForSeconds(DelayBeforeSpawn);
 
-        yield return waitBeforeSpawn;
+        DeathAnimation();
         
+        yield return waitBeforeSpawn;
+
         for (int i = 0; i < SpawnCount; i++)
         {
             int index = 0;
@@ -77,7 +82,7 @@ public class EggSpawner : Entity
                 case EnemySpawner.SpawnMethod.RoundRobin:
                     index = i % Enemies.Count;
                     break;
-                
+
                 case EnemySpawner.SpawnMethod.Random:
                     index = Random.Range(0, Enemies.Count);
                     break;
@@ -91,14 +96,15 @@ public class EggSpawner : Entity
                 Vector3 position = GetRandomPositionInBounds();
                 result = EnemySpawner.DoSpawnEnemy(spawnIndex, position);
             }
-            
-            
+
+            AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.EnemySpawningEffect));
             yield return wait;
         }
 
         //After instantiate all enemies destroy gameObject
         if (DieAfterSpawn)
         {
+            Destroy(deathModel);
             Destroy(gameObject);
         }
     }
@@ -106,18 +112,28 @@ public class EggSpawner : Entity
     public override void TakeDamage(int damage)
     {
         CurrentHealth -= damage;
-        
+
         reveal.RevealTemporary();
         healthSlider.SetValue(CurrentHealth);
-        
-        if(CurrentHealth <= 0)
+
+        if (CurrentHealth <= 0)
         {
             for (int i = 0; i < SpawnCount; i++)
             {
                 EventManager.Instance.Trigger("OnEnemyDeath");
             }
 
-            Destroy(gameObject);
+            DeathAnimation();
         }
     }
+
+    public void DeathAnimation()
+    {
+        AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.EggSpawningEffect));
+        AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.EggBoilingEffect));
+        deathModel.transform.parent = transform.parent;
+        deathModel.SetActive(true);
+        normalModel.SetActive(false);
+    }
+
 }

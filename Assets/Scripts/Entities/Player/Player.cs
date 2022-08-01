@@ -191,11 +191,12 @@ public class Player : Entity
         if (debug.Invincible) return;
         
         view.Blink(1f, 30f, Color.red);
-        
+        AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.PlayerHit));
         CurrentHealth -= damage;
         GameStats.hpLost += damage;
         UIExtraInfoScreen.i.UpdateStats();
         
+        EventManager.Instance.Trigger("OnPlayerHit");
         EventManager.Instance.Trigger("OnLifeUpdated", CurrentHealth, MaxHP);
 
         if (!(CurrentHealth <= 0)) return;

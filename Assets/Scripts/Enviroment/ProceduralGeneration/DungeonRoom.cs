@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEditorInternal;
@@ -118,3 +119,4 @@ public class KamCustomEditor_DungeonRoom : KamCustomEditor
 }
 #endif
 #endregion
+

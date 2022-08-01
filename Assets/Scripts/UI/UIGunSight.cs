@@ -41,6 +41,7 @@ public class UIGunSight : MonoBehaviour
     IEnumerator HitAnim()
     {
         hit.gameObject.SetActive(true);
+        //AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.Hitmarker));
         yield return new WaitForSeconds(hitAnimTime);
         hit.gameObject.SetActive(false);
     }

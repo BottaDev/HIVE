@@ -50,7 +50,12 @@ public class Room : MonoBehaviour
         }
 
         #region Start Effects of other rooms
-            foreach (var room in GetNeighbors())
+
+        
+        if (generator != null)
+        {
+            Room[] neighbors = GetNeighbors();
+            foreach (var room in neighbors)
             {
                 if (room != null)
                 {
@@ -61,8 +66,10 @@ public class Room : MonoBehaviour
                 }
                 
             }
+            
+        }
+            
         #endregion
-
     }
 
     private void OnTriggerEnter(Collider other)

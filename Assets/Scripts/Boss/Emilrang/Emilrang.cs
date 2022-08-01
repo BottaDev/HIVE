@@ -52,7 +52,7 @@ public class Emilrang : Entity
     }
 
     public enum MovementState{Idle, Speedup, Slowdown, Death}
-    public enum PhaseState{One, Two, Death}
+    public enum PhaseState{One, Two, Three, Death}
     void SetupMovementFSM()
     {
         #region Declare
@@ -170,6 +170,7 @@ public class Emilrang : Entity
         
         var one = new State<PhaseState>("PhaseOne");
         var two = new State<PhaseState>("PhaseTwo");
+        var three = new State<PhaseState>("PhaseThree");
         var death = new State<PhaseState>("Death");
 
         #endregion
@@ -182,9 +183,14 @@ public class Emilrang : Entity
             .Done();
         
         StateConfigurer.Create(two)
+            .SetTransition(PhaseState.Three, three)
             .SetTransition(PhaseState.Death, death)
             .Done();
-
+        
+        StateConfigurer.Create(three)
+            .SetTransition(PhaseState.Death, death)
+            .Done();
+        
         StateConfigurer.Create(death)
             .Done();
         
@@ -200,14 +206,14 @@ public class Emilrang : Entity
             {
                 foreach (var part in BodyParts)
                 {
-                    part.SendInput(EmilrangBodyPart.Attack.Shoot);
+                    part.SendInput(EmilrangBodyOpening.Attack.Shoot);
                 }
             }, 0));
         };
 
         one.OnUpdate += () =>
         {
-            if (((CurrentHealth * 100) / maxHealth) < 50)
+            if (((CurrentHealth * 100) / maxHealth) < 70)
             {
                 _phaseFsm.SendInput(PhaseState.Two);
             }
@@ -216,9 +222,26 @@ public class Emilrang : Entity
         two.OnEnter += x =>
         {
             Debug.LogWarning("Emilrang: Phase Two");
-            foreach (var part in BodyParts.Where(x => x.changeOnPhaseTwo))
+            foreach (var part in BodyParts)
             {
-                part.SendInput(EmilrangBodyPart.Attack.Lazer);
+                part.StartPhase2();
+            }
+        };
+        
+        two.OnUpdate += () =>
+        {
+            if (((CurrentHealth * 100) / maxHealth) < 30)
+            {
+                _phaseFsm.SendInput(PhaseState.Three);
+            }
+        };
+        
+        three.OnEnter += x =>
+        {
+            Debug.LogWarning("Emilrang: Phase Three");
+            foreach (var part in BodyParts)
+            {
+                part.StartPhase3();
             }
         };
         
@@ -226,7 +249,7 @@ public class Emilrang : Entity
         {
             foreach (var part in BodyParts)
             {
-                part.SendInput(EmilrangBodyPart.Attack.Idle);
+                part.SendInput(EmilrangBodyOpening.Attack.Idle);
             }
         };
         #endregion

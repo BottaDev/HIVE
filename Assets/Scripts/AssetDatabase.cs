@@ -20,7 +20,13 @@ public enum SFXs
     PlayerHook,
     PlayerJump,
     GrenadeThrow,
-    LazerHit
+    LazerHit,
+    EggSpawningEffect,
+    EnemySpawningEffect,
+    EggBoilingEffect,
+    EmilrangShoot,
+    PlayerHit,
+    Hitmarker
 }
 public enum Icons
 {

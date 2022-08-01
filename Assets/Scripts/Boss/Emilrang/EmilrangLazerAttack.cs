@@ -3,15 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using Kam.Utils;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class EmilrangLazerAttack : MonoBehaviour
 {
     public int damage;
     public int invulnerabilityPeriod;
-    public EmilrangBodyPart part;
     private bool readyToHitAgain = true;
     public bool activated;
     
+    public UnityEvent OnActivated;
+    public UnityEvent OnDeactivated;
     private void OnTriggerEnter(Collider other)
     {
         if (activated)
@@ -35,6 +37,20 @@ public class EmilrangLazerAttack : MonoBehaviour
         }
     }
 
+    public void SetActive(bool state)
+    {
+        activated = state;
+
+        if (state)
+        {
+            OnActivated.Invoke();
+        }
+        else
+        {
+            OnDeactivated.Invoke();
+        }
+    }
+    
     void RefreshHit()
     {
         readyToHitAgain = true;
