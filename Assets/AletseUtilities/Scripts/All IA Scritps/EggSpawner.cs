@@ -107,7 +107,7 @@ public class EggSpawner : Entity
         //After instantiate all enemies destroy gameObject
         if (DieAfterSpawn)
         {
-            Destroy(deathModel);
+            Destroy(activatedModel);
             Destroy(gameObject);
         }
     }
@@ -146,7 +146,10 @@ public class EggSpawner : Entity
         deathModel.SetActive(true);
         normalModel.SetActive(false);
         activatedModel.SetActive(false);
-        Destroy(gameObject);
+        gameObject.SetActive(false);
+        
+        Destroy(deathModel, 1f);
+        Destroy(gameObject, 1f);
     }
 
 }
