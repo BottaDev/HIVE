@@ -24,6 +24,7 @@ public class EggSpawner : Entity
     public Utilities_CanvasGroupReveal reveal;
     public GameObject deathModel;
     public GameObject normalModel;
+    public GameObject activatedModel;
     public enum Side
     {
         down, up, front, back, left, right
@@ -70,7 +71,7 @@ public class EggSpawner : Entity
 
         WaitForSeconds waitBeforeSpawn = new WaitForSeconds(DelayBeforeSpawn);
 
-        DeathAnimation();
+        Activate();
         
         yield return waitBeforeSpawn;
 
@@ -129,13 +130,23 @@ public class EggSpawner : Entity
         }
     }
 
-    public void DeathAnimation()
+    public void Activate()
     {
         AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.EggSpawningEffect));
         AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.EggBoilingEffect));
+        activatedModel.transform.parent = transform.parent;
+        deathModel.SetActive(false);
+        normalModel.SetActive(false);
+        activatedModel.SetActive(true);
+    }
+    public void DeathAnimation()
+    {
+        AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.EggSpawningEffect));
         deathModel.transform.parent = transform.parent;
         deathModel.SetActive(true);
         normalModel.SetActive(false);
+        activatedModel.SetActive(false);
+        Destroy(gameObject);
     }
 
 }
