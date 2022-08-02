@@ -20,13 +20,16 @@ public class UIUpgradeRoom_UpgradeList : ObjectList
         bool first = true;
         for (int i = 0; i < upgrades.Count; i++)
         {
-            GameObject obj = AddObject();
-            UIUpgradeRoom_Upgrade script = obj.GetComponent<UIUpgradeRoom_Upgrade>();
-            script.SetUpgrade(upgrades[i],i);
-            if (first)
+            if (!string.IsNullOrEmpty(upgrades[i].name))
             {
-                script.separationLine.SetActive(false);
-                first = false;
+                GameObject obj = AddObject();
+                UIUpgradeRoom_Upgrade script = obj.GetComponent<UIUpgradeRoom_Upgrade>();
+                script.SetUpgrade(upgrades[i],i);
+                if (first)
+                {
+                    script.separationLine.SetActive(false);
+                    first = false;
+                }
             }
         }
     }
