@@ -92,7 +92,7 @@ public class EggSpawner : Entity
             int spawnIndex = EnemySpawner.Enemies.FindIndex((enemy) => enemy.Equals(Enemies[index]));
 
             bool result = false;
-            int maxIterations = 100;
+            int maxIterations = 10;
             while (!result && maxIterations >= 0)
             {
                 maxIterations--;
