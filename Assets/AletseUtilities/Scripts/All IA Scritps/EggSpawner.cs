@@ -9,7 +9,7 @@ public class EggSpawner : Entity
 {
     [Header("Egg Spawner")]
     [SerializeField] private LayerMask triggerMask;
-    [SerializeField] private List<BoxCollider> SpawnCollider;
+    public List<BoxCollider> SpawnCollider;
     [SerializeField] private EnemySpawner EnemySpawner;
     [SerializeField] private List<AI> Enemies = new List<AI>();
     [SerializeField] private EnemySpawner.SpawnMethod SpawnMethod = EnemySpawner.SpawnMethod.Random;
@@ -91,8 +91,10 @@ public class EggSpawner : Entity
             int spawnIndex = EnemySpawner.Enemies.FindIndex((enemy) => enemy.Equals(Enemies[index]));
 
             bool result = false;
-            while (!result)
+            int maxIterations = 100;
+            while (!result && maxIterations >= 0)
             {
+                maxIterations--;
                 Vector3 position = GetRandomPositionInBounds();
                 result = EnemySpawner.DoSpawnEnemy(spawnIndex, position);
             }

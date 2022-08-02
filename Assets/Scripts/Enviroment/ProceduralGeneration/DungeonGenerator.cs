@@ -26,13 +26,21 @@ public class DungeonGenerator : MonoBehaviour
     public GameObject deadEnd;
     public bool generatedEnd;
     public bool shouldGenerateEnd;
-    public List<DungeonRoom> horizontalRooms;
-    public List<DungeonRoom> verticalRooms;
+    public List<DungeonRoomEntry> horizontalRooms;
+    public List<DungeonRoomEntry> verticalRooms;
     public float validationTime;
 
     private List<DungeonRoom> dungeon = new List<DungeonRoom>();
     private List<DungeonRoom> ungeneratedRooms = new List<DungeonRoom>();
-    
+
+
+    [System.Serializable]
+    public class DungeonRoomEntry
+    {
+        public DungeonRoom room;
+        public int index = -1;
+        public bool special;
+    }
     
     //InfiniteRoomStuff
     public int roomAmountBeforeAndAfterPlayer;
@@ -106,11 +114,17 @@ public class DungeonGenerator : MonoBehaviour
         switch (type)
         {
             case DungeonRoomConnection.ConnectionType.Horizontal:
-                result.AddRange(horizontalRooms);
+                foreach (var entry in horizontalRooms)
+                {
+                    result.Add(entry.room);
+                }
                 break;
             
             case DungeonRoomConnection.ConnectionType.Vertical:
-                result.AddRange(verticalRooms);
+                foreach (var entry in verticalRooms)
+                {
+                    result.Add(entry.room);
+                }
                 break;
         }
         return result;

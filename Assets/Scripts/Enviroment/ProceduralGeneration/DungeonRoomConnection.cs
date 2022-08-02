@@ -22,9 +22,11 @@ public class DungeonRoomConnection : MonoBehaviour
     public IEnumerator Connect()
     {
         myRoom = GetComponentInParent<DungeonRoom>();
-        List<DungeonRoom>  possibleRooms = type == ConnectionType.Horizontal 
+        List<DungeonGenerator.DungeonRoomEntry>  possibleRoomsEntry = type == ConnectionType.Horizontal 
             ? DungeonGenerator.i.horizontalRooms
             : DungeonGenerator.i.verticalRooms;
+        
+        List<DungeonRoom>  possibleRooms = possibleRoomsEntry.Where(x => !x.special).Select(x => x.room).ToList();
 
         if (possibleRooms.Count > 0)
         {
@@ -74,7 +76,20 @@ public class DungeonRoomConnection : MonoBehaviour
                 }
                 else
                 {
-                    DungeonRoom randomRoom = unusedRooms.ChooseRandom();
+
+                    DungeonRoom randomRoom = null;
+                    
+                    if(possibleRoomsEntry.Any(x => x.index == myRoom.DistanceFromPlayer + 1))
+                    {
+                        DungeonGenerator.DungeonRoomEntry entry = possibleRoomsEntry
+                            .Where(x => x.special && x.index == myRoom.DistanceFromPlayer + 1).ToList().ChooseRandom();
+                        randomRoom = entry.room;
+                    }
+                    else
+                    {
+                        randomRoom = unusedRooms.ChooseRandom();
+                    }
+
                     usedRooms.Add(randomRoom);
                     
                     DungeonRoom room = Instantiate(randomRoom, DungeonGenerator.i.transform);
