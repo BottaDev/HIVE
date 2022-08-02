@@ -141,7 +141,7 @@ public class Wizrar : Entity
             {
                 trigger.StopTriggering();
             }
-
+            StopAllCoroutines();
             StartCoroutine(Delay(delegate { _attackFSM.SendInput(Attack.Spawn); }, shootTime));
         };
         
@@ -160,6 +160,7 @@ public class Wizrar : Entity
                 trigger.StartTriggering();
             }
 
+            StopAllCoroutines();
             StartCoroutine(Delay(delegate { _attackFSM.SendInput(Attack.Shoot); }, spawnTime));
         };
         
