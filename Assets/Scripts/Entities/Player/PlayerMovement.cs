@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -31,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
     public float airMovementMultiplier = 0.5f;
     [HideInInspector] public bool movementDirection;
     public float counterMovement = 0.175f; //Multiplier of velocity for counter movement
+    private float originalCounterMovement;
     public float maxSlopeAngle = 35f;
 
 
@@ -73,6 +75,7 @@ public class PlayerMovement : MonoBehaviour
         SetMaxSpeed(maxSpeed);
         ableToMove = true;
         horizontalStepUpper.localPosition = horizontalStepLower.localPosition + new Vector3(0, horizontalStepHeight, 0);
+        originalCounterMovement = counterMovement;
         EventManager.Instance.Subscribe("GamePause", Pause);
         EventManager.Instance.Subscribe("GameUnPause", Unpause);
     }
@@ -275,6 +278,21 @@ public class PlayerMovement : MonoBehaviour
     public void ApplyGravity(bool setting)
     {
         rb.useGravity = setting;
+    }
+
+    public void ApplyImpulseForce(Vector3 force, float groundDisableTime)
+    {
+        StartCoroutine(ImpulseForce(force, groundDisableTime));
+    }
+
+    IEnumerator ImpulseForce(Vector3 force, float groundDisableTime)
+    {
+        counterMovement = 0;
+        rb.AddForce(force, ForceMode.Impulse);
+        
+        yield return new WaitForSeconds(groundDisableTime);
+        
+        counterMovement = originalCounterMovement;
     }
 
     /// <summary>

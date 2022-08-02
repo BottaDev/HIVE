@@ -14,6 +14,7 @@ public class AttractiveBullet : PoolableObject
     private const string DisableMethodName = "Disable";
 
     public float attractForce = 2f;
+    public float upwardsForce = 2f;
     
     [HideInInspector] public bool wasShotByPlayer;
 
@@ -46,7 +47,9 @@ public class AttractiveBullet : PoolableObject
         if (player != null)
         {
             player.hookshot.DestroyHook();
-            player.movement.rb.AddForce(-transform.forward * attractForce , ForceMode.Impulse);
+            player.movement.ApplyImpulseForce(-transform.forward * attractForce, 0.1f);
+            player.movement.ApplyImpulseForce(transform.up * upwardsForce, 0.1f);
+            AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.PykrarGrapple));
         }
         
         Disable();

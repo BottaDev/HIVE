@@ -46,7 +46,7 @@ public abstract class AI : Entity
     [Range(0f, 3f)] public float attackRate = 1f;
     public float detectionRange = 25f;
     public float rotationSpeed = 5f;
-
+    public Transform Player;
     protected float _currentAttackRate;           
     protected Player _player;
     public NavMeshAgent _agent;
@@ -61,11 +61,7 @@ public abstract class AI : Entity
     private int WaypointIndex = 0;
     
     public NavMeshTriangulation Triangulation = new NavMeshTriangulation();
-
-    public Transform Player;
-
-    [SerializeField] private ProgressBar HealthBar;
-
+    
     public Utilities_ProgressBar healthSlider;
     public Utilities_CanvasGroupReveal reveal;
 
@@ -253,12 +249,7 @@ public abstract class AI : Entity
             Destroy(gameObject);
         }
 
-        if (HealthBar != null)
-        {
-            Destroy(HealthBar.gameObject);
-        }
-        
-        
+
         AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.EnemyDeath));
     }
 
@@ -268,15 +259,6 @@ public abstract class AI : Entity
         Destroy(deathModel);
     }
 
-    public void SetupHealthBar(Canvas canvas, Camera camera)
-    {
-        HealthBar.transform.SetParent(canvas.transform);
-        if (HealthBar.TryGetComponent<FaceCamera>(out FaceCamera faceCamera))
-        {
-            faceCamera.Camera = camera;
-        }
-    }
-    
     public void Spawn()
     {
         if (Triangulation.vertices != null)

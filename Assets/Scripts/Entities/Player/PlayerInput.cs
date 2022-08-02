@@ -1,3 +1,4 @@
+using Kam.CustomInput;
 using UnityEngine;
 
 #if UNITY_EDITOR
@@ -67,6 +68,8 @@ public class PlayerInput : MonoBehaviour
     public bool StoppedDirectGrapple { get => _stoppedDirectGrapple; set => _stoppedDirectGrapple = value; }
     public bool GrenadeThrow { get => _grenadeThrow; set => _grenadeThrow = value; }
     public bool Absorbing { get => _absorbing; set => _absorbing = value; }
+
+    private Utilities_Input_HoldKey holdKeyRestart = new Utilities_Input_HoldKey(false);
     private void Update()
     {
         MyInput();
@@ -108,7 +111,7 @@ public class PlayerInput : MonoBehaviour
             ShootingLeft = Input.GetMouseButton((int) shootKeyLeft);
             StartedShootingRight = Input.GetMouseButtonDown((int) shootKeyRight);
             ShootingRight = Input.GetMouseButton((int) shootKeyRight);
-            Restart = Input.GetKeyDown(restartKey);
+            Restart = holdKeyRestart.HoldKey(restartKey, 1f);
             Freecam = Input.GetKey(freeCamKey);
             Attaching = Input.GetMouseButtonDown((int) railAttachKey);
             Grapple = Input.GetKeyDown(grappleKey);

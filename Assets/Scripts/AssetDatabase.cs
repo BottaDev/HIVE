@@ -26,7 +26,8 @@ public enum SFXs
     EggBoilingEffect,
     EmilrangShoot,
     PlayerHit,
-    Hitmarker
+    Hitmarker,
+    PykrarGrapple
 }
 public enum Icons
 {

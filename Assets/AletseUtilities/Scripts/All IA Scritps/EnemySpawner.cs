@@ -105,7 +105,6 @@ public class EnemySpawner : MonoBehaviour
 
     public bool DoSpawnEnemy(int SpawnIndex, Vector3 SpawnPosition)
     {
-        //var poolableObject = EnemyObjectPools[SpawnIndex].GetObject();
         AI poolableObject = Instantiate(Enemies[SpawnIndex]);
 
         if (poolableObject != null)
@@ -130,6 +129,7 @@ public class EnemySpawner : MonoBehaviour
 
         Debug.LogError($"Unable to fetch enemy of type {SpawnIndex} from object pool. Out of objects?");
         return false;
+        
     }
 
     private void ScaleUpSpawns()

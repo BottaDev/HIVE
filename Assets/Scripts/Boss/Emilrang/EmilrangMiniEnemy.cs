@@ -58,6 +58,7 @@ public class EmilrangMiniEnemy : MonoBehaviour, IDamageable
     public void Death()
     {
         Instantiate(deathParticles, transform.position, Quaternion.identity, transform.parent);
+        AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.Explosion));
         Destroy(gameObject);
     }
     
