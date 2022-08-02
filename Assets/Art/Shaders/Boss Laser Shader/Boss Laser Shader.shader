@@ -6,7 +6,9 @@ Shader "Boss Laser Shader"
 	{
 		[HideInInspector] _AlphaCutoff("Alpha Cutoff ", Range(0, 1)) = 0.5
 		[HideInInspector] _EmissionColor("Emission Color", Color) = (1,1,1,1)
-		[ASEEnd][ASEBegin]_Color("Color", Color) = (0.5471698,0.08517267,0.08517267,0)
+		[ASEBegin]_Color("Color", Color) = (0.5471698,0.08517267,0.08517267,0)
+		_Texture0("Texture 0", 2D) = "white" {}
+		[ASEEnd]_VertexPower("Vertex Power", Float) = 0.02
 
 		//_TransmissionShadow( "Transmission Shadow", Range( 0, 1 ) ) = 0.5
 		//_TransStrength( "Trans Strength", Range( 0, 50 ) ) = 1
@@ -201,7 +203,6 @@ Shader "Boss Laser Shader"
 			    #define ENABLE_TERRAIN_PERPIXEL_NORMAL
 			#endif
 
-			#define ASE_NEEDS_VERT_TANGENT
 			#define ASE_NEEDS_VERT_NORMAL
 			#define ASE_NEEDS_FRAG_WORLD_VIEW_DIR
 			#define ASE_NEEDS_FRAG_WORLD_NORMAL
@@ -239,6 +240,7 @@ Shader "Boss Laser Shader"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _Color;
+			float _VertexPower;
 			#ifdef _TRANSMISSION_ASE
 				float _TransmissionShadow;
 			#endif
@@ -259,42 +261,10 @@ Shader "Boss Laser Shader"
 				float _TessMaxDisp;
 			#endif
 			CBUFFER_END
-			
+			sampler2D _Texture0;
 
-					float2 voronoihash18( float2 p )
-					{
-						
-						p = float2( dot( p, float2( 127.1, 311.7 ) ), dot( p, float2( 269.5, 183.3 ) ) );
-						return frac( sin( p ) *43758.5453);
-					}
-			
-					float voronoi18( float2 v, float time, inout float2 id, inout float2 mr, float smoothness, inout float2 smoothId )
-					{
-						float2 n = floor( v );
-						float2 f = frac( v );
-						float F1 = 8.0;
-						float F2 = 8.0; float2 mg = 0;
-						for ( int j = -1; j <= 1; j++ )
-						{
-							for ( int i = -1; i <= 1; i++ )
-						 	{
-						 		float2 g = float2( i, j );
-						 		float2 o = voronoihash18( n + g );
-								o = ( sin( time + o * 6.2831 ) * 0.5 + 0.5 ); float2 r = f - g - o;
-								float d = 0.5 * dot( r, r );
-						 		if( d<F1 ) {
-						 			F2 = F1;
-						 			F1 = d; mg = g; mr = r; id = o;
-						 		} else if( d<F2 ) {
-						 			F2 = d;
-						
-						 		}
-						 	}
-						}
-						return F1;
-					}
-			
 
+			
 			VertexOutput VertexFunction( VertexInput v  )
 			{
 				VertexOutput o = (VertexOutput)0;
@@ -302,29 +272,17 @@ Shader "Boss Laser Shader"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-				float time18 = 2.0;
-				float2 voronoiSmoothId18 = 0;
-				float2 coords18 = v.texcoord.xy * 22.0;
-				float2 id18 = 0;
-				float2 uv18 = 0;
-				float voroi18 = voronoi18( coords18, time18, id18, uv18, 0, voronoiSmoothId18 );
-				float3 temp_cast_0 = (voroi18).xxx;
-				float3 ase_worldTangent = TransformObjectToWorldDir(v.ase_tangent.xyz);
 				float3 ase_worldNormal = TransformObjectToWorldNormal(v.ase_normal);
-				float ase_vertexTangentSign = v.ase_tangent.w * unity_WorldTransformParams.w;
-				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
-				float3 tanToWorld0 = float3( ase_worldTangent.x, ase_worldBitangent.x, ase_worldNormal.x );
-				float3 tanToWorld1 = float3( ase_worldTangent.y, ase_worldBitangent.y, ase_worldNormal.y );
-				float3 tanToWorld2 = float3( ase_worldTangent.z, ase_worldBitangent.z, ase_worldNormal.z );
-				float3 tanNormal15 = temp_cast_0;
-				float3 worldNormal15 = float3(dot(tanToWorld0,tanNormal15), dot(tanToWorld1,tanNormal15), dot(tanToWorld2,tanNormal15));
+				float2 appendResult24 = (float2(0.0 , 1.0));
+				float2 texCoord23 = v.texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 panner22 = ( 1.0 * _Time.y * appendResult24 + texCoord23);
 				
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
 				#else
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
-				float3 vertexValue = ( worldNormal15 * voroi18 );
+				float3 vertexValue = ( ase_worldNormal * tex2Dlod( _Texture0, float4( panner22, 0, 0.0) ).r * _VertexPower );
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.vertex.xyz = vertexValue;
 				#else
@@ -504,7 +462,7 @@ Shader "Boss Laser Shader"
 	
 				WorldViewDirection = SafeNormalize( WorldViewDirection );
 
-				float4 color9 = IsGammaSpace() ? float4(0.1886792,0.03470986,0.08039308,0) : float4(0.02968647,0.002686522,0.007244787,0);
+				float4 color9 = IsGammaSpace() ? float4(0.4906778,0.2039215,0.5960785,0) : float4(0.2055139,0.0343398,0.3139887,0);
 				float fresnelNdotV11 = dot( WorldNormal, WorldViewDirection );
 				float fresnelNode11 = ( -1.52 + 8.07 * pow( 1.0 - fresnelNdotV11, 1.8 ) );
 				float4 lerpResult10 = lerp( color9 , _Color , fresnelNode11);
@@ -713,7 +671,6 @@ Shader "Boss Laser Shader"
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
 				float4 ase_texcoord : TEXCOORD0;
-				float4 ase_tangent : TANGENT;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -733,6 +690,7 @@ Shader "Boss Laser Shader"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _Color;
+			float _VertexPower;
 			#ifdef _TRANSMISSION_ASE
 				float _TransmissionShadow;
 			#endif
@@ -753,42 +711,10 @@ Shader "Boss Laser Shader"
 				float _TessMaxDisp;
 			#endif
 			CBUFFER_END
-			
+			sampler2D _Texture0;
 
-					float2 voronoihash18( float2 p )
-					{
-						
-						p = float2( dot( p, float2( 127.1, 311.7 ) ), dot( p, float2( 269.5, 183.3 ) ) );
-						return frac( sin( p ) *43758.5453);
-					}
-			
-					float voronoi18( float2 v, float time, inout float2 id, inout float2 mr, float smoothness, inout float2 smoothId )
-					{
-						float2 n = floor( v );
-						float2 f = frac( v );
-						float F1 = 8.0;
-						float F2 = 8.0; float2 mg = 0;
-						for ( int j = -1; j <= 1; j++ )
-						{
-							for ( int i = -1; i <= 1; i++ )
-						 	{
-						 		float2 g = float2( i, j );
-						 		float2 o = voronoihash18( n + g );
-								o = ( sin( time + o * 6.2831 ) * 0.5 + 0.5 ); float2 r = f - g - o;
-								float d = 0.5 * dot( r, r );
-						 		if( d<F1 ) {
-						 			F2 = F1;
-						 			F1 = d; mg = g; mr = r; id = o;
-						 		} else if( d<F2 ) {
-						 			F2 = d;
-						
-						 		}
-						 	}
-						}
-						return F1;
-					}
-			
 
+			
 			float3 _LightDirection;
 #if ASE_SRP_VERSION >= 110000 
 			float3 _LightPosition;
@@ -800,29 +726,17 @@ Shader "Boss Laser Shader"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( o );
 
-				float time18 = 2.0;
-				float2 voronoiSmoothId18 = 0;
-				float2 coords18 = v.ase_texcoord.xy * 22.0;
-				float2 id18 = 0;
-				float2 uv18 = 0;
-				float voroi18 = voronoi18( coords18, time18, id18, uv18, 0, voronoiSmoothId18 );
-				float3 temp_cast_0 = (voroi18).xxx;
-				float3 ase_worldTangent = TransformObjectToWorldDir(v.ase_tangent.xyz);
 				float3 ase_worldNormal = TransformObjectToWorldNormal(v.ase_normal);
-				float ase_vertexTangentSign = v.ase_tangent.w * unity_WorldTransformParams.w;
-				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
-				float3 tanToWorld0 = float3( ase_worldTangent.x, ase_worldBitangent.x, ase_worldNormal.x );
-				float3 tanToWorld1 = float3( ase_worldTangent.y, ase_worldBitangent.y, ase_worldNormal.y );
-				float3 tanToWorld2 = float3( ase_worldTangent.z, ase_worldBitangent.z, ase_worldNormal.z );
-				float3 tanNormal15 = temp_cast_0;
-				float3 worldNormal15 = float3(dot(tanToWorld0,tanNormal15), dot(tanToWorld1,tanNormal15), dot(tanToWorld2,tanNormal15));
+				float2 appendResult24 = (float2(0.0 , 1.0));
+				float2 texCoord23 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 panner22 = ( 1.0 * _Time.y * appendResult24 + texCoord23);
 				
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
 				#else
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
-				float3 vertexValue = ( worldNormal15 * voroi18 );
+				float3 vertexValue = ( ase_worldNormal * tex2Dlod( _Texture0, float4( panner22, 0, 0.0) ).r * _VertexPower );
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.vertex.xyz = vertexValue;
 				#else
@@ -874,7 +788,6 @@ Shader "Boss Laser Shader"
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
 				float4 ase_texcoord : TEXCOORD0;
-				float4 ase_tangent : TANGENT;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -893,7 +806,6 @@ Shader "Boss Laser Shader"
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
 				o.ase_texcoord = v.ase_texcoord;
-				o.ase_tangent = v.ase_tangent;
 				return o;
 			}
 
@@ -933,7 +845,6 @@ Shader "Boss Laser Shader"
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
 				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
-				o.ase_tangent = patch[0].ase_tangent * bary.x + patch[1].ase_tangent * bary.y + patch[2].ase_tangent * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -1047,7 +958,6 @@ Shader "Boss Laser Shader"
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
 				float4 ase_texcoord : TEXCOORD0;
-				float4 ase_tangent : TANGENT;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1067,6 +977,7 @@ Shader "Boss Laser Shader"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _Color;
+			float _VertexPower;
 			#ifdef _TRANSMISSION_ASE
 				float _TransmissionShadow;
 			#endif
@@ -1087,42 +998,10 @@ Shader "Boss Laser Shader"
 				float _TessMaxDisp;
 			#endif
 			CBUFFER_END
-			
+			sampler2D _Texture0;
 
-					float2 voronoihash18( float2 p )
-					{
-						
-						p = float2( dot( p, float2( 127.1, 311.7 ) ), dot( p, float2( 269.5, 183.3 ) ) );
-						return frac( sin( p ) *43758.5453);
-					}
-			
-					float voronoi18( float2 v, float time, inout float2 id, inout float2 mr, float smoothness, inout float2 smoothId )
-					{
-						float2 n = floor( v );
-						float2 f = frac( v );
-						float F1 = 8.0;
-						float F2 = 8.0; float2 mg = 0;
-						for ( int j = -1; j <= 1; j++ )
-						{
-							for ( int i = -1; i <= 1; i++ )
-						 	{
-						 		float2 g = float2( i, j );
-						 		float2 o = voronoihash18( n + g );
-								o = ( sin( time + o * 6.2831 ) * 0.5 + 0.5 ); float2 r = f - g - o;
-								float d = 0.5 * dot( r, r );
-						 		if( d<F1 ) {
-						 			F2 = F1;
-						 			F1 = d; mg = g; mr = r; id = o;
-						 		} else if( d<F2 ) {
-						 			F2 = d;
-						
-						 		}
-						 	}
-						}
-						return F1;
-					}
-			
 
+			
 			VertexOutput VertexFunction( VertexInput v  )
 			{
 				VertexOutput o = (VertexOutput)0;
@@ -1130,29 +1009,17 @@ Shader "Boss Laser Shader"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-				float time18 = 2.0;
-				float2 voronoiSmoothId18 = 0;
-				float2 coords18 = v.ase_texcoord.xy * 22.0;
-				float2 id18 = 0;
-				float2 uv18 = 0;
-				float voroi18 = voronoi18( coords18, time18, id18, uv18, 0, voronoiSmoothId18 );
-				float3 temp_cast_0 = (voroi18).xxx;
-				float3 ase_worldTangent = TransformObjectToWorldDir(v.ase_tangent.xyz);
 				float3 ase_worldNormal = TransformObjectToWorldNormal(v.ase_normal);
-				float ase_vertexTangentSign = v.ase_tangent.w * unity_WorldTransformParams.w;
-				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
-				float3 tanToWorld0 = float3( ase_worldTangent.x, ase_worldBitangent.x, ase_worldNormal.x );
-				float3 tanToWorld1 = float3( ase_worldTangent.y, ase_worldBitangent.y, ase_worldNormal.y );
-				float3 tanToWorld2 = float3( ase_worldTangent.z, ase_worldBitangent.z, ase_worldNormal.z );
-				float3 tanNormal15 = temp_cast_0;
-				float3 worldNormal15 = float3(dot(tanToWorld0,tanNormal15), dot(tanToWorld1,tanNormal15), dot(tanToWorld2,tanNormal15));
+				float2 appendResult24 = (float2(0.0 , 1.0));
+				float2 texCoord23 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 panner22 = ( 1.0 * _Time.y * appendResult24 + texCoord23);
 				
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
 				#else
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
-				float3 vertexValue = ( worldNormal15 * voroi18 );
+				float3 vertexValue = ( ase_worldNormal * tex2Dlod( _Texture0, float4( panner22, 0, 0.0) ).r * _VertexPower );
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.vertex.xyz = vertexValue;
 				#else
@@ -1183,7 +1050,6 @@ Shader "Boss Laser Shader"
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
 				float4 ase_texcoord : TEXCOORD0;
-				float4 ase_tangent : TANGENT;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -1202,7 +1068,6 @@ Shader "Boss Laser Shader"
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
 				o.ase_texcoord = v.ase_texcoord;
-				o.ase_tangent = v.ase_tangent;
 				return o;
 			}
 
@@ -1242,7 +1107,6 @@ Shader "Boss Laser Shader"
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
 				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
-				o.ase_tangent = patch[0].ase_tangent * bary.x + patch[1].ase_tangent * bary.y + patch[2].ase_tangent * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -1353,7 +1217,6 @@ Shader "Boss Laser Shader"
 				float4 texcoord1 : TEXCOORD1;
 				float4 texcoord2 : TEXCOORD2;
 				float4 ase_texcoord : TEXCOORD0;
-				float4 ase_tangent : TANGENT;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1373,6 +1236,7 @@ Shader "Boss Laser Shader"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _Color;
+			float _VertexPower;
 			#ifdef _TRANSMISSION_ASE
 				float _TransmissionShadow;
 			#endif
@@ -1393,42 +1257,10 @@ Shader "Boss Laser Shader"
 				float _TessMaxDisp;
 			#endif
 			CBUFFER_END
-			
+			sampler2D _Texture0;
 
-					float2 voronoihash18( float2 p )
-					{
-						
-						p = float2( dot( p, float2( 127.1, 311.7 ) ), dot( p, float2( 269.5, 183.3 ) ) );
-						return frac( sin( p ) *43758.5453);
-					}
-			
-					float voronoi18( float2 v, float time, inout float2 id, inout float2 mr, float smoothness, inout float2 smoothId )
-					{
-						float2 n = floor( v );
-						float2 f = frac( v );
-						float F1 = 8.0;
-						float F2 = 8.0; float2 mg = 0;
-						for ( int j = -1; j <= 1; j++ )
-						{
-							for ( int i = -1; i <= 1; i++ )
-						 	{
-						 		float2 g = float2( i, j );
-						 		float2 o = voronoihash18( n + g );
-								o = ( sin( time + o * 6.2831 ) * 0.5 + 0.5 ); float2 r = f - g - o;
-								float d = 0.5 * dot( r, r );
-						 		if( d<F1 ) {
-						 			F2 = F1;
-						 			F1 = d; mg = g; mr = r; id = o;
-						 		} else if( d<F2 ) {
-						 			F2 = d;
-						
-						 		}
-						 	}
-						}
-						return F1;
-					}
-			
 
+			
 			VertexOutput VertexFunction( VertexInput v  )
 			{
 				VertexOutput o = (VertexOutput)0;
@@ -1436,22 +1268,10 @@ Shader "Boss Laser Shader"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-				float time18 = 2.0;
-				float2 voronoiSmoothId18 = 0;
-				float2 coords18 = v.ase_texcoord.xy * 22.0;
-				float2 id18 = 0;
-				float2 uv18 = 0;
-				float voroi18 = voronoi18( coords18, time18, id18, uv18, 0, voronoiSmoothId18 );
-				float3 temp_cast_0 = (voroi18).xxx;
-				float3 ase_worldTangent = TransformObjectToWorldDir(v.ase_tangent.xyz);
 				float3 ase_worldNormal = TransformObjectToWorldNormal(v.ase_normal);
-				float ase_vertexTangentSign = v.ase_tangent.w * unity_WorldTransformParams.w;
-				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
-				float3 tanToWorld0 = float3( ase_worldTangent.x, ase_worldBitangent.x, ase_worldNormal.x );
-				float3 tanToWorld1 = float3( ase_worldTangent.y, ase_worldBitangent.y, ase_worldNormal.y );
-				float3 tanToWorld2 = float3( ase_worldTangent.z, ase_worldBitangent.z, ase_worldNormal.z );
-				float3 tanNormal15 = temp_cast_0;
-				float3 worldNormal15 = float3(dot(tanToWorld0,tanNormal15), dot(tanToWorld1,tanNormal15), dot(tanToWorld2,tanNormal15));
+				float2 appendResult24 = (float2(0.0 , 1.0));
+				float2 texCoord23 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 panner22 = ( 1.0 * _Time.y * appendResult24 + texCoord23);
 				
 				o.ase_texcoord2.xyz = ase_worldNormal;
 				
@@ -1464,7 +1284,7 @@ Shader "Boss Laser Shader"
 				#else
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
-				float3 vertexValue = ( worldNormal15 * voroi18 );
+				float3 vertexValue = ( ase_worldNormal * tex2Dlod( _Texture0, float4( panner22, 0, 0.0) ).r * _VertexPower );
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.vertex.xyz = vertexValue;
 				#else
@@ -1496,7 +1316,6 @@ Shader "Boss Laser Shader"
 				float4 texcoord1 : TEXCOORD1;
 				float4 texcoord2 : TEXCOORD2;
 				float4 ase_texcoord : TEXCOORD0;
-				float4 ase_tangent : TANGENT;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -1517,7 +1336,6 @@ Shader "Boss Laser Shader"
 				o.texcoord1 = v.texcoord1;
 				o.texcoord2 = v.texcoord2;
 				o.ase_texcoord = v.ase_texcoord;
-				o.ase_tangent = v.ase_tangent;
 				return o;
 			}
 
@@ -1559,7 +1377,6 @@ Shader "Boss Laser Shader"
 				o.texcoord1 = patch[0].texcoord1 * bary.x + patch[1].texcoord1 * bary.y + patch[2].texcoord1 * bary.z;
 				o.texcoord2 = patch[0].texcoord2 * bary.x + patch[1].texcoord2 * bary.y + patch[2].texcoord2 * bary.z;
 				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
-				o.ase_tangent = patch[0].ase_tangent * bary.x + patch[1].ase_tangent * bary.y + patch[2].ase_tangent * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -1595,7 +1412,7 @@ Shader "Boss Laser Shader"
 					#endif
 				#endif
 
-				float4 color9 = IsGammaSpace() ? float4(0.1886792,0.03470986,0.08039308,0) : float4(0.02968647,0.002686522,0.007244787,0);
+				float4 color9 = IsGammaSpace() ? float4(0.4906778,0.2039215,0.5960785,0) : float4(0.2055139,0.0343398,0.3139887,0);
 				float3 ase_worldViewDir = ( _WorldSpaceCameraPos.xyz - WorldPosition );
 				ase_worldViewDir = normalize(ase_worldViewDir);
 				float3 ase_worldNormal = IN.ase_texcoord2.xyz;
@@ -1667,7 +1484,6 @@ Shader "Boss Laser Shader"
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
 				float4 ase_texcoord : TEXCOORD0;
-				float4 ase_tangent : TANGENT;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1687,6 +1503,7 @@ Shader "Boss Laser Shader"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _Color;
+			float _VertexPower;
 			#ifdef _TRANSMISSION_ASE
 				float _TransmissionShadow;
 			#endif
@@ -1707,42 +1524,10 @@ Shader "Boss Laser Shader"
 				float _TessMaxDisp;
 			#endif
 			CBUFFER_END
-			
+			sampler2D _Texture0;
 
-					float2 voronoihash18( float2 p )
-					{
-						
-						p = float2( dot( p, float2( 127.1, 311.7 ) ), dot( p, float2( 269.5, 183.3 ) ) );
-						return frac( sin( p ) *43758.5453);
-					}
-			
-					float voronoi18( float2 v, float time, inout float2 id, inout float2 mr, float smoothness, inout float2 smoothId )
-					{
-						float2 n = floor( v );
-						float2 f = frac( v );
-						float F1 = 8.0;
-						float F2 = 8.0; float2 mg = 0;
-						for ( int j = -1; j <= 1; j++ )
-						{
-							for ( int i = -1; i <= 1; i++ )
-						 	{
-						 		float2 g = float2( i, j );
-						 		float2 o = voronoihash18( n + g );
-								o = ( sin( time + o * 6.2831 ) * 0.5 + 0.5 ); float2 r = f - g - o;
-								float d = 0.5 * dot( r, r );
-						 		if( d<F1 ) {
-						 			F2 = F1;
-						 			F1 = d; mg = g; mr = r; id = o;
-						 		} else if( d<F2 ) {
-						 			F2 = d;
-						
-						 		}
-						 	}
-						}
-						return F1;
-					}
-			
 
+			
 			VertexOutput VertexFunction( VertexInput v  )
 			{
 				VertexOutput o = (VertexOutput)0;
@@ -1750,22 +1535,10 @@ Shader "Boss Laser Shader"
 				UNITY_TRANSFER_INSTANCE_ID( v, o );
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( o );
 
-				float time18 = 2.0;
-				float2 voronoiSmoothId18 = 0;
-				float2 coords18 = v.ase_texcoord.xy * 22.0;
-				float2 id18 = 0;
-				float2 uv18 = 0;
-				float voroi18 = voronoi18( coords18, time18, id18, uv18, 0, voronoiSmoothId18 );
-				float3 temp_cast_0 = (voroi18).xxx;
-				float3 ase_worldTangent = TransformObjectToWorldDir(v.ase_tangent.xyz);
 				float3 ase_worldNormal = TransformObjectToWorldNormal(v.ase_normal);
-				float ase_vertexTangentSign = v.ase_tangent.w * unity_WorldTransformParams.w;
-				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
-				float3 tanToWorld0 = float3( ase_worldTangent.x, ase_worldBitangent.x, ase_worldNormal.x );
-				float3 tanToWorld1 = float3( ase_worldTangent.y, ase_worldBitangent.y, ase_worldNormal.y );
-				float3 tanToWorld2 = float3( ase_worldTangent.z, ase_worldBitangent.z, ase_worldNormal.z );
-				float3 tanNormal15 = temp_cast_0;
-				float3 worldNormal15 = float3(dot(tanToWorld0,tanNormal15), dot(tanToWorld1,tanNormal15), dot(tanToWorld2,tanNormal15));
+				float2 appendResult24 = (float2(0.0 , 1.0));
+				float2 texCoord23 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 panner22 = ( 1.0 * _Time.y * appendResult24 + texCoord23);
 				
 				
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
@@ -1773,7 +1546,7 @@ Shader "Boss Laser Shader"
 				#else
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
-				float3 vertexValue = ( worldNormal15 * voroi18 );
+				float3 vertexValue = ( ase_worldNormal * tex2Dlod( _Texture0, float4( panner22, 0, 0.0) ).r * _VertexPower );
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.vertex.xyz = vertexValue;
 				#else
@@ -1806,7 +1579,6 @@ Shader "Boss Laser Shader"
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
 				float4 ase_texcoord : TEXCOORD0;
-				float4 ase_tangent : TANGENT;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -1825,7 +1597,6 @@ Shader "Boss Laser Shader"
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
 				o.ase_texcoord = v.ase_texcoord;
-				o.ase_tangent = v.ase_tangent;
 				return o;
 			}
 
@@ -1865,7 +1636,6 @@ Shader "Boss Laser Shader"
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
 				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
-				o.ase_tangent = patch[0].ase_tangent * bary.x + patch[1].ase_tangent * bary.y + patch[2].ase_tangent * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -1959,7 +1729,6 @@ Shader "Boss Laser Shader"
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
 				float4 ase_texcoord : TEXCOORD0;
-				float4 ase_tangent : TANGENT;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1980,6 +1749,7 @@ Shader "Boss Laser Shader"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _Color;
+			float _VertexPower;
 			#ifdef _TRANSMISSION_ASE
 				float _TransmissionShadow;
 			#endif
@@ -2000,42 +1770,10 @@ Shader "Boss Laser Shader"
 				float _TessMaxDisp;
 			#endif
 			CBUFFER_END
-			
+			sampler2D _Texture0;
 
-					float2 voronoihash18( float2 p )
-					{
-						
-						p = float2( dot( p, float2( 127.1, 311.7 ) ), dot( p, float2( 269.5, 183.3 ) ) );
-						return frac( sin( p ) *43758.5453);
-					}
-			
-					float voronoi18( float2 v, float time, inout float2 id, inout float2 mr, float smoothness, inout float2 smoothId )
-					{
-						float2 n = floor( v );
-						float2 f = frac( v );
-						float F1 = 8.0;
-						float F2 = 8.0; float2 mg = 0;
-						for ( int j = -1; j <= 1; j++ )
-						{
-							for ( int i = -1; i <= 1; i++ )
-						 	{
-						 		float2 g = float2( i, j );
-						 		float2 o = voronoihash18( n + g );
-								o = ( sin( time + o * 6.2831 ) * 0.5 + 0.5 ); float2 r = f - g - o;
-								float d = 0.5 * dot( r, r );
-						 		if( d<F1 ) {
-						 			F2 = F1;
-						 			F1 = d; mg = g; mr = r; id = o;
-						 		} else if( d<F2 ) {
-						 			F2 = d;
-						
-						 		}
-						 	}
-						}
-						return F1;
-					}
-			
 
+			
 			VertexOutput VertexFunction( VertexInput v  )
 			{
 				VertexOutput o = (VertexOutput)0;
@@ -2043,29 +1781,17 @@ Shader "Boss Laser Shader"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-				float time18 = 2.0;
-				float2 voronoiSmoothId18 = 0;
-				float2 coords18 = v.ase_texcoord.xy * 22.0;
-				float2 id18 = 0;
-				float2 uv18 = 0;
-				float voroi18 = voronoi18( coords18, time18, id18, uv18, 0, voronoiSmoothId18 );
-				float3 temp_cast_0 = (voroi18).xxx;
-				float3 ase_worldTangent = TransformObjectToWorldDir(v.ase_tangent.xyz);
 				float3 ase_worldNormal = TransformObjectToWorldNormal(v.ase_normal);
-				float ase_vertexTangentSign = v.ase_tangent.w * unity_WorldTransformParams.w;
-				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
-				float3 tanToWorld0 = float3( ase_worldTangent.x, ase_worldBitangent.x, ase_worldNormal.x );
-				float3 tanToWorld1 = float3( ase_worldTangent.y, ase_worldBitangent.y, ase_worldNormal.y );
-				float3 tanToWorld2 = float3( ase_worldTangent.z, ase_worldBitangent.z, ase_worldNormal.z );
-				float3 tanNormal15 = temp_cast_0;
-				float3 worldNormal15 = float3(dot(tanToWorld0,tanNormal15), dot(tanToWorld1,tanNormal15), dot(tanToWorld2,tanNormal15));
+				float2 appendResult24 = (float2(0.0 , 1.0));
+				float2 texCoord23 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 panner22 = ( 1.0 * _Time.y * appendResult24 + texCoord23);
 				
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
 				#else
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
-				float3 vertexValue = ( worldNormal15 * voroi18 );
+				float3 vertexValue = ( ase_worldNormal * tex2Dlod( _Texture0, float4( panner22, 0, 0.0) ).r * _VertexPower );
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.vertex.xyz = vertexValue;
 				#else
@@ -2099,7 +1825,6 @@ Shader "Boss Laser Shader"
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
 				float4 ase_texcoord : TEXCOORD0;
-				float4 ase_tangent : TANGENT;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -2118,7 +1843,6 @@ Shader "Boss Laser Shader"
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
 				o.ase_texcoord = v.ase_texcoord;
-				o.ase_tangent = v.ase_tangent;
 				return o;
 			}
 
@@ -2158,7 +1882,6 @@ Shader "Boss Laser Shader"
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
 				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
-				o.ase_tangent = patch[0].ase_tangent * bary.x + patch[1].ase_tangent * bary.y + patch[2].ase_tangent * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -2283,7 +2006,6 @@ Shader "Boss Laser Shader"
 			    #define ENABLE_TERRAIN_PERPIXEL_NORMAL
 			#endif
 
-			#define ASE_NEEDS_VERT_TANGENT
 			#define ASE_NEEDS_VERT_NORMAL
 			#define ASE_NEEDS_FRAG_WORLD_VIEW_DIR
 			#define ASE_NEEDS_FRAG_WORLD_NORMAL
@@ -2321,6 +2043,7 @@ Shader "Boss Laser Shader"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _Color;
+			float _VertexPower;
 			#ifdef _TRANSMISSION_ASE
 				float _TransmissionShadow;
 			#endif
@@ -2341,42 +2064,10 @@ Shader "Boss Laser Shader"
 				float _TessMaxDisp;
 			#endif
 			CBUFFER_END
-			
+			sampler2D _Texture0;
 
-					float2 voronoihash18( float2 p )
-					{
-						
-						p = float2( dot( p, float2( 127.1, 311.7 ) ), dot( p, float2( 269.5, 183.3 ) ) );
-						return frac( sin( p ) *43758.5453);
-					}
-			
-					float voronoi18( float2 v, float time, inout float2 id, inout float2 mr, float smoothness, inout float2 smoothId )
-					{
-						float2 n = floor( v );
-						float2 f = frac( v );
-						float F1 = 8.0;
-						float F2 = 8.0; float2 mg = 0;
-						for ( int j = -1; j <= 1; j++ )
-						{
-							for ( int i = -1; i <= 1; i++ )
-						 	{
-						 		float2 g = float2( i, j );
-						 		float2 o = voronoihash18( n + g );
-								o = ( sin( time + o * 6.2831 ) * 0.5 + 0.5 ); float2 r = f - g - o;
-								float d = 0.5 * dot( r, r );
-						 		if( d<F1 ) {
-						 			F2 = F1;
-						 			F1 = d; mg = g; mr = r; id = o;
-						 		} else if( d<F2 ) {
-						 			F2 = d;
-						
-						 		}
-						 	}
-						}
-						return F1;
-					}
-			
 
+			
 			VertexOutput VertexFunction( VertexInput v  )
 			{
 				VertexOutput o = (VertexOutput)0;
@@ -2384,29 +2075,17 @@ Shader "Boss Laser Shader"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-				float time18 = 2.0;
-				float2 voronoiSmoothId18 = 0;
-				float2 coords18 = v.texcoord.xy * 22.0;
-				float2 id18 = 0;
-				float2 uv18 = 0;
-				float voroi18 = voronoi18( coords18, time18, id18, uv18, 0, voronoiSmoothId18 );
-				float3 temp_cast_0 = (voroi18).xxx;
-				float3 ase_worldTangent = TransformObjectToWorldDir(v.ase_tangent.xyz);
 				float3 ase_worldNormal = TransformObjectToWorldNormal(v.ase_normal);
-				float ase_vertexTangentSign = v.ase_tangent.w * unity_WorldTransformParams.w;
-				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
-				float3 tanToWorld0 = float3( ase_worldTangent.x, ase_worldBitangent.x, ase_worldNormal.x );
-				float3 tanToWorld1 = float3( ase_worldTangent.y, ase_worldBitangent.y, ase_worldNormal.y );
-				float3 tanToWorld2 = float3( ase_worldTangent.z, ase_worldBitangent.z, ase_worldNormal.z );
-				float3 tanNormal15 = temp_cast_0;
-				float3 worldNormal15 = float3(dot(tanToWorld0,tanNormal15), dot(tanToWorld1,tanNormal15), dot(tanToWorld2,tanNormal15));
+				float2 appendResult24 = (float2(0.0 , 1.0));
+				float2 texCoord23 = v.texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 panner22 = ( 1.0 * _Time.y * appendResult24 + texCoord23);
 				
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
 				#else
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
-				float3 vertexValue = ( worldNormal15 * voroi18 );
+				float3 vertexValue = ( ase_worldNormal * tex2Dlod( _Texture0, float4( panner22, 0, 0.0) ).r * _VertexPower );
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.vertex.xyz = vertexValue;
 				#else
@@ -2585,7 +2264,7 @@ Shader "Boss Laser Shader"
 	
 				WorldViewDirection = SafeNormalize( WorldViewDirection );
 
-				float4 color9 = IsGammaSpace() ? float4(0.1886792,0.03470986,0.08039308,0) : float4(0.02968647,0.002686522,0.007244787,0);
+				float4 color9 = IsGammaSpace() ? float4(0.4906778,0.2039215,0.5960785,0) : float4(0.2055139,0.0343398,0.3139887,0);
 				float fresnelNdotV11 = dot( WorldNormal, WorldViewDirection );
 				float fresnelNode11 = ( -1.52 + 8.07 * pow( 1.0 - fresnelNdotV11, 1.8 ) );
 				float4 lerpResult10 = lerp( color9 , _Color , fresnelNode11);
@@ -2752,36 +2431,42 @@ Shader "Boss Laser Shader"
 }
 /*ASEBEGIN
 Version=18935
-0;530;1368;469;1551.909;-112.0486;2.1231;True;False
-Node;AmplifyShaderEditor.RangedFloatNode;19;-1726.322,966.1812;Inherit;False;Constant;_Float0;Float 0;2;0;Create;True;0;0;0;False;0;False;2;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;20;-1728.322,1068.181;Inherit;False;Constant;_Float1;Float 1;2;0;Create;True;0;0;0;False;0;False;22;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.VoronoiNode;18;-1478.422,835.5812;Inherit;True;0;0;1;0;1;False;1;False;False;False;4;0;FLOAT2;0,0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;0;False;3;FLOAT;0;FLOAT2;1;FLOAT2;2
-Node;AmplifyShaderEditor.ColorNode;9;-785.7498,-118.9423;Inherit;False;Constant;_Color1;Color 1;0;0;Create;True;0;0;0;False;0;False;0.1886792,0.03470986,0.08039308,0;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+0;516;1368;483;1631.918;-144.6713;1.639517;True;False
+Node;AmplifyShaderEditor.RangedFloatNode;25;-1475.53,1107.344;Inherit;False;Constant;_Float0;Float 0;3;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;26;-1474.23,1197.044;Inherit;False;Constant;_Float1;Float 1;3;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.TextureCoordinatesNode;23;-1316.382,930.7054;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.DynamicAppendNode;24;-1245.43,1107.343;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.TexturePropertyNode;13;-1203.325,681.1445;Inherit;True;Property;_Texture0;Texture 0;1;0;Create;True;0;0;0;False;0;False;None;f8c1057b927d57446ac241718e842e96;False;white;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
+Node;AmplifyShaderEditor.PannerNode;22;-1049.349,929.4575;Inherit;False;3;0;FLOAT2;0,0;False;2;FLOAT2;0,0.4;False;1;FLOAT;1;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.SamplerNode;14;-877.522,677.4762;Inherit;True;Property;_TextureSample0;Texture Sample 0;2;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.ColorNode;8;-792.42,73.17085;Inherit;False;Property;_Color;Color;0;0;Create;True;0;0;0;False;0;False;0.5471698,0.08517267,0.08517267,0;0.8018868,0.07943218,0.4651495,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RangedFloatNode;21;-413.7573,819.3228;Inherit;False;Property;_VertexPower;Vertex Power;2;0;Create;True;0;0;0;False;0;False;0.02;0.02;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.ColorNode;9;-785.7498,-118.9423;Inherit;False;Constant;_Color1;Color 1;0;0;Create;True;0;0;0;False;0;False;0.4906778,0.2039215,0.5960785,0;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.WorldNormalVector;15;-520.1398,522.6277;Inherit;False;False;1;0;FLOAT3;0,0,1;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.FresnelNode;11;-748.3948,269.2014;Inherit;True;Standard;WorldNormal;ViewDir;False;False;5;0;FLOAT3;0,0,1;False;4;FLOAT3;0,0,0;False;1;FLOAT;-1.52;False;2;FLOAT;8.07;False;3;FLOAT;1.8;False;1;FLOAT;0
-Node;AmplifyShaderEditor.WorldNormalVector;15;-548.2553,672.5782;Inherit;True;False;1;0;FLOAT3;0,0,1;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
-Node;AmplifyShaderEditor.TexturePropertyNode;13;-1203.325,681.1445;Inherit;True;Property;_Texture0;Texture 0;1;0;Create;True;0;0;0;False;0;False;None;None;False;white;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;16;-142.4504,555.0087;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;16;-160.7595,556.5345;Inherit;True;3;3;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.LerpOp;10;-388.1822,-46.89988;Inherit;True;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SamplerNode;14;-972.522,678.4762;Inherit;True;Property;_TextureSample0;Texture Sample 0;2;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;6;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;DepthNormals;0;6;DepthNormals;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;True;1;1;False;-1;0;False;-1;0;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;-1;True;3;False;-1;False;True;1;LightMode=DepthNormals;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;7;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;GBuffer;0;7;GBuffer;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;True;1;1;False;-1;0;False;-1;1;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;-1;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;1;LightMode=UniversalGBuffer;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;5;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;Universal2D;0;5;Universal2D;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;True;1;1;False;-1;0;False;-1;1;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;1;LightMode=Universal2D;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;4;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;Meta;0;4;Meta;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Meta;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;3;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;DepthOnly;0;3;DepthOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;False;False;True;False;False;False;False;0;False;-1;False;False;False;False;False;False;False;False;False;True;1;False;-1;False;False;True;1;LightMode=DepthOnly;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;2;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;False;False;True;False;False;False;False;0;False;-1;False;False;False;False;False;False;False;False;False;True;1;False;-1;True;3;False;-1;False;True;1;LightMode=ShadowCaster;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;0;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ExtraPrePass;0;0;ExtraPrePass;5;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;True;1;1;False;-1;0;False;-1;0;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;True;True;True;True;0;False;-1;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;0;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;7;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;2;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;GBuffer;0;7;GBuffer;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;True;1;1;False;-1;0;False;-1;1;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;-1;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;1;LightMode=UniversalGBuffer;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1;63.538,214.3671;Float;False;True;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;2;Boss Laser Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;Forward;0;1;Forward;18;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;True;1;1;False;-1;0;False;-1;1;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;-1;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;1;LightMode=UniversalForward;False;False;0;Hidden/InternalErrorShader;0;0;Standard;38;Workflow;1;0;Surface;0;0;  Refraction Model;0;0;  Blend;0;0;Two Sided;1;0;Fragment Normal Space,InvertActionOnDeselection;0;0;Transmission;0;0;  Transmission Shadow;0.5,False,-1;0;Translucency;0;0;  Translucency Strength;1,False,-1;0;  Normal Distortion;0.5,False,-1;0;  Scattering;2,False,-1;0;  Direct;0.9,False,-1;0;  Ambient;0.1,False,-1;0;  Shadow;0.5,False,-1;0;Cast Shadows;1;0;  Use Shadow Threshold;0;0;Receive Shadows;1;0;GPU Instancing;1;0;LOD CrossFade;1;0;Built-in Fog;1;0;_FinalColorxAlpha;0;0;Meta Pass;1;0;Override Baked GI;0;0;Extra Pre Pass;0;0;DOTS Instancing;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,-1;0;  Type;0;0;  Tess;16,False,-1;0;  Min;10,False,-1;0;  Max;25,False,-1;0;  Edge Length;16,False,-1;0;  Max Displacement;25,False,-1;0;Write Depth;0;0;  Early Z;0;0;Vertex Position,InvertActionOnDeselection;1;0;0;8;False;True;True;True;True;True;True;True;False;;False;0
-WireConnection;18;1;19;0
-WireConnection;18;2;20;0
-WireConnection;15;0;18;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;3;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;2;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;DepthOnly;0;3;DepthOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;False;False;True;False;False;False;False;0;False;-1;False;False;False;False;False;False;False;False;False;True;1;False;-1;False;False;True;1;LightMode=DepthOnly;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;6;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;2;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;DepthNormals;0;6;DepthNormals;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;True;1;1;False;-1;0;False;-1;0;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;-1;True;3;False;-1;False;True;1;LightMode=DepthNormals;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;4;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;2;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;Meta;0;4;Meta;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Meta;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;0;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;2;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ExtraPrePass;0;0;ExtraPrePass;5;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;True;1;1;False;-1;0;False;-1;0;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;True;True;True;True;0;False;-1;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;0;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;5;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;2;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;Universal2D;0;5;Universal2D;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;True;1;1;False;-1;0;False;-1;1;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;1;LightMode=Universal2D;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;2;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;2;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;False;False;True;False;False;False;False;0;False;-1;False;False;False;False;False;False;False;False;False;True;1;False;-1;True;3;False;-1;False;True;1;LightMode=ShadowCaster;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
+WireConnection;24;0;25;0
+WireConnection;24;1;26;0
+WireConnection;22;0;23;0
+WireConnection;22;2;24;0
+WireConnection;14;0;13;0
+WireConnection;14;1;22;0
 WireConnection;16;0;15;0
-WireConnection;16;1;18;0
+WireConnection;16;1;14;1
+WireConnection;16;2;21;0
 WireConnection;10;0;9;0
 WireConnection;10;1;8;0
 WireConnection;10;2;11;0
-WireConnection;14;0;13;0
 WireConnection;1;2;10;0
 WireConnection;1;8;16;0
 ASEEND*/
-//CHKSM=0B177FC88F6F79EAA031507757F602512A7B45DF
+//CHKSM=5205378212F081C15E5F5FF3F4C097B9DF7D4C13
