@@ -34,6 +34,7 @@ public class ShaderFloatLerper : MonoBehaviour
     {
         if (playOnAwake)
         {
+            Debug.Log("Play on awake");
             StartEffect();
         }
     }

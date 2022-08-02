@@ -47,6 +47,7 @@ public class AttractiveBullet : PoolableObject
         if (player != null)
         {
             player.hookshot.DestroyHook();
+            player.movement.rb.velocity = Vector3.zero;
             player.movement.ApplyImpulseForce(-transform.forward * attractForce, 0.1f);
             player.movement.ApplyImpulseForce(transform.up * upwardsForce, 0.1f);
             AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.PykrarGrapple));

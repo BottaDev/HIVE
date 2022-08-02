@@ -22,7 +22,7 @@ public class Rusher : AI
     protected override void Awake()
     {
         base.Awake();
-        IAManager.Instance.Units.Add(this);
+        //IAManager.Instance.Units.Add(this);
         _animator = GetComponent<Animator>();
     }
 

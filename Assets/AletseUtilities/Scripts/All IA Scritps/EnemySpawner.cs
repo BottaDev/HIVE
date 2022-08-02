@@ -124,9 +124,11 @@ public class EnemySpawner : MonoBehaviour
             }
 
             //Debug.LogError($"Unable to place NavMeshAgent on NavMesh. Tried to use {SpawnPosition}");
+            Destroy(poolableObject.gameObject);
             return false;
         }
 
+        Destroy(poolableObject.gameObject);
         Debug.LogError($"Unable to fetch enemy of type {SpawnIndex} from object pool. Out of objects?");
         return false;
         
