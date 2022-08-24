@@ -369,3 +369,38 @@ public static class ExtensionMethods_Vector3
         return $"x: {self.x}; y: {self.y}; z: {self.z};";
     }
 }
+
+public static class ExtensionMethods_Numbers
+{
+    /// <summary>
+    /// Turns a number into its percentage equivalent in the range given.
+    /// </summary>
+    /// <param name="self">The number in the range</param>
+    /// <param name="min">The minimum number in the range</param>
+    /// <param name="max">The maximum number in the range</param>
+    /// <returns></returns>
+    public static float ToPercentageOfRange(this float self, float min, float max)
+    {
+        if (self < min || self > max)
+        {
+            throw new Exception("The number was not within the specified range!");
+        }
+
+        float range = max - min;
+        float current = self - min;
+
+        return (current * 100) / range;
+    }
+    
+    /// <summary>
+    /// Turns a number into its percentage equivalent in the range given.
+    /// </summary>
+    /// <param name="self">The number in the range</param>
+    /// <param name="min">The minimum number in the range</param>
+    /// <param name="max">The maximum number in the range</param>
+    /// <returns></returns>
+    public static float ToPercentageOfRange(this int self, int min, int max)
+    {
+        return ToPercentageOfRange((float)self, min, max);
+    }
+}

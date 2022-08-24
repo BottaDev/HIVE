@@ -27,7 +27,9 @@ public enum SFXs
     EmilrangShoot,
     PlayerHit,
     Hitmarker,
-    PykrarGrapple
+    PykrarGrapple,
+    PlayerLowHealth,
+    Error
 }
 public enum Icons
 {

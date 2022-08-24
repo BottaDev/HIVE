@@ -199,6 +199,11 @@ public class Player : Entity
         EventManager.Instance.Trigger("OnPlayerHit");
         EventManager.Instance.Trigger("OnLifeUpdated", CurrentHealth, MaxHP);
 
+        if (CurrentHealth.ToPercentageOfRange(0, MaxHP) <= 20)
+        {
+            EventManager.Instance.Trigger("OnPlayerLowHealth");
+        }
+        
         if (!(CurrentHealth <= 0)) return;
         
         DeleteSavedPlayer();
@@ -209,6 +214,11 @@ public class Player : Entity
     public void Heal(int healAmount)
     {
         CurrentHealth += healAmount;
+        
+        if (CurrentHealth.ToPercentageOfRange(0, MaxHP) > 20)
+        {
+            EventManager.Instance.Trigger("OnPlayerRecoverFromLowHealth");
+        }
         
         view.Blink(1f, 10f, Color.green);
         view.HealEffect();

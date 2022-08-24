@@ -16,6 +16,8 @@ public class PlayerEnergy : MonoBehaviour
     public float maxEnergy = 100;
     public int absorbXPerTick = 1;
     public float absorbEveryXSeconds = 0.25f;
+    public float failCD = 2f;
+    private float currentFailCD;
 
     [Header("Prompt")]
     [SerializeField] private string message;
@@ -59,7 +61,8 @@ public class PlayerEnergy : MonoBehaviour
     private void Update()
     {
         EmptyCheck();
-
+        currentFailCD -= Time.deltaTime;
+        
         if(Current == MaxEnergy)
         {
             if (ableToAbsorb)
@@ -141,10 +144,20 @@ public class PlayerEnergy : MonoBehaviour
         MaxEnergy += amount;
         Current += amount;
     }
+    
     public bool TakeEnergy(float amount)
     {
-        if(!CheckCost(amount)) return false;
+        if (!CheckCost(amount))
+        {
+            if (currentFailCD < 0)
+            {
+                EventManager.Instance.Trigger("OnPlayerNotEnoughEnergy");
+                currentFailCD = failCD;
+            }
+            return false;
+        }
 
+        
         float result = Current - amount;
         this.Current = Mathf.Clamp(result, 0, MaxEnergy);
         GameStats.energyUsed += amount;

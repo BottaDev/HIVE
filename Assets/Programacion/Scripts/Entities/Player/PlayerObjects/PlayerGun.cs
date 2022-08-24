@@ -94,7 +94,7 @@ public class PlayerGun : MonoBehaviour
         bullet.Parent = _bulletPool;
         _aim = new PlayerAim(player, player.shoot.firePointRight, mask, spread);
     }
-    
+
     public void InputCheck(bool input)
     {
         bool shooting = input;
@@ -102,7 +102,6 @@ public class PlayerGun : MonoBehaviour
         if (shooting)
         {
             UIGunSight.instance.SetGunsight(sight);
-            currentReloadDelayTime = 0;
             player.view.anim.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsShooting, true);
         }
         else
@@ -134,6 +133,7 @@ public class PlayerGun : MonoBehaviour
                         bulletsShot = bulletsPerTap;
                         if(useShotSfx) AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(shotSfx));
                         Shoot();
+                        currentReloadDelayTime = 0;
                     }
                 }
                 else
