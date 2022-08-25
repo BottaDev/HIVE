@@ -2472,7 +2472,7 @@ Shader "EmissionByDistance"
 }
 /*ASEBEGIN
 Version=18935
-402.6667;615.3334;1416;472.3333;1837.206;532.0503;1.963729;True;False
+993.3334;484;825.6667;353;1256.924;531.723;1.963729;True;False
 Node;AmplifyShaderEditor.CommentaryNode;58;-4027.976,-1443.383;Inherit;False;2372.273;827.3732;;18;47;19;14;3;12;17;50;24;55;48;45;25;49;53;52;51;26;10;EMISSIVE;1,1,1,1;0;0
 Node;AmplifyShaderEditor.TexturePropertyNode;47;-3956.124,-1254.377;Inherit;True;Property;_Texture0;Texture 0;6;0;Create;True;0;0;0;False;0;False;5ddfb40f00c81d84cab4997a0bca83ea;5ddfb40f00c81d84cab4997a0bca83ea;False;white;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
 Node;AmplifyShaderEditor.WorldPosInputsNode;19;-3977.214,-843.066;Inherit;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
@@ -2531,4 +2531,4 @@ WireConnection;37;0;56;0
 WireConnection;37;1;2;0
 WireConnection;37;2;9;0
 ASEEND*/
-//CHKSM=46204680830E20454E7AE51D1F3548A2EE1CF67B
+//CHKSM=D7CA3AB750C604BD41CEB8FFD5503960A80C0A6A
