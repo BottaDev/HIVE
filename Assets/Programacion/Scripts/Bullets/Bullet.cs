@@ -114,6 +114,13 @@ public sealed class Bullet : PoolableObject
 
             obj.TakeDamage(damage);
         }
+        
+        IHittable hitobj = other.GetComponentInParent<IHittable>() ?? other.GetComponentInChildren<IHittable>();
+        
+        if (hitobj != null)
+        {
+            hitobj.Hit(transform);
+        }
     }
 
     private void Disable()

@@ -27,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Movement")]
     public bool ableToMove;
+    public bool ableToControl;
     [SerializeField] private float moveSpeed = 4500;
     public float maxSpeed = 20;
     public float airMovementMultiplier = 0.5f;
@@ -59,6 +60,7 @@ public class PlayerMovement : MonoBehaviour
     public bool useLook;
     public bool stepCheck;
     public bool rotateLowerHalf;
+    public bool testingNewSystem;
     private readonly float sensMultiplier = 1f;
     private readonly float threshold = 0.01f; //Threshold for speed magnitude before counter movement
     private bool _cancellingGrounded;
@@ -146,11 +148,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void Movement()
     {
-        //Check if you're moving  to set animation (use original input)
-        player.view.anim.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsRunning, player.input.IsMoving);
+        float x = UIPauseMenu.paused || !ableToControl ? 0 : this.X;
+        float y = UIPauseMenu.paused || !ableToControl ? 0 : this.Y;
         
-        float x = UIPauseMenu.paused ? 0 : this.X;
-        float y = UIPauseMenu.paused ? 0 : this.Y;
+        //Check if you're moving  to set animation (use original input)
+        player.view.anim.AnimationBooleans(PlayerAnimator.AnimationTriggers.IsRunning, x != 0 || y != 0);
+        
         if (rotateLowerHalf)
         {
             //Rotate towards input movement
@@ -163,11 +166,12 @@ public class PlayerMovement : MonoBehaviour
         {
             Vector3 originalSpeed = rb.velocity;
             Vector3 extraGravity = Vector3.down * (10 * Time.deltaTime);
-            rb.AddForce(extraGravity);
+            rb.AddForce(extraGravity, ForceMode.Force);
 
             rb.velocity = new Vector3(originalSpeed.x, rb.velocity.y, originalSpeed.z);
         }
 
+        
         //Find actual velocity relative to where player is looking
         Vector2 mag = FindVelRelativeToLook();
         float xMag = mag.x;
@@ -180,7 +184,7 @@ public class PlayerMovement : MonoBehaviour
             CounterMovement(x, y, mag);
         }
 
-
+        /*
         //Limits speed to max speed
         if (x > 0 && xMag > maxSpeed)
         {
@@ -200,8 +204,8 @@ public class PlayerMovement : MonoBehaviour
         if (y < 0 && yMag < -maxSpeed)
         {
             y = 0;
-        }
-
+        }*/
+        
         //Multipliers for movement
         float multiplier = 1f;
 
@@ -220,18 +224,31 @@ public class PlayerMovement : MonoBehaviour
 
         if (addForceX)
         {
-            rb.AddForce(xForce * totalMultiplier);
+            rb.AddForce(xForce * totalMultiplier, ForceMode.Force);
         }
 
         if (addForceY)
         {
-            rb.AddForce(yForce * totalMultiplier);
+            rb.AddForce(yForce * totalMultiplier, ForceMode.Force);
         }
 
         Y = y;
         X = x;
+        
+        ControlMaxSpeed();
     }
 
+    private void ControlMaxSpeed()
+    {
+        Vector3 flatVelocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+        
+        if (flatVelocity.magnitude > maxSpeed)
+        {
+            Vector3 limitedVelocity = flatVelocity.normalized * maxSpeed;
+            rb.velocity = new Vector3(limitedVelocity.x, rb.velocity.y, limitedVelocity.z);
+        }
+    }
+    
     private void StepClimb()
     {
         Vector3 velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
@@ -317,33 +334,54 @@ public class PlayerMovement : MonoBehaviour
 
     private void CounterMovement(float x, float y, Vector2 mag)
     {
-        if (!grounded || player.jump.currentlyJumping)
+        if (testingNewSystem)
         {
-            return;
+            if (grounded && !player.jump.currentlyJumping)
+            {
+                rb.drag = counterMovement;
+            }
+            else
+            {
+                rb.drag = 0;
+            }
+        }
+        else
+        {
+            if (!grounded || player.jump.currentlyJumping)
+            {
+                return;
+            }
+/*
+            //Slow down sliding
+            if (player.slide.sliding) {
+                rb.AddForce(moveSpeed * Time.deltaTime * -rb.velocity.normalized * player.slide.slideCounterMovement);
+                return;
+            }*/
+        
+            //Counter movement
+            if (Math.Abs(mag.x) > threshold && Math.Abs(x) < 0.05f || mag.x < -threshold && x > 0 ||
+                mag.x > threshold && x < 0)
+            {
+                rb.AddForce(moveSpeed * playerModel.transform.right * Time.deltaTime * -mag.x * counterMovement);
+            }
+
+            if (Math.Abs(mag.y) > threshold && Math.Abs(y) < 0.05f || mag.y < -threshold && y > 0 ||
+                mag.y > threshold && y < 0)
+            {
+                rb.AddForce(moveSpeed * playerModel.transform.forward * Time.deltaTime * -mag.y * counterMovement);
+            }
+
+            //Bunch of math to basically limit diagonal input velocity.
+            if (Mathf.Sqrt(Mathf.Pow(rb.velocity.x, 2) + Mathf.Pow(rb.velocity.z, 2)) > maxSpeed)
+            {
+                Vector3 velocity = rb.velocity;
+                float fallingSpeed = velocity.y;
+                Vector3 n = velocity.normalized * maxSpeed;
+                velocity = new Vector3(n.x, fallingSpeed, n.z);
+                rb.velocity = velocity;
+            }
         }
 
-        //Counter movement
-        if (Math.Abs(mag.x) > threshold && Math.Abs(x) < 0.05f || mag.x < -threshold && x > 0 ||
-            mag.x > threshold && x < 0)
-        {
-            rb.AddForce(moveSpeed * playerModel.transform.right * Time.deltaTime * -mag.x * counterMovement);
-        }
-
-        if (Math.Abs(mag.y) > threshold && Math.Abs(y) < 0.05f || mag.y < -threshold && y > 0 ||
-            mag.y > threshold && y < 0)
-        {
-            rb.AddForce(moveSpeed * playerModel.transform.forward * Time.deltaTime * -mag.y * counterMovement);
-        }
-
-        //Bunch of math to basically limit diagonal input velocity.
-        if (Mathf.Sqrt(Mathf.Pow(rb.velocity.x, 2) + Mathf.Pow(rb.velocity.z, 2)) > maxSpeed)
-        {
-            Vector3 velocity = rb.velocity;
-            float fallingSpeed = velocity.y;
-            Vector3 n = velocity.normalized * maxSpeed;
-            velocity = new Vector3(n.x, fallingSpeed, n.z);
-            rb.velocity = velocity;
-        }
     }
 
     /// <summary>

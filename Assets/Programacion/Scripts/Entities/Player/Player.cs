@@ -24,6 +24,7 @@ public class Player : Entity
     public PlayerDirectHookshot hookshot;
     public PlayerGrenadeThrow grenadeThrow;
     public PlayerView view;
+    public Slide slide;
     public GameObject model;
 
     public Rails attachedRail { get; set; }

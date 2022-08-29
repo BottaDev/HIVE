@@ -12,7 +12,29 @@ public abstract class Entity : PoolableObject, IDamageable
 
     [SerializeField] private int _currentHealth;
 
-    public int CurrentHealth { get { return _currentHealth; } set { _currentHealth = value; } }
+    public int CurrentHealth
+    {
+        get
+        {
+            return _currentHealth;
+        }
+        set
+        {
+            int newHp = value;
+            if (newHp < 0)
+            {
+                _currentHealth = 0;
+            }
+            else if (newHp > maxHealth)
+            {
+                _currentHealth = maxHealth;
+            }
+            else
+            {
+                _currentHealth = newHp;
+            }
+        }
+    }
     public float CurrentSpeed { get ; protected set; }
 
     protected virtual void Awake()

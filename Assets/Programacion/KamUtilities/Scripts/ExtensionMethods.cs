@@ -383,7 +383,7 @@ public static class ExtensionMethods_Numbers
     {
         if (self < min || self > max)
         {
-            throw new Exception("The number was not within the specified range!");
+            throw new Exception($"The number was not within the specified range! Range: {min} to {max}. Number: {self}");
         }
 
         float range = max - min;
@@ -402,5 +402,54 @@ public static class ExtensionMethods_Numbers
     public static float ToPercentageOfRange(this int self, int min, int max)
     {
         return ToPercentageOfRange((float)self, min, max);
+    }
+    
+    
+}
+
+public enum Direction
+{
+    Left, Right, Back, Front, Up, Down
+}
+public static class ExtensionMethods_Transform
+{
+    public static Direction GetDirectionTo(this Transform self, Transform obj) {
+        
+        Vector3 dir = obj.position - self.position;
+
+        float angle = Vector3.Angle(new Vector3(dir.x,0,dir.z), new Vector3(self.forward.x,0,self.forward.z));
+
+        if (angle <= 45)
+        {
+            //Front
+            return Direction.Front;
+        }
+        
+        if (angle <= 135)
+        {
+            //One of the sides
+
+            Vector3 perp = Vector3.Cross(self.forward, dir);
+            float dir2 = Vector3.Dot(perp, self.up);
+		
+            if (dir2 > 0f) 
+            {
+                //Right
+                return Direction.Right;
+            } 
+            
+            if (dir2 < 0f) 
+            {
+                //Left
+                return Direction.Left;
+            }
+
+            throw new Exception("Could not find direction");
+        }
+        else
+        {
+            //Back
+            return Direction.Back;
+        }
     }
 }

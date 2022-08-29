@@ -67,6 +67,7 @@ public class UILevelUpgradePrompt : MonoBehaviour
         //EventManager.Instance.Subscribe("OnPlayerEnteredUpgradeRoom", ShowLongDescription);
         //EventManager.Instance.Subscribe("OnPlayerLeftUpgradeRoom", HideLongDescription);
         EventManager.Instance.Trigger("NeedsPlayerReference");
+        EventManager.Instance.Unsubscribe("SendPlayerReference", GetPlayerReference);
         ShowUI(false);
         shortText.gameObject.SetActive(true);
         longText.gameObject.SetActive(false);

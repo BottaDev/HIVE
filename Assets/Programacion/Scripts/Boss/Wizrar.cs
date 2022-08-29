@@ -43,6 +43,7 @@ public class Wizrar : Entity
         EventManager.Instance.Unsubscribe("GameUnPause", Unpause);
         EventManager.Instance.Subscribe("SendPlayerReference", GetPlayerReference);
         EventManager.Instance.Trigger("NeedsPlayerReference");
+        EventManager.Instance.Unsubscribe("SendPlayerReference", GetPlayerReference);
     }
     
     private void GetPlayerReference(params object[] p)

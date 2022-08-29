@@ -22,6 +22,7 @@ public class EmilrangMiniEnemy : MonoBehaviour, IDamageable
     {
         EventManager.Instance.Subscribe("SendPlayerReference", GetPlayerReference);
         EventManager.Instance.Trigger("NeedsPlayerReference");
+        EventManager.Instance.Unsubscribe("SendPlayerReference", GetPlayerReference);
 
         CurrentHealth = maxHP;
     }

@@ -158,6 +158,12 @@ public class PlayerJump : MonoBehaviour
 
         _readyToJump = false;
         Invoke(nameof(ResetJump), jumpCooldown);
+
+        if (player.slide.sliding)
+        {
+            player.slide.StopSlide();
+            Rb.AddForce(player.movement.playerModel.forward * 1000);
+        }
     }
 
     private void ResetJump()

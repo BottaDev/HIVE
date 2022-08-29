@@ -27,6 +27,7 @@ public class UILevelSystem : MonoBehaviour
             if (_player == null)
             {
                 EventManager.Instance.Trigger("NeedsPlayerReference");
+                EventManager.Instance.Unsubscribe("SendPlayerReference", GetPlayerReference);
             }
 
             return _player;

@@ -46,7 +46,7 @@ public class Dash : UnlockableMechanic
     {
         if (!mechanicUnlocked) return;
         
-        if (Dashing)
+        if (Dashing && !player.movement.grounded)
         {
             if (_currentCooldown > 0)
             {
@@ -86,6 +86,10 @@ public class Dash : UnlockableMechanic
         _currentCooldown -= Time.deltaTime;
     }
 
+    public void StartCD()
+    {
+        _currentCooldown = cooldown;
+    }
     private IEnumerator DashCast()
     {
         player.hookshot.DestroyHook();
@@ -95,7 +99,8 @@ public class Dash : UnlockableMechanic
             item.emitting = true;
         }
         
-        _currentCooldown = cooldown;
+        StartCD();
+        player.slide.StartCD();
 
         bool ableToMoveOld = player.movement.ableToMove;
         bool applyGravityOld = player.movement.rb.useGravity;
@@ -141,7 +146,8 @@ public class Dash : UnlockableMechanic
             item.emitting = true;
         }
         
-        _currentCooldown = cooldown;
+        StartCD();
+        player.slide.StartCD();
         
         float originalVelocity = rail.speed;
         float originalDetectionRange = rail.detectionRange;

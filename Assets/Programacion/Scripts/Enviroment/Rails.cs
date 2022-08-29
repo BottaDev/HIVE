@@ -55,6 +55,7 @@ public class Rails : MonoBehaviour
     {
         EventManager.Instance.Subscribe("SendPlayerReference", GetPlayerReference);
         EventManager.Instance.Trigger("NeedsPlayerReference");
+        EventManager.Instance.Unsubscribe("SendPlayerReference", GetPlayerReference);
     }
 
     private void GetPlayerReference(params object[] p)
