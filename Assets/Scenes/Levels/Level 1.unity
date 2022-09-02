@@ -144,6 +144,7 @@ GameObject:
   m_Component:
   - component: {fileID: 18013986}
   - component: {fileID: 18013987}
+  - component: {fileID: 18013988}
   m_Layer: 0
   m_Name: Spawn Manager
   m_TagString: Untagged
@@ -189,6 +190,18 @@ MonoBehaviour:
   EnemySpawnMethod: 0
   ContinuousSpawning: 0
   Level: 0
+--- !u!114 &18013988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 18013985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10634a6403162a7468646dbecac9c9a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &75120768
 GameObject:
   m_ObjectHideFlags: 0
