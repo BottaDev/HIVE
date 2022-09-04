@@ -2,20 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GloboPLantCheating : MonoBehaviour
+public class GloboPlantCheating : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField]
+    HPSphere orbs;
+    [SerializeField]
+    int minOrbAmount, maxOrbAmount;
+    [SerializeField]
+    Transform spawnPoint;
 
-    // Update is called once per frame
+    Animator anim;
+
+    private void Awake()
+    {
+        anim = GetComponent<Animator>();
+    }
     void Update()
     {
         if ((Input.GetKeyDown(KeyCode.T)))
             GetComponent<Animator>().SetTrigger("CrystalBreak");
         else if ((Input.GetKeyDown(KeyCode.Y)))
             GetComponent<Animator>().SetTrigger("HittedBack");
+        else if (Input.GetKeyDown(KeyCode.U))
+        {
+            anim.SetTrigger("CrystalBreak");
+
+            for (int i = 0; i < Random.Range(minOrbAmount, maxOrbAmount + 1); i++)
+            {
+                Instantiate(orbs, spawnPoint.position, Quaternion.identity);
+            }
+        }
     }
 }
