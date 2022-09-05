@@ -5,7 +5,7 @@ using UnityEngine;
 public class GloboPlantCheating : MonoBehaviour
 {
     [SerializeField]
-    HPSphere orbs;
+    ParticleSphere orbs;
     [SerializeField]
     int minOrbAmount, maxOrbAmount;
     [SerializeField]

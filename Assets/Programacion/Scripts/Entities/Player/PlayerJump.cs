@@ -162,7 +162,7 @@ public class PlayerJump : MonoBehaviour
         if (player.slide.sliding)
         {
             player.slide.StopSlide();
-            Rb.AddForce(player.movement.playerModel.forward * 1000);
+            Rb.AddForce(player.movement.playerModel.forward * 300, ForceMode.Impulse);
         }
     }
 
@@ -175,6 +175,11 @@ public class PlayerJump : MonoBehaviour
     private void ResetCurrentlyJumping()
     {
         currentlyJumping = false;
+    }
+
+    public void SetAbleToJump(bool state)
+    {
+        _readyToJump = state;
     }
 }
 

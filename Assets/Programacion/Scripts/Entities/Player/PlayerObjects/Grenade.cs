@@ -73,59 +73,14 @@ public class Grenade : MonoBehaviour
     void Explode()
     {
         exploded = true;
+        ExplosionManager.i.NewExplosion(transform.position, explosionRadius, hitMask)
+            .SetDamage(damage)
+            .SetForces(force, upwardsForce)
+            .SetParticles(impactParticles)
+            .SetScreenshake(magnitude, roughness, fadeInTime, fadeOutTime)
+            .SetSFX(SFXs.Explosion)
+            .Explode();
         
-        Collider[] hits = Physics.OverlapSphere(transform.position, explosionRadius, hitMask);
-
-        foreach (var hit in hits)
-        {
-            IDamageable obj = hit.GetComponentInParent<IDamageable>() ?? hit.GetComponentInChildren<IDamageable>();
-
-            if (obj != null)
-            {
-                obj.TakeDamage(damage);
-            }
-        }
-        
-        #region Effects
-        ParticleSystem effect = Instantiate(impactParticles, transform.position, transform.rotation);
-        
-        if(setParticleParametersInCode)
-        {
-            ParticleSystem.MainModule main = effect.main;
-            main.startSpeed = new ParticleSystem.MinMaxCurve(20*explosionRadius);
-            main.startSize = new ParticleSystem.MinMaxCurve(0.1f*explosionRadius);
-            ParticleSystem.EmissionModule emission = effect.emission;
-            emission.SetBurst(0, new ParticleSystem.Burst(0f,100 * (int)explosionRadius)) ;
-            
-            ParticleSystem.ShapeModule shape = effect.shape;
-            //shape.radius = radius;
-        }
-        
-        CameraShaker.Instance.ShakeOnce(magnitude, roughness, fadeInTime, fadeOutTime);
-        if (addForceToRigidbodies)
-        {
-            Collider[] hits2 = Physics.OverlapSphere(transform.position, explosionRadius, hitMask);
-            foreach (var hit in hits2)
-            {
-                Rigidbody rb = hit.GetComponentInParent<Rigidbody>() ?? hit.GetComponentInChildren<Rigidbody>();
-                
-                rb?.AddExplosionForce(force,transform.position,explosionRadius,upwardsForce,ForceMode.Impulse);
-            }
-            
-        }
-
-        AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.Explosion));
-        effect.Play();
-        #endregion
-        
-        Destroy(gameObject);
-    }
-
-    IEnumerator DestroyCoroutine(ParticleSystem effect, float time)
-    {
-        yield return new WaitForSeconds(time);
-        
-        Destroy(effect);
         Destroy(gameObject);
     }
 

@@ -11,8 +11,11 @@ public class PlayerDebugDevTools : MonoBehaviour
     [SerializeField] private KeyCode addExpMobility = KeyCode.Alpha4;
     [SerializeField] private KeyCode emptyEnergy = KeyCode.Keypad4;
     [SerializeField] private KeyCode fillEnergy = KeyCode.Keypad5;
+    [SerializeField] private KeyCode oneHP = KeyCode.Keypad6;
+    [SerializeField] private KeyCode explosionBullet = KeyCode.Keypad7;
     [SerializeField] private KeyCode changeAmbientColor = KeyCode.Tab;
 
+    public ParticleSystem bulletExplosionParticles;
     private bool _invincible;
     public bool Invincible { get => _invincible; set => _invincible = value; }
 
@@ -65,6 +68,28 @@ public class PlayerDebugDevTools : MonoBehaviour
             {
                 Debug.Log("Debug Tools: Fill Energy");
                 player.energy.Current = player.energy.MaxEnergy;
+            }
+            
+            if (Input.GetKeyDown(oneHP))
+            {
+                Debug.Log("Debug Tools: 1 HP");
+                player.Heal(player.MaxHP);
+                player.TakeDamage(player.MaxHP - 1);
+            }
+            
+            if (Input.GetKeyDown(explosionBullet))
+            {
+                Debug.Log("Debug Tools: ExplosionBullet");
+                Bullet.onPlayerBulletCollision += (o, bullet) =>
+                {
+                    ExplosionManager.i.NewExplosion(bullet.position, 2f, player.grenadeThrow.hitMask)
+                        .SetDamage(25)
+                        .SetParticles(bulletExplosionParticles)
+                        .SetForces(25,5)
+                        .SetScreenshake(10,4,0.1f,1)
+                        .SetSFX(SFXs.Explosion)
+                        .Explode();
+                };
             }
             
             if (player.input.StartedShootingLeft)

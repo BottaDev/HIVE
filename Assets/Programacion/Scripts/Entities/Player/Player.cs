@@ -224,7 +224,7 @@ public class Player : Entity
         view.Blink(1f, 10f, Color.green);
         view.HealEffect();
         Popup.Create(model.transform.position, $"+{healAmount} HP",Color.green, new Vector2(0,3f)).ChangeSize(0.05f).SetParent(model.transform);
-
+        EventManager.Instance.Trigger("OnLifeUpdated", CurrentHealth, MaxHP);
     }
 
     public void PlayerDeath(params object[] parameters)

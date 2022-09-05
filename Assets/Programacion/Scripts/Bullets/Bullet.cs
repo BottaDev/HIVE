@@ -13,6 +13,7 @@ public sealed class Bullet : PoolableObject
     private const string DisableMethodName = "Disable";
     
     [HideInInspector] public bool wasShotByPlayer;
+    public static Action<GameObject, Transform> onPlayerBulletCollision = delegate(GameObject o, Transform bullet) {  };
 
     [Header("Effects")]
     public TrailRenderer trail;
@@ -120,6 +121,25 @@ public sealed class Bullet : PoolableObject
         if (hitobj != null)
         {
             hitobj.Hit(transform);
+        }
+        
+        IDirectionalDamageable directionalDamageableobj = other.GetComponentInParent<IDirectionalDamageable>() ?? other.GetComponentInChildren<IDirectionalDamageable>();
+        
+        if (directionalDamageableobj != null)
+        {
+            if (wasShotByPlayer)
+            {
+                UIGunSight.instance.Hit();
+            }
+
+            Popup.Create(point, damage.ToString(),KamColor.purple);
+            
+            directionalDamageableobj.TakeDamageDirectional(damage, transform);
+        }
+
+        if (wasShotByPlayer)
+        {
+            onPlayerBulletCollision.Invoke(other, transform);
         }
     }
 

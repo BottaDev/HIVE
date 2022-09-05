@@ -9,6 +9,8 @@ public class Exploder : AI
 {
     [Header("Exploder Parameters")] 
     public int explosionDamage = 5;
+    public float explosionRadius = 2;
+    public LayerMask explosionHitMask;
     public float engageSpeed = 12f;
     public float engageDistance = 8.5f;
     public float explodeDistance = 5f;
@@ -16,7 +18,7 @@ public class Exploder : AI
     [Tooltip("Time it takes to start engaging")] public float waitDuration = 0.8f;
 
     [Header("Objects")] 
-    public GameObject explosion;
+    public ParticleSystem explosion;
     
     private bool _engaged;
     
@@ -61,10 +63,14 @@ public class Exploder : AI
 
     private void OnDestroy()
     {
-        Explosion exp = Instantiate(explosion, transform.position, transform.rotation).GetComponent<Explosion>();
+        Explosion exp = ExplosionManager.i.NewExplosion(transform.position, explosionRadius, explosionHitMask);
         exp.SetDamage(explosionDamage);
+        exp.SetParticles(explosion);
+        exp.SetSFX(SFXs.Explosion);
+        exp.SetScreenshake(25, 4, 0.1f, 1f);
+        exp.SetForces(10,10);
+        exp.Explode();
         anim.SetTrigger("Boom");
-        AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.Explosion));
     }
 
     protected override void OnDrawGizmosSelected()
@@ -73,6 +79,9 @@ public class Exploder : AI
         
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, explodeDistance);
+        
+        Gizmos.color = Color.black;
+        Gizmos.DrawWireSphere(transform.position, explosionRadius);
         
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(transform.position, engageDistance);

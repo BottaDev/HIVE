@@ -29,6 +29,10 @@ public class Slide : UnlockableMechanic
     private float playerScale;
     public float slideForce = 400;
     public float maxSlideTime;
+    public float ceilingDistanceCheck;
+    public float wallDistanceCheck;
+    public float checkWidth;
+    public float maxSlopeAngle;
     private float slideTime;
     
     public bool sliding;
@@ -72,8 +76,6 @@ public class Slide : UnlockableMechanic
                 EventManager.Instance.Trigger("OnPlayerDashCd", cooldown);
                 
                 StartSlide();
-                
-                
             }
             
         }
@@ -114,7 +116,7 @@ public class Slide : UnlockableMechanic
                         player.movement.playerModel.right * player.input.X;
 
         player.movement.ApplyImpulseForce(input.normalized * slideForce, maxSlideTime);
-        slideDirection = player.movement.playerModel.forward;
+        slideDirection = input == Vector3.zero ? player.movement.playerModel.forward : input; 
         slideTime = maxSlideTime;
         
         StartCoroutine(CameraEffect(10, 40, 0.25f));
@@ -129,14 +131,69 @@ public class Slide : UnlockableMechanic
 
     private void SlideMovement()
     {
-        player.movement.rb.AddForce(slideDirection * slideForce, ForceMode.Force);
-
-        slideTime -= Time.deltaTime;
-
-        if (slideTime <= 0)
+        if (!CheckSlope() || player.movement.rb.velocity.y > -0.1f)
         {
-            StopSlide();
+            player.movement.rb.AddForce(slideDirection * slideForce, ForceMode.Force);
+        
+            slideTime -= Time.deltaTime;
+
+            player.jump.SetAbleToJump(true);
+        
+            if (slideTime <= 0 || CheckFrontWall())
+            {
+                if (!CheckCeiling())
+                {
+                    StopSlide();
+                }
+                else
+                {
+                    player.jump.SetAbleToJump(false);
+                }
+            }
         }
+        else
+        {
+            player.movement.rb.AddForce(GetSlopeMoveDirection(slideDirection) * slideForce, ForceMode.Force);
+        }
+    }
+
+    private bool CheckCeiling()
+    {
+        Vector3 leftOrigin = player.transform.position - (player.transform.right * checkWidth);
+        Vector3 rightOrigin = player.transform.position + (player.transform.right * checkWidth);
+
+        bool left = Physics.Raycast(leftOrigin, player.transform.up, ceilingDistanceCheck, player.movement.groundMask);
+        bool right = Physics.Raycast(rightOrigin, player.transform.up, ceilingDistanceCheck, player.movement.groundMask);
+        
+        return left || right;
+    }
+
+    private bool CheckFrontWall()
+    {
+        Vector3 leftOrigin = player.transform.position - (player.transform.right * checkWidth);
+        Vector3 rightOrigin = player.transform.position + (player.transform.right * checkWidth);
+
+        bool left = Physics.Raycast(leftOrigin, player.movement.rb.velocity.normalized.Flatten(1,0,1), wallDistanceCheck, player.movement.groundMask);
+        bool right = Physics.Raycast(rightOrigin, player.movement.rb.velocity.normalized.Flatten(1,0,1), wallDistanceCheck, player.movement.groundMask);
+
+        return left || right;
+    }
+
+    private RaycastHit slopeHit;
+    private bool CheckSlope()
+    {
+        if (Physics.Raycast(player.transform.position, -player.transform.up, out slopeHit, 2f * 0.5f + 0.3f))
+        {
+            float angle = Vector3.Angle(player.transform.up, slopeHit.normal);
+            return angle < maxSlopeAngle && angle != 0;
+        }
+
+        return false;
+    }
+
+    private Vector3 GetSlopeMoveDirection(Vector3 direction)
+    {
+        return Vector3.ProjectOnPlane(direction, slopeHit.normal).normalized;
     }
 
     public void StopSlide()
@@ -171,6 +228,20 @@ public class Slide : UnlockableMechanic
         {
             _cam.fieldOfView -= power / steps;
             yield return new WaitForSeconds(slowTime / steps);
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (sliding)
+        {
+            Vector3 leftOrigin = player.transform.position - (player.transform.right * checkWidth);
+            Vector3 rightOrigin = player.transform.position + (player.transform.right * checkWidth);
+            Debug.DrawLine(leftOrigin, leftOrigin + (player.transform.up * ceilingDistanceCheck));
+            Debug.DrawLine(leftOrigin, leftOrigin + (player.movement.rb.velocity.normalized * wallDistanceCheck));
+            
+            Debug.DrawLine(rightOrigin, rightOrigin + (player.transform.up * ceilingDistanceCheck));
+            Debug.DrawLine(rightOrigin, rightOrigin + (player.movement.rb.velocity.normalized * wallDistanceCheck));
         }
     }
 }

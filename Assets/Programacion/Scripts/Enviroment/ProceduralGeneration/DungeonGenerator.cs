@@ -56,18 +56,6 @@ public class DungeonGenerator : MonoBehaviour
         ReGenerateDungeon();
     }
 
-    private void Update()
-    {
-        if (Input.GetKey(KeyCode.LeftAlt))
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                ReGenerateDungeon();
-            }
-        }
-        
-    }
-
     private IEnumerator GenerateDungeon()
     {
         DungeonRoom startingRoom = Instantiate(startRoom, startingPoint, Quaternion.identity, transform);

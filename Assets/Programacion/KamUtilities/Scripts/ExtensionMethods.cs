@@ -368,6 +368,11 @@ public static class ExtensionMethods_Vector3
     {
         return $"x: {self.x}; y: {self.y}; z: {self.z};";
     }
+
+    public static Vector3 Flatten(this Vector3 self, float xWeight, float yWeight, float zWeight)
+    {
+        return new Vector3(self.x * xWeight, self.y * yWeight, self.z * zWeight);
+    }
 }
 
 public static class ExtensionMethods_Numbers

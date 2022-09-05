@@ -671,7 +671,10 @@ MonoBehaviour:
   addExpMobility: 259
   emptyEnergy: 260
   fillEnergy: 261
+  oneHP: 262
+  explosionBullet: 263
   changeAmbientColor: 9
+  bulletExplosionParticles: {fileID: 5563707000160122990, guid: 46203a4db7cd58c4d9a76612cd5c95c1, type: 3}
 --- !u!114 &2930390506446303794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -825,7 +828,11 @@ MonoBehaviour:
   - {fileID: 7902526484759244804}
   - {fileID: 7902526483232057360}
   slideForce: 300
-  maxSlideTime: 2
+  maxSlideTime: 1
+  ceilingDistanceCheck: 2
+  wallDistanceCheck: 0.5
+  checkWidth: 0.25
+  maxSlopeAngle: 60
   sliding: 0
 --- !u!114 &373072183
 MonoBehaviour:
@@ -886,7 +893,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unlockEvent: OnPlayerGrenadeUnlock
-  unlockedAtTheStart: 0
+  unlockedAtTheStart: 1
   energyCost: 20
   energyErrorMessage: Not enough energy to throw Grenade!
   energyErrorMessageColor: {r: 1, g: 0, b: 0, a: 1}
