@@ -114,8 +114,7 @@ public class Slide : UnlockableMechanic
         
         Vector3 input = player.movement.playerModel.forward * player.input.Y +
                         player.movement.playerModel.right * player.input.X;
-
-        player.movement.ApplyImpulseForce(input.normalized * slideForce, maxSlideTime);
+        
         slideDirection = input == Vector3.zero ? player.movement.playerModel.forward : input; 
         slideTime = maxSlideTime;
         
