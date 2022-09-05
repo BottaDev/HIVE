@@ -10,6 +10,7 @@ public class ParticleSphere : MonoBehaviour
 
     [SerializeField]
     float waitBeforeEffect, minStartForce, maxStartForce, speed, acceleration;
+    public ParticleSystem effectParticles;
 
     private DestructiblePlant.PlantType type;
     private float effect;
@@ -54,9 +55,15 @@ public class ParticleSphere : MonoBehaviour
     IEnumerator ApplyEffectCoroutine()
     {
         triggeredEffect = true;
-        
+
         yield return new WaitForSeconds(waitBeforeEffect);
+
+        if(effectParticles != null)
+        {
+            Instantiate(effectParticles, transform.position, Quaternion.identity);
+        }
         
+
         switch (type)
         {
             case DestructiblePlant.PlantType.Energy:
