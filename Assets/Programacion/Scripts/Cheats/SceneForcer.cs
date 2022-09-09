@@ -18,6 +18,10 @@ public class SceneForcer : MonoBehaviour
                 SwapScene(6);
             else if (Input.GetKeyDown(KeyCode.Alpha4))
                 SwapScene(7);
+            else if (Input.GetKeyDown(KeyCode.Alpha5))
+                SwapScene(8);
+            else if (Input.GetKeyDown(KeyCode.Alpha6))
+                SwapScene(9);
         }
     }
 
