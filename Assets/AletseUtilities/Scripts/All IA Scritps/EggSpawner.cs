@@ -11,7 +11,8 @@ public class EggSpawner : Entity
     [SerializeField] private LayerMask triggerMask;
     public List<BoxCollider> SpawnCollider;
     //[SerializeField] private EnemySpawner EnemySpawner;
-    [SerializeField] private List<GameObject> Enemies = new List<GameObject>();
+    //[SerializeField] private List<GameObject> Enemies = new List<GameObject>();
+    [SerializeField] private GameObject Enemy;
     [SerializeField] private EnemySpawner.SpawnMethod SpawnMethod = EnemySpawner.SpawnMethod.Random;
     [SerializeField] private int SpawnCount = 10;
     [SerializeField] private float DelayBeforeSpawn;
@@ -80,7 +81,7 @@ public class EggSpawner : Entity
 
             var randomSpawnPos = GetRandomPositionInBounds();
 
-            Instantiate(Enemies[i], randomSpawnPos, Quaternion.identity);
+            Instantiate(Enemy, randomSpawnPos, Quaternion.identity);
 
             //int index = 0;
             //switch (SpawnMethod)

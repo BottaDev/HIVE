@@ -50,22 +50,22 @@ public class EnemyPathAStar : MonoBehaviour
             //goalNode = comparatedNode;
             //pathAStar = MakePath.ConstructPathAStar(startingNode, goalNode);
 
-
-            if (pathAStar.Last() == null) return;
-
-            var lastNodeFromPath = pathAStar.Last();
-
-            var nextNodeFromOldPath = AllNodes.instance.ReturnClosestNodeFromPos(lastNodeFromPath.transform.position);
-
-            var newStartNode = AllNodes.instance.ReturnClosestNodeFromPos(nextNodeFromOldPath.transform.position);
-
-            goalNode = AllNodes.instance.ReturnClosestNodeFromPos(AllNodes.instance.playerTransform.position);
-
-            var newPath = MakePath.ConstructPathAStar(newStartNode, goalNode);
-
-            foreach (var item in newPath)
+            if (pathAStar.Last() != null)
             {
-                pathAStar.Add(item);
+                var lastNodeFromPath = pathAStar.Last();
+
+                var nextNodeFromOldPath = AllNodes.instance.ReturnClosestNodeFromPos(lastNodeFromPath.transform.position);
+
+                var newStartNode = AllNodes.instance.ReturnClosestNodeFromPos(nextNodeFromOldPath.transform.position);
+
+                goalNode = AllNodes.instance.ReturnClosestNodeFromPos(AllNodes.instance.playerTransform.position);
+
+                var newPath = MakePath.ConstructPathAStar(newStartNode, goalNode);
+
+                foreach (var item in newPath)
+                {
+                    pathAStar.Add(item);
+                }
             }
         }
 
