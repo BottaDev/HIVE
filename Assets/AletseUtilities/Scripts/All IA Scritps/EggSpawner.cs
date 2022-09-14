@@ -10,8 +10,8 @@ public class EggSpawner : Entity
     [Header("Egg Spawner")]
     [SerializeField] private LayerMask triggerMask;
     public List<BoxCollider> SpawnCollider;
-    [SerializeField] private EnemySpawner EnemySpawner;
-    [SerializeField] private List<AI> Enemies = new List<AI>();
+    //[SerializeField] private EnemySpawner EnemySpawner;
+    [SerializeField] private List<GameObject> Enemies = new List<GameObject>();
     [SerializeField] private EnemySpawner.SpawnMethod SpawnMethod = EnemySpawner.SpawnMethod.Random;
     [SerializeField] private int SpawnCount = 10;
     [SerializeField] private float DelayBeforeSpawn;
@@ -32,7 +32,7 @@ public class EggSpawner : Entity
 
     private void Awake()
     {
-        EnemySpawner = FindObjectOfType<EnemySpawner>();
+        //EnemySpawner = FindObjectOfType<EnemySpawner>();
         healthSlider.SetRange(0, maxHealth);
         healthSlider.SetValue(maxHealth);
 
@@ -77,28 +77,35 @@ public class EggSpawner : Entity
 
         for (int i = 0; i < SpawnCount; i++)
         {
-            int index = 0;
-            switch (SpawnMethod)
-            {
-                case EnemySpawner.SpawnMethod.RoundRobin:
-                    index = i % Enemies.Count;
-                    break;
 
-                case EnemySpawner.SpawnMethod.Random:
-                    index = Random.Range(0, Enemies.Count);
-                    break;
-            }
+            var randomSpawnPos = GetRandomPositionInBounds();
 
-            int spawnIndex = EnemySpawner.Enemies.FindIndex((enemy) => enemy.Equals(Enemies[index]));
+            Instantiate(Enemies[i], randomSpawnPos, Quaternion.identity);
 
-            bool result = false;
-            int maxIterations = 10;
-            while (!result && maxIterations >= 0)
-            {
-                maxIterations--;
-                Vector3 position = GetRandomPositionInBounds();
-                result = EnemySpawner.DoSpawnEnemy(spawnIndex, position);
-            }
+            //int index = 0;
+            //switch (SpawnMethod)
+            //{
+            //    case EnemySpawner.SpawnMethod.RoundRobin:
+            //        index = i % Enemies.Count;
+            //        break;
+            //
+            //    case EnemySpawner.SpawnMethod.Random:
+            //        index = Random.Range(0, Enemies.Count);
+            //        break;
+            //}
+            //
+            //int spawnIndex = Enemies.FindIndex((enemy) => enemy.Equals(Enemies[index]));
+
+            //bool result = false;
+            //int maxIterations = 10;
+            //while (maxIterations >= 0)
+            //{
+            //    maxIterations--;
+            //    Vector3 position = GetRandomPositionInBounds();
+            //
+            //    Instantiate(Enemies[i], transform);
+            //    //result = EnemySpawner.DoSpawnEnemy(spawnIndex, position);
+            //}
 
             AudioManager.instance.PlaySFX(AssetDatabase.i.GetSFX(SFXs.EnemySpawningEffect));
             yield return wait;

@@ -4,11 +4,28 @@ using UnityEngine;
 public class AllNodes : MonoBehaviour          
 {
     public static AllNodes instance;
+
+    public Transform playerTransform;
+
+    //Change list to HarshSet for better performance, Error allNodes[i] Not Found
     public List<Node> allNodes = new List<Node>();
+
 
     private void Awake()
     {
         instance = this;
+
+        playerTransform = FindObjectOfType<Player>().transform;
+    }
+
+    private void Start()
+    {
+        var findAllNodes = Resources.FindObjectsOfTypeAll<Node>();
+
+        for (int i = 0; i < findAllNodes.Length; i++)
+        {
+            allNodes.Add(findAllNodes[i]);
+        }
     }
 
     public Node ReturnClosestNodeFromPos(Vector3 pos)

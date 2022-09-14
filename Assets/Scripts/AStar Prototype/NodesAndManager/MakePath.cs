@@ -1,22 +1,10 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class MakePath : MonoBehaviour
+public static class MakePath 
 {
-    public static MakePath instance;
-
-    public List<Node> pathPlayer;
-
-    void Awake()
+    public static List<Node> ConstructPathAStar(Node startingNode, Node goalNode)
     {
-        instance = this;
-    }
-
-    public List<Node> ConstructPathAStar(Node startingNode, Node goalNode)
-    {
-        if (pathPlayer != null) pathPlayer.Clear();
-        else pathPlayer = new List<Node>();
-
         PriorityQueue frontier = new PriorityQueue();
         frontier.Put(startingNode, 0);
         Dictionary<Node, Node> cameFrom = new Dictionary<Node, Node>();
@@ -34,7 +22,6 @@ public class MakePath : MonoBehaviour
                 Node nodeToAdd = current;
                 while (nodeToAdd != null)
                 {
-                    pathPlayer.Add(nodeToAdd);
                     path.Add(nodeToAdd);
                     nodeToAdd = cameFrom[nodeToAdd];
                 }
@@ -59,7 +46,6 @@ public class MakePath : MonoBehaviour
                     }
                     float priority = newCost + Vector3.Distance(next.transform.position, goalNode.transform.position);
                     frontier.Put(next, priority);
-
                 }
             }
         }

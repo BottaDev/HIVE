@@ -1,34 +1,30 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+//public enum DirectionToConnect
+//{
+//    Forward,
+//    Right
+//}
+
 public class Node : MonoBehaviour
 {
     private Node actualNode;
-    public List<Node> _neighbors = new List<Node>();
+    [SerializeField]
+    private List<Node> _neighbors = new List<Node>();
     public int cost = 1;
-    public float radius;
-    public float maxDistance;
-    public LayerMask layerMaskHittable;
+    //public float radius;
+    //public LayerMask layerMaskHittable;
+    public MeshRenderer meshRend;
 
     public List<Node> GetNeighbors()    
     {
         return _neighbors;
     }
 
-    private void Start()
-    {
-        actualNode = this;
-
-        
-    }
-
-    private void Update()
-    {
-     
-    }
-
     private void OnDrawGizmos()
     {
+        //Connect all neighbors each other on Gizmos
         foreach (var item in _neighbors)
         {
             Gizmos.DrawLine(transform.position, item.transform.position);
