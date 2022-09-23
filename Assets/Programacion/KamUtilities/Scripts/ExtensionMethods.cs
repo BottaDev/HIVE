@@ -352,6 +352,29 @@ public static partial class ExtensionMethods_List
         T max = randomizeTie ? ties.ChooseRandom() : ties[0];
         return max;
     }
+    
+    public static int DifferenceAmount<T>(this List<T> list, List<T> compareList) where T : class
+    {
+        int maxCount = Mathf.Max(list.Count, compareList.Count);
+        int minCount = Mathf.Min(list.Count, compareList.Count);
+        int differences = 0;
+        for (int i = 0; i < maxCount; i++)
+        {
+            if (i >= minCount)
+            {
+                differences++;
+            }
+            else
+            {
+                if (list[i] != compareList[i])
+                {
+                    differences++;
+                }
+            }
+        }
+
+        return differences;
+    }
 }
 
 public static partial class ExtensionMethods_LayerMask
@@ -456,5 +479,41 @@ public static class ExtensionMethods_Transform
             //Back
             return Direction.Back;
         }
+    }
+
+    public static Vector3 GetDirectionFrom(this Transform self, Direction dir)
+    {
+        switch (dir)
+        {
+            case Direction.Back:
+                return -self.forward;
+            
+            case Direction.Down:
+                return -self.up;
+            
+            case Direction.Front:
+                return self.forward;
+            
+            case Direction.Left:
+                return -self.right;
+            
+            case Direction.Right:
+                return self.right;
+            
+            case Direction.Up:
+                return self.up;
+        }
+
+        throw new Exception("Couldn't find direction");
+    }
+}
+
+public static class ExtensionMethods_Collider
+{
+    public static Vector3 GetRandomPositionInBounds<T>(this T collider) where T : Collider
+    {
+        Bounds _bounds = collider.bounds;
+        return new Vector3(Random.Range(_bounds.min.x, _bounds.max.x), Random.Range(_bounds.min.y, _bounds.max.y),
+            Random.Range(_bounds.min.z, _bounds.max.z));
     }
 }
