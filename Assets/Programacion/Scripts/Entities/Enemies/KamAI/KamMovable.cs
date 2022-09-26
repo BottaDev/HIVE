@@ -5,6 +5,7 @@ using System.Linq;
 using System.Numerics;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Events;
 using Quaternion = UnityEngine.Quaternion;
 using Vector3 = UnityEngine.Vector3;
 
@@ -28,8 +29,14 @@ public class KamMovable : MonoBehaviour
     public List<KamNode> path;
     public int currentNode;
     public bool canCalculateNewPath = true;
-    public bool paused = false;
     public bool setRotation = true;
+    
+    public bool paused => UIPauseMenu.paused;
+
+    [Header("Events")]
+    public UnityEvent onFollowing;
+    public UnityEvent onIdle;
+    public UnityEvent onScared;
 
     private void Start()
     {
@@ -92,18 +99,24 @@ public class KamMovable : MonoBehaviour
             if (Vector3.Distance(followPoint.position, transform.position) > stopAtDistance)
             {
                 MoveTowards(followPoint.position);
+                
+                onFollowing?.Invoke();
             }
             else if (Vector3.Distance(followPoint.position, transform.position) < scaredDistance)
             {
                 Vector3 awayFromPlayer = (transform.position - followPoint.position).normalized;
                 MoveTowards(transform.position + awayFromPlayer, delegate {  },false);
                 
-                Debug.DrawLine(transform.position, transform.position + awayFromPlayer );
+                Debug.DrawLine(transform.position, transform.position + awayFromPlayer);
+                
+                onScared?.Invoke();
             }
             else
             {
                 _velocity = Vector3.Lerp(_velocity, Vector3.zero, 7 * Time.deltaTime);
                 Move(ref _velocity);
+                
+                onIdle?.Invoke();
             }
         }
         
